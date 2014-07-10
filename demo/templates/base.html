@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+{% load bootstrap3 %}
+{% load url from future %}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>dogSpot - WOW the world!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico">
+  <meta name="author" content="Andrzej Kostanski">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js">
+  </script>
+   {# Load CSS and JavaScript #}
+       <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Pacifico">
+       <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lobster">
+           <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Fjalla+One' >
+  {% load staticfiles %}
+  <link href="{% static "css/fontello.css" %}" rel="stylesheet">
+ <link href="{% static "css/bootstrap.min.css" %}" media="screen" rel="stylesheet">
+  <script type="text/javascript" src="{% static "js/holder.js" %}"></script>
+  {% bootstrap_javascript %}
+  <style>
+
+  /*body { padding-top: 70px; }*/
+  .right-inner-addon {
+      position: relative;
+  }
+  .right-inner-addon input {
+      padding-right: 30px;
+  }
+  .right-inner-addon i {
+      position: absolute;
+      right: 0px;
+      padding: 10px 12px;
+      pointer-events: none;
+  }
+   #lobster {
+        font-family: 'Lobster', serif;
+        color:black;
+        font-size: 24px;
+      }
+   #pacifico {
+      font-family: 'Pacifico', serif;
+      color:#333;
+      font-size: 15px;
+    }
+
+    .andi_logo{
+      font-family: 'Lobster', serif;
+      color:white;
+      font-size: 15px;
+    }
+    .labs_logo {
+          font-family: 'Fjalla One', serif;
+          color:white;
+          font-size: 15px;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <nav class="navbar navbar-default"  role="navigation">
+
+    <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/"><img src="{% static "lapa_icon.png" %}"><span id="lobster">Dogspot</span></a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+      </div>
+
+      <div class="collapse navbar-collapse navbar-nav" id="bs-example-navbar-collapse-1">
+
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+              
+            <form class="navbar-form navbar-left " role="navbar-search" style="max-width:90%!important; margin-left:5%; margin-right:5%;">
+              <div class="right-inner-addon">
+                <i class="glyphicon glyphicon-search"></i>
+                <input type="search" class="form-control" placeholder="Search" />
+              </div>
+            </form>
+          </li>
+          <li><a href="/dogs/create">Create</a></li>
+          <li><a href="/contact">Contact</a></li>
+         <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            {% if user.is_authenticated %}
+              {{user.email}}
+            {% else %}
+              Login/Register
+            {% endif %}
+          <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            {% if user.is_authenticated %}
+                <li><a href="#">Edit profile</a></li>
+                <li class="divider"></li>
+                <li><a href="/user/logout">Log me out!</a></li>
+            {% else %}
+              <li><a href="/user/create">Register</a></li>
+              <li><a href="/user/login">Login</a></li>
+            {% endif %}
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+
+  </nav>
+</div>
+
+
+<div class="container">
+  {% bootstrap_messages %}
+  {% block content %}Empty page{% endblock %}
+
+  <p><hr></p>
+
+  <footer>
+      <div class="row">
+          <div class="col-xs-6">
+            <span id="pacifico">Wow the World !</span>
+          </div>
+
+          <div class="col-xs-6" align="right">
+            <span id="pacifico">2014 &copy; by</span>
+            <a href="http://andilabs.com/">
+              <span class="badge" style="background-color:red">
+                <span class="andi_logo">andi</span>
+              </span>
+              <span class="badge" style="background-color:#428bca">
+                <span class="labs_logo">labs</span>
+              </span>
+            </a>
+          </div>
+      </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block extra_head %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+    <h2>
+        <span class="glyphicon glyphicon-log-in"></span> Login!
+    </h2>
+    <form class="form-vertical" action="/user/login/" method="post">
+
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="control-label" for="id_email">Email address</label>
+            <input class="form-control" id="id_email" maxlength="255" name="email" placeholder="Email address" required="required" title="" type="email" />
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="id_password1">Password</label>
+            <input class="form-control" id="id_password" name="password" placeholder="Password" required="required" title="" type="password" />
+        </div>
+
+        <input type="submit" value="Submit" class="btn btn-success">
+    </form>
+{% endblock %}
