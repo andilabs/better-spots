@@ -95,6 +95,12 @@ def send_email(mail_content, to, subject="contact form"):
     msg.send()
 
 
+def map(request):
+    if request.method == 'GET':
+        response = TemplateResponse(request, 'map.html', {})
+        return response
+
+
 def mylogin(request):
     if request.method == 'GET':
         response = TemplateResponse(request, 'login.html', {})

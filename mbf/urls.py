@@ -13,6 +13,7 @@ urlpatterns = patterns(
     url(r'^$', 'demo.views.dogs', name='glowna'),
     url(r'^contact/$', ContactView.as_view(), name='contact'),
     url(r'^dogs/$', 'demo.views.dogs', name='dogs_list'),
+    url(r'^map/$', 'demo.views.map', name='map'),
     url(r'^dogs/create/$', DogCreate.as_view(), name='dogs_add'),
     url(r'^user/create/$',
         DogspotUserCreate.as_view(),
