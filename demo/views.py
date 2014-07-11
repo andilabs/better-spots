@@ -101,6 +101,18 @@ def map(request):
         return response
 
 
+def favorites(request):
+    if request.method == 'GET':
+        response = TemplateResponse(request, 'favorites.html', {})
+        return response
+
+
+def about(request):
+    if request.method == 'GET':
+        response = TemplateResponse(request, 'about.html', {})
+        return response
+
+
 def mylogin(request):
     if request.method == 'GET':
         response = TemplateResponse(request, 'login.html', {})

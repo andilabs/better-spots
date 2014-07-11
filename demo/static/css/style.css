@@ -1,0 +1,59 @@
+#spots_list {
+min-width: 200px!important;
+max-height: 500px!important;
+overflow-y: auto;
+}
+.gm-style-iw{ 
+max-width: 400px !important;
+
+line-height: normal !important;
+white-space: nowrap !important;
+max-height: 400px !important;
+height: 100% !important;
+overflow: hidden !important;
+}
+  /*body { padding-top: 70px; }*/
+  .right-inner-addon {
+      position: relative;
+  }
+  .right-inner-addon input {
+      padding-right: 30px;
+  }
+  .right-inner-addon i {
+      position: absolute;
+      right: 0px;
+      padding: 10px 12px;
+      pointer-events: none;
+  }
+   #lobster {
+        font-family: 'Lobster', serif;
+        color:black;
+        font-size: 24px;
+      }
+   #pacifico {
+      font-family: 'Pacifico', serif;
+      color:#333;
+      font-size: 15px;
+    }
+
+
+    .badge.andi{
+      margin-right: -1px;
+    }
+
+    .badge.labs{
+      margin-left: -8px;
+    }
+
+    .andi_logo{
+      font-family: 'Lobster', serif;
+      color:white;
+      font-size: 15px;
+
+    }
+    .labs_logo {
+          font-family: 'Fjalla One', serif;
+          color:white;
+          font-size: 15px;
+
+    }

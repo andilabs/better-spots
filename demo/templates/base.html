@@ -1,153 +1,123 @@
 <!DOCTYPE html>
-{% load bootstrap3 %}
+
 {% load url from future %}
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <title>dogSpot - WOW the world!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico">
   <meta name="author" content="Andrzej Kostanski">
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js">
-  </script>
-   {# Load CSS and JavaScript #}
-   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-       <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Pacifico">
-       <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lobster">
-           <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Fjalla+One' >
-  {% load staticfiles %}
-    <script type="text/javascript" src="{% static "external/jqueryuimap/jquery.ui.map.js" %}"></script>
-  <script type="text/javascript" src="{% static "external/jqueryuimap/jquery.ui.map.extensions.js" %}"></script>
-  <script language="javascript">var STATIC_URL = "/static/";</script>
-<script type="text/javascript" src="{% static "external/raty/jquery.raty.js" %}"></script>
-<script type="text/javascript" src="{% static "external/spin/spin.min.js" %}"></script>
-  <link href="{% static "css/fontello.css" %}" rel="stylesheet">
- <link href="{% static "css/bootstrap.min.css" %}" media="screen" rel="stylesheet">
-  <script type="text/javascript" src="{% static "js/holder.js" %}"></script>
-  {% bootstrap_javascript %}
-  <style>
-#spots_list {
-min-width: 200px!important;
-max-height: 500px!important;
-overflow-y: auto;
-}
-.gm-style-iw{ 
-max-width: 400px !important;
+  <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico">
 
-line-height: normal !important;
-white-space: nowrap !important;
-max-height: 400px !important;
-height: 100% !important;
-overflow: hidden !important;
-}
-  /*body { padding-top: 70px; }*/
-  .right-inner-addon {
-      position: relative;
-  }
-  .right-inner-addon input {
-      padding-right: 30px;
-  }
-  .right-inner-addon i {
-      position: absolute;
-      right: 0px;
-      padding: 10px 12px;
-      pointer-events: none;
-  }
-   #lobster {
-        font-family: 'Lobster', serif;
-        color:black;
-        font-size: 24px;
-      }
-   #pacifico {
-      font-family: 'Pacifico', serif;
-      color:#333;
-      font-size: 15px;
-    }
+  <!-- Font Awesome Icons -->
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-    .andi_logo{
-      font-family: 'Lobster', serif;
-      color:white;
-      font-size: 15px;
-    }
-    .labs_logo {
-          font-family: 'Fjalla One', serif;
-          color:white;
-          font-size: 15px;
-    }
-  </style>
+  <!-- Google Fonts API -->
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Pacifico">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lobster">
+  <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Fjalla+One' >
+
+  <!-- bootstrap3 for django https://github.com/dyve/django-bootstrap3 -->
+  {% load bootstrap3 %}
+  <link href="{{ STATIC_URL }}css/fontello.css" rel="stylesheet">
+  <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
+  <link href="{{ STATIC_URL }}css/bootstrap.min.css" media="screen" rel="stylesheet">
+
+  <!-- jQuery must be loaded here for things like datepicker to work :/ -->
+  <script type="text/javascript" src="{{ STATIC_URL }}external/jquery/jquery-1.10.1.min.js"></script>
+
+
+
+
 </head>
 
 <body>
-<div class="container">
-  <nav class="navbar navbar-default"  role="navigation">
+  <div class="container">
+    <nav class="navbar navbar-default"  role="navigation">
 
-    <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/"><img src="{% static "lapa_icon.png" %}"><span id="lobster">Dogspot</span></a>
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">
+            <img src="{{STATIC_URL}}lapa_icon.png">
+            <span id="lobster">Dogspot</span>
+          </a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse"
+          data-target="#bs-example-navbar-collapse-1">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
+        </div>
+
+        <div class="collapse navbar-collapse navbar-nav" id="bs-example-navbar-collapse-1">
+
+          <ul class="nav navbar-nav navbar-right">
+
+            <li>
+              <form class="navbar-form navbar-left " role="navbar-search">
+                <div class="right-inner-addon">
+                  <i class="glyphicon glyphicon-search"></i>
+                  <input type="search" class="form-control" placeholder="Search" />
+                </div>
+              </form>
+            </li>
+
+            <li>
+              <a href="/map">
+                <i class="fa fa-map-marker fa-2x"  data-toggle="tooltip" data-placement="bottom" title="Map"></i>
+              </a>
+            </li>
+
+            <li>
+              <a href="/favorites">
+                <i class="fa fa-heart fa-2x" data-toggle="tooltip" data-placement="bottom" title="Favorites"></i>
+              </a>
+            </li>
+
+            <li>
+              <a href="/dogs/create">Create</a>
+            </li>
+
+            <li>
+              <a href="/contact">Contact</a>
+            </li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                {% if user.is_authenticated %}
+                  {{user.email}}
+                {% else %}
+                  Login/Register
+                {% endif %}
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                {% if user.is_authenticated %}
+                    <li><a href="#">Edit profile</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/user/logout">Log me out!</a></li>
+                {% else %}
+                  <li><a href="/user/create">Register</a></li>
+                  <li><a href="/user/login">Login</a></li>
+                {% endif %}
+              </ul>
+            </li>
+
+          </ul> <!-- end UL of navbar -->
+
       </div>
-
-      <div class="collapse navbar-collapse navbar-nav" id="bs-example-navbar-collapse-1">
-
-        <ul class="nav navbar-nav navbar-right">
-          <li>
-              
-            <form class="navbar-form navbar-left " role="navbar-search">
-              <div class="right-inner-addon">
-                <i class="glyphicon glyphicon-search"></i>
-                <input type="search" class="form-control" placeholder="Search" />
-              </div>
-            </form>
-          </li>
-          <li><a href="/map"><i class="fa fa-map-marker fa-2x"  data-toggle="tooltip" data-placement="bottom" title="Map"></i></a>
-          
-          <li><a href="/favorites"><i class="fa fa-heart fa-2x" data-toggle="tooltip" data-placement="bottom" title="Favorites"></i></a>
-
-<!--          <li><a href="/map"><h1><span class="glyphicon glyphicon-map-marker"></span></h1></a>
-           <li><a href="/favorites"><h1><span class="glyphicon glyphicon-heart"></span></h1></a>-->
-
-          <li><a href="/dogs/create">Create</a></li>
-          <li><a href="/contact">Contact</a></li>
-         <li class="dropdown">
-           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            {% if user.is_authenticated %}
-              {{user.email}}
-            {% else %}
-              Login/Register
-            {% endif %}
-          <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            {% if user.is_authenticated %}
-                <li><a href="#">Edit profile</a></li>
-                <li class="divider"></li>
-                <li><a href="/user/logout">Log me out!</a></li>
-            {% else %}
-              <li><a href="/user/create">Register</a></li>
-              <li><a href="/user/login">Login</a></li>
-            {% endif %}
-          </ul>
-        </li>
-
-      </ul>
-    </div>
-
-  </nav>
-</div>
+    </nav>
+  </div>
 
 
-<div class="container">
-  {% bootstrap_messages %}
-  {% block content %}Empty page{% endblock %}
+  <div class="container">
+    {% bootstrap_messages %}
+    {% block content %}Empty page{% endblock %}
 
-  <p><hr></p>
+    <p><hr></p>
 
-  <footer>
+    <footer>
       <div class="row">
           <div class="col-xs-6">
             <span id="pacifico">Wow the World !</span>
@@ -156,177 +126,30 @@ overflow: hidden !important;
           <div class="col-xs-6" align="right">
             <span id="pacifico">2014 &copy; by</span>
             <a href="http://andilabs.com/">
-              <span class="badge" style="background-color:red">
+              <span class="badge andi" style="background-color:red">
                 <span class="andi_logo">andi</span>
               </span>
-              <span class="badge" style="background-color:#428bca">
+              <span class="badge labs" style="background-color:#428bca">
                 <span class="labs_logo">labs</span>
               </span>
             </a>
           </div>
       </div>
-  </footer>
+    </footer>
 
-</div>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=initialize"></script>
- <script type="text/javascript">
-   // $('#map_canvas').fadeOut();
+  </div>
 
 
-  // $('#map_canvas').append("<p>LOL</p>");
-var opts = {
-  lines: 13, // The number of lines to draw
-  length: 29, // The length of each line
-  width: 10, // The line thickness
-  radius: 26, // The radius of the inner circle
-  corners: 0.7, // Corner roundness (0..1)
-  rotate: 0, // The rotation offset
-  direction: 1, // 1: clockwise, -1: counterclockwise
-  color: '#000', // #rgb or #rrggbb or array of colors
-  speed: 1.6, // Rounds per second
-  trail: 72, // Afterglow percentage
-  shadow: false, // Whether to render a shadow
-  hwaccel: false, // Whether to use hardware acceleration
-  className: 'spinner', // The CSS class to assign to the spinner
-  zIndex: 2e9, // The z-index (defaults to 2000000000)
-  top: '300%', // Top position relative to parent
-  left: '50%' // Left position relative to parent
-};
+  {% block scripts %}
 
+    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}external/jquerycookie/jquery.cookie.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/jquery.ui.map.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/jquery.ui.map.extensions.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/holder.js"></script>
 
-var target = document.getElementById('spots_list');
-var spinner = new Spinner(opts).spin(target);
-
-
-var arrMarkers = {};
-
-
-function initialize() {
-
-$('#map_canvas').gmap().bind('init', function(evt, map) {
-
-   //$('#map_canvas').gmap('option','zoom',3);
-  $('#map_canvas').gmap('getCurrentPosition', function(position, status) {
-    if ( status === 'OK' ) {
-      var clientPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-  console.log(position.coords.latitude);
-  console.log(position.coords.longitude);
-      var ikonka = new google.maps.MarkerImage('{% static 'lapka_icon.png' %}',  new google.maps.Size(50, 50), new google.maps.Point(0,0), new google.maps.Point(0, 50));
-     
-      $('#map_canvas').gmap('addMarker', {'position': clientPosition,'zoom':3, 'bounds': true,'icon':ikonka}).click(function() {
-
-        $('#map_canvas').gmap('openInfoWindow', { 'content': "<h2>You!</h2>" }, this);
-      });
-
-   
-
- 
-// jqxhr.success(function() {
-
-// for (var key in pair_mark){
-//     $(key).raty({ readOnly: true,  half  : true, score: pair_mark[key] });
-// }
-//   console.log( "second complete" );
-// });
-
-
-$('#map_canvas').gmap('option','zoom',15);
-
-    }
-else{
-  $('#map_canvas').gmap('option','zoom',3);
-}
- var pair_mark = {}
-  var url = '{% static 'spots_mockup.json'%}'
-  console.log(url);
-  var jqxhr = $.getJSON('http://127.0.0.1:8000/static/spots_mockup.json', function(data) { 
-
-    $.each( data, function(i, marker) {
-
-            box = "<a href='#' class='list-group-item' id="+marker.id+"><h4 class='list-group-item-heading'>"+marker.name+"</h4><p class='list-group-item-text'>"+marker.address_street+" "+marker.address_number+"<span class='spot_item_details' style='display:none' id="+marker.id+"><br><span class='glyphicon glyphicon-phone-alt'></span> "+marker.phone_number+" <i class='fa fa-facebook'></i></span></p></a>"
-
-          $("#spots_list").append(box);
-
-
-           var labelka = "#spot"+marker.id
-           var contencik = $('<div class="spot_info" id='+marker.id+'><h4>'+marker.name+'</h4><br>'+marker.address_street+' '+marker.address_number+'</div>').append($('<div id="spot'+marker.id+'" class="rate"></div>')
-                              .raty({readOnly:true, score:marker.friendly_rate})
-                              )[0];
-
-           pair_mark[labelka]=marker.friendly_rate
-
-           if (marker.is_accepted==false){
-            marker.dogs_allowed ='dog_undefined_allowed'
-           }
-           icony_allowed = {true:'{% static 'dog_allowed.png'%}',false:'{% static 'dog_not_allowed.png'%}','dog_undefined_allowed':'{% static 'dog_undefined_allowed.png' %}'}
-
-           var SpotIcon = new google.maps.MarkerImage(icony_allowed[marker.dogs_allowed], null,  new google.maps.Point(0, 0), new google.maps.Point(0, 0));
-
-
-            var SpotMarker = new google.maps.Marker({
-                position: new google.maps.LatLng(marker.latitude, marker.longitude),
-                bounds: false ,
-                icon: SpotIcon
-            });
-
-            var SpotInfoWindow = new google.maps.InfoWindow({
-              content: contencik
-            });
-            arrMarkers[marker.id] = {'marker': SpotMarker, 'info_window': SpotInfoWindow};
-
-            $('#map_canvas').gmap('addMarker', SpotMarker).click(function() {
-              $('#map_canvas').gmap('openInfoWindow', SpotInfoWindow, this);
-              $('#map_canvas').gmap('get', 'map').panTo(this.getPosition());
-              
-              idik = '#'+$(contencik).attr('id');
-              $('#spots_list a').each(function( index ) {
-               $( this ).removeClass('active');
-               $(this).find('p span.spot_item_details').attr('style','display:none');
-              });
-              $('#spots_list').find(idik).focus().attr('class','list-group-item active');
-              $('#spots_list p').find('span'+idik).attr('style','display:block');
-            });
-    });
-  });
-spinner.stop();
-
-  // $('#map_canvas').fadeIn();
-
- $("#map_canvas").animate(
-            {"opacity": "1.0"},
-            "slow");
-
-
-
-
-  });
-});
-
-
-
-}
-$('#spots_list').on("click", 'a.list-group-item', function(evt) {
-
-  $('#spots_list a').each(function( index ) {
-     $( this ).removeClass('active');
-     $(this).find('p span.spot_item_details').attr('style','display:none');
-  });
-
-  idik = $(this).attr('id');
-  $('#spots_list').find('#'+idik).focus().attr('class','list-group-item active');
-  $('#spots_list p').find('span#'+idik).attr('style','display:block');
-
-
-  $('#map_canvas').gmap('openInfoWindow',arrMarkers[idik].info_window, arrMarkers[idik].marker);//,
-  $('#map_canvas').gmap('get', 'map').panTo(arrMarkers[idik].marker.getPosition());
-
-});
-
-
-
- </script>
-
-
+  {% endblock scripts %}
+  {% bootstrap_javascript %}
 
 </body>
 </html>

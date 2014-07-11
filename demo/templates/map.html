@@ -8,27 +8,37 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
-                  <div class="col-xs-12">
-                    <h5></h5>
-                  </div>
-                </div>
-                <div class="row row-map">
-                  <div class="col-xs-12 col-sm-3">
-                    <div class="list-group"  id="spots_list">
-                    </div>
-                  </div>
-                  <div class="col-xs-12 col-sm-9 no-col-padding">
-                    <!-- Bootstrap-map-js -->
-                    <div id="map_canvas" style="height:500px;opacity:0.1"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-xs-3"><h5></h5></div>
-                  <div class="col-xs-5"><h5></h5></div>
-                  <div class="col-xs-4"><h5></h5></div>
-</div>
+
+  <div class="row">
+    <div class="col-xs-12">
+    </div>
+  </div>
+
+  <div class="row row-map">
+    <div class="col-xs-12 col-sm-3">
+        <div class="list-group"  id="spots_list">
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-9 no-col-padding">
+      <div id="map_canvas" style="height:500px;opacity:0.1">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+      <div class="col-xs-3"><h5></h5></div>
+      <div class="col-xs-5"><h5></h5></div>
+      <div class="col-xs-4"><h5></h5></div>
+  </div>
+
 {% endblock %}
 
 
-
+{% block scripts %}
+  {{ block.super }}
+  <script type="text/javascript" src="{{ STATIC_URL }}external/spin/spin.min.js"></script>
+  <script language="javascript">var STATIC_URL = "/static/";</script>
+  <script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=initialize"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}map.js"></script>
+{% endblock scripts %}
