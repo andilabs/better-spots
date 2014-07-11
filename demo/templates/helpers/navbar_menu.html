@@ -1,0 +1,87 @@
+  {% load staticfiles %}
+
+    <li>
+              
+            <form class="navbar-form navbar-left " role="navbar-search" style="max-width:90%!important; margin-left:5%; margin-right:5%;">
+              <div class="right-inner-addon">
+                <i class="glyphicon glyphicon-search"></i>
+                <input type="search" class="form-control" placeholder="Search" />
+              </div>
+            </form>
+          </li>
+          <li><a href="/dogs/create">Create</a></li>
+          <li><a href="/contact">Contact</a></li>
+         <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            {% if user.is_authenticated %}
+              {{user.email}}
+            {% else %}
+              Login/Register
+            {% endif %}
+          <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            {% if user.is_authenticated %}
+                <li><a href="#">Edit profile</a></li>
+                <li class="divider"></li>
+                <li><a href="/user/logout">Log me out!</a></li>
+            {% else %}
+              <li><a href="/user/create">Register</a></li>
+              <li><a href="/user/login">Login</a></li>
+            {% endif %}
+          </ul>
+        </li>
+
+  
+{# <div class="container">
+  <nav class="navbar navbar-default"  role="navigation">
+
+    <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/"><img src="{% static "lapa_icon.png" %}"><span id="lobster">Dogspot</span></a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+      </div>
+
+      <div class="collapse navbar-collapse navbar-nav" id="bs-example-navbar-collapse-1">
+
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+              
+            <form class="navbar-form navbar-left " role="navbar-search" style="max-width:90%!important; margin-left:5%; margin-right:5%;">
+              <div class="right-inner-addon">
+                <i class="glyphicon glyphicon-search"></i>
+                <input type="search" class="form-control" placeholder="Search" />
+              </div>
+            </form>
+          </li>
+          <li><a href="/dogs/create">Create</a></li>
+          <li><a href="/contact">Contact</a></li>
+         <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            {% if user.is_authenticated %}
+              {{user.email}}
+            {% else %}
+              Login/Register
+            {% endif %}
+          <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            {% if user.is_authenticated %}
+                <li><a href="#">Edit profile</a></li>
+                <li class="divider"></li>
+                <li><a href="/user/logout">Log me out!</a></li>
+            {% else %}
+              <li><a href="/user/create">Register</a></li>
+              <li><a href="/user/login">Login</a></li>
+            {% endif %}
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+
+  </nav>
+</div> #}
