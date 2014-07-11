@@ -98,7 +98,7 @@ overflow: hidden !important;
         <ul class="nav navbar-nav navbar-right">
           <li>
               
-            <form class="navbar-form navbar-left " role="navbar-search" style="max-width:90%!important; margin-left:5%; margin-right:5%;">
+            <form class="navbar-form navbar-left " role="navbar-search">
               <div class="right-inner-addon">
                 <i class="glyphicon glyphicon-search"></i>
                 <input type="search" class="form-control" placeholder="Search" />
@@ -170,6 +170,9 @@ overflow: hidden !important;
 </div>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=initialize"></script>
  <script type="text/javascript">
+   // $('#map_canvas').fadeOut();
+
+
   // $('#map_canvas').append("<p>LOL</p>");
 var opts = {
   lines: 13, // The number of lines to draw
@@ -287,8 +290,11 @@ else{
   });
 spinner.stop();
 
+  // $('#map_canvas').fadeIn();
 
-
+ $("#map_canvas").animate(
+            {"opacity": "1.0"},
+            "slow");
 
 
 
