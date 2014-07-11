@@ -105,6 +105,13 @@ overflow: hidden !important;
               </div>
             </form>
           </li>
+          <li><a href="/map"><i class="fa fa-map-marker fa-2x"  data-toggle="tooltip" data-placement="bottom" title="Map"></i></a>
+          
+          <li><a href="/favorites"><i class="fa fa-heart fa-2x" data-toggle="tooltip" data-placement="bottom" title="Favorites"></i></a>
+
+<!--          <li><a href="/map"><h1><span class="glyphicon glyphicon-map-marker"></span></h1></a>
+           <li><a href="/favorites"><h1><span class="glyphicon glyphicon-heart"></span></h1></a>-->
+
           <li><a href="/dogs/create">Create</a></li>
           <li><a href="/contact">Contact</a></li>
          <li class="dropdown">
@@ -187,8 +194,6 @@ var opts = {
 var target = document.getElementById('spots_list');
 var spinner = new Spinner(opts).spin(target);
 
-var target2 = document.getElementById('map_canvas');
-var spinner2 = new Spinner(opts).spin(target2);
 
 var arrMarkers = {};
 
@@ -232,14 +237,11 @@ else{
   var url = '{% static 'spots_mockup.json'%}'
   console.log(url);
   var jqxhr = $.getJSON('http://127.0.0.1:8000/static/spots_mockup.json', function(data) { 
-    
+
     $.each( data, function(i, marker) {
 
+            box = "<a href='#' class='list-group-item' id="+marker.id+"><h4 class='list-group-item-heading'>"+marker.name+"</h4><p class='list-group-item-text'>"+marker.address_street+" "+marker.address_number+"<span class='spot_item_details' style='display:none' id="+marker.id+"><br><span class='glyphicon glyphicon-phone-alt'></span> "+marker.phone_number+" <i class='fa fa-facebook'></i></span></p></a>"
 
-
-            box = "<a href='#' class='list-group-item' id="+marker.id+"><h4 class='list-group-item-heading'>"+marker.name+"</h4><p class='list-group-item-text'>"+marker.address_street+" "+marker.address_number+"<br><span class='glyphicon glyphicon-phone-alt'></span> "+marker.phone_number+" <i class='fa fa-facebook'></i></p></a>"
-
-        
           $("#spots_list").append(box);
 
 
@@ -248,78 +250,69 @@ else{
                               .raty({readOnly:true, score:marker.friendly_rate})
                               )[0];
 
-           
-           
            pair_mark[labelka]=marker.friendly_rate
-     
-          
+
            if (marker.is_accepted==false){
             marker.dogs_allowed ='dog_undefined_allowed'
            }
            icony_allowed = {true:'{% static 'dog_allowed.png'%}',false:'{% static 'dog_not_allowed.png'%}','dog_undefined_allowed':'{% static 'dog_undefined_allowed.png' %}'}
 
-           var SpotIcon = new google.maps.MarkerImage(icony_allowed[marker.dogs_allowed],  new google.maps.Size(50, 50), new google.maps.Point(0,0), new google.maps.Point(0, 50));
-           
+           var SpotIcon = new google.maps.MarkerImage(icony_allowed[marker.dogs_allowed], null,  new google.maps.Point(0, 0), new google.maps.Point(0, 0));
+
 
             var SpotMarker = new google.maps.Marker({
                 position: new google.maps.LatLng(marker.latitude, marker.longitude),
                 bounds: false ,
                 icon: SpotIcon
             });
-            console.log(marker.id);
-            console.log(SpotMarker);
 
-            var SpotInfoWindow = new google.maps.InfoWindow({content: contencik});
+            var SpotInfoWindow = new google.maps.InfoWindow({
+              content: contencik
+            });
             arrMarkers[marker.id] = {'marker': SpotMarker, 'info_window': SpotInfoWindow};
-            // $('#map_canvas').gmap('addMarker', {
-            //   'position': new google.maps.LatLng(marker.latitude, marker.longitude),
-            //   'bounds': false ,'icon':SpotIcon
-            // }).click(function() {
+
             $('#map_canvas').gmap('addMarker', SpotMarker).click(function() {
               $('#map_canvas').gmap('openInfoWindow', SpotInfoWindow, this);
-
+              $('#map_canvas').gmap('get', 'map').panTo(this.getPosition());
+              
               idik = '#'+$(contencik).attr('id');
               $('#spots_list a').each(function( index ) {
                $( this ).removeClass('active');
+               $(this).find('p span.spot_item_details').attr('style','display:none');
               });
               $('#spots_list').find(idik).focus().attr('class','list-group-item active');
+              $('#spots_list p').find('span'+idik).attr('style','display:block');
             });
-         //   $(labelka).raty({ readOnly: true,  score: marker.friendly_rate});
     });
   });
 spinner.stop();
-spinner2.stop();
 
 
 
 
 
 
-  });   
+
+  });
 });
 
-//$("#spots_list").click(function() {
-// $("#map_canvas").find("div.spot_info").click(function() {
-//   console.log("click");
-//   // console.log ($this.find('div.rate'));
-//   $('#spots_list').find("#14").focus().attr('class','list-group-item active');
-// });
 
 
 }
 $('#spots_list').on("click", 'a.list-group-item', function(evt) {
 
   $('#spots_list a').each(function( index ) {
-               $( this ).removeClass('active');
+     $( this ).removeClass('active');
+     $(this).find('p span.spot_item_details').attr('style','display:none');
   });
+
   idik = $(this).attr('id');
-  idik_h = '#' + idik;
+  $('#spots_list').find('#'+idik).focus().attr('class','list-group-item active');
+  $('#spots_list p').find('span#'+idik).attr('style','display:block');
 
-  $('#spots_list').find(idik_h).focus().attr('class','list-group-item active');
 
-$('#map_canvas').gmap('closeInfoWindow',  this);
-  
-$('#map_canvas').gmap('openInfoWindow',arrMarkers[idik].info_window, arrMarkers[idik].marker)
+  $('#map_canvas').gmap('openInfoWindow',arrMarkers[idik].info_window, arrMarkers[idik].marker);//,
+  $('#map_canvas').gmap('get', 'map').panTo(arrMarkers[idik].marker.getPosition());
 
 });
 
@@ -328,21 +321,7 @@ $('#map_canvas').gmap('openInfoWindow',arrMarkers[idik].info_window, arrMarkers[
  </script>
 
 
-<script>
-// var directionsDisplay,
-//     directionsService,
-//     map;
 
-// function initialize() {
-//   var directionsService = new google.maps.DirectionsService();
-//   directionsDisplay = new google.maps.DirectionsRenderer();
-//   var chicago = new google.maps.LatLng(41.850033, -87.6500523);
-//   var mapOptions = { zoom:7, mapTypeId: google.maps.MapTypeId.ROADMAP, center: chicago }
-//   map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-//   directionsDisplay.setMap(map);
-// }
-
-</script>
 </body>
 </html>
 
