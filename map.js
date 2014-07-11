@@ -34,33 +34,24 @@ $('#map_canvas').gmap().bind('init', function(evt, map) {
   $('#map_canvas').gmap('getCurrentPosition', function(position, status) {
     if ( status === 'OK' ) {
       var clientPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
-
-
       var ikonka = new google.maps.MarkerImage('http://127.0.0.1:8000/static/lapka_icon.png',  new google.maps.Size(50, 50), new google.maps.Point(0,0), new google.maps.Point(0, 50));
-
       $('#map_canvas').gmap('addMarker', {'position': clientPosition,'zoom':3, 'bounds': true,'icon':ikonka}).click(function() {
-
         $('#map_canvas').gmap('openInfoWindow', { 'content': "<h2>You!</h2>" }, this);
       });
-
-
-
-
-$('#map_canvas').gmap('option','zoom',15);
-
+      $('#map_canvas').gmap('option','zoom',15);
     }
-else{
-  $('#map_canvas').gmap('option','zoom',3);
-}
- var pair_mark = {}
-  var url = '/http://127.0.0.1:8000/static/spots_mockup.json'
-  console.log(url);
-  var jqxhr = $.getJSON('http://127.0.0.1:8000/static/spots_mockup.json', function(data) { 
+    else{
+      $('#map_canvas').gmap('option','zoom',3);
+    }
+
+    var pair_mark = {}
+    var url = '/http://127.0.0.1:8000/static/spots_mockup.json'
+    console.log(url);
+    var jqxhr = $.getJSON('http://127.0.0.1:8000/static/spots_mockup.json', function(data) { 
 
     $.each( data, function(i, marker) {
 
-            box = "<a href='#' class='list-group-item' id="+marker.id+"><h4 class='list-group-item-heading'>"+marker.name+"</h4><p class='list-group-item-text'>"+marker.address_street+" "+marker.address_number+"<span class='spot_item_details' style='display:none' id="+marker.id+"><br><span class='glyphicon glyphicon-phone-alt'></span> "+marker.phone_number+"<i class='fa fa-facebook'></i></span></p></a>"
+          box = "<a href='#' class='list-group-item' id="+marker.id+"><h4 class='list-group-item-heading'>"+marker.name+"</h4><p class='list-group-item-text'>"+marker.address_street+" "+marker.address_number+"<span class='spot_item_details' style='display:none' id="+marker.id+"><br><span class='glyphicon glyphicon-phone-alt'></span> "+marker.phone_number+"<i class='fa fa-facebook'></i></span></p></a>"
 
           $("#spots_list").append(box);
 
@@ -73,7 +64,7 @@ else{
            pair_mark[labelka]=marker.friendly_rate
 
            if (marker.is_accepted==false){
-            marker.dogs_allowed ='dog_undefined_allowed'
+              marker.dogs_allowed ='dog_undefined_allowed'
            }
            icony_allowed = {true:'http://127.0.0.1:8000/static/dog_allowed.png',false:'http://127.0.0.1:8000/static/dog_not_allowed.png','dog_undefined_allowed':'http://127.0.0.1:8000/static/dog_undefined_allowed.png'}
 
@@ -92,32 +83,23 @@ else{
             arrMarkers[marker.id] = {'marker': SpotMarker, 'info_window': SpotInfoWindow};
 
             $('#map_canvas').gmap('addMarker', SpotMarker).click(function() {
-              $('#map_canvas').gmap('openInfoWindow', SpotInfoWindow, this);
-              $('#map_canvas').gmap('get', 'map').panTo(this.getPosition());
-              
-              idik = '#'+$(contencik).attr('id');
-              $('#spots_list a').each(function( index ) {
-               $( this ).removeClass('active');
-               $(this).find('p span.spot_item_details').attr('style','display:none');
-              });
-              $('#spots_list').find(idik).focus().attr('class','list-group-item active');
-              $('#spots_list p').find('span'+idik).attr('style','display:block');
+                $('#map_canvas').gmap('openInfoWindow', SpotInfoWindow, this);
+                $('#map_canvas').gmap('get', 'map').panTo(this.getPosition());
+                idik = '#'+$(contencik).attr('id');
+                $('#spots_list a').each(function( index ) {
+                 $( this ).removeClass('active');
+                 $(this).find('p span.spot_item_details').attr('style','display:none');
+                });
+                $('#spots_list').find(idik).focus().attr('class','list-group-item active');
+                $('#spots_list p').find('span'+idik).attr('style','display:block');
             });
     });
   });
 spinner.stop();
 
-  // $('#map_canvas').fadeIn();
-
- $("#map_canvas").animate({"opacity": "1.0"}, "slow");
-
-
-
-
+  $("#map_canvas").animate({"opacity": "1.0"}, "slow");
   });
 });
-
-
 
 }
 $('#spots_list').on("click", 'a.list-group-item', function(evt) {
