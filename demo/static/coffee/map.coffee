@@ -39,26 +39,13 @@ $ ->
           position.coords.longitude
           )
 
-        ikonka = new google.maps.MarkerImage(
-          "http://127.0.0.1:8000/static/lapka_icon.png",
-          new google.maps.Size(50, 50),
-          new google.maps.Point(0, 0),
-          new google.maps.Point(0, 50)
-          )
 
         $("#map_canvas").gmap "addMarker",
           position: clientPosition
           bounds: true
-          icon: ikonka
-
-        .click ->
-          $("#map_canvas").gmap "openInfoWindow",
-            content: "<h2>You!</h2>"
-
-      else
-
-        $("#map_canvas").gmap "option", "zoom", 3
-
+          icon:
+            url: 'http://127.0.0.1:8000/static/lapka_icon.png',
+            size: new google.maps.Size(50,50)
 
       pair_mark = {}
 

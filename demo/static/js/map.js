@@ -29,21 +29,17 @@
     spinner = new Spinner(opts).spin(target);
     return $("#map_canvas").gmap().bind("init", function(evt, map) {
       return $("#map_canvas").gmap("getCurrentPosition", function(position, status) {
-        var clientPosition, ikonka, jqxhr, pair_mark, url;
+        var clientPosition, jqxhr, pair_mark, url;
         if (status === "OK") {
           clientPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-          ikonka = new google.maps.MarkerImage("http://127.0.0.1:8000/static/lapka_icon.png", new google.maps.Size(50, 50), new google.maps.Point(0, 0), new google.maps.Point(0, 50));
           $("#map_canvas").gmap("addMarker", {
             position: clientPosition,
             bounds: true,
-            icon: ikonka
-          }).click(function() {
-            return $("#map_canvas").gmap("openInfoWindow", {
-              content: "<h2>You!</h2>"
-            });
+            icon: {
+              url: 'http://127.0.0.1:8000/static/lapka_icon.png',
+              size: new google.maps.Size(50, 50)
+            }
           });
-        } else {
-          $("#map_canvas").gmap("option", "zoom", 3);
         }
         pair_mark = {};
         url = "http://127.0.0.1:8000/static/spots_mockup.json";
