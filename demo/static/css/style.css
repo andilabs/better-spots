@@ -1,3 +1,28 @@
+.dog_allowed {
+  background:url(/static/dog_allowed.png) no-repeat;
+    cursor:pointer;
+    width: 30px;
+    height: 30px;
+    border: none;
+}
+
+.dog_not_allowed {
+  background:url(/static/dog_not_allowed.png) no-repeat;
+    cursor:pointer;
+    width: 30px;
+    height: 30px;
+    border: none;
+}
+
+.dog_undefined_allowed {
+  background:url(/static/dog_undefined_allowed.png) no-repeat;
+    cursor:pointer;
+    width: 30px;
+    height: 30px;
+    border: none;
+}
+
+
 #spots_list {
 min-width: 200px!important;
 max-height: 500px!important;

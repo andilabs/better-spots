@@ -112,6 +112,10 @@ def about(request):
         response = TemplateResponse(request, 'about.html', {})
         return response
 
+def certificate(request):
+    if request.method == 'GET':
+        response = TemplateResponse(request, 'certificate.html', {})
+        return response
 
 def mylogin(request):
     if request.method == 'GET':

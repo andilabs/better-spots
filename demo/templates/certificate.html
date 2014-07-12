@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+
+{% block extra_head %}
+    {{ form.media }}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-3 col-sm-push-6" style="background-color:red; heigth:350px" >
+    A
+    </div>
+
+    <div class="col-xs-12 col-sm-6 cols-sm-pull-3 no-col-padding">
+    <center>
+        <i class="fa fa-certificate" style="font-size:272px;color:#ffc738"></i>
+		<h1> Kulturalna </h1>
+		<h3> Warszawa, pl. Defilad 1</h3>
+		<span id="lobster" style="font-size:48px">is dog-friendly spot!<br>
+		4.9/5.0</span>
+	</center>
+    </div>
+
+    <div class="col-xs-12 col-sm-3" style="background-color:pink; heigth:350px">
+    C
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+
+{# ----------------------
+A   |    B     |   C
+----------------------
+
+when scaled to mobile I will expect:
+
+-------
+   B
+-------
+   A
+-------
+   A #}
