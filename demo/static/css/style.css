@@ -3,6 +3,37 @@ min-width: 200px!important;
 max-height: 500px!important;
 overflow-y: auto;
 }
+#spots_list span.list-group-item.active {
+  background-color: #5cb85c;
+  color: white!important;
+}
+#spots_list span.list-group-item.active p.list-group-item-text span.spot_item_details {
+  display:block;
+  color: white!important;
+}
+#spots_list span.list-group-item.active p.list-group-item-text span.spot_item_details a{
+  color: white!important;
+}
+
+/*#spots_list span.list-group-item.active p {
+  font-color: white!important;
+}
+
+#spots_list span.list-group-item.active h4 {
+  font-color: white!important;
+}*/
+
+#spots_list span.list-group-item p.list-group-item-text span.spot_item_details {
+  display:none;
+}
+/*#spots_list span.list-group-item.active p span.spot_item_details{
+  display: block;
+}*/
+/*#spots_list span.list-group-item p span.spot_item_details{
+  display:none;
+}*/
+
+
 .gm-style-iw{ 
 max-width: 400px !important;
 

@@ -17,9 +17,6 @@ opts =
   left: "50%"
 
 
-
-
-
 arrMarkers = {}
 
 $ ->
@@ -37,60 +34,61 @@ $ ->
         clientPosition = new google.maps.LatLng(
           position.coords.latitude,
           position.coords.longitude
-          )
+        )
 
 
         $("#map_canvas").gmap "addMarker",
           position: clientPosition
           bounds: true
           icon:
-            url: 'http://127.0.0.1:8000/static/lapka_icon.png',
+            url: STATIC_URL + 'lapka_icon.png',
             size: new google.maps.Size(50,50)
 
-      pair_mark = {}
 
-      url = "http://127.0.0.1:8000/static/spots_mockup.json"
+
+      url = STATIC_URL + "spots_mockup.json"
 
       jqxhr = $.getJSON(url, (data) ->
 
         $.each data, (i, marker) ->
 
-          box = "<a href='#' class='list-group-item' id='#{marker.id}'>
+          box = "<span class='list-group-item' id='#{marker.id}'>
                 <h4 class='list-group-item-heading'>#{marker.name}</h4>
                 <p class='list-group-item-text'>#{marker.address_street} #{marker.address_number}
-                <span class='spot_item_details' style='display:none' id='#{marker.id}'>
+                <span class='spot_item_details' id='#{marker.id}'>
                 <br><span class='glyphicon glyphicon-phone-alt'></span>
-                #{marker.phone_number} <i class='fa fa-facebook'></i>
+                #{marker.phone_number} <a href='http://www.facebook.com/#{marker.id}'><i class='fa fa-facebook'></i></a>
                 </span>
-                </p></a>"
+                </p></span>"
 
           $("#spots_list").append box
 
-          labelka = '#spot#{marker.id}'
 
-          contencik = $("<div class='spot_info' id='#{marker.id}'><h4>#{marker.name}</h4><br>#{marker.address_street} #{marker.address_number}</div>")
-            .append(
-              $("<div id='spot#{marker.id}' class='rate'></div>")
-              .raty(
+          rating_stars = $("<div class='rate'></div>")
+              .raty
                 readOnly: true
                 score: marker.friendly_rate
-              ))[0]
 
-          pair_mark[labelka] = marker.friendly_rate
+          contencik = $("<div class='spot_info' id='#{marker.id}'>
+                        <h4>#{marker.name}</h4><br>
+                        #{marker.address_street} #{marker.address_number}</div>")
+              .append(rating_stars)[0]
+
+
 
           marker.dogs_allowed = "dog_undefined_allowed"  if marker.is_accepted is false
 
           icony_allowed =
-            true: "http://127.0.0.1:8000/static/dog_allowed.png"
-            false: "http://127.0.0.1:8000/static/dog_not_allowed.png"
-            dog_undefined_allowed: "http://127.0.0.1:8000/static/dog_undefined_allowed.png"
+            true: STATIC_URL + "dog_allowed.png"
+            false: STATIC_URL + "dog_not_allowed.png"
+            dog_undefined_allowed: STATIC_URL + "dog_undefined_allowed.png"
 
           SpotIcon = new google.maps.MarkerImage(
             icony_allowed[marker.dogs_allowed],
             null,
             new google.maps.Point(0, 0),
             new google.maps.Point(0, 0)
-            )
+          )
 
           SpotMarker = new google.maps.Marker(
             position: new google.maps.LatLng(marker.latitude, marker.longitude)
@@ -107,32 +105,35 @@ $ ->
           $("#map_canvas").gmap("addMarker", SpotMarker).click ->
 
             $("#map_canvas").gmap "openInfoWindow", SpotInfoWindow, @
-            $("#map_canvas").gmap("get", "map").panTo @getPosition()
-            idik = "#" + $(contencik).attr("id")
+            $("#map_canvas").gmap("get", "map").panTo @.getPosition()
 
-            $("#spots_list a").each (index) ->
+            id = "##{$(contencik).attr("id")}"
+
+            $("#spots_list span").each (index) ->
 
               $(@).removeClass "active"
-              $(@).find("p span.spot_item_details").attr "style", "display:none"
 
-            $("#spots_list").find(idik).focus().attr "class", "list-group-item active"
-            $("#spots_list p").find("span#{idik}").attr "style", "display:block")
+            $("#spots_list").scrollTop( $("#spots_list").scrollTop() + $("#spots_list").find(id).position().top);
+            $("#spots_list").find(id).attr "class", "list-group-item active"
+
+            )
 
       spinner.stop()
-      $("#map_canvas").animate({"opacity": "1.0"}, "slow")
       $("#map_canvas").gmap "option", "zoom", 15
+      $("#map_canvas").animate({"opacity": "1.0"}, "slow")
 
 
-$("#spots_list").on "click", "a.list-group-item", (evt) ->
 
-  $("#spots_list a").each (index) ->
+$("#spots_list").on "click", "span.list-group-item", (evt) ->
+
+  $("#spots_list span").each (index) ->
 
     $(@).removeClass "active"
-    $(@).find("p span.spot_item_details").attr "style", "display:none"
 
-  idik = $(@).attr("id")
-  $("#spots_list").find("#" + idik).focus().attr "class", "list-group-item active"
-  $("#spots_list p").find("span#" + idik).attr "style", "display:block"
-  $("#map_canvas").gmap "openInfoWindow", arrMarkers[idik].info_window, arrMarkers[idik].marker
-  $("#map_canvas").gmap("get", "map").panTo arrMarkers[idik].marker.getPosition()
+
+  id = $(@).attr("id")
+
+  $("#spots_list").find("##{id}").attr "class", "list-group-item active"
+  $("#map_canvas").gmap "openInfoWindow", arrMarkers[id].info_window, arrMarkers[id].marker
+  $("#map_canvas").gmap("get", "map").panTo arrMarkers[id].marker.getPosition()
 
