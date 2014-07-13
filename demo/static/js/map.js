@@ -85,14 +85,9 @@
     for (k in filters_types) {
       v = filters_types[k];
       if (v === true) {
-        console.log("k,v: " + k + ", " + v);
         filtered_types.push(k);
       }
     }
-    console.log(filters_allowance);
-    console.log("filtered_allowance", filtered_allowance);
-    console.log(filters_types);
-    console.log("filtered_types", filtered_types);
     $('#map_canvas').gmap('find', 'markers', {
       'property': 'dogs_allowed',
       'value': filtered_allowance
@@ -108,9 +103,8 @@
       }
     });
     return $("#spots_list span.list-group-item").each(function() {
-      var _ref, _ref1, _ref2;
-      console.log($(this).data("markerek").dogs_allowed);
-      console.log("spot types list", [
+      var _ref, _ref1;
+      if ((_ref = $(this).data("markerek").dogs_allowed, __indexOf.call(filtered_allowance, _ref) < 0) || (_ref1 = spot_type_lookup[$(this).data("markerek").spot_type], __indexOf.call([
         (function() {
           var _results;
           _results = [];
@@ -122,35 +116,7 @@
           }
           return _results;
         })()
-      ]);
-      console.log("spot type id ", $(this).data("markerek").spot_type);
-      console.log("spot type name", spot_type_lookup[$(this).data("markerek").spot_type]);
-      console.log((_ref = spot_type_lookup[$(this).data("markerek").spot_type], __indexOf.call([
-        (function() {
-          var _results;
-          _results = [];
-          for (k in filters_types) {
-            v = filters_types[k];
-            if (v === true) {
-              _results.push(k);
-            }
-          }
-          return _results;
-        })()
-      ][0], _ref) >= 0));
-      if ((_ref1 = $(this).data("markerek").dogs_allowed, __indexOf.call(filtered_allowance, _ref1) < 0) || (_ref2 = spot_type_lookup[$(this).data("markerek").spot_type], __indexOf.call([
-        (function() {
-          var _results;
-          _results = [];
-          for (k in filters_types) {
-            v = filters_types[k];
-            if (v === true) {
-              _results.push(k);
-            }
-          }
-          return _results;
-        })()
-      ][0], _ref2) < 0)) {
+      ][0], _ref1) < 0)) {
         return $(this).hide();
       } else {
         return $(this).show();
@@ -188,7 +154,6 @@
       });
     });
     $(document).on('change', '#map_filters input.map_filter', function(e) {
-      console.log("------->", $(this).parent());
       if ($(this).prop('checked') === false) {
         $(this).parent().css('opacity', '0.1');
       } else {
@@ -243,7 +208,6 @@
               dog_undefined_allowed: STATIC_URL + "dog_undefined_allowed.png"
             };
             SpotIcon = new google.maps.MarkerImage(icony_allowed[marker.dogs_allowed], null, new google.maps.Point(0, 0), new google.maps.Point(0, 0));
-            console.log("----->", spot_type_lookup[marker.spot_type]);
             SpotMarker = new google.maps.Marker({
               position: new google.maps.LatLng(marker.latitude, marker.longitude),
               bounds: false,

@@ -102,17 +102,17 @@ filterSpots = ->
 
   for k,v of filters_types
     if v is true
-      console.log "k,v: #{k}, #{v}"
+      # console.log "k,v: #{k}, #{v}"
       #for kk,vv of spot_type_lookup when vv == k
       filtered_types.push k#k
 
 
 
-  console.log filters_allowance
-  console.log "filtered_allowance", filtered_allowance
+  # console.log filters_allowance
+  # console.log "filtered_allowance", filtered_allowance
 
-  console.log filters_types
-  console.log "filtered_types", filtered_types
+  # console.log filters_types
+  # console.log "filtered_types", filtered_types
 
   $('#map_canvas').gmap 'find', 'markers', { 'property': 'dogs_allowed', 'value': filtered_allowance}, (marker, found) ->
     marker.setVisible(found)
@@ -123,13 +123,13 @@ filterSpots = ->
 
 
   $("#spots_list span.list-group-item").each ->
-    # console.log $(@).html()
-    console.log $(@).data("markerek").dogs_allowed
-    console.log "spot types list", [k for k,v of filters_types when v is true]
-    #if $(@).data("markerek").dogs_allowed not in filtered_allowance or 
-    console.log "spot type id ", $(@).data("markerek").spot_type
-    console.log "spot type name", spot_type_lookup[$(@).data("markerek").spot_type]
-    console.log (spot_type_lookup[$(@).data("markerek").spot_type] in [k for k,v of filters_types when v is true][0])
+
+    # console.log $(@).data("markerek").dogs_allowed
+    # console.log "spot types list", [k for k,v of filters_types when v is true]
+
+    # console.log "spot type id ", $(@).data("markerek").spot_type
+    # console.log "spot type name", spot_type_lookup[$(@).data("markerek").spot_type]
+    # console.log (spot_type_lookup[$(@).data("markerek").spot_type] in [k for k,v of filters_types when v is true][0])
     if $(@).data("markerek").dogs_allowed not in filtered_allowance or spot_type_lookup[$(@).data("markerek").spot_type] not in [k for k,v of filters_types when v is true][0]# is false
       $(@).hide()
     else
@@ -190,7 +190,7 @@ $ ->
         $(@).parent().css('opacity','1')
 
   $(document).on 'change', '#map_filters input.map_filter', (e) ->
-    console.log "------->", $(@).parent()
+    # console.log "------->", $(@).parent()
     if $(@).prop('checked') is false
       $(@).parent().css('opacity','0.1')
     else
@@ -280,7 +280,7 @@ $ ->
             new google.maps.Point(0, 0),
             new google.maps.Point(0, 0)
           )
-          console.log "----->", spot_type_lookup[marker.spot_type]
+          # console.log "----->", spot_type_lookup[marker.spot_type]
           SpotMarker = new google.maps.Marker(
             position: new google.maps.LatLng(marker.latitude, marker.longitude)
             bounds: false

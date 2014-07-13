@@ -10,13 +10,13 @@
 
 {% block content %}
 
-  <div class="row">
+<!--   <div class="row">
     <div class="col-xs-12">
     <button type='button' class='btn btn-default btn-lg' id='map_filters_button'>
         <span class='glyphicon glyphicon-filter'></span> Filter by
         </button>
     </div>
-  </div>
+  </div> -->
 
   <div class="row row-map">
     <div class="col-xs-12 col-sm-3">
@@ -24,6 +24,11 @@
         </div>
     </div>
     <div class="col-xs-12 col-sm-9 no-col-padding">
+      <div id="overlay">
+        <button type='button' class='btn btn-default btn-lg' id='map_filters_button'>
+        <span class='glyphicon glyphicon-filter'></span> Filter by
+        </button>
+      </div>
       <div id="map_canvas" style="height:500px;opacity:0.1" >
       </div>
       <div id="radios" class="item gradient rounded shadow" style="margin:5px;padding:5px 5px 5px 10px;"></div>

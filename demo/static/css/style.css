@@ -25,6 +25,15 @@
     margin-right: 5px;
 }
 
+#overlay {
+    width: 300px;
+    height: 120px;
+    position: absolute;
+    top: 20px;
+    left: 100px;
+    z-index: 10;
+}
+
 
 #spots_list {
 min-width: 200px!important;
