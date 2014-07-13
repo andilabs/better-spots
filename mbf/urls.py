@@ -16,7 +16,7 @@ urlpatterns = patterns(
     url(r'^map/$', 'demo.views.map', name='map'),
     url(r'^certificate/$', 'demo.views.certificate', name='certificate'),
     url(r'^about/$', 'demo.views.about', name='about'),
-    url(r'^favorites/$', 'demo.views.favorites', name='favorites'),
+    url(r'^favourites/$', 'demo.views.favourites', name='favourites'),
     url(r'^dogs/create/$', DogCreate.as_view(), name='dogs_add'),
     url(r'^user/create/$',
         DogspotUserCreate.as_view(),

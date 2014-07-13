@@ -10,22 +10,17 @@
 
 {% block content %}
 
-<!--   <div class="row">
-    <div class="col-xs-12">
-    <button type='button' class='btn btn-default btn-lg' id='map_filters_button'>
-        <span class='glyphicon glyphicon-filter'></span> Filter by
-        </button>
-    </div>
-  </div> -->
+
 
   <div class="row row-map">
     <div class="col-xs-12 col-sm-3">
         <div class="list-group"  id="spots_list">
+
         </div>
     </div>
     <div class="col-xs-12 col-sm-9 no-col-padding">
-      <div id="overlay">
-        <button type='button' class='btn btn-default btn-lg' id='map_filters_button'>
+      <div id="filters_map_overlay">
+        <button type='button' class='btn btn-default btn-lg' id='map_filters_button' style="margin-top:20px">
         <span class='glyphicon glyphicon-filter'></span> Filter by
         </button>
       </div>
@@ -53,3 +48,6 @@
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/map.js"></script>
 {% endblock scripts %}
+
+
+

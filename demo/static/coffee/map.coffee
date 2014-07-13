@@ -17,10 +17,6 @@ opts =
   left: "50%"
 
 
-# clientPosition = new google.maps.LatLng(52.524303, 13.408792)
-
-# user_loc_set = false
-
 spot_type_lookup =
   1: "caffe"
   2: "restaurant"
@@ -64,7 +60,33 @@ check_cookies = ->
 #   $.cookie('dogspot_user_long', long, {path: '/', expires: 1})
 #   clientPosition = new google.maps.LatLng(lat,long)
 
+checkIfEmpty = ->
 
+  if $("#spots_list span.list-group-item:visible").not("#memo_empty").size() == 0
+
+    box = $("<span class='list-group-item disabled' id='memo_empty' style>
+            <h4 class='list-group-item-heading'>No spots to show</h4>
+            <p class='list-group-item-text'>
+            Try using filters to find some spots
+            </p></span>")
+    if $("#spots_list span#memo_empty").size() == 0
+      $("#spots_list").append box
+
+  else
+
+    $("span#memo_empty").remove()
+  $("#spots_list span.list-group-item:visible:not(:last-child)")
+    # .css('margin-bottom','0')
+    # .css('margin-top', '0')
+    .css('border-bottom-right-radius', '0px')
+    .css('border-bottom-left-radius', '0px')
+
+  $("#spots_list span.list-group-item:visible")
+    .last()
+      .css('margin-bottom','0')
+      # .css('margin-top', '0')
+      .css('border-bottom-right-radius', '4px')
+      .css('border-bottom-left-radius', '4px')
 
 # errorFunction = (error) ->
 #   errors =
@@ -84,6 +106,8 @@ check_cookies = ->
 #   else
 #     alert('It seems like Geolocation is disabled')
 
+hideAllInfoWindows = ->
+  $('#map_canvas').gmap('closeInfoWindow')
 
 filterSpots = ->
   filtered_allowance = ['lapka']
@@ -102,80 +126,84 @@ filterSpots = ->
 
   for k,v of filters_types
     if v is true
-      # console.log "k,v: #{k}, #{v}"
-      #for kk,vv of spot_type_lookup when vv == k
-      filtered_types.push k#k
+      filtered_types.push k
 
 
 
-  # console.log filters_allowance
-  # console.log "filtered_allowance", filtered_allowance
-
-  # console.log filters_types
-  # console.log "filtered_types", filtered_types
 
   $('#map_canvas').gmap 'find', 'markers', { 'property': 'dogs_allowed', 'value': filtered_allowance}, (marker, found) ->
     marker.setVisible(found)
+    #if marker.visible is false
+      # iw = arrMarkers[marker.id].info_window
+      # iwo =  $('#map_canvas').gmap('get',iw)
+      # console.log iw
+      # iwo.close()
+      #Iw = arrMarkers[marker.id].info_window
+      # console.log "closing---->", arrMarkers[marker.id].info_window.content
+      # $('#map_canvas').gmap('get','iw', arrMarkers[marker.id].info_window).close()
+      #console.log iwo
+      #iwo.close()
+    hideAllInfoWindows()
+
+
+
 
   $('#map_canvas').gmap 'find', 'markers', { 'property': 'spot_type', 'value': filtered_types }, (marker, found) ->
     if marker.visible isnt false
       marker.setVisible(found)
 
+    hideAllInfoWindows()
 
-  $("#spots_list span.list-group-item").each ->
 
-    # console.log $(@).data("markerek").dogs_allowed
-    # console.log "spot types list", [k for k,v of filters_types when v is true]
 
-    # console.log "spot type id ", $(@).data("markerek").spot_type
-    # console.log "spot type name", spot_type_lookup[$(@).data("markerek").spot_type]
-    # console.log (spot_type_lookup[$(@).data("markerek").spot_type] in [k for k,v of filters_types when v is true][0])
-    if $(@).data("markerek").dogs_allowed not in filtered_allowance or spot_type_lookup[$(@).data("markerek").spot_type] not in [k for k,v of filters_types when v is true][0]# is false
-      $(@).hide()
-    else
-      $(@).show()
+  $("#spots_list span.list-group-item").not("#memo_empty").each ->
+
+      if $(@).data("markerek").dogs_allowed not in filtered_allowance or spot_type_lookup[$(@).data("markerek").spot_type] not in [k for k,v of filters_types when v is true][0]# is false
+        $(@).hide()
+      else
+        $(@).show()
 
 
 $ ->
+
   check_cookies()
-
-
-  # if not $.cookie('dogspot_user_lat') or not $.cookie('dogspot_user_long')
-  #   console.log "nie ma ciasteczek :("
-  #   updateGeo()
 
   target = document.getElementById("spots_list")
   spinner = new Spinner(opts).spin(target)
+
+  $('body').on 'click', (e) ->
+    if $(e.target).parents("#filters_map_overlay").length is 0
+      $('#map_filters_button').popover('hide')
 
 
   $("#map_filters_button")
     .popover
       trigger: "click"
-      #placement: "left"
+      placement: "right"
       html: true
       title: "Setup your filters:"
-      content: "<div id='map_filters'><label class='dog_allowed'>
-                <input class='map_filter' type='checkbox' name='dog_allowed' hidden></label>
-
-                <label class='dog_undefined_allowed'>
-                <input class='map_filter' type='checkbox' name='dog_undefined_allowed' hidden></label>
-
-                <label class='dog_not_allowed'>
-                <input class='map_filter'type='checkbox' name='dog_not_allowed' hidden></label><br><br>
-
-                <label class='fa fa-coffee fa-2x'>
+      content: "<div id='map_filters'>
+                <label class='dog_allowed' title='allowed ;-)'>
+                  <input class='map_filter' type='checkbox' name='dog_allowed' hidden></label>
+                <label class='dog_undefined_allowed' title='undefined :-?' >
+                  <input class='map_filter' type='checkbox' name='dog_undefined_allowed' hidden></label>
+                <label class='dog_not_allowed' ' title='NOT allowed :-('>
+                  <input class='map_filter'type='checkbox' name='dog_not_allowed' hidden></label><br><br>
+                <label class='fa fa-coffee fa-2x mar-r-5'' title='Coffee'>
                   <input class='map_filter'type='checkbox' name='caffe' hidden></label>
-                <label class='fa fa-cutlery fa-2x'>
+                <label class='fa fa-cutlery fa-2x mar-r-5' title='Food'>
                   <input class='map_filter'type='checkbox' name='restaurant' hidden></label>
-                <label class='fa fa-medkit fa-2x'>
+                <label class='fa fa-medkit fa-2x mar-r-5' title='Vet'>
                   <input class='map_filter'type='checkbox' name='veterinary_care' hidden></label><br>
-
-
                 </div>"
 
 
+
+
   $(document).on 'click', '#map_filters_button', (e) ->
+
     $("#map_filters input.map_filter").each ->
+
       ciacho = $.cookie($(@).attr('name'))
 
       if ciacho
@@ -185,33 +213,29 @@ $ ->
         $(@).prop('checked', true) #on init without cookie always checked
 
       if $(@).prop('checked') is false
-        $(@).parent().css('opacity','0.1')
+        $(@).parent().css('opacity','0.2')
+
       else
         $(@).parent().css('opacity','1')
 
   $(document).on 'change', '#map_filters input.map_filter', (e) ->
-    # console.log "------->", $(@).parent()
+
     if $(@).prop('checked') is false
-      $(@).parent().css('opacity','0.1')
+      $(@).parent().css('opacity','0.2')
+
     else
+
       $(@).parent().css('opacity','1')
+
+    
     $.cookie($(@).attr('name'), $(@).prop('checked'), {path: '/map', expires: 1})
     check_cookies()
     filterSpots()
+    checkIfEmpty()
+
 
 
   $("#map_canvas").gmap().bind "init", (evt, map) ->
-
-    # if not $.cookie('dogspot_user_lat') or not $.cookie('dogspot_user_long')
-    #   updateGeo().done(successFunction)
-
-
-    # console.log "map!!!---->", $.cookie('dogspot_user_lat'), $.cookie('dogspot_user_long')
-
-    # clientPosition = new google.maps.LatLng(
-    #   $.cookie('dogspot_user_lat'),
-    #   $.cookie('dogspot_user_long')
-    # )
 
     options =
         enableHighAccuracy: true # boolean (default: false)
@@ -244,11 +268,16 @@ $ ->
         $.each datax, (i, marker) ->
 
           box = $("<span class='list-group-item' id='#{marker.id}'>
+                <span class='badge' style='background-color:transparent'>
+                <a href='/spots/#{marker.id}' style='color:white'>
+                <i class='fa fa-angle-double-right fa-2x'></i></a></span>
                 <h4 class='list-group-item-heading'>#{marker.name}</h4>
-                <p class='list-group-item-text'>#{marker.address_street} #{marker.address_number}
+                <p class='list-group-item-text'>#{marker.address_street}
+                #{marker.address_number}
                 <span class='spot_item_details' id='#{marker.id}'>
                 <br><span class='glyphicon glyphicon-phone-alt'></span>
-                #{marker.phone_number} <a href='http://www.facebook.com/#{marker.id}'><i class='fa fa-facebook'></i></a>
+                #{marker.phone_number} <a href='http://www.facebook.com/#{marker.id}'>
+                <i class='fa fa-facebook'></i></a>
                 </span>
                 </p></span>").data("markerek", marker)
 
@@ -261,8 +290,8 @@ $ ->
                 score: marker.friendly_rate
 
           contentOfInfoWindow = $("<div class='spot_info' id='#{marker.id}'>
-                        <h4>#{marker.name}</h4><br>
-                        #{marker.address_street} #{marker.address_number}</div>")
+                                  <h4>#{marker.name}</h4><br>
+                                  #{marker.address_street} #{marker.address_number}</div>")
               .append(rating_stars)[0]
 
 
@@ -273,17 +302,18 @@ $ ->
             true: STATIC_URL + "dog_allowed.png"
             false: STATIC_URL + "dog_not_allowed.png"
             dog_undefined_allowed: STATIC_URL + "dog_undefined_allowed.png"
-          # console.log marker.dogs_allowed
+
           SpotIcon = new google.maps.MarkerImage(
             icony_allowed[marker.dogs_allowed],
             null,
             new google.maps.Point(0, 0),
             new google.maps.Point(0, 0)
           )
-          # console.log "----->", spot_type_lookup[marker.spot_type]
+
           SpotMarker = new google.maps.Marker(
             position: new google.maps.LatLng(marker.latitude, marker.longitude)
             bounds: false
+            id: marker.id
             dogs_allowed: [marker.dogs_allowed]
             spot_type: [spot_type_lookup[marker.spot_type]]
             icon: SpotIcon
@@ -312,9 +342,10 @@ $ ->
         spinner.stop()
         $("#map_canvas").gmap "option", "zoom", 15
         $("#map_canvas").animate({"opacity": "1.0"}, "slow")
+        $("#filters_map_overlay").animate({"opacity": "1.0"}, "slow")
+        checkIfEmpty()
 
-
-$("#spots_list").on "click", "span.list-group-item", (evt) ->
+$("#spots_list").on "click", "span.list-group-item:not(#memo_empty)", (evt) ->
 
   id = $(@).attr("id")
   $("#spots_list span").not("##{id}").removeClass "active"

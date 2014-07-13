@@ -101,9 +101,9 @@ def map(request):
         return response
 
 
-def favorites(request):
+def favourites(request):
     if request.method == 'GET':
-        response = TemplateResponse(request, 'favorites.html', {})
+        response = TemplateResponse(request, 'favourites.html', {})
         return response
 
 
