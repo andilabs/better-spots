@@ -109,3 +109,129 @@ class EmailVerification(models.Model):
             self.key_timestamp,
             self.user.email
             )
+
+
+SPOT_TYPE = (
+    (1, 'cafe'),
+    (2, 'restaurant'),
+    (3, 'store'),
+    (4, 'institution'),
+    (5, 'pet store'),  # google type: pet_store
+    (6, 'park'),
+    (7, 'bar'),
+    (8, 'art gallery or museum'),  # google types: art_gallery + museum
+    (9, 'veterinary care'),  # google type: veterinary_care
+    (10, 'hotel'),
+)
+
+
+class Spot(models.Model):
+    name = models.CharField(max_length=250)
+    latitude = models.DecimalField(max_digits=8, decimal_places=5, blank=True, default=0.0)
+    longitude = models.DecimalField(max_digits=8, decimal_places=5, blank=True, default=0.0)
+    address_street = models.CharField(max_length=254, default='')
+    address_number = models.CharField(max_length=10, default='')
+    address_city = models.CharField(max_length=100, default='')
+    address_country = models.CharField(max_length=100, default='')
+    spot_type = models.IntegerField(max_length=3, choices=SPOT_TYPE)
+    is_accepted = models.BooleanField(default=False)
+    phone_number = models.CharField(max_length=100, default='221234567')
+
+    @property
+    def friendly_rate(self):
+
+        all_raitings_of_spot = Raiting.objects.filter(spot_id=self.id)
+
+        if len(all_raitings_of_spot) >= 1:
+            return (sum(i.friendly_rate for i in all_raitings_of_spot)/float(len(all_raitings_of_spot)))
+        else:
+            return -1.0
+
+    @property
+    def dogs_allowed(self):
+
+        all_raitings_of_spot = Raiting.objects.filter(spot_id=self.id)
+
+        if len(all_raitings_of_spot) >= 1:
+
+            if sum(i.dogs_allowed for i in all_raitings_of_spot) > (len(all_raitings_of_spot)/2):  # intended floor while dividing majority vote as result
+                return True
+            else:
+                return False
+
+        else:
+            return False
+
+    def __unicode__(self):
+        return self.name
+
+LIKERT = (
+    (1, 'terrible'),
+    (2, 'poor'),
+    (3, 'average'),
+    (4, 'very good'),
+    (5, 'exccelent'),
+)
+
+DOGS_ALLOWED = (
+    (0, 'Not allowed'),
+    (1, 'Allowed'),
+)
+
+
+class Raiting(models.Model):
+    data_added = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(DogspotUser)
+    spot = models.ForeignKey(Spot)
+    dogs_allowed = models.BooleanField(choices=DOGS_ALLOWED)
+    friendly_rate = models.PositiveIntegerField(choices=LIKERT)
+
+    def __unicode__(self):
+        return "%s %s by: %s rate: %2.f" % (
+            self.spot.name,
+            DOGS_ALLOWED[self.dogs_allowed][1],
+            self.user.nick,
+            self.friendly_rate
+            )
+
+
+class Opinion(models.Model):
+    raiting = models.ForeignKey(Raiting)
+    opinion_text = models.CharField(max_length=500)
+
+    def __unicode__(self):
+        return self.opinion_text
+
+
+VOTE = (
+    (-1, 'Upvote'),
+    (1, 'Downvote'),
+)
+
+
+class OpinionUsefulnessRating(models.Model):
+    opinion = models.ForeignKey(Opinion)
+    user = models.ForeignKey(DogspotUser)
+    vote = models.IntegerField(max_length=1, choices=VOTE)
+
+
+LIST_ROLES = (
+    (1, 'Favorites'),
+    (2, 'To be visited'),
+)
+
+
+class UsersSpotsList(models.Model):
+    data_added = models.DateTimeField(auto_now_add=True)
+    spot = models.ForeignKey(Spot)
+    user = models.ForeignKey(DogspotUser)
+    role = models.IntegerField(max_length=1, choices=LIST_ROLES)
+
+    def __unicode__(self):
+        return "%s where: %s by: %s " % (
+            LIST_ROLES[self.role-1][1],
+            self.spot.name,
+            self.user.email
+            )
+
+

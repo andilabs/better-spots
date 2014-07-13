@@ -4,6 +4,10 @@ import json
 import base64
 import quopri
 import vobject
+import qrcode
+import StringIO
+
+from qrcode.image.pil import PilImage
 from datetime import datetime, timedelta
 
 from django.http import QueryDict
@@ -27,6 +31,8 @@ from rest_framework.decorators import api_view
 from rest_framework.decorators import authentication_classes
 from rest_framework.decorators import permission_classes
 from rest_framework.authtoken.models import Token
+
+ 
 
 
 from demo.authentication import ExpiringTokenAuthentication
@@ -112,10 +118,12 @@ def about(request):
         response = TemplateResponse(request, 'about.html', {})
         return response
 
+
 def certificate(request):
     if request.method == 'GET':
         response = TemplateResponse(request, 'certificate.html', {})
         return response
+
 
 def mylogin(request):
     if request.method == 'GET':
@@ -209,6 +217,38 @@ class DogCreate(CreateView):
     model = Dog
     fields = ('name', 'sex', 'bred', 'comment')
     success_url = '/dogs'
+
+
+def produce_vcard_qr_code(request):
+    dane = """BEGIN:VCARD\r\nN:Kostanski;Andrzej;;;\r\nEMAIL;type=INTERNET;type=HOME;type=pref:andrzej.kostanski@gmail.com\r\nTEL;type=HOME;type=VOICE;type=pref:508788987\r\nitem1.URL;type=pref:https://www.linkedin.com/in/andrzejkostanski\r\nEND:VCARD\r\n"""
+
+
+    #mg = qrcode.make(dane, image_factory=PilImage)
+
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=4,
+        border=4,
+    )
+    qr.add_data(dane)
+    qr.make(fit=True)
+
+    img = qr.make_image()
+
+    # output = StringIO.StringIO()
+    # format = 'PNG'
+    # img.save(output, 'PNG')
+
+    # contents = output.getvalue()
+    # output.close()
+
+    response = HttpResponse(content_type="image/png")
+    img.save(response, "png")
+
+    return response
+    # with open('haha_picture_out.png', 'wb') as f:
+    #     f.write(contents)
 
 
 @csrf_exempt

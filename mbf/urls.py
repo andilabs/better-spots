@@ -16,6 +16,7 @@ urlpatterns = patterns(
     url(r'^map/$', 'demo.views.map', name='map'),
     url(r'^certificate/$', 'demo.views.certificate', name='certificate'),
     url(r'^about/$', 'demo.views.about', name='about'),
+    url(r'^qrcode/$', 'demo.views.produce_vcard_qr_code', name='qrcode'),
     url(r'^favourites/$', 'demo.views.favourites', name='favourites'),
     url(r'^dogs/create/$', DogCreate.as_view(), name='dogs_add'),
     url(r'^user/create/$',

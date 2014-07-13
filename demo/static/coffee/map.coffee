@@ -64,7 +64,7 @@ checkIfEmpty = ->
 
   if $("#spots_list span.list-group-item:visible").not("#memo_empty").size() == 0
 
-    box = $("<span class='list-group-item disabled' id='memo_empty' style>
+    box = $("<span class='list-group-item disabled' id='memo_empty'>
             <h4 class='list-group-item-heading'>No spots to show</h4>
             <p class='list-group-item-text'>
             Try using filters to find some spots
@@ -197,8 +197,38 @@ $ ->
                   <input class='map_filter'type='checkbox' name='veterinary_care' hidden></label><br>
                 </div>"
 
+  $(document).on 'click', '#back_to_list', (e) ->
+    $("#spot_detail").remove()
+    $('#left_container').removeClass('col-xs-12 col-sm-9 no-col-padding')
+    $('#left_container').addClass('col-xs-12 col-sm-3')
+    $('#right_container').removeClass('col-xs-12 col-sm-3')
+    $('#right_container').addClass('col-xs-12 col-sm-9 no-col-padding')
+    $("#spots_list").show()
+    $('#map_canvas').gmap('refresh')
 
 
+  $(document).on 'click', 'a.spot-details-link', (e) ->
+    e.preventDefault()
+    link = $(@).attr('href')
+
+    $("#spots_list").hide ->
+      $('#left_container')
+        .append "<div class='list-group'  id='spot_detail'>
+          <span class='list-group-item disabled' id='spot_detail_icons'>
+          <i class='fa fa-list' id='back_to_list'></i></span>
+          <span class='list-group-item disabled' id='spot_detail_content'>
+          <h4 class='list-group-item-heading'>Spot name</h4>
+          <p class='list-group-item-text'>
+          #{link}
+          </p></span>
+          </div>"
+      $('#left_container').removeClass('col-xs-12 col-sm-3')
+      $('#left_container').addClass('col-xs-12 col-sm-9 no-col-padding')
+      $('#right_container').removeClass('col-xs-12 col-sm-9 no-col-padding')
+      $('#right_container').addClass('col-xs-12 col-sm-3')
+      $('#map_canvas').gmap('refresh')
+      #$("#map_canvas").gmap("get", "map").panTo arrMarkers[4].marker.getPosition()
+      #$("#map_canvas").gmap("get", "map").panTo arrMarkers[4].marker.getPosition()
 
   $(document).on 'click', '#map_filters_button', (e) ->
 
@@ -269,14 +299,14 @@ $ ->
 
           box = $("<span class='list-group-item' id='#{marker.id}'>
                 <span class='badge' style='background-color:transparent'>
-                <a href='/spots/#{marker.id}' style='color:white'>
+                <a href='/spots/#{marker.id}' class='spot-details-link' style='color:white'>
                 <i class='fa fa-angle-double-right fa-2x'></i></a></span>
                 <h4 class='list-group-item-heading'>#{marker.name}</h4>
                 <p class='list-group-item-text'>#{marker.address_street}
                 #{marker.address_number}
                 <span class='spot_item_details' id='#{marker.id}'>
                 <br><span class='glyphicon glyphicon-phone-alt'></span>
-                #{marker.phone_number} <a href='http://www.facebook.com/#{marker.id}'>
+                #{marker.phone_number} <a href='http://www.facebook.com/#{marker.id}' >
                 <i class='fa fa-facebook'></i></a>
                 </span>
                 </p></span>").data("markerek", marker)
