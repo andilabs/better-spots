@@ -23,16 +23,16 @@
   };
 
   spot_type_lookup = {
-    1: 'caffe',
-    2: 'restaurant',
-    3: 'store',
-    4: 'institution',
-    5: 'pet store',
-    6: 'park',
-    7: 'bar',
-    8: 'art gallery or museum',
-    9: 'veterinary care',
-    0: 'hotel'
+    1: "caffe",
+    2: "restaurant",
+    3: "store",
+    4: "institution",
+    5: "pet store",
+    6: "park",
+    7: "bar",
+    8: "art gallery or museum",
+    9: "veterinary care",
+    0: "hotel"
   };
 
   arrMarkers = {};
@@ -108,9 +108,49 @@
       }
     });
     return $("#spots_list span.list-group-item").each(function() {
-      var _ref;
+      var _ref, _ref1, _ref2;
       console.log($(this).data("markerek").dogs_allowed);
-      if (_ref = $(this).data("markerek").dogs_allowed, __indexOf.call(filtered_allowance, _ref) < 0) {
+      console.log("spot types list", [
+        (function() {
+          var _results;
+          _results = [];
+          for (k in filters_types) {
+            v = filters_types[k];
+            if (v === true) {
+              _results.push(k);
+            }
+          }
+          return _results;
+        })()
+      ]);
+      console.log("spot type id ", $(this).data("markerek").spot_type);
+      console.log("spot type name", spot_type_lookup[$(this).data("markerek").spot_type]);
+      console.log((_ref = spot_type_lookup[$(this).data("markerek").spot_type], __indexOf.call([
+        (function() {
+          var _results;
+          _results = [];
+          for (k in filters_types) {
+            v = filters_types[k];
+            if (v === true) {
+              _results.push(k);
+            }
+          }
+          return _results;
+        })()
+      ][0], _ref) >= 0));
+      if ((_ref1 = $(this).data("markerek").dogs_allowed, __indexOf.call(filtered_allowance, _ref1) < 0) || (_ref2 = spot_type_lookup[$(this).data("markerek").spot_type], __indexOf.call([
+        (function() {
+          var _results;
+          _results = [];
+          for (k in filters_types) {
+            v = filters_types[k];
+            if (v === true) {
+              _results.push(k);
+            }
+          }
+          return _results;
+        })()
+      ][0], _ref2) < 0)) {
         return $(this).hide();
       } else {
         return $(this).show();

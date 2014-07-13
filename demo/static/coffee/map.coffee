@@ -22,16 +22,16 @@ opts =
 # user_loc_set = false
 
 spot_type_lookup =
-  1: 'caffe'
-  2: 'restaurant'
-  3: 'store'
-  4: 'institution'
-  5: 'pet store' #google type: pet_store
-  6: 'park'
-  7: 'bar'
-  8: 'art gallery or museum' #google types: art_gallery + museum
-  9: 'veterinary care'# google type: veterinary_care
-  0: 'hotel'
+  1: "caffe"
+  2: "restaurant"
+  3: "store"
+  4: "institution"
+  5: "pet store" #google type: pet_store
+  6: "park"
+  7: "bar"
+  8: "art gallery or museum" #google types: art_gallery + museum
+  9: "veterinary care"# google type: veterinary_care
+  0: "hotel"
 
 arrMarkers = {}
 
@@ -125,8 +125,12 @@ filterSpots = ->
   $("#spots_list span.list-group-item").each ->
     # console.log $(@).html()
     console.log $(@).data("markerek").dogs_allowed
-
-    if $(@).data("markerek").dogs_allowed not in filtered_allowance
+    console.log "spot types list", [k for k,v of filters_types when v is true]
+    #if $(@).data("markerek").dogs_allowed not in filtered_allowance or 
+    console.log "spot type id ", $(@).data("markerek").spot_type
+    console.log "spot type name", spot_type_lookup[$(@).data("markerek").spot_type]
+    console.log (spot_type_lookup[$(@).data("markerek").spot_type] in [k for k,v of filters_types when v is true][0])
+    if $(@).data("markerek").dogs_allowed not in filtered_allowance or spot_type_lookup[$(@).data("markerek").spot_type] not in [k for k,v of filters_types when v is true][0]# is false
       $(@).hide()
     else
       $(@).show()
