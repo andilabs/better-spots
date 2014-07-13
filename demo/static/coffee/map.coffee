@@ -86,7 +86,7 @@ check_cookies = ->
 
 
 filterSpots = ->
-  filtered_allowance = []
+  filtered_allowance = ['lapka']
 
   if filters_allowance["dog_not_allowed"] is true
     filtered_allowance.push false
@@ -98,7 +98,7 @@ filterSpots = ->
     filtered_allowance.push 'dog_undefined_allowed'
 
 
-  filtered_types = []
+  filtered_types = ['lapka']
 
   for k,v of filters_types
     if v is true
@@ -151,24 +151,24 @@ $ ->
   $("#map_filters_button")
     .popover
       trigger: "click"
-      placement: "left"
+      #placement: "left"
       html: true
       title: "Setup your filters:"
       content: "<div id='map_filters'><label class='dog_allowed'>
-                <input class='map_filter' type='checkbox' name='dog_allowed' ></label>
+                <input class='map_filter' type='checkbox' name='dog_allowed' hidden></label>
 
                 <label class='dog_undefined_allowed'>
-                <input class='map_filter' type='checkbox' name='dog_undefined_allowed' ></label>
+                <input class='map_filter' type='checkbox' name='dog_undefined_allowed' hidden></label>
 
                 <label class='dog_not_allowed'>
-                <input class='map_filter'type='checkbox' name='dog_not_allowed' ></label><br><br>
+                <input class='map_filter'type='checkbox' name='dog_not_allowed' hidden></label><br><br>
 
-                <i class='fa fa-coffee fa-2x'>
-                  <input class='map_filter'type='checkbox' name='caffe' ></i>
-                <i class='fa fa-cutlery fa-2x'>
-                  <input class='map_filter'type='checkbox' name='restaurant' ></i>
-                <i class='fa fa-medkit fa-2x'>
-                  <input class='map_filter'type='checkbox' name='veterinary_care' ></i><br>
+                <label class='fa fa-coffee fa-2x'>
+                  <input class='map_filter'type='checkbox' name='caffe' hidden></label>
+                <label class='fa fa-cutlery fa-2x'>
+                  <input class='map_filter'type='checkbox' name='restaurant' hidden></label>
+                <label class='fa fa-medkit fa-2x'>
+                  <input class='map_filter'type='checkbox' name='veterinary_care' hidden></label><br>
 
 
                 </div>"
@@ -184,9 +184,17 @@ $ ->
       else
         $(@).prop('checked', true) #on init without cookie always checked
 
+      if $(@).prop('checked') is false
+        $(@).parent().css('opacity','0.1')
+      else
+        $(@).parent().css('opacity','1')
 
   $(document).on 'change', '#map_filters input.map_filter', (e) ->
-
+    console.log "------->", $(@).parent()
+    if $(@).prop('checked') is false
+      $(@).parent().css('opacity','0.1')
+    else
+      $(@).parent().css('opacity','1')
     $.cookie($(@).attr('name'), $(@).prop('checked'), {path: '/map', expires: 1})
     check_cookies()
     filterSpots()
@@ -221,6 +229,8 @@ $ ->
       $("#map_canvas").gmap "addMarker",
         position: clientPosition
         bounds: true
+        dogs_allowed: ['lapka']
+        spot_type: ['lapka']
         icon:
           url: STATIC_URL + 'lapka_icon.png',
           size: new google.maps.Size(50,50)

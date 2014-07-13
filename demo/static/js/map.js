@@ -71,7 +71,7 @@
 
   filterSpots = function() {
     var filtered_allowance, filtered_types, k, v;
-    filtered_allowance = [];
+    filtered_allowance = ['lapka'];
     if (filters_allowance["dog_not_allowed"] === true) {
       filtered_allowance.push(false);
     }
@@ -81,7 +81,7 @@
     if (filters_allowance["dog_undefined_allowed"] === true) {
       filtered_allowance.push('dog_undefined_allowed');
     }
-    filtered_types = [];
+    filtered_types = ['lapka'];
     for (k in filters_types) {
       v = filters_types[k];
       if (v === true) {
@@ -165,10 +165,9 @@
     spinner = new Spinner(opts).spin(target);
     $("#map_filters_button").popover({
       trigger: "click",
-      placement: "left",
       html: true,
       title: "Setup your filters:",
-      content: "<div id='map_filters'><label class='dog_allowed'> <input class='map_filter' type='checkbox' name='dog_allowed' ></label> <label class='dog_undefined_allowed'> <input class='map_filter' type='checkbox' name='dog_undefined_allowed' ></label> <label class='dog_not_allowed'> <input class='map_filter'type='checkbox' name='dog_not_allowed' ></label><br><br> <i class='fa fa-coffee fa-2x'> <input class='map_filter'type='checkbox' name='caffe' ></i> <i class='fa fa-cutlery fa-2x'> <input class='map_filter'type='checkbox' name='restaurant' ></i> <i class='fa fa-medkit fa-2x'> <input class='map_filter'type='checkbox' name='veterinary_care' ></i><br> </div>"
+      content: "<div id='map_filters'><label class='dog_allowed'> <input class='map_filter' type='checkbox' name='dog_allowed' hidden></label> <label class='dog_undefined_allowed'> <input class='map_filter' type='checkbox' name='dog_undefined_allowed' hidden></label> <label class='dog_not_allowed'> <input class='map_filter'type='checkbox' name='dog_not_allowed' hidden></label><br><br> <label class='fa fa-coffee fa-2x'> <input class='map_filter'type='checkbox' name='caffe' hidden></label> <label class='fa fa-cutlery fa-2x'> <input class='map_filter'type='checkbox' name='restaurant' hidden></label> <label class='fa fa-medkit fa-2x'> <input class='map_filter'type='checkbox' name='veterinary_care' hidden></label><br> </div>"
     });
     $(document).on('click', '#map_filters_button', function(e) {
       return $("#map_filters input.map_filter").each(function() {
@@ -176,14 +175,25 @@
         ciacho = $.cookie($(this).attr('name'));
         if (ciacho) {
           if (ciacho === "true") {
-            return $(this).prop('checked', ciacho);
+            $(this).prop('checked', ciacho);
           }
         } else {
-          return $(this).prop('checked', true);
+          $(this).prop('checked', true);
+        }
+        if ($(this).prop('checked') === false) {
+          return $(this).parent().css('opacity', '0.1');
+        } else {
+          return $(this).parent().css('opacity', '1');
         }
       });
     });
     $(document).on('change', '#map_filters input.map_filter', function(e) {
+      console.log("------->", $(this).parent());
+      if ($(this).prop('checked') === false) {
+        $(this).parent().css('opacity', '0.1');
+      } else {
+        $(this).parent().css('opacity', '1');
+      }
       $.cookie($(this).attr('name'), $(this).prop('checked'), {
         path: '/map',
         expires: 1
@@ -206,6 +216,8 @@
         $("#map_canvas").gmap("addMarker", {
           position: clientPosition,
           bounds: true,
+          dogs_allowed: ['lapka'],
+          spot_type: ['lapka'],
           icon: {
             url: STATIC_URL + 'lapka_icon.png',
             size: new google.maps.Size(50, 50)
