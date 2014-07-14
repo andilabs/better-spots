@@ -45,6 +45,8 @@ from demo.models import DogspotUser, Dog, EmailVerification
 from django import template
 from django.utils import timezone
 
+from models import Spot
+
 register = template.Library()
 
 
@@ -119,10 +121,11 @@ def about(request):
         return response
 
 
-def certificate(request):
+def certificate(request, pk):
+    spot = Spot.objects.get(pk=pk)
     if request.method == 'GET':
-        response = TemplateResponse(request, 'certificate.html', {})
-        return response
+        return render(request, 'certificate.html', {'spot': spot})
+
 
 
 def mylogin(request):
@@ -221,7 +224,7 @@ class DogCreate(CreateView):
 
 def produce_vcard_qr_code(request):
     dane = """BEGIN:VCARD\r\nN:Kostanski;Andrzej;;;\r\nEMAIL;type=INTERNET;type=HOME;type=pref:andrzej.kostanski@gmail.com\r\nTEL;type=HOME;type=VOICE;type=pref:508788987\r\nitem1.URL;type=pref:https://www.linkedin.com/in/andrzejkostanski\r\nEND:VCARD\r\n"""
-
+    #dane = "http://dogspot.eu/s/1"
 
     #mg = qrcode.make(dane, image_factory=PilImage)
 
@@ -235,6 +238,8 @@ def produce_vcard_qr_code(request):
     qr.make(fit=True)
 
     img = qr.make_image()
+
+    #    sklep.janki@ikea.com
 
     # output = StringIO.StringIO()
     # format = 'PNG'

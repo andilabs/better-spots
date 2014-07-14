@@ -217,7 +217,9 @@
       filterSpots();
       return checkIfEmpty();
     });
-    return $("#map_canvas").gmap().bind("init", function(evt, map) {
+    return $("#map_canvas").gmap({
+      'scrollwheel': false
+    }).bind("init", function(evt, map) {
       var options;
       options = {
         enableHighAccuracy: true,
@@ -287,6 +289,9 @@
           filterSpots();
           spinner.stop();
           $("#map_canvas").gmap("option", "zoom", 14);
+          $('#map_canvas').gmap({
+            'scrollwheel': false
+          });
           $("#map_canvas").animate({
             "opacity": "1.0"
           }, "slow");

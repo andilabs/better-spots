@@ -268,7 +268,7 @@ $ ->
 
 
 
-  $("#map_canvas").gmap().bind "init", (evt, map) ->
+  $("#map_canvas").gmap({'scrollwheel':false}).bind "init", (evt, map) ->
 
     options =
         enableHighAccuracy: true # boolean (default: false)
@@ -374,8 +374,13 @@ $ ->
         filterSpots()
         spinner.stop()
         $("#map_canvas").gmap "option", "zoom", 14
+        $('#map_canvas').gmap({'scrollwheel':false})
+  #       $("#map_extended").gMap({
+  # controls: false,
+  # scrollwheel: true,
         $("#map_canvas").animate({"opacity": "1.0"}, "slow")
         $("#filters_map_overlay").animate({"opacity": "1.0"}, "slow")
+
         checkIfEmpty()
 
 $("#spots_list").on "click", "span.list-group-item:not(#memo_empty)", (evt) ->
