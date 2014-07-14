@@ -34,6 +34,17 @@
     z-index: 10;
     opacity: 0.0;
 }
+
+.add_dog_shape {
+    cursor: pointer;
+    display: block;
+    float: left;
+    z-index: 1;
+    position: absolute; /*newly added*/
+    top: 75px;
+    left: 215px;
+}
+
 .mar-r-5 {
   margin-right: 5px;
 }
@@ -101,6 +112,12 @@ overflow: hidden !important;
         color:black;
         font-size: 24px;
       }
+h2 {
+  font-family: 'Gloria Hallelujah', serif;
+}
+   .hallujah {
+      font-family: 'Gloria Hallelujah', serif;
+    }
    #pacifico {
       font-family: 'Pacifico', serif;
       color:#333;

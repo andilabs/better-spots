@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Pacifico">
   <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lobster">
   <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Fjalla+One' >
-
+  <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' >
   <!-- bootstrap3 for django https://github.com/dyve/django-bootstrap3 -->
   {% load bootstrap3 %}
   <link href="{{ STATIC_URL }}css/fontello.css" rel="stylesheet">
@@ -84,30 +84,30 @@
             </li>
 
             <li>
-              <a href="/dogs/create">Create</a>
+              <a href="/dogs/create" class="hallujah">Create</a>
             </li>
 
             <li>
-              <a href="/contact">Contact</a>
+              <a href="/contact" class="hallujah">Contact</a>
             </li>
 
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <a href="#" class="dropdown-toggle hallujah" data-toggle="dropdown">
                 {% if user.is_authenticated %}
                   {{user.email}}
                 {% else %}
-                  Login/Register
+                  Login / Register
                 {% endif %}
                 <b class="caret"></b>
               </a>
               <ul class="dropdown-menu">
                 {% if user.is_authenticated %}
-                    <li><a href="#">Edit profile</a></li>
+                    <li><a href="#" class="hallujah">Edit profile</a></li>
                     <li class="divider"></li>
-                    <li><a href="/user/logout">Log me out!</a></li>
+                    <li><a href="/user/logout" class="hallujah">Log me out!</a></li>
                 {% else %}
-                  <li><a href="/user/create">Register</a></li>
-                  <li><a href="/user/login">Login</a></li>
+                  <li><a href="/user/create" class="hallujah">Register</a></li>
+                  <li><a href="/user/login" class="hallujah">Login</a></li>
                 {% endif %}
               </ul>
             </li>

@@ -168,6 +168,7 @@
       $('#right_container').removeClass('col-xs-12 col-sm-3');
       $('#right_container').addClass('col-xs-12 col-sm-9 no-col-padding');
       $("#spots_list").show();
+      $("#map_canvas").gmap("option", "zoom", 14);
       return $('#map_canvas').gmap('refresh');
     });
     $(document).on('click', 'a.spot-details-link', function(e) {
@@ -175,11 +176,12 @@
       e.preventDefault();
       link = $(this).attr('href');
       return $("#spots_list").hide(function() {
-        $('#left_container').append("<div class='list-group'  id='spot_detail'> <span class='list-group-item disabled' id='spot_detail_icons'> <i class='fa fa-list' id='back_to_list'></i></span> <span class='list-group-item disabled' id='spot_detail_content'> <h4 class='list-group-item-heading'>Spot name</h4> <p class='list-group-item-text'> " + link + " </p></span> </div>");
+        $('#left_container').append("<div class='list-group'  id='spot_detail'> <span class='list-group-item disabled' id='spot_detail_icons'> <i class='fa fa-list fa-2x' id='back_to_list'></i></span> <span class='list-group-item disabled' id='spot_detail_content'> <h4 class='list-group-item-heading'>Spot name</h4> <p class='list-group-item-text'> " + link + " </p></span> </div>");
         $('#left_container').removeClass('col-xs-12 col-sm-3');
         $('#left_container').addClass('col-xs-12 col-sm-9 no-col-padding');
         $('#right_container').removeClass('col-xs-12 col-sm-9 no-col-padding');
         $('#right_container').addClass('col-xs-12 col-sm-3');
+        $("#map_canvas").gmap("option", "zoom", 17);
         return $('#map_canvas').gmap('refresh');
       });
     });
@@ -284,7 +286,7 @@
           });
           filterSpots();
           spinner.stop();
-          $("#map_canvas").gmap("option", "zoom", 15);
+          $("#map_canvas").gmap("option", "zoom", 14);
           $("#map_canvas").animate({
             "opacity": "1.0"
           }, "slow");
