@@ -13,8 +13,6 @@ opts =
   hwaccel: false
   className: "spinner"
   zIndex: 2e9
-  top: "300%"
-  left: "50%"
 
 
 spot_type_lookup =
@@ -75,6 +73,7 @@ checkIfEmpty = ->
   else
 
     $("span#memo_empty").remove()
+
   $("#spots_list span.list-group-item:visible:not(:last-child)")
     # .css('margin-bottom','0')
     # .css('margin-top', '0')
@@ -133,27 +132,31 @@ filterSpots = ->
 
   $('#map_canvas').gmap 'find', 'markers', { 'property': 'dogs_allowed', 'value': filtered_allowance}, (marker, found) ->
     marker.setVisible(found)
-    #if marker.visible is false
-      # iw = arrMarkers[marker.id].info_window
-      # iwo =  $('#map_canvas').gmap('get',iw)
-      # console.log iw
+    # if marker.visible is false
+    #   console.log marker
+    #   console.log arrMarkers[marker.id]
+    #   iw = arrMarkers[marker.id].info_window
+    #   #iwo =  $('#map_canvas').gmap('get',iw)
+    #   console.log iw
       # iwo.close()
       #Iw = arrMarkers[marker.id].info_window
       # console.log "closing---->", arrMarkers[marker.id].info_window.content
       # $('#map_canvas').gmap('get','iw', arrMarkers[marker.id].info_window).close()
       #console.log iwo
       #iwo.close()
-    hideAllInfoWindows()
 
+    # it will be cool to NOT hide open window if its marker matches filter ^^
+    #hideAllInfoWindows()
+    $('#map_canvas').gmap('refresh')
 
 
 
   $('#map_canvas').gmap 'find', 'markers', { 'property': 'spot_type', 'value': filtered_types }, (marker, found) ->
+
     if marker.visible isnt false
       marker.setVisible(found)
 
     hideAllInfoWindows()
-
 
 
   $("#spots_list span.list-group-item").not("#memo_empty").each ->
@@ -164,16 +167,29 @@ filterSpots = ->
         $(@).show()
 
 
+switchColumsClasses = (left, right) ->
+
+      $(left)
+        .removeClass 'col-xs-12 col-sm-3'
+        .addClass 'col-xs-12 col-sm-9 no-col-padding'
+
+      $(right)
+        .removeClass 'col-xs-12 col-sm-9 no-col-padding'
+        .addClass 'col-xs-12 col-sm-3'
+
+
 $ ->
+
+  filtersFireButton = null
 
   check_cookies()
 
-  target = document.getElementById("spots_list")
+  target = document.getElementById("right_container")
   spinner = new Spinner(opts).spin(target)
 
   $('body').on 'click', (e) ->
     if $(e.target).parents("#filters_map_overlay").length is 0
-      $('#map_filters_button').popover('hide')
+      $('#map_filters_button').popover 'hide'
 
 
   $("#map_filters_button")
@@ -193,25 +209,30 @@ $ ->
                   <input class='map_filter'type='checkbox' name='caffe' hidden></label>
                 <label class='fa fa-cutlery fa-2x mar-r-5' title='Food'>
                   <input class='map_filter'type='checkbox' name='restaurant' hidden></label>
+                <label class='fa fa-glass fa-2x mar-r-5 title='pub'>
+                  <input class='map_filter'type='checkbox' name='pub' hidden></label>
                 <label class='fa fa-medkit fa-2x mar-r-5' title='Vet'>
                   <input class='map_filter'type='checkbox' name='veterinary_care' hidden></label><br>
                 </div>"
 
   $(document).on 'click', '#back_to_list', (e) ->
+
     $("#spot_detail").remove()
-    $('#left_container').removeClass('col-xs-12 col-sm-9 no-col-padding')
-    $('#left_container').addClass('col-xs-12 col-sm-3')
-    $('#right_container').removeClass('col-xs-12 col-sm-3')
-    $('#right_container').addClass('col-xs-12 col-sm-9 no-col-padding')
+
+    switchColumsClasses('#right_container', '#left_container')
+
+    filtersFireButton.appendTo("#right_container")
+
     $("#spots_list").show()
     $("#map_canvas").gmap "option", "zoom", 14
-    $('#map_canvas').gmap('refresh')
+    $('#map_canvas').gmap 'refresh'
 
 
   $(document).on 'click', 'a.spot-details-link', (e) ->
     e.preventDefault()
     link = $(@).attr('href')
-
+    # console.log $(@).hasClass('disabled')
+    # if not $(@).hasClass('disabled')
     $("#spots_list").hide ->
       $('#left_container')
         .append "<div class='list-group'  id='spot_detail'>
@@ -223,15 +244,15 @@ $ ->
           #{link}
           </p></span>
           </div>"
-      $('#left_container').removeClass('col-xs-12 col-sm-3')
-      $('#left_container').addClass('col-xs-12 col-sm-9 no-col-padding')
-      $('#right_container').removeClass('col-xs-12 col-sm-9 no-col-padding')
-      $('#right_container').addClass('col-xs-12 col-sm-3')
-      $("#map_canvas").gmap "option", "zoom", 17
-      $('#map_canvas').gmap('refresh')
 
-      #$("#map_canvas").gmap("get", "map").panTo arrMarkers[4].marker.getPosition()
-      #$("#map_canvas").gmap("get", "map").panTo arrMarkers[4].marker.getPosition()
+
+      filtersFireButton = $("#filters_map_overlay").detach()
+
+      switchColumsClasses('#left_container', '#right_container')
+
+      $("#map_canvas").gmap "option", "zoom", 17
+      $('#map_canvas').gmap "refresh"
+
 
   $(document).on 'click', '#map_filters_button', (e) ->
 
@@ -251,21 +272,20 @@ $ ->
       else
         $(@).parent().css('opacity','1')
 
-  $(document).on 'change', '#map_filters input.map_filter', (e) ->
+
+  $(document).on "change", "#map_filters input.map_filter", (e) ->
 
     if $(@).prop('checked') is false
       $(@).parent().css('opacity','0.2')
 
     else
-
       $(@).parent().css('opacity','1')
 
-    
     $.cookie($(@).attr('name'), $(@).prop('checked'), {path: '/map', expires: 1})
+
     check_cookies()
     filterSpots()
     checkIfEmpty()
-
 
 
   $("#map_canvas").gmap({'scrollwheel':false}).bind "init", (evt, map) ->
@@ -302,7 +322,7 @@ $ ->
 
           box = $("<span class='list-group-item' id='#{marker.id}'>
                 <span class='badge' style='background-color:transparent'>
-                <a href='/spots/#{marker.id}' class='spot-details-link' style='color:white'>
+                <a href='/spots/#{marker.id}' class='spot-details-link disabled' style='color:white'>
                 <i class='fa fa-angle-double-right fa-2x'></i></a></span>
                 <h4 class='list-group-item-heading'>#{marker.name}</h4>
                 <p class='list-group-item-text'>#{marker.address_street}
@@ -374,20 +394,20 @@ $ ->
         filterSpots()
         spinner.stop()
         $("#map_canvas").gmap "option", "zoom", 14
-        $('#map_canvas').gmap({'scrollwheel':false})
-  #       $("#map_extended").gMap({
-  # controls: false,
-  # scrollwheel: true,
+
         $("#map_canvas").animate({"opacity": "1.0"}, "slow")
         $("#filters_map_overlay").animate({"opacity": "1.0"}, "slow")
 
         checkIfEmpty()
+
 
 $("#spots_list").on "click", "span.list-group-item:not(#memo_empty)", (evt) ->
 
   id = $(@).attr("id")
   $("#spots_list span").not("##{id}").removeClass "active"
   $("#spots_list").find("##{id}").addClass "active"
+  $("#spots_list").find("##{id}").find('a.spot-details-link').removeClass('disabled')
+
 
   $("#map_canvas").gmap "openInfoWindow", arrMarkers[id].info_window, arrMarkers[id].marker
   $("#map_canvas").gmap("get", "map").panTo arrMarkers[id].marker.getPosition()
