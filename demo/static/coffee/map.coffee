@@ -42,6 +42,7 @@ filters_types =
 
 
 check_cookies = ->
+
   for k,v of filters_allowance
     if $.cookie(k)
       filters_allowance[k] = eval($.cookie(k))
@@ -50,13 +51,6 @@ check_cookies = ->
     if $.cookie(k)
       filters_types[k] = eval($.cookie(k))
 
-
-# successFunction = (position) ->
-#   lat = position.coords.latitude
-#   long = position.coords.longitude
-#   $.cookie('dogspot_user_lat',lat, {path: '/', expires: 1})
-#   $.cookie('dogspot_user_long', long, {path: '/', expires: 1})
-#   clientPosition = new google.maps.LatLng(lat,long)
 
 checkIfEmpty = ->
 
@@ -87,28 +81,14 @@ checkIfEmpty = ->
       .css('border-bottom-right-radius', '4px')
       .css('border-bottom-left-radius', '4px')
 
-# errorFunction = (error) ->
-#   errors =
-#     1: 'Permission denied'
-#     2: 'Position unavailable'
-#     3: 'Request timeout'
-
-#   alert("Error: " + errors[error.code]);
-#   console.log "thats an error whwhwhahahah", errors[error]
-
-
-# updateGeo = ->
-
-#   if navigator.geolocation
-#     navigator.geolocation.getCurrentPosition(successFunction, errorFunction, { enableHighAccuracy: true, timeout: 3000, maximumAge: 0 })
-
-#   else
-#     alert('It seems like Geolocation is disabled')
 
 hideAllInfoWindows = ->
+
   $('#map_canvas').gmap('closeInfoWindow')
 
+
 filterSpots = ->
+
   filtered_allowance = ['lapka']
 
   if filters_allowance["dog_not_allowed"] is true
@@ -128,27 +108,9 @@ filterSpots = ->
       filtered_types.push k
 
 
-
-
   $('#map_canvas').gmap 'find', 'markers', { 'property': 'dogs_allowed', 'value': filtered_allowance}, (marker, found) ->
     marker.setVisible(found)
-    # if marker.visible is false
-    #   console.log marker
-    #   console.log arrMarkers[marker.id]
-    #   iw = arrMarkers[marker.id].info_window
-    #   #iwo =  $('#map_canvas').gmap('get',iw)
-    #   console.log iw
-      # iwo.close()
-      #Iw = arrMarkers[marker.id].info_window
-      # console.log "closing---->", arrMarkers[marker.id].info_window.content
-      # $('#map_canvas').gmap('get','iw', arrMarkers[marker.id].info_window).close()
-      #console.log iwo
-      #iwo.close()
-
-    # it will be cool to NOT hide open window if its marker matches filter ^^
-    #hideAllInfoWindows()
     $('#map_canvas').gmap('refresh')
-
 
 
   $('#map_canvas').gmap 'find', 'markers', { 'property': 'spot_type', 'value': filtered_types }, (marker, found) ->
@@ -161,8 +123,9 @@ filterSpots = ->
 
   $("#spots_list span.list-group-item").not("#memo_empty").each ->
 
-      if $(@).data("markerek").dogs_allowed not in filtered_allowance or spot_type_lookup[$(@).data("markerek").spot_type] not in [k for k,v of filters_types when v is true][0]# is false
+      if $(@).data("markerek").dogs_allowed not in filtered_allowance or spot_type_lookup[$(@).data("markerek").spot_type] not in [k for k,v of filters_types when v is true][0]
         $(@).hide()
+
       else
         $(@).show()
 
@@ -198,22 +161,9 @@ $ ->
       placement: "right"
       html: true
       title: "Setup your filters:"
-      content: "<div id='map_filters'>
-                <label class='dog_allowed' title='allowed ;-)'>
-                  <input class='map_filter' type='checkbox' name='dog_allowed' hidden></label>
-                <label class='dog_undefined_allowed' title='undefined :-?' >
-                  <input class='map_filter' type='checkbox' name='dog_undefined_allowed' hidden></label>
-                <label class='dog_not_allowed' ' title='NOT allowed :-('>
-                  <input class='map_filter'type='checkbox' name='dog_not_allowed' hidden></label><br><br>
-                <label class='fa fa-coffee fa-2x mar-r-5'' title='Coffee'>
-                  <input class='map_filter'type='checkbox' name='caffe' hidden></label>
-                <label class='fa fa-cutlery fa-2x mar-r-5' title='Food'>
-                  <input class='map_filter'type='checkbox' name='restaurant' hidden></label>
-                <label class='fa fa-glass fa-2x mar-r-5 title='pub'>
-                  <input class='map_filter'type='checkbox' name='pub' hidden></label>
-                <label class='fa fa-medkit fa-2x mar-r-5' title='Vet'>
-                  <input class='map_filter'type='checkbox' name='veterinary_care' hidden></label><br>
-                </div>"
+      content: $("#map_filters").load(STATIC_URL + "filters_popover.html")
+    .on 'click', (e) ->
+      $("#map_filters").css('display','block')
 
   $(document).on 'click', '#back_to_list', (e) ->
 
@@ -231,8 +181,7 @@ $ ->
   $(document).on 'click', 'a.spot-details-link', (e) ->
     e.preventDefault()
     link = $(@).attr('href')
-    # console.log $(@).hasClass('disabled')
-    # if not $(@).hasClass('disabled')
+
     $("#spots_list").hide ->
       $('#left_container')
         .append "<div class='list-group'  id='spot_detail'>
@@ -407,7 +356,6 @@ $("#spots_list").on "click", "span.list-group-item:not(#memo_empty)", (evt) ->
   $("#spots_list span").not("##{id}").removeClass "active"
   $("#spots_list").find("##{id}").addClass "active"
   $("#spots_list").find("##{id}").find('a.spot-details-link').removeClass('disabled')
-
 
   $("#map_canvas").gmap "openInfoWindow", arrMarkers[id].info_window, arrMarkers[id].marker
   $("#map_canvas").gmap("get", "map").panTo arrMarkers[id].marker.getPosition()

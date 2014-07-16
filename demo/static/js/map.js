@@ -163,7 +163,9 @@
       placement: "right",
       html: true,
       title: "Setup your filters:",
-      content: "<div id='map_filters'> <label class='dog_allowed' title='allowed ;-)'> <input class='map_filter' type='checkbox' name='dog_allowed' hidden></label> <label class='dog_undefined_allowed' title='undefined :-?' > <input class='map_filter' type='checkbox' name='dog_undefined_allowed' hidden></label> <label class='dog_not_allowed' ' title='NOT allowed :-('> <input class='map_filter'type='checkbox' name='dog_not_allowed' hidden></label><br><br> <label class='fa fa-coffee fa-2x mar-r-5'' title='Coffee'> <input class='map_filter'type='checkbox' name='caffe' hidden></label> <label class='fa fa-cutlery fa-2x mar-r-5' title='Food'> <input class='map_filter'type='checkbox' name='restaurant' hidden></label> <label class='fa fa-glass fa-2x mar-r-5 title='pub'> <input class='map_filter'type='checkbox' name='pub' hidden></label> <label class='fa fa-medkit fa-2x mar-r-5' title='Vet'> <input class='map_filter'type='checkbox' name='veterinary_care' hidden></label><br> </div>"
+      content: $("#map_filters").load(STATIC_URL + "filters_popover.html")
+    }).on('click', function(e) {
+      return $("#map_filters").css('display', 'block');
     });
     $(document).on('click', '#back_to_list', function(e) {
       $("#spot_detail").remove();
