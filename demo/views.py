@@ -41,7 +41,7 @@ from demo.models import (
 from django import template
 from django.utils import timezone
 from demo.serializers import (
-    SpotDetailSerializer, DogSerializer,
+    SpotDetailSerializer,
     SpotWithDistanceSerializer, SpotListSerializer, RaitingSerializer,
     OpinionSerializer, OpinionUsefulnessRatingSerializer)
 
@@ -300,11 +300,14 @@ class DogCreate(CreateView):
     success_url = '/dogs'
 
 
-def produce_vcard_qr_code(request):
-    dane = """BEGIN:VCARD\r\nN:Kostanski;Andrzej;;;\r\nEMAIL;type=INTERNET;type=HOME;type=pref:andrzej.kostanski@gmail.com\r\nTEL;type=HOME;type=VOICE;type=pref:508788987\r\nitem1.URL;type=pref:https://www.linkedin.com/in/andrzejkostanski\r\nEND:VCARD\r\n"""
-    #dane = "http://dogspot.eu/s/1"
+def produce_vcard_qr_code(request, pk):
 
-    #mg = qrcode.make(dane, image_factory=PilImage)
+    spot = Spot.objects.get(pk=pk)
+    dane = ("BEGIN:VCARD\r\nN:%s;;;;\r\n"
+            "EMAIL;type=INTERNET;type=HOME;type=pref:%s\r\n"
+            "TEL;type=HOME;type=VOICE;type=pref:%s\r\n"
+            "item1.URL;type=pref:%s\r\nEND:VCARD\r\n") % (
+        spot.name, "contact@mockup.com", spot.phone_number, "www.mockup.com")
 
     qr = qrcode.QRCode(
         version=1,
@@ -317,21 +320,10 @@ def produce_vcard_qr_code(request):
 
     img = qr.make_image()
 
-    #    sklep.janki@ikea.com
-
-    # output = StringIO.StringIO()
-    # format = 'PNG'
-    # img.save(output, 'PNG')
-
-    # contents = output.getvalue()
-    # output.close()
-
     response = HttpResponse(content_type="image/png")
     img.save(response, "png")
 
     return response
-    # with open('haha_picture_out.png', 'wb') as f:
-    #     f.write(contents)
 
 
 @csrf_exempt

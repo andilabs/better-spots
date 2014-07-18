@@ -10,26 +10,9 @@
 
 {% block content %}
 
-<!-- <div class="row">
-    <div class="col-xs-12 col-sm-3 col-sm-push-6" style="background-color:red; heigth:350px" >
-    A
-    </div>
+{{spot.dogs_allowed}} {{spot.friendly_rate}}
 
-    <div class="col-xs-12 col-sm-6 cols-sm-pull-3 no-col-padding">
-    <center>
-        <i class="fa fa-certificate" style="font-size:272px;color:#ffc738"></i>
-		<h1> Kulturalna </h1>
-		<h3> Warszawa, pl. Defilad 1</h3>
-		<span id="lobster" style="font-size:48px">is dog-friendly spot!<br>
-		4.9/5.0</span>
-	</center>
-    </div>
-
-    <div class="col-xs-12 col-sm-3" style="background-color:pink; heigth:350px">
-    C
-    </div>
-</div> -->
-{# {% if spot.dogs_allowed %} #}
+{% if spot.dogs_allowed and spot.friendly_rate > 4.5  %}
 <div class="row">
     <div class="col-sm-6 col-sm-push-3">
         <center>
@@ -48,11 +31,11 @@
       </div>
     </div>
     <div class="col-sm-3">
-    <img src="http://127.0.0.1:8000/qrcode/">
+    <img src="http://127.0.0.1:8000/qrcode/{{spot.id}}">
         download vCard
     </div>
 </div>
-{# {% endif %} #}
+{% endif %}
 {% endblock %}
 {% block scripts %}
   {{ block.super }}
