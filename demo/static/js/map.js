@@ -108,8 +108,7 @@
       'property': 'dogs_allowed',
       'value': filtered_allowance
     }, function(marker, found) {
-      marker.setVisible(found);
-      return $('#map_canvas').gmap('refresh');
+      return marker.setVisible(found);
     });
     $('#map_canvas').gmap('find', 'markers', {
       'property': 'spot_type',
@@ -148,7 +147,8 @@
   };
 
   $(function() {
-    var filtersFireButton, spinner, target;
+    var desiredRadius, filtersFireButton, spinner, target;
+    desiredRadius = 3000;
     filtersFireButton = null;
     check_cookies();
     target = document.getElementById("right_container");
@@ -243,7 +243,7 @@
             size: new google.maps.Size(50, 50)
           }
         });
-        url = STATIC_URL + "spots_mockup.json";
+        url = BASE_HOST + ("/nearby/" + (clientPosition.lat().toFixed(5)) + "/" + (clientPosition.lng().toFixed(5)) + "/" + desiredRadius);
         return jqxhr = $.getJSON(url, function(datax) {
           $.each(datax, function(i, marker) {
             var SpotIcon, SpotInfoWindow, SpotMarker, box, contentOfInfoWindow, icony_allowed, rating_stars;
@@ -311,6 +311,10 @@
     $("#spots_list").find("#" + id).find('a.spot-details-link').removeClass('disabled');
     $("#map_canvas").gmap("openInfoWindow", arrMarkers[id].info_window, arrMarkers[id].marker);
     return $("#map_canvas").gmap("get", "map").panTo(arrMarkers[id].marker.getPosition());
+  });
+
+  $($("#map_canvas").gmap("get", "map")).click(function(event) {
+    return console.log("clicked loc is---->", event.latLng);
   });
 
 }).call(this);

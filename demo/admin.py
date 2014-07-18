@@ -1,12 +1,46 @@
+from import_export.admin import ImportExportModelAdmin
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
-from demo.models import DogspotUser, Dog
+from demo.models import DogspotUser, Dog, Spot
 from django import forms
 import random
 import string
+from rest_framework import serializers
 from django.core.mail import EmailMessage
+
+from import_export import resources
+
+import urllib
+import json
+from django.utils.http import urlquote
+YOUR_API_KEY = "AIzaSyBj2VxTkcBPQ9yOXerWQUil-pzMuTaz4Ao"
+
+
+"""This method for given in parameter address makes request to Google Maps API, and returns latitude and longitude"""
+
+
+def geocode(addr):
+    url = "http://maps.googleapis.com/maps/api/geocode/json?address=%s&sensor=false" \
+          % (urlquote(addr.replace(' ', '+')))
+    print url
+    data = urllib.urlopen(url).read()
+    info = json.loads(data).get("results")[0].get("geometry").get("location")
+    #print info
+    #print "%2.5f,%2.5f" % (info['lat'],info['lng'])
+    return info
+
+
+class SpotSerializer(resources.ModelResource):
+
+    class Meta:
+        model = Spot
+        # fields = (
+        #     'id', 'url', 'name', 'latitude', 'longitude', 'address_street',
+        #     'address_number', 'address_city', 'address_country', 'spot_type',
+        #     'is_accepted', 'friendly_rate', 'dogs_allowed', 'phone_number'
+        #     )
 
 
 class UserCreationForm(forms.ModelForm):
@@ -131,5 +165,14 @@ class DogspotUserAdmin(UserAdmin):
 class DogAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
+
+class SpotAdmin(ImportExportModelAdmin):
+    resource_class = SpotSerializer
+
+    list_display = ['name', 'address_street', 'address_number', 'address_city', 'address_country',  'spot_type', 'is_accepted', 'friendly_rate', 'latitude', 'longitude']
+
+
+
 admin.site.register(Dog, DogAdmin)
 admin.site.register(DogspotUser, DogspotUserAdmin)
+admin.site.register(Spot, SpotAdmin)

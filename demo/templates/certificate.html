@@ -29,6 +29,7 @@
     C
     </div>
 </div> -->
+{# {% if spot.dogs_allowed %} #}
 <div class="row">
     <div class="col-sm-6 col-sm-push-3">
         <center>
@@ -36,15 +37,14 @@
         <img class="add_dog_shape" src="{{STATIC_URL}}/logotyp/dog_shape.png">
         </div>
 
-		<h1> Kulturalna </h1>
-		<h3> Warszawa, pl. Defilad 1</h3>
+		<h1> {{spot.name}} </h1>
+		<h3> {{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}</h3>
 		<span id="lobster" style="font-size:48px">is dog-friendly spot!<br>
-		4.9/5.0</span>
+		{{spot.friendly_rate|floatformat:1}}/5.0</span>
 	</center>
     </div>
     <div class="col-sm-3 col-sm-pull-6">
-    {{ spot.latitude }}, {{ spot.longitude }}
-      <div id="map_canvas_spot_detail" style="height:260px" >
+    <div id="map_canvas_spot_detail" style="height:260px" >
       </div>
     </div>
     <div class="col-sm-3">
@@ -52,7 +52,7 @@
         download vCard
     </div>
 </div>
-
+{# {% endif %} #}
 {% endblock %}
 {% block scripts %}
   {{ block.super }}

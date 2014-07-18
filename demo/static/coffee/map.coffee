@@ -109,8 +109,9 @@ filterSpots = ->
 
 
   $('#map_canvas').gmap 'find', 'markers', { 'property': 'dogs_allowed', 'value': filtered_allowance}, (marker, found) ->
+
     marker.setVisible(found)
-    $('#map_canvas').gmap('refresh')
+
 
 
   $('#map_canvas').gmap 'find', 'markers', { 'property': 'spot_type', 'value': filtered_types }, (marker, found) ->
@@ -123,10 +124,13 @@ filterSpots = ->
 
   $("#spots_list span.list-group-item").not("#memo_empty").each ->
 
-      if $(@).data("markerek").dogs_allowed not in filtered_allowance or spot_type_lookup[$(@).data("markerek").spot_type] not in [k for k,v of filters_types when v is true][0]
+      if $(@).data("markerek").dogs_allowed not in filtered_allowance or
+      spot_type_lookup[$(@).data("markerek").spot_type] not in [k for k,v of filters_types when v is true][0]
+
         $(@).hide()
 
       else
+
         $(@).show()
 
 
@@ -143,6 +147,8 @@ switchColumsClasses = (left, right) ->
 
 $ ->
 
+  desiredRadius = 3000
+
   filtersFireButton = null
 
   check_cookies()
@@ -156,14 +162,17 @@ $ ->
 
 
   $("#map_filters_button")
+
     .popover
       trigger: "click"
       placement: "right"
       html: true
       title: "Setup your filters:"
       content: $("#map_filters").load(STATIC_URL + "filters_popover.html")
+
     .on 'click', (e) ->
       $("#map_filters").css('display','block')
+
 
   $(document).on 'click', '#back_to_list', (e) ->
 
@@ -237,6 +246,7 @@ $ ->
     checkIfEmpty()
 
 
+  # here the map is initialized
   $("#map_canvas").gmap({'scrollwheel':false}).bind "init", (evt, map) ->
 
     options =
@@ -244,14 +254,17 @@ $ ->
         timeout: 10000 #  in milliseconds (default: no limit)
         maximumAge: 10000000 #  in milliseconds (default: 0)
 
+
+    # here we get current geo-position of user
     $("#map_canvas").gmap "getCurrentPosition", (position, status, options) ->
+
       if status is "OK"
         clientPosition = new google.maps.LatLng(
           position.coords.latitude,
           position.coords.longitude
         )
 
-
+      # here we set icon showing user current location
       $("#map_canvas").gmap "addMarker",
         position: clientPosition
         bounds: true
@@ -261,14 +274,10 @@ $ ->
           url: STATIC_URL + 'lapka_icon.png',
           size: new google.maps.Size(50,50)
 
-
-
-      url = STATIC_URL + "spots_mockup.json"
-
+      # here we prepare url and make call for markers
+      url = BASE_HOST + "/nearby/#{clientPosition.lat().toFixed(5)}/#{clientPosition.lng().toFixed(5)}/#{desiredRadius}"
       jqxhr = $.getJSON url, (datax) ->
-
         $.each datax, (i, marker) ->
-
           box = $("<span class='list-group-item' id='#{marker.id}'>
                 <span class='badge' style='background-color:transparent'>
                 <a href='/spots/#{marker.id}' class='spot-details-link disabled' style='color:white'>
@@ -285,7 +294,6 @@ $ ->
 
           $("#spots_list").append box
 
-
           rating_stars = $("<div class='rate'></div>")
               .raty
                 readOnly: true
@@ -295,8 +303,6 @@ $ ->
                                   <h4>#{marker.name}</h4><br>
                                   #{marker.address_street} #{marker.address_number}</div>")
               .append(rating_stars)[0]
-
-
 
           marker.dogs_allowed = "dog_undefined_allowed"  if marker.is_accepted is false
 
@@ -338,8 +344,6 @@ $ ->
 
             $("#spots_list").scrollTop( $("#spots_list").scrollTop() + $("#spots_list").find("##{id}").position().top)
 
-
-
         filterSpots()
         spinner.stop()
         $("#map_canvas").gmap "option", "zoom", 14
@@ -360,5 +364,6 @@ $("#spots_list").on "click", "span.list-group-item:not(#memo_empty)", (evt) ->
   $("#map_canvas").gmap "openInfoWindow", arrMarkers[id].info_window, arrMarkers[id].marker
   $("#map_canvas").gmap("get", "map").panTo arrMarkers[id].marker.getPosition()
 
-
+$($("#map_canvas").gmap("get", "map")).click (event) ->
+  console.log "clicked loc is---->", event.latLng
 

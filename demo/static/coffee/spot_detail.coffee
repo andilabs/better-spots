@@ -4,7 +4,7 @@
 $ ->
 
 
-   $("#map_canvas_spot_detail").gmap().bind "init", (evt, map) ->
+   $("#map_canvas_spot_detail").gmap({'scrollwheel':false}).bind "init", (evt, map) ->
 
     $("#map_canvas_spot_detail").gmap "addMarker",
       position: new google.maps.LatLng(

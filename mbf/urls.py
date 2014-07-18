@@ -5,10 +5,23 @@ from django.conf import settings
 from django.views.generic import RedirectView
 from django.contrib import admin
 from demo.views import DogCreate, ContactView, DogspotUserCreate
+from rest_framework import routers#,viewsets
+from demo import views
+from rest_framework.urlpatterns import format_suffix_patterns
+
 admin.autodiscover()
+
+# router = routers.DefaultRouter()
+# router.register(r'spots/$', views.SpotViewSet)
+
 
 urlpatterns = patterns(
     '',
+    # url(r'^api/', include(router.urls)),
+    # url(r'^book/$',  BookList.as_view(), name='book-list'),
+    # url(r'^book/(?P<pk>\d+)/$', BookDetail.as_view(), name='book-detail'),
+    url(r'spots/$', views.SpotList.as_view(), name="spot-list"),
+    url(r'spots/(?P<pk>\d+)/$', views.SpotDetail.as_view(), name="spot-detail"),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'demo.views.dogs', name='glowna'),
     url(r'^contact/$', ContactView.as_view(), name='contact'),
@@ -28,5 +41,8 @@ urlpatterns = patterns(
         'demo.views.mail_verification'),
     url(r'^auth_ex', 'demo.views.auth_ex'),
     url(r'^vcard', 'demo.views.vcard'),
+    url(r'^nearby/(?P<lat>-?\d{2,3}.\d{5})/(?P<lng>-?\d{2,3}.\d{5})?/$', 'demo.views.nearby_spots'),
+    url(r'^nearby/(?P<lat>-?\d{2,3}.\d{5})/(?P<lng>-?\d{2,3}.\d{5})/(?P<radius>\d*)$', 'demo.views.nearby_spots'),
     url(r'^favicon\.ico$', RedirectView.as_view(url=settings.STATIC_URL + 'favicon.ico')),
 )
+urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])

@@ -44,15 +44,76 @@ from demo.forms import (
 from demo.models import DogspotUser, Dog, EmailVerification
 from django import template
 from django.utils import timezone
-
+from demo.serializers import GroupSerializer, SpotDetailSerializer, DogSerializer, SpotWithDistanceSerializer, SpotListSerializer
+from rest_framework.renderers import JSONRenderer
 from models import Spot
-
+from django.core import serializers
+from rest_framework import viewsets
+# assuming obj is a model instance
+from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
+from rest_framework import generics
 register = template.Library()
 
 
-# @register.filter
-# def in_category(things, category):
-#     return things.filter(category=category)
+# class BookList(generics.ListCreateAPIView):
+#     serializer_class = BookSerializer
+#     def get_queryset(self):
+#         queryset = Book.objects.filter(user=self.request.user)
+#         return queryset.order_by('-id')
+
+# class BookDetail(generics.RetrieveUpdateDestroyAPIView):
+#     model = Book
+#     serializer_class = BookSerializer
+
+
+class SpotList(generics.ListCreateAPIView):
+    serializer_class = SpotListSerializer
+
+    def get_queryset(self):
+        queryset = Spot.objects.all()
+        return queryset
+
+
+class SpotDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Spot
+    serializer = SpotDetailSerializer
+    # def list(self, request):
+    #     queryset = Spot.objects.all()
+    #     serializer = SpotListSerializer(queryset)
+    #     return Response(serializer.data)
+
+    # def detail(self, request, pk=None):
+    #     queryset = Spot.objects.all()
+    #     spot = get_object_or_404(queryset, pk=pk)
+    #     serializer = SpotDetailSerializer(spot)
+    #     return Response(serializer.data)
+
+
+class JSONResponse(HttpResponse):
+    """
+    An HttpResponse that renders its content into JSON.
+    """
+    def __init__(self, data, **kwargs):
+        content = JSONRenderer().render(data)
+        kwargs['content_type'] = 'application/json'
+        super(JSONResponse, self).__init__(content, **kwargs)
+
+
+def nearby_spots(request, lat, lng, radius=5000):
+    radius = float(radius) / 1000.0
+    # lo="HELLO NEARBY"+str(lat)+","+str(lng)
+    # return HttpResponse(lo, status=200)
+
+    #kwerenda= '''Select v.id from spots_spot AS v INNER JOIN (SELECT id, (6367*acos(cos(radians(%2f))*cos(radians(latitude))*cos(radians(longitude)-radians(%2f))+sin(radians(%2f))*sin(radians(latitude)))) AS distance FROM spots_spot HAVING distance < %d ORDER BY distance LIMIT 0, 20) as v2 ON v.id = v2.id''' % (float(lat),float(lng),float(lat),radius)
+    kwerenda = '''SELECT id, (6367*acos(cos(radians(%2f))*cos(radians(latitude))*cos(radians(longitude)-radians(%2f))+sin(radians(%2f))*sin(radians(latitude)))) AS distance FROM demo_spot HAVING distance < %d ORDER BY distance LIMIT 0, 20''' % (float(lat),float(lng),float(lat),radius)
+
+    queryset = Spot.objects.raw(kwerenda)
+    # q2 = [Spot(x) for x in queryset]
+    # serialized_obj = serializers.serialize('json', q2)
+    serializer = SpotWithDistanceSerializer(queryset, many=True)
+    return JSONResponse(serializer.data)
+    # return HttpResponse(json.dumps(serialized_obj),  content_type="application/json")
 
 
 def mail_verification(request, verification_key):
