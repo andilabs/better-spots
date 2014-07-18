@@ -27,6 +27,8 @@ spot_type_lookup =
   9: "veterinary care"# google type: veterinary_care
   0: "hotel"
 
+my_map = null
+
 arrMarkers = {}
 
 filters_allowance =
@@ -145,7 +147,10 @@ switchColumsClasses = (left, right) ->
         .addClass 'col-xs-12 col-sm-3'
 
 
+
 $ ->
+
+
 
   desiredRadius = 3000
 
@@ -352,6 +357,18 @@ $ ->
         $("#filters_map_overlay").animate({"opacity": "1.0"}, "slow")
 
         checkIfEmpty()
+        # myOptions =
+        #   zoom: 8
+        #   center: clientPosition
+        #   mapTypeId: google.maps.MapTypeId.ROADMAP
+
+        # my_map = new google.maps.Map($("#map_canvas")[0], myOptions)
+        # # console.log my_map
+
+        # $($("#map_canvas").gmap("get", "map")).click (event) ->
+        #   console.log "clicked loc is---->", event.latLng
+        #   valMap = my_map.getCenter()
+        #   console.log(valMap)
 
 
 $("#spots_list").on "click", "span.list-group-item:not(#memo_empty)", (evt) ->
@@ -363,7 +380,4 @@ $("#spots_list").on "click", "span.list-group-item:not(#memo_empty)", (evt) ->
 
   $("#map_canvas").gmap "openInfoWindow", arrMarkers[id].info_window, arrMarkers[id].marker
   $("#map_canvas").gmap("get", "map").panTo arrMarkers[id].marker.getPosition()
-
-$($("#map_canvas").gmap("get", "map")).click (event) ->
-  console.log "clicked loc is---->", event.latLng
 

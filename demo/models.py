@@ -162,6 +162,11 @@ class Spot(models.Model):
         else:
             return False
 
+    @property
+    def raitings(self):
+        return Raiting.objects.filter(spot_id=self.id)
+
+
     def __unicode__(self):
         return self.name
 
@@ -186,26 +191,37 @@ class Raiting(models.Model):
     dogs_allowed = models.BooleanField(choices=DOGS_ALLOWED)
     friendly_rate = models.PositiveIntegerField(choices=LIKERT)
 
+    @property
+    def opinion(self):
+        opinion = Opinion.objects.filter(raiting=self)
+        if opinion:
+            return opinion
+        else:
+            return None
     def __unicode__(self):
         return "%s %s by: %s rate: %2.f" % (
             self.spot.name,
             DOGS_ALLOWED[self.dogs_allowed][1],
-            self.user.nick,
+            self.user.email,
             self.friendly_rate
             )
 
 
 class Opinion(models.Model):
-    raiting = models.ForeignKey(Raiting)
+    raiting = models.OneToOneField(Raiting, primary_key=True)
     opinion_text = models.CharField(max_length=500)
 
     def __unicode__(self):
         return self.opinion_text
 
+    @property
+    def opinion_usefulnes_raitings(self):
+        return OpinionUsefulnessRating.objects.filter(opinion=self)
+
 
 VOTE = (
-    (-1, 'Upvote'),
-    (1, 'Downvote'),
+    (1, 'Upvote'),
+    (-1, 'Downvote'),
 )
 
 

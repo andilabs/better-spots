@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
-from demo.models import DogspotUser, Dog, Spot
+from demo.models import DogspotUser, Dog, Spot, Raiting, Opinion, OpinionUsefulnessRating
 from django import forms
 import random
 import string
@@ -176,3 +176,6 @@ class SpotAdmin(ImportExportModelAdmin):
 admin.site.register(Dog, DogAdmin)
 admin.site.register(DogspotUser, DogspotUserAdmin)
 admin.site.register(Spot, SpotAdmin)
+admin.site.register(Raiting)
+admin.site.register(Opinion)
+admin.site.register(OpinionUsefulnessRating)

@@ -5,15 +5,12 @@ import base64
 import quopri
 import vobject
 import qrcode
-import StringIO
 
-from qrcode.image.pil import PilImage
 from datetime import datetime, timedelta
 
 from django.http import QueryDict
 from django.http import HttpResponse
 from django.conf import settings
-# from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
@@ -32,19 +29,22 @@ from rest_framework.decorators import authentication_classes
 from rest_framework.decorators import permission_classes
 from rest_framework.authtoken.models import Token
 
- 
-
-
 from demo.authentication import ExpiringTokenAuthentication
 from demo.forms import (
     ContactForm,
     UserCreationForm,
     send_email_with_verifiaction_key
     )
-from demo.models import DogspotUser, Dog, EmailVerification
+from demo.models import (
+    DogspotUser, Dog, EmailVerification,
+    Raiting, Opinion, OpinionUsefulnessRating)
 from django import template
 from django.utils import timezone
-from demo.serializers import GroupSerializer, SpotDetailSerializer, DogSerializer, SpotWithDistanceSerializer, SpotListSerializer
+from demo.serializers import (
+    SpotDetailSerializer, DogSerializer,
+    SpotWithDistanceSerializer, SpotListSerializer, RaitingSerializer,
+    OpinionSerializer, OpinionUsefulnessRatingSerializer)
+
 from rest_framework.renderers import JSONRenderer
 from models import Spot
 from django.core import serializers
@@ -75,9 +75,26 @@ class SpotList(generics.ListCreateAPIView):
         return queryset
 
 
+class OpinionUsefulness(generics.RetrieveUpdateDestroyAPIView):
+    model = OpinionUsefulnessRating
+    serializer = OpinionUsefulnessRatingSerializer
+
+
+class OpinionDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Opinion
+    serializer_class = OpinionSerializer
+
+
+class RaitingDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Raiting
+    serializer_class = RaitingSerializer
+
+
 class SpotDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Spot
-    serializer = SpotDetailSerializer
+    serializer_class = SpotDetailSerializer
+
+
     # def list(self, request):
     #     queryset = Spot.objects.all()
     #     serializer = SpotListSerializer(queryset)
