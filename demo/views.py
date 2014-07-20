@@ -173,9 +173,23 @@ def about(request):
 
 
 def certificate(request, pk):
-    spot = Spot.objects.get(pk=pk)
-    if request.method == 'GET':
-        return render(request, 'certificate.html', {'spot': spot})
+
+    try:
+        spot = Spot.objects.get(pk=pk)
+        if request.method == 'GET':
+
+            link = '/qrcode/%d' % int(pk)
+            return render(
+                request,
+                'certificate.html',
+                {'spot': spot, 'qrcode_link': link})
+
+    except:
+        return render(
+            request,
+            'certificate.html',
+            {'spot': None,
+             'qrcode_link': 'holder.js/200x200/text:qrcode not avaliable'})
 
 
 def mylogin(request):
@@ -271,23 +285,45 @@ class DogCreate(CreateView):
     success_url = '/dogs'
 
 
-def produce_vcard_qr_code(request, pk):
+def prepare_vcard(spot):
+
+    dane = "BEGIN:VCARD\r\n"
+    dane += "VERSION:3.0\r\n"
+    dane += "N:;%s\r\n" % spot.name
+    dane += "item1.ADR;type=HOME;type=pref:;;%s %s;%s;;;%s\r\n" % (
+        spot.address_street,
+        spot.address_number,
+        spot.address_city,
+        spot.address_country)
+    dane += "EMAIL;INTERNET;PREF:%s\r\n" % spot.email if spot.email else ""
+    dane += "TEL;WORK;VOICE;PREF:%s\r\n" % spot.phone_number if spot.phone_number else ""
+    dane += "URL;WORK;PREF:%s\r\n" % spot.www if spot.www else ""
+    dane += "X-SOCIALPROFILE;type=facebook:%s\r\n"  % spot.facebook if spot.facebook else ""
+    dane += "END:VCARD\r\n"
+
+    return dane
+
+
+def download_vcard(request, pk):
+    # moze fajnie by zrobic oddzielna funkce do robieni vcardki z zalaczaniem obrazka
+    spot = Spot.objects.get(pk=pk)
+    dane = prepare_vcard(spot) #.encode('utf-8-sig')  # base64.b64encode()
+
+    response = HttpResponse(dane, content_type="text/x-vcard")
+    # response['Content-Transfer-Encoding'] = 'base64'
+    response['Content-Disposition'] = 'filename=%s vcard from dogspot.vcf' % spot.name
+
+    return response
+
+
+def qrencode_vcard(request, pk):
 
     spot = Spot.objects.get(pk=pk)
-    dane = ("BEGIN:VCARD\r\nN:%s;;;;\r\n"
-            "EMAIL;type=INTERNET;type=HOME;type=pref:%s\r\n"
-            "TEL;type=HOME;type=VOICE;type=pref:%s\r\n"
-            "item1.URL;type=pref:%s\r\nEND:VCARD\r\n") % (
-        spot.name,
-        "contact@mockup.com",
-        spot.phone_number,
-        "www.mockup.com"
-    )
-
+    dane = prepare_vcard(spot)
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=4,
+        box_size=3,
         border=4,
     )
 
@@ -298,8 +334,11 @@ def produce_vcard_qr_code(request, pk):
 
     response = HttpResponse(content_type="image/png")
     img.save(response, "png")
-
+    response['Content-Disposition'] = 'filename=%s qrcode from dogspot.png' % spot.name
     return response
+
+
+
 
 
 @csrf_exempt

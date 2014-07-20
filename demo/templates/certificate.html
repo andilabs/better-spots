@@ -10,32 +10,89 @@
 
 {% block content %}
 
-{{spot.dogs_allowed}} {{spot.friendly_rate}}
 
 {% if spot.dogs_allowed and spot.friendly_rate > 4.5  %}
-<div class="row">
-    <div class="col-sm-6 col-sm-push-3">
-        <center>
-        <div class="fa fa-certificate" style="font-size:272px;color:#ffc738;width: 233px!important;height: 272px!important;">
-        <img class="add_dog_shape" src="{{STATIC_URL}}/logotyp/dog_shape.png">
-        </div>
+    <div class="row">
+        <div class="col-md-6 col-md-push-3">
+            <center>
+                <img src="{{STATIC_URL}}dogspot_certificate.png">
+                <!--<div class="fa fa-certificate" style="font-size:272px;color:#ffc738;width: 233px!important;height: 272px!important;">
+                    <img class="add_dog_shape" src="{{STATIC_URL}}/logotyp/dog_shape.png">
+                </div>-->
 
-		<h1> {{spot.name}} </h1>
-		<h3> {{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}</h3>
-		<span id="lobster" style="font-size:48px">is dog-friendly spot!<br>
-		{{spot.friendly_rate|floatformat:1}}/5.0</span>
-	</center>
+        		<h1> {{spot.name}} </h1>
+        		<h3> {{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}</h3>
+        		<span id="lobster" style="font-size:48px">is dog-friendly spot!<br>
+        		{{spot.friendly_rate|floatformat:1}}/5.0</span>
+    	   </center>
+        </div>
+        <div class="col-md-3 col-md-pull-6">
+        <div id="map_canvas_spot_detail" style="height:260px" ></div>
+        </div>
+        <div class="col-md-3">
+
+            <ul class="list-group" >
+                {% if spot.phone_number %}
+                <li class="list-group-item">
+                    <span class="badge fa fa-phone fa-2x" style="opacity:0.5"> </span>
+                     <a href='tel://{{spot.phone_number}}'>{{spot.phone_number}}</a>
+                </li>
+                {% endif %}
+
+                {% if spot.email %}
+                <li class="list-group-item">
+                    <span class="badge fa fa-envelope-o fa-2x" style="opacity:0.5"> </span>
+                    <a href='mailto:{{spot.email}}' target='_blank'>{{spot.email|truncatechars:25}}</a>
+                </li>
+                {% endif %}
+
+                {% if spot.www %}
+                <li class="list-group-item">
+                    <span class="badge fa fa-link fa-2x" style="opacity:0.5"> </span>
+                    <a href='{{spot.www}}' target='_blank'>{{spot.www|truncatechars:25}}</a>
+                </li>
+                {% endif %}
+
+                {% if spot.facebook %}
+                <li class="list-group-item">
+                    <span class="badge fa fa-facebook fa-2x" style="opacity:0.5"> </span>
+                    <a href='{{spot.facebook_url}}' target='_blank'>{{spot.facebook_url|truncatechars:25}}</a>
+                </li>
+                {% endif %}
+
+                <li class="list-group-item">
+                    <center>
+                        <img src="{{qrcode_link}}"><br>
+                        <a href='{% url 'vcard' pk=spot.pk %}'>Download vCard</a>
+                    </center>
+                </li>
+            </ul>
+
+        </div>
     </div>
-    <div class="col-sm-3 col-sm-pull-6">
-    <div id="map_canvas_spot_detail" style="height:260px" >
-      </div>
+{% else %}
+    <div class="row">
+        <div class="col-md-6 col-md-push-3">
+            <center>
+                <h1> This spot is not certificated yet.</h1>
+                <h1> {{spot.name}} </h1>
+                <h3> {{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}</h3>
+            </center>
+        </div>
+        <div class="col-md-3 col-md-pull-6">
+            <div id="map_canvas_spot_detail" style="height:260px" >
+            </div>
+            <center>
+                <img src="{{qrcode_link}}">
+            </center>
+        </div>
+        <div class="col-md-3">
+            <div class="fa fa-certificate" style="font-size:272px;color: gray;opacity: 0.1;width: 233px!important;height: 272px!important;">
+            </div>
+        </div>
     </div>
-    <div class="col-sm-3">
-    <img src="http://127.0.0.1:8000/qrcode/{{spot.id}}">
-        download vCard
-    </div>
-</div>
 {% endif %}
+
 {% endblock %}
 {% block scripts %}
   {{ block.super }}

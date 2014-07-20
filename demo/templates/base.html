@@ -8,6 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Andrzej Kostanski">
   <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=320, height=device-height, target-densitydpi=medium-dpi" />
+
 
   <!-- Font Awesome Icons -->
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
@@ -28,9 +30,41 @@
   <!-- jQuery must be loaded here for things like datepicker to work :/ -->
   <script type="text/javascript" src="{{ STATIC_URL }}external/jquery/jquery-1.10.1.min.js"></script>
 
+<style>
+@media (max-width: 1000px) {
+    .navbar-header {
+        float: none;
+    }
+    .navbar-left,.navbar-right {
+        float: none !important;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
 
-
-
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+        margin-top: 7.5px;
+    }
+    .navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .collapse.in{
+      display:block !important;
+    }
+}
+</style>
 </head>
 
 <body>
@@ -39,10 +73,6 @@
 
       <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <a class="navbar-brand" href="/">
-            <img src="{{STATIC_URL}}lapa_icon.png">
-            <span id="lobster">Dogspot</span>
-          </a>
           <button type="button" class="navbar-toggle" data-toggle="collapse"
           data-target="#bs-example-navbar-collapse-1">
             <span class="sr-only">Toggle navigation</span>
@@ -50,14 +80,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
+          <a class="navbar-brand" href="/">
+            <img src="{{STATIC_URL}}lapa_icon.png">
+            <span id="lobster">Dogspot</span>
+          </a>
         </div>
 
-        <div class="collapse navbar-collapse navbar-nav" id="bs-example-navbar-collapse-1">
+        <div class="navbar-collapse collapse"  id="bs-example-navbar-collapse-1">
 
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav">
 
             <li>
-              <form class="navbar-form navbar-left " role="navbar-search">
+              <form class="navbar-form navbar-left" role="navbar-search">
                 <div class="right-inner-addon">
                   <i class="glyphicon glyphicon-search"></i>
                   <input type="search" class="form-control" placeholder="Search" />
@@ -91,6 +125,8 @@
               <a href="/contact" class="hallujah">Contact</a>
             </li>
 
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle hallujah" data-toggle="dropdown">
                 {% if user.is_authenticated %}
@@ -100,7 +136,7 @@
                 {% endif %}
                 <b class="caret"></b>
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" role="menu">
                 {% if user.is_authenticated %}
                     <li><a href="#" class="hallujah">Edit profile</a></li>
                     <li class="divider"></li>

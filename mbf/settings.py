@@ -66,6 +66,7 @@ INSTALLED_APPS = (
     'demo',
     'import_export',
     'rest_framework',
+    'south',
 )
 
 MIDDLEWARE_CLASSES = (

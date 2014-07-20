@@ -137,6 +137,14 @@ class Spot(models.Model):
     spot_type = models.IntegerField(max_length=3, choices=SPOT_TYPE)
     is_accepted = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=100, default='')
+    email = models.EmailField(blank=True, null=True)
+    www = models.URLField(blank=True, null=True)
+    facebook = models.CharField(max_length=254, blank=True, null=True)
+
+    @property
+    def facebook_url(self):
+        facebook_url = "http://www.facebook.com/%s" % self.facebook if self.facebook else None
+        return facebook_url
 
     @property
     def friendly_rate(self):

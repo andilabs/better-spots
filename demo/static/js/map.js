@@ -144,8 +144,8 @@
   };
 
   switchColumsClasses = function(left, right) {
-    $(left).removeClass('col-xs-12 col-sm-3').addClass('col-xs-12 col-sm-9 no-col-padding');
-    return $(right).removeClass('col-xs-12 col-sm-9 no-col-padding').addClass('col-xs-12 col-sm-3');
+    $(left).removeClass('col-md-3').addClass('col-md-9 no-col-padding');
+    return $(right).removeClass('col-md-9 no-col-padding').addClass('col-md-3');
   };
 
   $(function() {
@@ -182,7 +182,7 @@
       e.preventDefault();
       link = $(this).attr('href');
       return $("#spots_list").hide(function() {
-        $('#left_container').append("<div class='list-group'  id='spot_detail'> <span class='list-group-item disabled' id='spot_detail_icons'> <i class='fa fa-list fa-2x' id='back_to_list'></i></span> <span class='list-group-item disabled' id='spot_detail_content'> <h4 class='list-group-item-heading'>Spot name</h4> <p class='list-group-item-text'> " + link + " </p></span> </div>");
+        $('#left_container').append("<div class='list-group'  id='spot_detail'> <span class='list-group-item disabled' id='spot_detail_icons'> <i class='fa fa-list fa-2x' id='back_to_list'></i></span> <span class='list-group-item disabled' id='spot_detail_content'> <h4 class='list-group-item-heading'>Spot name</h4> <p class='list-group-item-text'> " + link + "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> </p></span> </div>");
         filtersFireButton = $("#filters_map_overlay").detach();
         switchColumsClasses('#left_container', '#right_container');
         $("#map_canvas").gmap("option", "zoom", 17);

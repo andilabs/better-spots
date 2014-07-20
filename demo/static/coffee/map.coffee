@@ -139,12 +139,12 @@ filterSpots = ->
 switchColumsClasses = (left, right) ->
 
       $(left)
-        .removeClass 'col-xs-12 col-sm-3'
-        .addClass 'col-xs-12 col-sm-9 no-col-padding'
+        .removeClass 'col-md-3'
+        .addClass 'col-md-9 no-col-padding'
 
       $(right)
-        .removeClass 'col-xs-12 col-sm-9 no-col-padding'
-        .addClass 'col-xs-12 col-sm-3'
+        .removeClass 'col-md-9 no-col-padding'
+        .addClass 'col-md-3'
 
 
 
@@ -204,7 +204,7 @@ $ ->
           <span class='list-group-item disabled' id='spot_detail_content'>
           <h4 class='list-group-item-heading'>Spot name</h4>
           <p class='list-group-item-text'>
-          #{link}
+          #{link}<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
           </p></span>
           </div>"
 
