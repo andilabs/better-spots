@@ -45,10 +45,11 @@ class DogspotUserManager(BaseUserManager):
         """
         Creates and saves a superuser with the given email and password.
         """
-        user = self.create_user(email,
-                                password=password,
-                                mail_sent=mail_sent,
-                                )
+        user = self.create_user(
+            email,
+            password=password,
+            mail_sent=mail_sent,
+        )
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -127,23 +128,24 @@ SPOT_TYPE = (
 
 class Spot(models.Model):
     name = models.CharField(max_length=250)
-    latitude = models.DecimalField(max_digits=8, decimal_places=5, blank=True, default=0.0)
-    longitude = models.DecimalField(max_digits=8, decimal_places=5, blank=True, default=0.0)
+    latitude = models.DecimalField(max_digits=8, decimal_places=5)
+    longitude = models.DecimalField(max_digits=8, decimal_places=5)
     address_street = models.CharField(max_length=254, default='')
     address_number = models.CharField(max_length=10, default='')
     address_city = models.CharField(max_length=100, default='')
     address_country = models.CharField(max_length=100, default='')
     spot_type = models.IntegerField(max_length=3, choices=SPOT_TYPE)
     is_accepted = models.BooleanField(default=False)
-    phone_number = models.CharField(max_length=100, default='221234567')
+    phone_number = models.CharField(max_length=100, default='')
 
     @property
     def friendly_rate(self):
 
         all_raitings_of_spot = Raiting.objects.filter(spot_id=self.id)
+        sum_of_ratings = sum(i.friendly_rate for i in all_raitings_of_spot)
 
-        if len(all_raitings_of_spot) >= 1:
-            return (sum(i.friendly_rate for i in all_raitings_of_spot)/float(len(all_raitings_of_spot)))
+        if all_raitings_of_spot:
+            return sum_of_ratings/float(len(all_raitings_of_spot))
         else:
             return -1.0
 
@@ -152,10 +154,13 @@ class Spot(models.Model):
 
         all_raitings_of_spot = Raiting.objects.filter(spot_id=self.id)
 
-        if len(all_raitings_of_spot) >= 1:
+        if all_raitings_of_spot:
 
-            if sum(i.dogs_allowed for i in all_raitings_of_spot) > (len(all_raitings_of_spot)/2):  # intended floor while dividing majority vote as result
+            sum_of_allowed = sum(i.dogs_allowed for i in all_raitings_of_spot)
+
+            if sum_of_allowed > len(all_raitings_of_spot)/2:
                 return True
+
             else:
                 return False
 
@@ -165,7 +170,6 @@ class Spot(models.Model):
     @property
     def raitings(self):
         return Raiting.objects.filter(spot_id=self.id)
-
 
     def __unicode__(self):
         return self.name
@@ -198,6 +202,7 @@ class Raiting(models.Model):
             return opinion
         else:
             return None
+
     def __unicode__(self):
         return "%s %s by: %s rate: %2.f" % (
             self.spot.name,
@@ -249,5 +254,3 @@ class UsersSpotsList(models.Model):
             self.spot.name,
             self.user.email
             )
-
-

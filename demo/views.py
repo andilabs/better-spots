@@ -5,7 +5,6 @@ import base64
 import quopri
 import vobject
 import qrcode
-
 from datetime import datetime, timedelta
 
 from django.http import QueryDict
@@ -22,49 +21,28 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib import messages
 from django.core.mail import EmailMessage
+from django.utils import timezone
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework.decorators import authentication_classes
 from rest_framework.decorators import permission_classes
 from rest_framework.authtoken.models import Token
+from rest_framework.renderers import JSONRenderer
+from rest_framework import generics
 
-from demo.authentication import ExpiringTokenAuthentication
-from demo.forms import (
-    ContactForm,
-    UserCreationForm,
-    send_email_with_verifiaction_key
-    )
 from demo.models import (
-    DogspotUser, Dog, EmailVerification,
+    Spot, DogspotUser, Dog, EmailVerification,
     Raiting, Opinion, OpinionUsefulnessRating)
-from django import template
-from django.utils import timezone
 from demo.serializers import (
     SpotDetailSerializer,
     SpotWithDistanceSerializer, SpotListSerializer, RaitingSerializer,
     OpinionSerializer, OpinionUsefulnessRatingSerializer)
-
-from rest_framework.renderers import JSONRenderer
-from models import Spot
-from django.core import serializers
-from rest_framework import viewsets
-# assuming obj is a model instance
-from django.shortcuts import get_object_or_404
-from rest_framework.response import Response
-from rest_framework import generics
-register = template.Library()
-
-
-# class BookList(generics.ListCreateAPIView):
-#     serializer_class = BookSerializer
-#     def get_queryset(self):
-#         queryset = Book.objects.filter(user=self.request.user)
-#         return queryset.order_by('-id')
-
-# class BookDetail(generics.RetrieveUpdateDestroyAPIView):
-#     model = Book
-#     serializer_class = BookSerializer
+from demo.authentication import ExpiringTokenAuthentication
+from demo.forms import (
+    ContactForm,
+    UserCreationForm,
+    send_email_with_verifiaction_key)
 
 
 class SpotList(generics.ListCreateAPIView):
@@ -95,18 +73,6 @@ class SpotDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SpotDetailSerializer
 
 
-    # def list(self, request):
-    #     queryset = Spot.objects.all()
-    #     serializer = SpotListSerializer(queryset)
-    #     return Response(serializer.data)
-
-    # def detail(self, request, pk=None):
-    #     queryset = Spot.objects.all()
-    #     spot = get_object_or_404(queryset, pk=pk)
-    #     serializer = SpotDetailSerializer(spot)
-    #     return Response(serializer.data)
-
-
 class JSONResponse(HttpResponse):
     """
     An HttpResponse that renders its content into JSON.
@@ -117,20 +83,27 @@ class JSONResponse(HttpResponse):
         super(JSONResponse, self).__init__(content, **kwargs)
 
 
-def nearby_spots(request, lat, lng, radius=5000):
-    radius = float(radius) / 1000.0
-    # lo="HELLO NEARBY"+str(lat)+","+str(lng)
-    # return HttpResponse(lo, status=200)
+def nearby_spots(request, lat, lng, radius=5000, limit=20):
 
-    #kwerenda= '''Select v.id from spots_spot AS v INNER JOIN (SELECT id, (6367*acos(cos(radians(%2f))*cos(radians(latitude))*cos(radians(longitude)-radians(%2f))+sin(radians(%2f))*sin(radians(latitude)))) AS distance FROM spots_spot HAVING distance < %d ORDER BY distance LIMIT 0, 20) as v2 ON v.id = v2.id''' % (float(lat),float(lng),float(lat),radius)
-    kwerenda = '''SELECT id, (6367*acos(cos(radians(%2f))*cos(radians(latitude))*cos(radians(longitude)-radians(%2f))+sin(radians(%2f))*sin(radians(latitude)))) AS distance FROM demo_spot HAVING distance < %d ORDER BY distance LIMIT 0, 20''' % (float(lat),float(lng),float(lat),radius)
+    radius = float(radius) / 1000.0
+
+    kwerenda = """SELECT id, (6367*acos(cos(radians(%2f))
+               *cos(radians(latitude))*cos(radians(longitude)-radians(%2f))
+               +sin(radians(%2f))*sin(radians(latitude))))
+               AS distance FROM demo_spot HAVING
+               distance < %d ORDER BY distance LIMIT 0, %d""" % (
+        float(lat),
+        float(lng),
+        float(lat),
+        radius,
+        limit
+    )
 
     queryset = Spot.objects.raw(kwerenda)
-    # q2 = [Spot(x) for x in queryset]
-    # serialized_obj = serializers.serialize('json', q2)
+
     serializer = SpotWithDistanceSerializer(queryset, many=True)
+
     return JSONResponse(serializer.data)
-    # return HttpResponse(json.dumps(serialized_obj),  content_type="application/json")
 
 
 def mail_verification(request, verification_key):
@@ -203,7 +176,6 @@ def certificate(request, pk):
     spot = Spot.objects.get(pk=pk)
     if request.method == 'GET':
         return render(request, 'certificate.html', {'spot': spot})
-
 
 
 def mylogin(request):
@@ -280,7 +252,6 @@ class DogspotUserCreate(CreateView):
         return redirect('login')
 
 
-#@login_required
 def dogs(request):
     dogs_list = Dog.objects.all()
     paginator = Paginator(dogs_list, 6)
@@ -307,7 +278,11 @@ def produce_vcard_qr_code(request, pk):
             "EMAIL;type=INTERNET;type=HOME;type=pref:%s\r\n"
             "TEL;type=HOME;type=VOICE;type=pref:%s\r\n"
             "item1.URL;type=pref:%s\r\nEND:VCARD\r\n") % (
-        spot.name, "contact@mockup.com", spot.phone_number, "www.mockup.com")
+        spot.name,
+        "contact@mockup.com",
+        spot.phone_number,
+        "www.mockup.com"
+    )
 
     qr = qrcode.QRCode(
         version=1,
@@ -315,6 +290,7 @@ def produce_vcard_qr_code(request, pk):
         box_size=4,
         border=4,
     )
+
     qr.add_data(dane)
     qr.make(fit=True)
 
@@ -341,14 +317,19 @@ def auth_ex(request):
         {"token": "3a3f1cd20ee72b468a9bd7d6ab20e2e0a408ead5"}
     """
     if request.method == 'POST':
+
         email = request.POST['email']
         password = request.POST['password']
         user = authenticate(username=email, password=password)
         time_now = datetime.now()  # .replace(tzinfo=utc)
+
         if user is not None:
+
             if user.is_active:
+
                 token, created = Token.objects.get_or_create(
                     user=DogspotUser.objects.get(email=email))
+
                 if not created and token.created < time_now - timedelta(
                         hours=settings.TOKEN_EXPIRES_AFTER):
                     token.delete()
@@ -357,14 +338,18 @@ def auth_ex(request):
                         )
                     token.created = datetime.now()
                     token.save()
+
                 return HttpResponse(
                     json.dumps({'token': token.key}),
                     content_type="application/json; charset=UTF-8"
                 )
+
             else:
                 return HttpResponse('Unauthorized', status=401)
+
         else:
             return HttpResponse('Unauthorized', status=401)
+
     else:
         return HttpResponse("Bye others", content_type="text/plain")
 
@@ -385,37 +370,46 @@ def vcard(request):
         EXAMPLE CALL:
         curl -X PUT http://127.0.0.1:8000/vcard -v -H 'Authorization: Token 3a3f1cd20ee72b468a9bd7d6ab20e2e0a408ead5' -d "fair_id=1&vcard=<BASE_64_STRING>"
     """
+
     if request.method == 'PUT':
         put = QueryDict(request.body)
         fair_id = int(put.get('fair_id'))
         this_user = DogspotUser.objects.get(email=request.user)
+
         try:
             this_exhibitor = Exhibitor.objects.get(user=this_user, fair=fair_id)
+
         except Exhibitor.DoesNotExist:
             error_message = {
                 "valid": False,
                 "reason": "User is not exhibitor at fairs with id={0}".format(fair_id)}
             return HttpResponse(json.dumps(error_message), status=403)
+
         vcard = put.get('vcard')
+
         try:
             vcard_readable = base64.decodestring(vcard)
             quoted_printable_vcard = quopri.encodestring(vcard_readable)
             vobj = vobject.readOne(quoted_printable_vcard)
+
         except UnicodeEncodeError as e:  # case of bad encoding
             error_message = {
                 "valid": False,
                 "reason": "Invalid vCard\n{0}".format(e)}
             return HttpResponse(json.dumps(error_message), status=200)
+
         except vobject.base.VObjectError as e2:  # case of invalid vcard
             error_message = {
                 "valid": False,
                 "reason": "Invalid vCard format\n{0}".format(e2)}
             return HttpResponse(json.dumps(error_message), status=200)
+
         except:
             error_message = {
                 "valid": False,
                 "reason": "Invalid vCard."}
             return HttpResponse(json.dumps(error_message), status=200)
+
         cc = CollectedContact(exhibitor=this_exhibitor, vcard=vcard_readable)
         cc.save()
         return HttpResponse(status=200)
