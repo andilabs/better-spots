@@ -11,6 +11,8 @@
 {% block content %}
 
 
+
+
 {% if spot.dogs_allowed and spot.friendly_rate > 4.5  %}
     <div class="row">
         <div class="col-md-6 col-md-push-3">
@@ -27,11 +29,46 @@
     	   </center>
         </div>
         <div class="col-md-3 col-md-pull-6">
-        <div id="map_canvas_spot_detail" style="height:260px" ></div>
+        <ul class="list-group">
+<!--                 <li class="list-group-item">Here all coments, votes</li>
+                <li class="list-group-item"></li> -->
+                <li class="list-group-item">
+                    <h2>
+                        <span class="glyphicon glyphicon-comment"></span> Rate it!
+                    </h2><br>
+                    <form>
+                    <div class="form-group" id="dgos_allowance">
+                        <label class="control-label">Dogs allowed?</label><br>
+
+                        <label class="dog_not_allowed" title="NOT allowed :-(" style="opacity: 0.2;" for="dog_not_allowed">
+                        <input class="allowance" type="radio" id="dog_not_allowed" name="allowance" hidden=""></label>
+
+                        <label class="dog_allowed" title="allowed ;-)" style="opacity: 0.2;" for="dog_allowed">
+                        <input class="allowance" type="radio" id="dog_allowed" name="allowance" hidden=""></label>
+
+
+
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="id_rating">Rate:</label>
+                        <div class='rate'></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="id_comment">Comment:</label>
+                        <textarea class="form-control" id="id_comment" name="comment" placeholder="Comment" required="required" rows="5" title=""></textarea>
+                    </div>
+                    <input type="submit" value="Submit" class="btn btn-success">
+                    </form>
+                </li>
+        </ul>
+
         </div>
         <div class="col-md-3">
 
-            <ul class="list-group" >
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div id="map_canvas_spot_detail" style="height:260px" ></div>
+                </li>
                 {% if spot.phone_number %}
                 <li class="list-group-item">
                     <span class="badge fa fa-phone fa-2x" style="opacity:0.5"> </span>
@@ -99,5 +136,6 @@
    <script language="javascript">var STATIC_URL = "{{ STATIC_URL }}";  var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";</script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/spot_detail.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
 {% endblock scripts %}
 

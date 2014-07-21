@@ -17,7 +17,7 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
-    url(r'opinions/(?P<pk>\d+)/$', views.OpinionDetail.as_view(), name="opinionusefulnessrating-detail"),
+    url(r'opinionusefulnessrating/(?P<pk>\d+)/$', views.OpinionUsefulness.as_view(), name="opinionusefulnessrating-detail"),
     url(r'opinions/(?P<pk>\d+)/$', views.OpinionDetail.as_view(), name="opinion-detail"),
     url(r'raitings/(?P<pk>\d+)/$', views.RaitingDetail.as_view(), name="raiting-detail"),
     url(r'spots/$', views.SpotList.as_view(), name="spot-list"),

@@ -24,6 +24,7 @@ class OpinionSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class RaitingSerializer(serializers.HyperlinkedModelSerializer):
+
     opinion = OpinionSerializer(many=False, read_only=True)
     spot = serializers.HyperlinkedRelatedField(
         many=False, read_only=True, view_name='spot-detail')
@@ -35,35 +36,37 @@ class RaitingSerializer(serializers.HyperlinkedModelSerializer):
 
 class SpotListSerializer(serializers.HyperlinkedModelSerializer):
 
-    class Meta:
-        model = Spot
-        fields = ('id', 'url', 'name', 'latitude', 'longitude')
-
-
-class SpotDetailSerializer(serializers.HyperlinkedModelSerializer):
     friendly_rate = serializers.Field()
     dogs_allowed = serializers.Field()
+
+    class Meta:
+        model = Spot
+
+
+class SpotDetailSerializer(SpotListSerializer):
+
     raitings = RaitingSerializer(read_only=True)
 
     class Meta:
         model = Spot
-        fields = (
-            'id', 'url', 'name', 'latitude', 'longitude', 'address_street',
-            'address_number', 'address_city', 'address_country', 'spot_type',
-            'is_accepted', 'friendly_rate', 'dogs_allowed', 'phone_number',
-            'raitings')
 
 
-class SpotWithDistanceSerializer(serializers.HyperlinkedModelSerializer):
+class SpotWithDistanceSerializer(SpotListSerializer):
+    id = serializers.Field()
     distance = serializers.Field()
-    friendly_rate = serializers.Field()
-    dogs_allowed = serializers.Field()
 
     class Meta:
         model = Spot
-        fields = (
-            'id', 'distance', 'url', 'name', 'latitude', 'longitude',
-            'address_street', 'address_number', 'address_city',
-            'address_country', 'spot_type', 'is_accepted', 'friendly_rate',
-            'dogs_allowed', 'phone_number')
 
+# class SpotWithDistanceSerializer(serializers.HyperlinkedModelSerializer):
+#     distance = serializers.Field()
+#     friendly_rate = serializers.Field()
+#     dogs_allowed = serializers.Field()
+
+#     class Meta:
+#         model = Spot
+#         fields = (
+#             'id', 'distance', 'url', 'name', 'latitude', 'longitude',
+#             'address_street', 'address_number', 'address_city',
+#             'address_country', 'spot_type', 'is_accepted', 'friendly_rate',
+#             'dogs_allowed', 'phone_number')

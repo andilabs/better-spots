@@ -64,6 +64,9 @@ class OpinionDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class RaitingDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+        RatingResource sratata
+    """
     model = Raiting
     serializer_class = RaitingSerializer
 
@@ -83,7 +86,7 @@ class JSONResponse(HttpResponse):
         super(JSONResponse, self).__init__(content, **kwargs)
 
 
-def nearby_spots(request, lat, lng, radius=5000, limit=20):
+def nearby_spots(request, lat, lng, radius=5000, limit=50):
 
     radius = float(radius) / 1000.0
 
