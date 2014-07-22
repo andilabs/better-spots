@@ -1,14 +1,23 @@
 from rest_framework import serializers
-from demo.models import Spot, Raiting, Opinion, OpinionUsefulnessRating
+from demo.models import Spot, Raiting, Opinion, OpinionUsefulnessRating, DogspotUser
+
+
+class DogspotUserSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = DogspotUser
+        fields = ('url', 'mail_sent', 'email')
 
 
 class OpinionUsefulnessRatingSerializer(serializers.HyperlinkedModelSerializer):
     opinion = serializers.HyperlinkedRelatedField(
         many=False, read_only=True, view_name='opinion-detail')
+    user = serializers.HyperlinkedRelatedField(
+        many=False, read_only=True, view_name='dogspotuser-detail')
 
     class Meta:
         model = OpinionUsefulnessRating
-        fields = ('url', 'opinion', 'vote')
+        fields = ('url', 'opinion', 'vote', 'user')
 
 
 class OpinionSerializer(serializers.HyperlinkedModelSerializer):
@@ -28,10 +37,13 @@ class RaitingSerializer(serializers.HyperlinkedModelSerializer):
     opinion = OpinionSerializer(many=False, read_only=True)
     spot = serializers.HyperlinkedRelatedField(
         many=False, read_only=True, view_name='spot-detail')
+    user = serializers.HyperlinkedRelatedField(
+        many=False, read_only=True, view_name='dogspotuser-detail')
 
     class Meta:
         model = Raiting
-        fields = ('url', 'dogs_allowed', 'friendly_rate', 'spot', 'opinion')
+        fields = (
+            'url', 'dogs_allowed', 'friendly_rate', 'spot', 'opinion', 'user')
 
 
 class SpotListSerializer(serializers.HyperlinkedModelSerializer):

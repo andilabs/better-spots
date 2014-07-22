@@ -37,12 +37,26 @@ from demo.models import (
 from demo.serializers import (
     SpotDetailSerializer,
     SpotWithDistanceSerializer, SpotListSerializer, RaitingSerializer,
-    OpinionSerializer, OpinionUsefulnessRatingSerializer)
+    OpinionSerializer, OpinionUsefulnessRatingSerializer,
+    DogspotUserSerializer)
 from demo.authentication import ExpiringTokenAuthentication
 from demo.forms import (
     ContactForm,
     UserCreationForm,
     send_email_with_verifiaction_key)
+
+
+class DogspotUserList(generics.ListCreateAPIView):
+    serializer_class = DogspotUserSerializer
+
+    def get_queryset(self):
+        queryset = DogspotUser.objects.all()
+        return queryset
+
+
+class DogspotUserDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = DogspotUser
+    serializer_class = DogspotUserSerializer
 
 
 class SpotList(generics.ListCreateAPIView):

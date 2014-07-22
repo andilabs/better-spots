@@ -150,7 +150,7 @@
 
   $(function() {
     var desiredRadius, filtersFireButton, spinner, target;
-    desiredRadius = 3000;
+    desiredRadius = 5000;
     filtersFireButton = null;
     check_cookies();
     target = document.getElementById("right_container");

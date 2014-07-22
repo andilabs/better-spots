@@ -152,7 +152,7 @@ $ ->
 
 
 
-  desiredRadius = 3000
+  desiredRadius = 5000
 
   filtersFireButton = null
 

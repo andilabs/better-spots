@@ -17,6 +17,8 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
+    url(r'users/$', views.DogspotUserList.as_view(), name="users-list"),
+    url(r'users/(?P<pk>\d+)/$', views.DogspotUserDetail.as_view(), name="dogspotuser-detail"),
     url(r'opinionusefulnessrating/(?P<pk>\d+)/$', views.OpinionUsefulness.as_view(), name="opinionusefulnessrating-detail"),
     url(r'opinions/(?P<pk>\d+)/$', views.OpinionDetail.as_view(), name="opinion-detail"),
     url(r'raitings/(?P<pk>\d+)/$', views.RaitingDetail.as_view(), name="raiting-detail"),
