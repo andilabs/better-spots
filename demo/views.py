@@ -33,17 +33,30 @@ from rest_framework import generics
 
 from demo.models import (
     Spot, DogspotUser, Dog, EmailVerification,
-    Raiting, Opinion, OpinionUsefulnessRating)
+    Raiting, Opinion, OpinionUsefulnessRating, OtoFoto)
 from demo.serializers import (
     SpotDetailSerializer,
     SpotWithDistanceSerializer, SpotListSerializer, RaitingSerializer,
     OpinionSerializer, OpinionUsefulnessRatingSerializer,
-    DogspotUserSerializer)
+    DogspotUserSerializer, OtoFotoSerializer)
 from demo.authentication import ExpiringTokenAuthentication
 from demo.forms import (
     ContactForm,
     UserCreationForm,
     send_email_with_verifiaction_key)
+
+
+class OtoFotoDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = OtoFoto
+    serializer_class = OtoFotoSerializer
+
+
+class OtoFotoList(generics.ListCreateAPIView):
+    serializer_class = OtoFotoSerializer
+
+    def get_queryset(self):
+        queryset = OtoFoto.objects.all()
+        return queryset
 
 
 class DogspotUserList(generics.ListCreateAPIView):
@@ -77,10 +90,15 @@ class OpinionDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OpinionSerializer
 
 
+class RaitingList(generics.ListCreateAPIView):
+    serializer_class = RaitingSerializer
+
+    def get_queryset(self):
+        queryset = Raiting.objects.all()
+        return queryset
+
+
 class RaitingDetail(generics.RetrieveUpdateDestroyAPIView):
-    """
-        RatingResource sratata
-    """
     model = Raiting
     serializer_class = RaitingSerializer
 

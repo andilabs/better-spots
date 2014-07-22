@@ -1,6 +1,13 @@
 from rest_framework import serializers
-from demo.models import Spot, Raiting, Opinion, OpinionUsefulnessRating, DogspotUser
+from demo.models import Spot, Raiting, Opinion, OpinionUsefulnessRating, DogspotUser, OtoFoto
 
+
+class OtoFotoSerializer(serializers.HyperlinkedModelSerializer):
+    obrazek_full = serializers.Field()
+
+    class Meta:
+        model = OtoFoto
+        fields = ('url','obrazek','obrazek_full')
 
 class DogspotUserSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -36,9 +43,9 @@ class RaitingSerializer(serializers.HyperlinkedModelSerializer):
 
     opinion = OpinionSerializer(many=False, read_only=True)
     spot = serializers.HyperlinkedRelatedField(
-        many=False, read_only=True, view_name='spot-detail')
+        many=False, read_only=False, view_name='spot-detail')
     user = serializers.HyperlinkedRelatedField(
-        many=False, read_only=True, view_name='dogspotuser-detail')
+        many=False, read_only=False, view_name='dogspotuser-detail')
 
     class Meta:
         model = Raiting

@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
-from demo.models import DogspotUser, Dog, Spot, Raiting, Opinion, OpinionUsefulnessRating
+from demo.models import DogspotUser, Dog, Spot, Raiting, Opinion, OpinionUsefulnessRating, OtoFoto
 from django import forms
 import random
 import string
@@ -179,3 +179,4 @@ admin.site.register(Spot, SpotAdmin)
 admin.site.register(Raiting)
 admin.site.register(Opinion)
 admin.site.register(OpinionUsefulnessRating)
+admin.site.register(OtoFoto)

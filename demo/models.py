@@ -1,12 +1,25 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import os
 
-
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, PermissionsMixin, BaseUserManager
 )
 
+
+def get_image_path(instance, filename):
+    return os.path.join('img', filename)
+
+
+class OtoFoto(models.Model):
+    title  = models.CharField(max_length=254)
+    obrazek = models.ImageField(upload_to=get_image_path)
+
+    @property
+    def obrazek_full(self):
+        return  'http://127.0.0.1:8000' + self.obrazek.url
 
 SEX = (
     (0, 'female'),
