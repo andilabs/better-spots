@@ -1,0 +1,61 @@
+TODO:
+
+
+- zmiana logiki friendly_rate i dogs_allowed - po kazdym safie przelicz i utrwal w Spocie w pojedynczym polu a nie jak teraz property liczone na kazde żądanie
+
+- podobnie jak powyżej wprowadzić is_certificated z regułą zapisaną w predykatach sprawdzanych po każdej dodanej ocenie
+
+- podział na APP-ki / moduły
+		(accounts, common, spots, api, ratings, geoutils, dogs)
+
+		accounts
+		--users
+		--dogs
+		--emailverification
+		--userspotlist --inheritance (favorite, tobevisited)
+
+		common
+		--geoutils
+
+		spots
+		--spot
+		--ratings
+		--opinion
+		--opinionusefulnessrating
+
+		api
+
+- IMPLEMENTACJA
+		-- dodawanie nowych spotów form i z mapy
+		-- dodawanie nowego spotu GooglePlaces nearby search enhanced
+
+		-- ocenianie i komentowanie spotów
+		-- up|down vote komentarzy
+
+- rozbudowa REST-owego API
+		-- post/put -owanie plikow w base64 i multipart
+		-- sprawdzenie dzialania authtoken
+		-- dzialanie authktoken z third party login przez social auth
+
+
+- wyszukiwarka ajaxowa
+		(jquery autocomplete z grupowaniem wg rodzaju spotu)
+
+
+- utworzenie środowiska apachowego/wsgi na vagrancie z postgresem
+
+
+- postawienie na mini albo lepiej ec2 ?
+
+
+- SOCIAL AUTH
+
+- mapa - ładowanie spotów, gdy user przemieszcza się po mapie (on demand)
+
+DONE:
+
+- przepisac logike mapy do coffee
+- strony certificated
+- qrcody
+- vcardy
+- filtrowanie pobranych spotów w JS

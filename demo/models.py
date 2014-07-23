@@ -19,7 +19,7 @@ class OtoFoto(models.Model):
 
     @property
     def obrazek_full(self):
-        return  'http://127.0.0.1:8000' + self.obrazek.url
+        return  BASE_HOST + self.obrazek.url
 
 SEX = (
     (0, 'female'),
