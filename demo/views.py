@@ -33,7 +33,7 @@ from rest_framework import generics
 
 from demo.models import (
     Spot, DogspotUser, Dog, EmailVerification,
-    Raiting, Opinion, OpinionUsefulnessRating, OtoFoto)
+    Raiting, Opinion, OpinionUsefulnessRating, OtoFoto, SPOT_TYPE)
 from demo.serializers import (
     SpotDetailSerializer,
     SpotWithDistanceSerializer, SpotListSerializer, RaitingSerializer,
@@ -44,6 +44,12 @@ from demo.forms import (
     ContactForm,
     UserCreationForm,
     send_email_with_verifiaction_key)
+
+
+def ajax_search(request):
+    query = request.GET.get('q', '')
+    result = [{'name': s.name, 'category': SPOT_TYPE[s.spot_type-1][1]} for s in Spot.objects.filter(name__icontains=query)]
+    return HttpResponse(json.dumps(result, ensure_ascii=False), content_type="application/json")
 
 
 class OtoFotoDetail(generics.RetrieveUpdateDestroyAPIView):
