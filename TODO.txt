@@ -1,9 +1,11 @@
 TODO:
 
 
-- zmiana logiki friendly_rate i dogs_allowed - po kazdym safie przelicz i utrwal w Spocie w pojedynczym polu a nie jak teraz property liczone na kazde żądanie
+- zmiana logiki friendly_rate i dogs_allowed - po kazdym safie przelicz i utrwal w Spocie 
+w pojedynczym polu a nie jak teraz property liczone na kazde żądanie
 
-- podobnie jak powyżej wprowadzić is_certificated z regułą zapisaną w predykatach sprawdzanych po każdej dodanej ocenie
+- podobnie jak powyżej wprowadzić is_certificated z regułą zapisaną w predykatach 
+sprawdzanych po każdej dodanej ocenie
 
 - podział na APP-ki / moduły
 		(accounts, common, spots, api, ratings, geoutils, dogs)
