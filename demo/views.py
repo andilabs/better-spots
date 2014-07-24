@@ -48,8 +48,13 @@ from demo.forms import (
 
 def ajax_search(request):
     query = request.GET.get('q', '')
-    result = [{'name': s.name, 'category': SPOT_TYPE[s.spot_type-1][1], 'url': '/spots/%s'%str(s.id)} for s in Spot.objects.filter(name__icontains=query).order_by('spot_type')]
-    return HttpResponse(json.dumps(result, ensure_ascii=False), content_type="application/json")
+    result = [{'name': s.name,
+               'category': SPOT_TYPE[s.spot_type-1][1],
+               'url': '/spots/%s' % str(s.id)} for s in Spot.objects.filter(
+        name__icontains=query).order_by('spot_type')]
+
+    return HttpResponse(json.dumps(result, ensure_ascii=False),
+                        content_type="application/json")
 
 
 class OtoFotoDetail(generics.RetrieveUpdateDestroyAPIView):

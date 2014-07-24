@@ -370,6 +370,8 @@ $ ->
         #   valMap = my_map.getCenter()
         #   console.log(valMap)
 
+$('#map_canvas').on 'draggend', (e) ->
+  console.log "dragged"
 
 $("#spots_list").on "click", "span.list-group-item:not(#memo_empty)", (evt) ->
 

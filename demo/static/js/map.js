@@ -305,6 +305,10 @@
     });
   });
 
+  $('#map_canvas').on('draggend', function(e) {
+    return console.log("dragged");
+  });
+
   $("#spots_list").on("click", "span.list-group-item:not(#memo_empty)", function(evt) {
     var id;
     id = $(this).attr("id");
