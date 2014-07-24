@@ -1,4 +1,18 @@
 $ ->
+    $.widget "custom.autocomplete", $.ui.autocomplete,
+        _create: () ->
+            @_super()
+            @widget().menu "option", "items", "> :not(.ui-autocomplete-category)"
+
+        _renderMenu: (ul, items) ->
+            currentCategory = ''
+            $.each items, (index, item) =>
+                if item.category != currentCategory
+                    currentCategory = item.category
+                    ul.append "<li class='ui-autocomplete-category'>#{currentCategory}</li>"
+                li = @_renderItemData(ul, item)
+                console.log item.url, item.name
+                li.find("a").attr('href',item.url).html("#{item.name}") if item.category
 
     $("input#main_menu_search").autocomplete
         minLength: 1
@@ -11,6 +25,7 @@ $ ->
                 dataType: "json"
 
                 success: (data) ->
+                    console.log data
                     response data
 
         focus: (e, ui) ->

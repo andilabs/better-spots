@@ -1,3 +1,10 @@
+.ui-autocomplete-category{
+    color: orange;
+}
+.ui-autocomplete{
+    z-index: 2147483647;
+}
+
 .dog_allowed {
   background:url(/static/dog_allowed.png) no-repeat;
     cursor:pointer;
