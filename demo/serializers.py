@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from demo.models import Spot, Raiting, Opinion, OpinionUsefulnessRating, DogspotUser, OtoFoto
+from demo.models import (
+    Spot, Raiting, Opinion, OpinionUsefulnessRating, DogspotUser, OtoFoto)
 
 
 class OtoFotoSerializer(serializers.HyperlinkedModelSerializer):
@@ -7,7 +8,8 @@ class OtoFotoSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = OtoFoto
-        fields = ('url','obrazek','obrazek_full')
+        fields = ('url', 'obrazek', 'obrazek_full')
+
 
 class DogspotUserSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -76,16 +78,3 @@ class SpotWithDistanceSerializer(SpotListSerializer):
 
     class Meta:
         model = Spot
-
-# class SpotWithDistanceSerializer(serializers.HyperlinkedModelSerializer):
-#     distance = serializers.Field()
-#     friendly_rate = serializers.Field()
-#     dogs_allowed = serializers.Field()
-
-#     class Meta:
-#         model = Spot
-#         fields = (
-#             'id', 'distance', 'url', 'name', 'latitude', 'longitude',
-#             'address_street', 'address_number', 'address_city',
-#             'address_country', 'spot_type', 'is_accepted', 'friendly_rate',
-#             'dogs_allowed', 'phone_number')

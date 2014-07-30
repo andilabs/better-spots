@@ -34,6 +34,7 @@ urlpatterns = patterns(
     url(r'^contact/$', ContactView.as_view(), name='contact'),
     url(r'^dogs/$', 'demo.views.dogs', name='dogs_list'),
     url(r'^map/$', 'demo.views.map', name='map'),
+    url(r'^map_two/$', 'demo.views.map_two', name='map_two'),
     url(r'^certificate/(?P<pk>\d+)/$', 'demo.views.certificate', name='certificate'),
     url(r'^about/$', 'demo.views.about', name='about'),
     url(r'^qrcode/(?P<pk>\d+)/$', 'demo.views.qrencode_vcard', name='qrcode'),
