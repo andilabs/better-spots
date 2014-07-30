@@ -14,12 +14,12 @@ def get_image_path(instance, filename):
 
 
 class OtoFoto(models.Model):
-    title  = models.CharField(max_length=254)
+    title = models.CharField(max_length=254)
     obrazek = models.ImageField(upload_to=get_image_path)
 
     @property
     def obrazek_full(self):
-        return  BASE_HOST + self.obrazek.url
+        return BASE_HOST + self.obrazek.url
 
 SEX = (
     (0, 'female'),

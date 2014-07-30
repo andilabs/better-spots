@@ -24,6 +24,10 @@
   <link href="{{ STATIC_URL }}css/fontello.css" rel="stylesheet">
   <link href="{{ STATIC_URL }}css/bootstrap.min.css" media="screen" rel="stylesheet">
 
+  <!-- jquery UI -->
+  <link rel="stylesheet" href="{{ STATIC_URL }}external/jqueryui/themes/flick/jquery-ui.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="{{ STATIC_URL }}external/jqueryui/themes/flick/jquery.ui.theme.css" type="text/css" media="screen" />
+
   <!-- my custom CSS -->
   <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
 
@@ -94,7 +98,7 @@
               <form class="navbar-form navbar-left" role="navbar-search">
                 <div class="right-inner-addon">
                   <i class="glyphicon glyphicon-search"></i>
-                  <input type="search" class="form-control" placeholder="Search" />
+                  <input type="search" class="form-control" id="main_menu_search" placeholder="Search" />
                 </div>
               </form>
             </li>
@@ -191,7 +195,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/jquery.ui.map.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/jquery.ui.map.extensions.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/holder.js"></script>
-
+    <script type="text/javascript" src="{{ STATIC_URL }}js/common.js"></script>
   {% endblock scripts %}
   {% bootstrap_javascript %}
 

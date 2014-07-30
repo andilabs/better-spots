@@ -17,6 +17,8 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
+    url(r'^ajax_search/$', views.ajax_search),
+    # url(r'^ajax_search/$', views.ajax_search, name="ajax_search"),
     url(r'^foto/(?P<pk>\d+)/$', views.OtoFotoDetail.as_view(), name="otofoto-detail"),
     url(r'^foto/$', views.OtoFotoList.as_view(), name="otofoto-list"),
     url(r'^users/$', views.DogspotUserList.as_view(), name="users-list"),
