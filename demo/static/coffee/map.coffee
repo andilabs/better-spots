@@ -187,7 +187,7 @@ switchColumsClasses = (left, right) ->
 
 loadMarkers = (lat, lng) ->
   arrMarkers = {}
-  # $('#map_canvas').gmap('clear', 'markers')
+  $('#map_canvas').gmap('clear', 'markers')
 
   target = document.getElementById("right_container")
   spinner = new Spinner(opts).spin(target)

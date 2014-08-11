@@ -194,6 +194,7 @@
   loadMarkers = function(lat, lng) {
     var jqxhr, spinner, target, url;
     arrMarkers = {};
+    $('#map_canvas').gmap('clear', 'markers');
     target = document.getElementById("right_container");
     spinner = new Spinner(opts).spin(target);
     url = BASE_HOST + ("/nearby/" + (lat.toFixed(5)) + "/" + (lng.toFixed(5)) + "/" + desiredRadius);
