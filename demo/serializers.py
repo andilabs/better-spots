@@ -48,6 +48,7 @@ class RaitingSerializer(serializers.HyperlinkedModelSerializer):
         many=False, read_only=False, view_name='spot-detail')
     user = serializers.HyperlinkedRelatedField(
         many=False, read_only=False, view_name='dogspotuser-detail')
+    dogs_allowed = serializers.BooleanField()
 
     class Meta:
         model = Raiting
@@ -56,9 +57,6 @@ class RaitingSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class SpotListSerializer(serializers.HyperlinkedModelSerializer):
-
-    friendly_rate = serializers.Field()
-    dogs_allowed = serializers.Field()
 
     class Meta:
         model = Spot

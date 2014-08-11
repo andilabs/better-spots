@@ -1,9 +1,6 @@
 TODO:
 
 
-- zmiana logiki friendly_rate i dogs_allowed - po kazdym safie przelicz i utrwal w Spocie 
-w pojedynczym polu a nie jak teraz property liczone na kazde żądanie
-
 - podobnie jak powyżej wprowadzić is_certificated z regułą zapisaną w predykatach 
 sprawdzanych po każdej dodanej ocenie
 
@@ -40,14 +37,11 @@ sprawdzanych po każdej dodanej ocenie
 		-- dzialanie authktoken z third party login przez social auth
 
 
-- wyszukiwarka ajaxowa
-		(jquery autocomplete z grupowaniem wg rodzaju spotu)
+
 
 
 - utworzenie środowiska apachowego/wsgi na vagrancie z postgresem
-
-
-- postawienie na mini albo lepiej ec2 ?
+- postawienie na ec2
 
 
 - SOCIAL AUTH
@@ -61,3 +55,6 @@ DONE:
 - qrcody
 - vcardy
 - filtrowanie pobranych spotów w JS
+- wyszukiwarka ajaxowa
+		(jquery autocomplete z grupowaniem wg rodzaju spotu)
+- zmiana logiki friendly_rate i dogs_allowed - po kazdym safie przelicz i utrwal w Spocie w pojedynczym polu a nie jak teraz property liczone na kazde żądanie (signal, post_save na Ratingu)

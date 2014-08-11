@@ -205,12 +205,11 @@ def map(request):
         response = TemplateResponse(request, 'map.html', {})
         return response
 
+
 def map_two(request):
     if request.method == 'GET':
         response = TemplateResponse(request, 'map_two.html', {})
         return response
-
-
 
 
 def favourites(request):

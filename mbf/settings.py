@@ -66,7 +66,7 @@ INSTALLED_APPS = (
     'demo',
     'import_export',
     'rest_framework',
-    'south',
+    # 'south',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -99,18 +99,40 @@ LANGUAGES = (
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#         'NAME': 'dogspot.sqlite3',                      # Or path to database file if using sqlite3.
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#         'NAME': 'DOGSPOT_PLAY',                      # Or path to database file if using sqlite3.
+#         # The following settings are not used with sqlite3:
+#         'USER': 'django',
+#         'PASSWORD': 'P@ssw0rd',
+#         'HOST': 'dogspot.dyndns.org',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+#         'PORT': '',                      # Set to empty string for default.
+#     }
+# }
+
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'DOGSPOT_PLAY',                      # Or path to database file if using sqlite3.
+        'NAME': 'DOGSPOT_RETINA',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': 'django',
+        'USER': 'root',
         'PASSWORD': 'P@ssw0rd',
-        'HOST': 'dogspot.dyndns.org',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'HOST': '127.0.0.1',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
     }
 }
+
+
+
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.open_id.OpenIdAuth',

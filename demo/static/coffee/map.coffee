@@ -42,6 +42,20 @@ filters_types =
     "veterinary_care": true
 
 
+desiredRadius = 2000  #in meters
+
+currentMapCenter =
+  lat: null
+  lng: null
+
+
+currentZoomLevel = 14
+
+
+Number::getRatioForZoom = ->
+  console.log this
+  591657550.5/Math.pow(2,(this-1))
+
 
 check_cookies = ->
 
@@ -53,6 +67,34 @@ check_cookies = ->
     if $.cookie(k)
       filters_types[k] = eval($.cookie(k))
 
+Number::toRad = ->
+  this * (Math.PI / 180)
+
+
+calculateDistance = (current_lat, current_lng, new_position_lat, new_position_lng) ->
+  ###* returns distance in KM between two geoLocations represented by pair (lat, lng)###
+  R = 6371
+  dLat = (new_position_lat-current_lat).toRad()
+  dLon = (new_position_lng-current_lng).toRad()
+  current_lat = current_lat.toRad()
+  new_position_lat = new_position_lat.toRad()
+
+  a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(current_lat) * Math.cos(new_position_lat)
+  c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+  d = R * c
+
+
+checkIfNewSpotsShouldBeLoaded = (new_position_lat, new_position_lng, user_zoom_level) ->
+
+  [current_lat, current_lng] = [currentMapCenter.lat, currentMapCenter.lng]
+  distance = calculateDistance(current_lat, current_lng, new_position_lat, new_position_lng)
+
+  if distance > desiredRadius/1000 or currentZoomLevel != user_zoom_level
+    true
+
+  else
+    false
 
 checkIfEmpty = ->
 
@@ -71,15 +113,12 @@ checkIfEmpty = ->
     $("span#memo_empty").remove()
 
   $("#spots_list span.list-group-item:visible:not(:last-child)")
-    # .css('margin-bottom','0')
-    # .css('margin-top', '0')
     .css('border-bottom-right-radius', '0px')
     .css('border-bottom-left-radius', '0px')
 
   $("#spots_list span.list-group-item:visible")
     .last()
       .css('margin-bottom','0')
-      # .css('margin-top', '0')
       .css('border-bottom-right-radius', '4px')
       .css('border-bottom-left-radius', '4px')
 
@@ -128,11 +167,9 @@ filterSpots = ->
 
       if $(@).data("markerek").dogs_allowed not in filtered_allowance or
       spot_type_lookup[$(@).data("markerek").spot_type] not in [k for k,v of filters_types when v is true][0]
-
         $(@).hide()
 
       else
-
         $(@).show()
 
 
@@ -148,18 +185,121 @@ switchColumsClasses = (left, right) ->
 
 
 
+loadMarkers = (lat, lng) ->
+  arrMarkers = {}
+  # $('#map_canvas').gmap('clear', 'markers')
+
+  target = document.getElementById("right_container")
+  spinner = new Spinner(opts).spin(target)
+
+  url = BASE_HOST + "/nearby/#{lat.toFixed(5)}/#{lng.toFixed(5)}/#{desiredRadius}"
+  jqxhr = $.getJSON url, (data) ->
+  # here we iterate over all the returned markers
+    $.each data, (i, marker) ->
+      box = $("<span class='list-group-item' id='#{marker.id}'>
+            <span class='badge' style='background-color:transparent'>
+            <a href='/spots/#{marker.id}' class='spot-details-link disabled' style='color:white'>
+            <i class='fa fa-angle-double-right fa-2x'></i></a></span>
+            <h4 class='list-group-item-heading'>#{marker.name}</h4>
+            <p class='list-group-item-text'>#{marker.address_street}
+            #{marker.address_number}
+            <span class='spot_item_details' id='#{marker.id}'>
+            <br><span class='glyphicon glyphicon-phone-alt'></span>
+            #{marker.phone_number} <a href='http://www.facebook.com/#{marker.id}' >
+            <i class='fa fa-facebook'></i></a>
+            </span>
+            </p></span>").data("markerek", marker)
+
+
+      rating_stars = $("<div class='rate' id='#{marker.id}'></div>")
+          .raty
+            readOnly: false  #here should be variable from django informing either user is logged in or not
+            score: marker.friendly_rate
+
+
+      contentOfInfoWindow = $("<div class='spot_info' id='#{marker.id}'>
+                              <h4>#{marker.name}</h4><br>
+                              #{marker.address_street} #{marker.address_number}</div>")
+          .append(rating_stars)[0]
+
+      console.log marker.id
+      marker.dogs_allowed = "dog_undefined_allowed"  if marker.is_accepted is false
+
+      icony_allowed =
+        true: STATIC_URL + "dog_allowed.png"
+        false: STATIC_URL + "dog_not_allowed.png"
+        dog_undefined_allowed: STATIC_URL + "dog_undefined_allowed.png"
+        null: STATIC_URL + "dog_undefined_allowed.png"
+
+      SpotIcon =
+        url: icony_allowed[marker.dogs_allowed]
+        size: null
+        origin: new google.maps.Point(0, 0)
+        anchor: new google.maps.Point(0, 0)
+
+
+      SpotMarker = new google.maps.Marker
+        position: new google.maps.LatLng(marker.latitude, marker.longitude)
+        bounds: false
+        id: marker.id
+        dogs_allowed: [marker.dogs_allowed]
+        spot_type: [spot_type_lookup[marker.spot_type]]
+        icon: SpotIcon
+
+
+      SpotInfoWindow = new google.maps.InfoWindow
+        content: contentOfInfoWindow
+
+      arrMarkers[marker.id] =
+        marker: SpotMarker
+        info_window: SpotInfoWindow
+        box: box
+
+
+
+
+
+
+
+
+    $("#map_canvas").animate({"opacity": "1.0"}, "slow")
+    $("#filters_map_overlay").animate({"opacity": "1.0"}, "slow")
+
+
+    $("#spots_list").empty()
+
+    for k, marker of arrMarkers
+      console.log marker
+      $("#spots_list").append marker.box
+      $("#map_canvas").gmap("addMarker", marker.marker).click ->
+        console.log "blah", @.id
+        console.log "blah", arrMarkers[@.id]
+        $("#map_canvas").gmap "openInfoWindow", arrMarkers[@.id].info_window, @
+        $("#map_canvas").gmap("get", "map").panTo @.getPosition()
+
+        id = @.id #$(contentOfInfoWindow).attr("id")
+        $("#spots_list span").not("##{id}").removeClass "active"
+        $("#spots_list").find("##{id}").addClass "active"
+
+        $("#spots_list").scrollTop( $("#spots_list").scrollTop() + $("#spots_list").find("##{id}").position().top)
+
+
+
+    checkIfEmpty()
+
+  # filterSpots()
+  spinner.stop()
+
+
 $ ->
 
 
-
-  desiredRadius = 5000
 
   filtersFireButton = null
 
   check_cookies()
 
-  target = document.getElementById("right_container")
-  spinner = new Spinner(opts).spin(target)
+
 
   $('body').on 'click', (e) ->
     if $(e.target).parents("#filters_map_overlay").length is 0
@@ -167,7 +307,6 @@ $ ->
 
 
   $("#map_filters_button")
-
     .popover
       trigger: "click"
       placement: "right"
@@ -268,7 +407,8 @@ $ ->
           position.coords.latitude,
           position.coords.longitude
         )
-
+        currentMapCenter.lat = position.coords.latitude
+        currentMapCenter.lng = position.coords.longitude
       # here we set icon showing user current location
       $("#map_canvas").gmap "addMarker",
         position: clientPosition
@@ -280,98 +420,38 @@ $ ->
           size: new google.maps.Size(50,50)
 
       # here we prepare url and make call for markers
-      url = BASE_HOST + "/nearby/#{clientPosition.lat().toFixed(5)}/#{clientPosition.lng().toFixed(5)}/#{desiredRadius}"
-      jqxhr = $.getJSON url, (datax) ->
-        $.each datax, (i, marker) ->
-          box = $("<span class='list-group-item' id='#{marker.id}'>
-                <span class='badge' style='background-color:transparent'>
-                <a href='/spots/#{marker.id}' class='spot-details-link disabled' style='color:white'>
-                <i class='fa fa-angle-double-right fa-2x'></i></a></span>
-                <h4 class='list-group-item-heading'>#{marker.name}</h4>
-                <p class='list-group-item-text'>#{marker.address_street}
-                #{marker.address_number}
-                <span class='spot_item_details' id='#{marker.id}'>
-                <br><span class='glyphicon glyphicon-phone-alt'></span>
-                #{marker.phone_number} <a href='http://www.facebook.com/#{marker.id}' >
-                <i class='fa fa-facebook'></i></a>
-                </span>
-                </p></span>").data("markerek", marker)
 
-          $("#spots_list").append box
 
-          rating_stars = $("<div class='rate'></div>")
-              .raty
-                readOnly: true
-                score: marker.friendly_rate
+      loadMarkers(clientPosition.lat(), clientPosition.lng())
+      $("#map_canvas").gmap "option", "zoom", 14
 
-          contentOfInfoWindow = $("<div class='spot_info' id='#{marker.id}'>
-                                  <h4>#{marker.name}</h4><br>
-                                  #{marker.address_street} #{marker.address_number}</div>")
-              .append(rating_stars)[0]
 
-          marker.dogs_allowed = "dog_undefined_allowed"  if marker.is_accepted is false
 
-          icony_allowed =
-            true: STATIC_URL + "dog_allowed.png"
-            false: STATIC_URL + "dog_not_allowed.png"
-            dog_undefined_allowed: STATIC_URL + "dog_undefined_allowed.png"
 
-          SpotIcon = new google.maps.MarkerImage(
-            icony_allowed[marker.dogs_allowed],
-            null,
-            new google.maps.Point(0, 0),
-            new google.maps.Point(0, 0)
-          )
 
-          SpotMarker = new google.maps.Marker(
-            position: new google.maps.LatLng(marker.latitude, marker.longitude)
-            bounds: false
-            id: marker.id
-            dogs_allowed: [marker.dogs_allowed]
-            spot_type: [spot_type_lookup[marker.spot_type]]
-            icon: SpotIcon
-          )
+$("#map_canvas").on 'click', (e) ->
+  new_position =  $('#map_canvas').gmap('get','map').getCenter()
+  user_zoom_level = $('#map_canvas').gmap('get','map').getZoom()
+  console.log $('#map_canvas').gmap('get','map').getZoom()
 
-          SpotInfoWindow = new google.maps.InfoWindow(content: contentOfInfoWindow)
+  if checkIfNewSpotsShouldBeLoaded(new_position.lat(), new_position.lng(), user_zoom_level)
+    currentMapCenter.lat = new_position.lat()
+    currentMapCenter.lng = new_position.lng()
+    currentZoomLevel = $('#map_canvas').gmap('get','map').getZoom()
+    desiredRadius =  Math.floor(currentZoomLevel.getRatioForZoom()/10/2)
+    loadMarkers(new_position.lat(), new_position.lng())
 
-          arrMarkers[marker.id] =
-            marker: SpotMarker
-            info_window: SpotInfoWindow
 
-          $("#map_canvas").gmap("addMarker", SpotMarker).click ->
+  console.log "currentZoomLevel", currentZoomLevel
+  console.log "radius:", desiredRadius
 
-            $("#map_canvas").gmap "openInfoWindow", SpotInfoWindow, @
-            $("#map_canvas").gmap("get", "map").panTo @.getPosition()
 
-            id = $(contentOfInfoWindow).attr("id")
-            $("#spots_list span").not("##{id}").removeClass "active"
-            $("#spots_list").find("##{id}").addClass "active"
 
-            $("#spots_list").scrollTop( $("#spots_list").scrollTop() + $("#spots_list").find("##{id}").position().top)
+$("#map_canvas").on 'click', 'div.rate', (e) ->
+    #here should happen POST with rating for spot given by logged-in user.
+    console.log "spot: #{@.id}"
+    console.log $(@).find('input[name="score"]').val()
 
-        filterSpots()
-        spinner.stop()
-        $("#map_canvas").gmap "option", "zoom", 14
-
-        $("#map_canvas").animate({"opacity": "1.0"}, "slow")
-        $("#filters_map_overlay").animate({"opacity": "1.0"}, "slow")
-
-        checkIfEmpty()
-        # myOptions =
-        #   zoom: 8
-        #   center: clientPosition
-        #   mapTypeId: google.maps.MapTypeId.ROADMAP
-
-        # my_map = new google.maps.Map($("#map_canvas")[0], myOptions)
-        # # console.log my_map
-
-        # $($("#map_canvas").gmap("get", "map")).click (event) ->
-        #   console.log "clicked loc is---->", event.latLng
-        #   valMap = my_map.getCenter()
-        #   console.log(valMap)
-
-$('#map_canvas').on 'draggend', (e) ->
-  console.log "dragged"
 
 $("#spots_list").on "click", "span.list-group-item:not(#memo_empty)", (evt) ->
 

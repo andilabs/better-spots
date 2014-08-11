@@ -7,6 +7,8 @@ from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, PermissionsMixin, BaseUserManager
 )
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 def get_image_path(instance, filename):
@@ -154,39 +156,13 @@ class Spot(models.Model):
     www = models.URLField(blank=True, null=True)
     facebook = models.CharField(max_length=254, blank=True, null=True)
 
+    dogs_allowed = models.NullBooleanField(default=None)
+    friendly_rate = models.DecimalField(default=-1.00, max_digits=3, decimal_places=2)
+
     @property
     def facebook_url(self):
         facebook_url = "http://www.facebook.com/%s" % self.facebook if self.facebook else None
         return facebook_url
-
-    @property
-    def friendly_rate(self):
-
-        all_raitings_of_spot = Raiting.objects.filter(spot_id=self.id)
-        sum_of_ratings = sum(i.friendly_rate for i in all_raitings_of_spot)
-
-        if all_raitings_of_spot:
-            return sum_of_ratings/float(len(all_raitings_of_spot))
-        else:
-            return -1.0
-
-    @property
-    def dogs_allowed(self):
-
-        all_raitings_of_spot = Raiting.objects.filter(spot_id=self.id)
-
-        if all_raitings_of_spot:
-
-            sum_of_allowed = sum(i.dogs_allowed for i in all_raitings_of_spot)
-
-            if sum_of_allowed > len(all_raitings_of_spot)/2:
-                return True
-
-            else:
-                return False
-
-        else:
-            return False
 
     @property
     def raitings(self):
@@ -231,6 +207,25 @@ class Raiting(models.Model):
             self.user.email,
             self.friendly_rate
             )
+
+
+@receiver(post_save, sender=Raiting)
+def update_spot_ratings(instance, **kwags):
+
+    spot = instance.spot
+
+    all_raitings_of_spot = Raiting.objects.filter(spot_id=spot.id)
+    spot_rate = sum(
+        i.friendly_rate for i in all_raitings_of_spot) / float(
+        len(all_raitings_of_spot))
+
+    spot_allowance = True if sum(
+        i.dogs_allowed for i in all_raitings_of_spot) > len(
+        all_raitings_of_spot) / 2 else False
+
+    spot.friendly_rate = spot_rate
+    spot.dogs_allowed = spot_allowance
+    spot.save()
 
 
 class Opinion(models.Model):
