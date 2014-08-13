@@ -29,6 +29,9 @@ urlpatterns = patterns(
     url(r'^raitings/$', views.RaitingList.as_view(), name="raiting-list"),
     url(r'^raitings/(?P<pk>\d+)/$', views.RaitingDetail.as_view(), name="raiting-detail"),
 
+
+    url(r'^pdf/$', 'demo.views.myview', name="myview"),
+
     url(r'^spots/$', views.SpotList.as_view(), name="spot-list"),
     url(r'^spots/(?P<pk>\d+)/$', views.SpotDetail.as_view(), name="spot-detail"),
     url(r'^admin/', include(admin.site.urls)),
