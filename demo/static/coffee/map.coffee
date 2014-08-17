@@ -27,8 +27,6 @@ spot_type_lookup =
   9: "veterinary care"# google type: veterinary_care
   0: "hotel"
 
-my_map = null
-
 arrMarkers = {}
 
 filters_allowance =
@@ -41,13 +39,11 @@ filters_types =
     "restaurant": true
     "veterinary_care": true
 
-
 desiredRadius = 2000  #in meters
 
 currentMapCenter =
   lat: null
   lng: null
-
 
 currentZoomLevel = 14
 
@@ -69,6 +65,17 @@ check_cookies = ->
 
 Number::toRad = ->
   this * (Math.PI / 180)
+
+
+zoomBasedIconScaleRatio = ->
+  if currentZoomLevel >= 15
+    return 1.0
+
+  if currentZoomLevel >= 12
+    return 1.5
+
+  else
+    return 2.0
 
 
 calculateDistance = (current_lat, current_lng, new_position_lat, new_position_lng) ->
@@ -99,28 +106,17 @@ checkIfNewSpotsShouldBeLoaded = (new_position_lat, new_position_lng, user_zoom_l
 checkIfEmpty = ->
 
   if $("#spots_list span.list-group-item:visible").not("#memo_empty").size() == 0
-
     box = $("<span class='list-group-item disabled' id='memo_empty'>
             <h4 class='list-group-item-heading'>No spots to show</h4>
             <p class='list-group-item-text'>
-            Try using filters to find some spots
+            Try using filters and zoom out to find some spots
             </p></span>")
     if $("#spots_list span#memo_empty").size() == 0
       $("#spots_list").append box
 
   else
-
     $("span#memo_empty").remove()
 
-  $("#spots_list span.list-group-item:visible:not(:last-child)")
-    .css('border-bottom-right-radius', '0px')
-    .css('border-bottom-left-radius', '0px')
-
-  $("#spots_list span.list-group-item:visible")
-    .last()
-      .css('margin-bottom','0')
-      .css('border-bottom-right-radius', '4px')
-      .css('border-bottom-left-radius', '4px')
 
 
 hideAllInfoWindows = ->
@@ -141,56 +137,43 @@ filterSpots = ->
   if filters_allowance["dog_undefined_allowed"] is true
     filtered_allowance.push 'dog_undefined_allowed'
 
-
   filtered_types = ['lapka']
 
   for k,v of filters_types
     if v is true
       filtered_types.push k
 
-
   $('#map_canvas').gmap 'find', 'markers', { 'property': 'dogs_allowed', 'value': filtered_allowance}, (marker, found) ->
-
     marker.setVisible(found)
 
-
-
   $('#map_canvas').gmap 'find', 'markers', { 'property': 'spot_type', 'value': filtered_types }, (marker, found) ->
-
-    if marker.visible isnt false
+   if marker.visible isnt false
       marker.setVisible(found)
-
     hideAllInfoWindows()
 
-
   $("#spots_list span.list-group-item").not("#memo_empty").each ->
-
       if $(@).data("markerek").dogs_allowed not in filtered_allowance or
       spot_type_lookup[$(@).data("markerek").spot_type] not in [k for k,v of filters_types when v is true][0]
         $(@).hide()
-
       else
         $(@).show()
 
 
 switchColumsClasses = (left, right) ->
-
       $(left)
         .removeClass 'col-md-3'
         .addClass 'col-md-9 no-col-padding'
-
       $(right)
         .removeClass 'col-md-9 no-col-padding'
         .addClass 'col-md-3'
 
 
-
 loadMarkers = (lat, lng) ->
-  arrMarkers = {}
-  $('#map_canvas').gmap('clear', 'markers')
-
   target = document.getElementById("right_container")
   spinner = new Spinner(opts).spin(target)
+
+  arrMarkers = {}
+  $('#map_canvas').gmap('clear', 'markers')
 
   url = BASE_HOST + "/nearby/#{lat.toFixed(5)}/#{lng.toFixed(5)}/#{desiredRadius}"
   jqxhr = $.getJSON url, (data) ->
@@ -231,11 +214,13 @@ loadMarkers = (lat, lng) ->
         dog_undefined_allowed: STATIC_URL + "dog_undefined_allowed.png"
         null: STATIC_URL + "dog_undefined_allowed.png"
 
+
       SpotIcon =
         url: icony_allowed[marker.dogs_allowed]
         size: null
         origin: new google.maps.Point(0, 0)
         anchor: new google.maps.Point(0, 0)
+        scaledSize: new google.maps.Size(30/zoomBasedIconScaleRatio(), 30/zoomBasedIconScaleRatio())
 
 
       SpotMarker = new google.maps.Marker
@@ -255,25 +240,19 @@ loadMarkers = (lat, lng) ->
         info_window: SpotInfoWindow
         box: box
 
-
-
-
-
-
+    spinner.stop()
 
 
     $("#map_canvas").animate({"opacity": "1.0"}, "slow")
     $("#filters_map_overlay").animate({"opacity": "1.0"}, "slow")
-
-
     $("#spots_list").empty()
 
+
     for k, marker of arrMarkers
-      console.log marker
+
       $("#spots_list").append marker.box
       $("#map_canvas").gmap("addMarker", marker.marker).click ->
-        console.log "blah", @.id
-        console.log "blah", arrMarkers[@.id]
+        console.log "Clicked marker with ID=#{@id}"
         $("#map_canvas").gmap "openInfoWindow", arrMarkers[@.id].info_window, @
         $("#map_canvas").gmap("get", "map").panTo @.getPosition()
 
@@ -286,9 +265,8 @@ loadMarkers = (lat, lng) ->
 
 
     checkIfEmpty()
+    filterSpots()
 
-  # filterSpots()
-  spinner.stop()
 
 
 $ ->
@@ -296,7 +274,6 @@ $ ->
 
 
   filtersFireButton = null
-
   check_cookies()
 
 
@@ -313,7 +290,6 @@ $ ->
       html: true
       title: "Setup your filters:"
       content: $("#map_filters").load(STATIC_URL + "filters_popover.html")
-
     .on 'click', (e) ->
       $("#map_filters").css('display','block')
 
@@ -321,9 +297,7 @@ $ ->
   $(document).on 'click', '#back_to_list', (e) ->
 
     $("#spot_detail").remove()
-
     switchColumsClasses('#right_container', '#left_container')
-
     filtersFireButton.appendTo("#right_container")
 
     $("#spots_list").show()
@@ -357,31 +331,23 @@ $ ->
 
 
   $(document).on 'click', '#map_filters_button', (e) ->
+    # RESTORE state of filters from cookies
 
     $("#map_filters input.map_filter").each ->
-
-      ciacho = $.cookie($(@).attr('name'))
-
-      if ciacho
-        if ciacho == "true"
-          $(@).prop('checked', ciacho)
+      theCookie = $.cookie($(@).attr('name'))
+      if theCookie
+        if theCookie == "true"
+          $(@).prop('checked', theCookie)
       else
         $(@).prop('checked', true) #on init without cookie always checked
 
-      if $(@).prop('checked') is false
-        $(@).parent().css('opacity','0.2')
+      $(@).parent().css('opacity', if $(@).prop('checked') is false then '0.2' else '1')
 
-      else
-        $(@).parent().css('opacity','1')
 
 
   $(document).on "change", "#map_filters input.map_filter", (e) ->
 
-    if $(@).prop('checked') is false
-      $(@).parent().css('opacity','0.2')
-
-    else
-      $(@).parent().css('opacity','1')
+    $(@).parent().css('opacity', if $(@).prop('checked') is false then '0.2' else '1')
 
     $.cookie($(@).attr('name'), $(@).prop('checked'), {path: '/map', expires: 1})
 
@@ -391,6 +357,7 @@ $ ->
 
 
   # here the map is initialized
+
   $("#map_canvas").gmap({'scrollwheel':false}).bind "init", (evt, map) ->
 
     options =
@@ -403,36 +370,33 @@ $ ->
     $("#map_canvas").gmap "getCurrentPosition", (position, status, options) ->
 
       if status is "OK"
-        clientPosition = new google.maps.LatLng(
-          position.coords.latitude,
-          position.coords.longitude
-        )
+        clientPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         currentMapCenter.lat = position.coords.latitude
         currentMapCenter.lng = position.coords.longitude
-      # here we set icon showing user current location
-      $("#map_canvas").gmap "addMarker",
-        position: clientPosition
-        bounds: true
-        dogs_allowed: ['lapka']
-        spot_type: ['lapka']
-        icon:
-          url: STATIC_URL + 'lapka_icon.png',
-          size: new google.maps.Size(50,50)
-
-      # here we prepare url and make call for markers
 
 
       loadMarkers(clientPosition.lat(), clientPosition.lng())
+
+      # here we set icon showing user current location
+      $("#map_canvas")
+        .gmap "addMarker",
+          position: clientPosition
+          bounds: true
+          dogs_allowed: ['lapka']
+          spot_type: ['lapka']
+          icon:
+            url: STATIC_URL + 'lapka_icon.png',
+            size: new google.maps.Size(50,50)
+
       $("#map_canvas").gmap "option", "zoom", 14
 
 
 
-
-
 $("#map_canvas").on 'click', (e) ->
+
   new_position =  $('#map_canvas').gmap('get','map').getCenter()
   user_zoom_level = $('#map_canvas').gmap('get','map').getZoom()
-  console.log $('#map_canvas').gmap('get','map').getZoom()
+
 
   if checkIfNewSpotsShouldBeLoaded(new_position.lat(), new_position.lng(), user_zoom_level)
     currentMapCenter.lat = new_position.lat()
@@ -440,17 +404,17 @@ $("#map_canvas").on 'click', (e) ->
     currentZoomLevel = $('#map_canvas').gmap('get','map').getZoom()
     desiredRadius =  Math.floor(currentZoomLevel.getRatioForZoom()/10/2)
     loadMarkers(new_position.lat(), new_position.lng())
+    clientPosition = new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng)
 
 
-  console.log "currentZoomLevel", currentZoomLevel
-  console.log "radius:", desiredRadius
+  console.log "currentZoomLevel: #{currentZoomLevel} R=#{desiredRadius}"
 
 
 
 $("#map_canvas").on 'click', 'div.rate', (e) ->
     #here should happen POST with rating for spot given by logged-in user.
-    console.log "spot: #{@.id}"
-    console.log $(@).find('input[name="score"]').val()
+    console.log "spot: #{@.id} score: #{$(@).find('input[name="score"]').val()}"
+
 
 
 $("#spots_list").on "click", "span.list-group-item:not(#memo_empty)", (evt) ->

@@ -170,7 +170,7 @@ def nearby_spots(request, lat, lng, radius=5000, limit=50):
                *cos(radians(latitude))*cos(radians(longitude)-radians(%2f))
                +sin(radians(%2f))*sin(radians(latitude))))
                AS distance FROM demo_spot HAVING
-               distance < %d ORDER BY distance LIMIT 0, %d""" % (
+               distance < %2f ORDER BY distance LIMIT 0, %d""" % (
         float(lat),
         float(lng),
         float(lat),
