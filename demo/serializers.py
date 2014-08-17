@@ -15,7 +15,7 @@ class DogspotUserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = DogspotUser
-        fields = ('url', 'mail_sent', 'email')
+        fields = ('url', 'mail_verified', 'email')
 
 
 class OpinionUsefulnessRatingSerializer(serializers.HyperlinkedModelSerializer):

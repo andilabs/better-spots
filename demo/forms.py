@@ -1,15 +1,15 @@
-import uuid
+
 import datetime
-from django.conf import settings
+
 from django import forms
 #from django.contrib.auth import authenticate
 
 # from django.core.mail import EmailMessage
 from bootstrap3_datetime.widgets import DateTimePicker
 
-from demo.models import DogspotUser, EmailVerification
+from demo.models import DogspotUser
 #from datetimewidget.widgets import DateTimeWidget
-from django.core.mail import EmailMessage
+
 
 # dateTimeOptions = {
 #     'id': "date",
@@ -22,24 +22,6 @@ from django.core.mail import EmailMessage
 #     'maxView': 2,
 #     'todayBtn': 'true'
 # }
-
-
-def send_email_with_verifiaction_key(user):
-    email_verification = EmailVerification(
-        verification_key=str(uuid.uuid4()),
-        user=user)
-    email_verification.save()
-
-    subject = "Verify your e-mail to activate your Dogpsot account."
-    mail_content = "Please clcik this link to activate your account http://127.0.0.1:8000/user/email_verification/%s" % email_verification.verification_key
-
-    msg = EmailMessage(
-        subject,
-        mail_content,
-        settings.EMAIL_HOST_USER,
-        [user.email, ]
-        )
-    msg.send()
 
 
 class UserCreationForm(forms.ModelForm):
@@ -65,13 +47,11 @@ class UserCreationForm(forms.ModelForm):
             raise forms.ValidationError("Passwords don't match")
         return password2
 
-    def save(self, commit=True):
+    def save(self, commit=False):
         # Save the provided password in hashed format
         user = super(UserCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
-        if commit:
-            user.save()
-            send_email_with_verifiaction_key(user)
+        user.save()
         return user
 
 
@@ -82,16 +62,15 @@ class ContactForm(forms.Form):
     #     widget=DateTimeWidget(options=dateTimeOptions),
     # )
 
-    date = forms.DateField(initial=datetime.date.today,
-                           widget=DateTimePicker(
-                               options={
-                                   "format": "DD-MM-YYYY",
-                                   "pickTime": False,
-                                   "showToday": True,
-                               })
-                           )
+    date = forms.DateField(
+        initial=datetime.date.today,
+        widget=DateTimePicker(
+            options={
+                "format": "DD-MM-YYYY",
+                "pickTime": False,
+                "showToday": True,
+                })
+        )
 
     message = forms.CharField(widget=forms.Textarea)
 
-    def send_email(request):
-        pass

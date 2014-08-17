@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-
 import json
+import uuid
 import base64
 import quopri
 import vobject
@@ -31,26 +31,29 @@ from rest_framework.authtoken.models import Token
 from rest_framework.renderers import JSONRenderer
 from rest_framework import generics
 
-from demo.models import (
+from .models import (
     Spot, DogspotUser, Dog, EmailVerification,
     Raiting, Opinion, OpinionUsefulnessRating, OtoFoto, SPOT_TYPE)
-from demo.serializers import (
+
+from .serializers import (
     SpotDetailSerializer,
     SpotWithDistanceSerializer, SpotListSerializer, RaitingSerializer,
     OpinionSerializer, OpinionUsefulnessRatingSerializer,
     DogspotUserSerializer, OtoFotoSerializer)
-from demo.authentication import ExpiringTokenAuthentication
-from demo.forms import (
+
+from .authentication import ExpiringTokenAuthentication
+
+from .forms import (
     ContactForm,
-    UserCreationForm,
-    send_email_with_verifiaction_key)
+    UserCreationForm)
+
+# from .models import send_email_with_verifiaction_key
 
 
 import cStringIO as StringIO
 import ho.pisa as pisa
 from django.template.loader import get_template
 from django.template import Context
-from django.http import HttpResponse
 from cgi import escape
 
 
@@ -193,7 +196,7 @@ def mail_verification(request, verification_key):
             verification_key=verification_key)
         user = existing_account.user
 
-        if user.mail_sent is True:
+        if user.mail_verified is True:
                 messages.add_message(
                     request, messages.SUCCESS,
                     "Your account is arleady active! Just log in!")
@@ -203,7 +206,7 @@ def mail_verification(request, verification_key):
 
             if timezone.now() - existing_account.key_timestamp < timedelta(
                     hours=settings.EMAIL_VERIFY_KEY_EXPIREATION_PERIOD_HOURS):
-                user.mail_sent = True
+                user.mail_verified = True
                 user.save()
                 messages.add_message(
                     request, messages.SUCCESS,
@@ -211,7 +214,10 @@ def mail_verification(request, verification_key):
                 return redirect('login')
 
             else:
-                send_email_with_verifiaction_key(user)
+                email_verification = EmailVerification(
+                    verification_key=str(uuid.uuid4()),
+                    user=user)
+                email_verification.save()
                 messages.add_message(
                     request, messages.WARNING,
                     "The E-mail verification link has expired. We"
@@ -225,12 +231,6 @@ def mail_verification(request, verification_key):
             request, messages.ERROR,
             "Account does not exist")
         return redirect('user_create')
-
-
-def send_email(mail_content, to, subject="contact form"):
-    to = str(to)
-    msg = EmailMessage(subject, mail_content, settings.EMAIL_HOST_USER, [to, ])
-    msg.send()
 
 
 def map(request):
@@ -286,7 +286,7 @@ def mylogin(request):
         password = request.POST['password']
         user = authenticate(email=email, password=password)
         if user is not None:
-            if user.mail_sent:
+            if user.mail_verified:
                 login(request, user)
                 messages.add_message(
                     request,
@@ -295,9 +295,9 @@ def mylogin(request):
             else:
                 messages.add_message(
                     request,
-                    messages.ERROR,
+                    messages.WARNING,
                     'Your account is not active. Check your mailbox and verify'
-                    + ' E-mail by clicking the link we send you.')
+                    + ' E-mail by clicking the link we sent you.')
                 return redirect('login')
         else:
             messages.add_message(
@@ -323,15 +323,18 @@ def mylogout(request):
 class ContactView(FormView):
     template_name = 'contact.html'
     form_class = ContactForm
+    success_url = '/'
 
     def form_valid(self, form):
         content = form.cleaned_data.get('message')
-        send_email(content, form.cleaned_data.get('mail'))
+        to = str(form.cleaned_data.get('mail'))
+        msg = EmailMessage("contact form", content, settings.EMAIL_HOST_USER, [to, ])
+        msg.send()
+
         messages.add_message(
             self.request,
             messages.SUCCESS, 'Your message was sucessfully sent!'
             )
-        return redirect('glowna')
         return super(ContactView, self).form_valid(form)
 
 
@@ -347,8 +350,8 @@ class DogspotUserCreate(CreateView):
             'Your account was created, but it is not active.' +
             ' We sent you e-mail with confrimation link'
             )
-        super(DogspotUserCreate, self).form_valid(form)
-        return redirect('login')
+        return super(DogspotUserCreate, self).form_valid(form)
+        #return redirect('login')
 
 
 def dogs(request):

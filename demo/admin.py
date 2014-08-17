@@ -56,7 +56,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = DogspotUser
-        fields = ('email', 'mail_sent',)
+        fields = ('email', 'mail_verified',)
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -91,7 +91,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = DogspotUser
-        fields = ('email', 'password', 'mail_sent', 'is_active', 'is_admin')
+        fields = ('email', 'password', 'mail_verified', 'is_active', 'is_admin')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -103,8 +103,8 @@ class UserChangeForm(forms.ModelForm):
         user = super(UserChangeForm, self).save(commit=False)
         cleaned_data = self.cleaned_data
         old_status = DogspotUser.objects.get(email=cleaned_data['email'])
-        if ((old_status.mail_sent is False or old_status.mail_sent is None) and
-                cleaned_data['mail_sent'] is True):
+        if ((old_status.mail_verified is False or old_status.mail_verified is None) and
+                cleaned_data['mail_verified'] is True):
             new_pass = get_new_password()
             user.set_password(new_pass)
             send_credentials(user.email, new_pass)
@@ -126,8 +126,8 @@ def send_credentials(email, new_pass):
 def send_credentials_to_selected(modeladmin, request, queryset):
     for q in queryset:
         this_user = DogspotUser.objects.get(email=q)
-        if this_user.mail_sent is False:
-            this_user.mail_sent = True
+        if this_user.mail_verified is False:
+            this_user.mail_verified = True
             new_pass = get_new_password()
             this_user.set_password(new_pass)
             this_user.save()
@@ -142,10 +142,10 @@ class DogspotUserAdmin(UserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('email', 'mail_sent', 'is_admin')
-    list_filter = ('is_admin', 'mail_sent')
+    list_display = ('email', 'mail_verified', 'is_admin')
+    list_filter = ('is_admin', 'mail_verified')
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'mail_sent')}),
+        (None, {'fields': ('email', 'password', 'mail_verified')}),
         ('Permissions', {'fields': ('is_admin',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -153,7 +153,7 @@ class DogspotUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'mail_sent', 'password1', 'password2')
+            'fields': ('email', 'mail_verified', 'password1', 'password2')
         }),
     )
     search_fields = ('email',)
