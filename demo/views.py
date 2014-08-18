@@ -215,7 +215,7 @@ def mail_verification(request, verification_key):
 
             else:
                 email_verification = EmailVerification(
-                    verification_key=str(uuid.uuid4()),
+                    verification_key=base64.urlsafe_b64encode(uuid.uuid4().bytes)[:21],
                     user=user)
                 email_verification.save()
                 messages.add_message(
@@ -444,38 +444,25 @@ def auth_ex(request):
 
         email = request.POST['email']
         password = request.POST['password']
-        user = authenticate(username=email, password=password)
-        time_now = datetime.now()  # .replace(tzinfo=utc)
+        user = authenticate(email=email, password=password)
+        time_now = datetime.now()
 
-        if user is not None:
-
-            if user.is_active:
-
-                token, created = Token.objects.get_or_create(
-                    user=DogspotUser.objects.get(email=email))
-
+        if user and user.is_active:
+                token, created = Token.objects.get_or_create(user=user)
                 if not created and token.created < time_now - timedelta(
                         hours=settings.TOKEN_EXPIRES_AFTER):
+                    # for comparing dates USE_TZ = False
                     token.delete()
-                    token = Token.objects.create(
-                        user=DogspotUser.objects.get(email=email)
-                        )
+                    token = Token.objects.create(user=user)
                     token.created = datetime.now()
                     token.save()
 
                 return HttpResponse(
                     json.dumps({'token': token.key}),
-                    content_type="application/json; charset=UTF-8"
-                )
-
-            else:
-                return HttpResponse('Unauthorized', status=401)
+                    content_type="application/json; charset=UTF-8")
 
         else:
             return HttpResponse('Unauthorized', status=401)
-
-    else:
-        return HttpResponse("Bye others", content_type="text/plain")
 
 
 @api_view(['PUT'])

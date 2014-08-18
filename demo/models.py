@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 import uuid
+import base64
 
 from django.db import models
 from django.db.models.signals import post_save
@@ -120,7 +121,7 @@ class DogspotUser(AbstractBaseUser, PermissionsMixin):
 
 
 class EmailVerification(models.Model):
-    verification_key = models.CharField(max_length=36, unique=True)
+    verification_key = models.CharField(max_length=21, unique=True)
     key_timestamp = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(DogspotUser)
 
@@ -274,7 +275,7 @@ def update_spot_ratings(instance, **kwags):
 def verify_email(sender, instance, created, *args, **kwargs):
     if created:
         email_verification = EmailVerification(
-            verification_key=str(uuid.uuid4()),
+            verification_key=base64.urlsafe_b64encode(uuid.uuid4().bytes)[:21],
             user=instance)
         email_verification.save()
 
