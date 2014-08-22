@@ -47,8 +47,6 @@ from .forms import (
     ContactForm,
     UserCreationForm)
 
-# from .models import send_email_with_verifiaction_key
-
 
 import cStringIO as StringIO
 import ho.pisa as pisa
@@ -63,34 +61,46 @@ def render_to_pdf(template_src, context_dict):
     html = template.render(context)
     result = StringIO.StringIO()
 
-    pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("ISO-8859-1")), result)
+    pdf = pisa.pisaDocument(
+        StringIO.StringIO(html.encode('utf-8')),
+        result,
+        encoding='UTF-8')
+
     if not pdf.err:
         return HttpResponse(result.getvalue(), mimetype='application/pdf')
+
     return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
 
 
 def myview(request):
     #Retrieve data or whatever you need
-    results = [1, 2, 4, "foo"]
 
     return render_to_pdf(
         'mytemplatePDF.html',
         {
-            'pagesize': 'A4',
-            'mylist': results,
-        }
+            'pagesize': 'A6',
+            'content': "Jakaś kawiarnia ąćęłńóśźż ĄĆĘŁŃÓŚŹŻ",
+      }
     )
 
 
 def ajax_search(request):
-    query = request.GET.get('q', '')
-    result = [{'name': s.name,
-               'category': SPOT_TYPE[s.spot_type-1][1],
-               'url': '/spots/%s' % str(s.id)} for s in Spot.objects.filter(
-        name__icontains=query).order_by('spot_type')]
 
-    return HttpResponse(json.dumps(result, ensure_ascii=False),
-                        content_type="application/json")
+    query = request.GET.get('q', '')
+
+    result = [
+        {
+            'name': s.name,
+            'category': SPOT_TYPE[s.spot_type-1][1],
+            'url': '/spots/%s' % str(s.id)
+        }
+        for s in Spot.objects.filter(
+            name__icontains=query).order_by('spot_type')
+    ]
+
+    return HttpResponse(
+        json.dumps(result, ensure_ascii=False),
+        content_type="application/json")
 
 
 class OtoFotoDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -182,9 +192,7 @@ def nearby_spots(request, lat, lng, radius=5000, limit=50):
     )
 
     queryset = Spot.objects.raw(kwerenda)
-
     serializer = SpotWithDistanceSerializer(queryset, many=True)
-
     return JSONResponse(serializer.data)
 
 
@@ -263,7 +271,7 @@ def certificate(request, pk):
         spot = Spot.objects.get(pk=pk)
         if request.method == 'GET':
 
-            link = '/qrcode/%d' % int(pk)
+            link = '/qrcode/%d/' % int(pk)
             return render(
                 request,
                 'certificate.html',
@@ -351,7 +359,6 @@ class DogspotUserCreate(CreateView):
             ' We sent you e-mail with confrimation link'
             )
         return super(DogspotUserCreate, self).form_valid(form)
-        #return redirect('login')
 
 
 def dogs(request):
@@ -393,25 +400,25 @@ def prepare_vcard(spot):
 
 
 def download_vcard(request, pk):
-    # moze fajnie by zrobic oddzielna funkce do robieni vcardki z zalaczaniem obrazka
+
     spot = Spot.objects.get(pk=pk)
-    dane = prepare_vcard(spot) #.encode('utf-8-sig')  # base64.b64encode()
+    dane = prepare_vcard(spot)
 
     response = HttpResponse(dane, content_type="text/x-vcard")
-    # response['Content-Transfer-Encoding'] = 'base64'
-    response['Content-Disposition'] = 'filename=%s vcard from dogspot.vcf' % spot.name
+    response['Content-Disposition'] = 'filename=%s via dogspot.vcf' % spot.name
 
     return response
 
 
-def qrencode_vcard(request, pk):
+def qrencode_vcard(request, pk, sizer=3):
 
     spot = Spot.objects.get(pk=pk)
     dane = prepare_vcard(spot)
+
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=3,
+        box_size=int(sizer),
         border=4,
     )
 
