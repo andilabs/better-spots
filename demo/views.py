@@ -74,7 +74,6 @@ def render_to_pdf(template_src, context_dict):
 
 
 def pdf_sticker(request, pk):
-    #Retrieve data or whatever you need
 
     if Spot.objects.get(pk=pk).friendly_rate > 4.5:
 
@@ -83,10 +82,10 @@ def pdf_sticker(request, pk):
             {
                 'pagesize': 'A6',
                 'spot': Spot.objects.get(pk=pk),
-          }
+            }
         )
     else:
-        raise Http404 
+        raise Http404
 
 
 def ajax_search(request):
@@ -415,26 +414,33 @@ def download_vcard(request, pk):
     return response
 
 
-def qrencode_vcard(request, pk, sizer=3):
-
-    spot = Spot.objects.get(pk=pk)
-    dane = prepare_vcard(spot)
+def make_qrcode(data, version=1, box_size=3, border=4):
 
     qr = qrcode.QRCode(
-        version=1,
+        version=version,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=int(sizer),
-        border=4,
+        box_size=int(box_size),
+        border=border,
     )
 
-    qr.add_data(dane)
+    qr.add_data(data)
     qr.make(fit=True)
 
     img = qr.make_image()
 
+    return img
+
+
+def qrencode_vcard(request, pk, size=3):
+
+    spot = Spot.objects.get(pk=pk)
+    dane = prepare_vcard(spot)
+
+    img = make_qrcode(dane, box_size=size)
+
     response = HttpResponse(content_type="image/png")
     img.save(response, "png")
-    response['Content-Disposition'] = 'filename=%s qrcode from dogspot.png' % spot.name
+    response['Content-Disposition'] = 'filename=%s by dogspot.png' % spot.name
     return response
 
 
@@ -463,7 +469,7 @@ def auth_ex(request):
                 token, created = Token.objects.get_or_create(user=user)
                 if not created and token.created < time_now - timedelta(
                         hours=settings.TOKEN_EXPIRES_AFTER):
-                    # for comparing dates USE_TZ = False
+                    # for comparing dates USE_TZ = False in settings
                     token.delete()
                     token = Token.objects.create(user=user)
                     token.created = datetime.now()

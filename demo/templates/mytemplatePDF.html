@@ -1,20 +1,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
-        <title>My Title</title>
+        <title>Sticker for certificated spot</title>
         <style type="text/css">
             @page {
                 size: {{ pagesize }};
 
                 margin: 0.5cm;
-
-/*                @frame footer {
-                    -pdf-frame-content: footerContent;
-                    bottom: 0cm;
-                    margin-left: 9cm;
-                    margin-right: 9cm;
-                    height: 1cm;
-                }*/
 
                 @font-face {
                     font-family: 'Lobster';
@@ -30,27 +22,29 @@
                     font-style: normal;
                 }
 
-
             }
         </style>
-
-
-  <link href="http://127.0.0.1:8000/static/css/style.css" rel="stylesheet">
     </head>
     <body>
-
         <center>
-<img src="http://127.0.0.1:8000/static/dogspot_certificate.png" width="300px" height="300px">
-<p style="font-family:Lobster;">
-<span style=" font-size:32px;">
-We are proud to be</span><br><span style="font-size:48px;">dog-friendly spot!</span><br>
-<img src="http://127.0.0.1:8000/qrcode/{{spot.id}}/2/"><br>
-<span style="font-family:Nobile; font-size:18px;"><br>
-<big>{{spot.name|safe}}</big><br>{{spot.address|safe}}</span></p>
-
-
-
-</center>
-
+            <img src="http://127.0.0.1:8000/static/dogspot_certificate.png" width="280px" height="280px">
+            <p style="font-family:Lobster;">
+                <span style=" font-size:32px;">
+                    We are proud to be
+                </span>
+                <br>
+                <span style="font-size:48px;">
+                    dog-friendly spot!
+                </span>
+                <br><br>
+                <img src="http://127.0.0.1:8000/qrcode/{{spot.id}}/2/"><br>
+                <span style="font-family:Nobile; font-size:18px;">
+                    <br>
+                    <big>{{spot.name|safe}}</big>
+                    <br>
+                    {{spot.address|safe}}
+                </span>
+            </p>
+        </center>
     </body>
 </html>
