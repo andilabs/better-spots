@@ -22,6 +22,7 @@ from django.template import RequestContext
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.utils import timezone
+from django.http import Http404
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
@@ -72,16 +73,20 @@ def render_to_pdf(template_src, context_dict):
     return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
 
 
-def myview(request):
+def pdf_sticker(request, pk):
     #Retrieve data or whatever you need
 
-    return render_to_pdf(
-        'mytemplatePDF.html',
-        {
-            'pagesize': 'A6',
-            'content': "Jakaś kawiarnia ąćęłńóśźż ĄĆĘŁŃÓŚŹŻ",
-      }
-    )
+    if Spot.objects.get(pk=pk).friendly_rate > 4.5:
+
+        return render_to_pdf(
+            'mytemplatePDF.html',
+            {
+                'pagesize': 'A6',
+                'spot': Spot.objects.get(pk=pk),
+          }
+        )
+    else:
+        raise Http404 
 
 
 def ajax_search(request):

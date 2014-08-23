@@ -30,7 +30,7 @@ urlpatterns = patterns(
     url(r'^raitings/(?P<pk>\d+)/$', views.RaitingDetail.as_view(), name="raiting-detail"),
 
 
-    url(r'^pdf/$', 'demo.views.myview', name="myview"),
+    url(r'^pdf/(?P<pk>\d+)/$', 'demo.views.pdf_sticker', name="pdf_sticker"),
 
     url(r'^spots/$', views.SpotList.as_view(), name="spot-list"),
     url(r'^spots/(?P<pk>\d+)/$', views.SpotDetail.as_view(), name="spot-detail"),

@@ -167,6 +167,14 @@ class Spot(models.Model):
     def raitings(self):
         return Raiting.objects.filter(spot_id=self.id)
 
+    @property
+    def address(self):
+        return "%s, %s %s" % (
+            self.address_city,
+            self.address_street,
+            self.address_number
+            )
+
     def __unicode__(self):
         return self.name
 
