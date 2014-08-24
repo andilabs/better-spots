@@ -1,20 +1,42 @@
 TODO:
 
+- deploy to AMAZON ec2
 
-- podobnie jak powyżej wprowadzić is_certificated z regułą zapisaną w predykatach 
-sprawdzanych po każdej dodanej ocenie
+- implement Python SOCIAL AUTH (facebook, twitter, google)
 
-- podział na APP-ki / moduły
+- add field is_certificated, which values is determined based on predicates, which are checked after each Ratings save (via post_save signal)
+
+- switch to SASS
+
+- get rid of bootstrap-django, to be independent from any changes in this django library
+
+- javascript map - implement it using MVC, and OO-techniques
+
+- define rules for showing only the best spots when being on certian zoom level
+
+- consider following implementation:
+	--- instead of class UserSpotList add to DogSpotUser class following (M2M) fields:
+
+	favorite_spots = models.ManyToManyField(Spot, related_name='favorites_spots')
+	to_be_visisted_spots = models.ManyToManyField(Spot, related_name='to_be_visited_spots')
+
+
+- switch to postgres & postgis instead of MySQL and use model fields from geodjango package in Spot class. When done use in nearby_spots radius filtering insted off raw sql query using haversine.
+
+
+- consider following muliple app design:
 		(accounts, common, spots, api, ratings, geoutils, dogs)
 
 		accounts
 		--users
 		--dogs
 		--emailverification
-		--userspotlist --inheritance (favorite, tobevisited)
+		--[NOT ACCTUAL]userspotlist --inheritance (favorite, tobevisited)
 
 		common
 		--geoutils
+		--qrcodes
+		--vcards
 
 		spots
 		--spot
@@ -24,32 +46,27 @@ sprawdzanych po każdej dodanej ocenie
 
 		api
 
-- IMPLEMENTACJA
-		-- dodawanie nowych spotów form i z mapy
-		-- dodawanie nowego spotu GooglePlaces nearby search enhanced
+- implementation:
+		-- adding new spots via form and from Map
+		-- api adding new spot with GooglePlaces-enhanced-nearby-search
 
-		-- ocenianie i komentowanie spotów
-		-- up|down vote komentarzy
+		-- rating + reviewing of spots
+		-- up|down vote for comments
 
-- rozbudowa REST-owego API
-		-- post/put -owanie plikow w base64 i multipart
-		-- sprawdzenie dzialania authtoken
-		-- dzialanie authktoken z third party login przez social auth
-
-
+- extend REST API
+		-- post/put -of files (images) in base64 and HTTP multipart
+		-- check either authtoken is working right
+		-- design authktoken to work with third party login from social auth
 
 
+- create development environment being 1:1 as much as possible to ec2 using vagrant, salt, apache, mod_wsgi.
 
-- utworzenie środowiska apachowego/wsgi na vagrancie z postgresem
-- postawienie na ec2
+- internationalization using i18n
 
-
-- SOCIAL AUTH
-
-- mapa - ładowanie spotów, gdy user przemieszcza się po mapie (on demand)
 
 DONE:
 
+- mapa - ładowanie spotów, gdy user przemieszcza się po mapie (on demand)
 - przepisac logike mapy do coffee
 - strony certificated
 - qrcody
