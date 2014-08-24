@@ -24,7 +24,13 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+if DEBUG:
+    SITE_ID = 1  # 127.0.0.1:8000
+else:
+    SITE_ID = 2  # dogspot.eu
+
+
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '127.0.0.1:8000', 'localhost:8000', '*']
 
 FORMAT_MODULE_PATH = 'mbf.formats'
 
@@ -92,46 +98,31 @@ LANGUAGES = (
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'demo.sqlite3'),
-#     }
-# }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#         'NAME': 'dogspot.sqlite3',                      # Or path to database file if using sqlite3.
-#     }
-# }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'DOGSPOT_PLAY',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': 'django',
-        'PASSWORD': 'P@ssw0rd',
-        'HOST': 'dogspot.dyndns.org',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
-    }
-}
-
 
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#         'NAME': 'DOGSPOT_RETINA',                      # Or path to database file if using sqlite3.
+#         'NAME': 'DOGSPOT_PLAY',                      # Or path to database file if using sqlite3.
 #         # The following settings are not used with sqlite3:
-#         'USER': 'root',
+#         'USER': 'django',
 #         'PASSWORD': 'P@ssw0rd',
-#         'HOST': '127.0.0.1',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+#         'HOST': 'dogspot.dyndns.org',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
 #         'PORT': '',                      # Set to empty string for default.
 #     }
 # }
 
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'DOGSPOT_BERLIN_DEMO',                      # Or path to database file if using sqlite3.
+        # The following settings are not used with sqlite3:
+        'USER': 'root',
+        'PASSWORD': 'P@ssw0rd',
+        'HOST': '127.0.0.1',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '',                      # Set to empty string for default.
+    }
+}
 
 
 AUTHENTICATION_BACKENDS = (
@@ -160,7 +151,7 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-#STATIC_URL = '/static/'
+STATIC_URL = '/static/'
 
 
 EMAIL_USE_TLS = True
@@ -171,40 +162,7 @@ EMAIL_HOST_PASSWORD = 'Cichosz@'
 
 TOKEN_EXPIRES_AFTER = 24
 EMAIL_VERIFY_KEY_EXPIREATION_PERIOD_HOURS = 48
-# PROJECT_DIR = os.path.dirname(__name__)
-# PROJECT_ROOT_PATH = os.path.abspath(os.path.dirname(__name__))
-# MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
-# MEDIA_URL = '/media/'
+
 PROJECT_ROOT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 MEDIA_ROOT = os.path.join(PROJECT_ROOT_PATH, 'media/')
 MEDIA_URL = '/media/'
-# STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(PROJECT_ROOT_PATH, 'static/')
-
-
-# if DEBUG:
-#     STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
-# else:
-#     STATICFILES_DIRS = (
-#         os.path.join(PROJECT_DIR, 'static'),
-#     )
-
-# STATICFILES_FINDERS = (
-#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#     'django.contrib.staticfiles.finders.FileSystemFinder',
-# )
-# PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# MEDIA_ROOT = os.path.join(PROJECT_DIR, 'site_media')
-# MEDIA_URL = '/site_media/'
-STATIC_URL = '/static/'
-
-# if DEBUG:
-#     STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
-# else:
-#     STATICFILES_DIRS = (
-#         os.path.join(PROJECT_DIR, 'static'),
-#     )
-
-# BOOTSTRAP_CSS_URL = 'http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css'#STATIC_URL + 'bootstrap-responsive.min.css'
-#BOOTSTRAP_CSS_URL = 'http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css'

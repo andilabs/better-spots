@@ -10,14 +10,14 @@
 
                 @font-face {
                     font-family: 'Lobster';
-                    src: url('http://127.0.0.1:8000/static/font/lobster-32.ttf');
+                    src: url('http://{{BASE_HOST}}/static/font/lobster-32.ttf');
                     font-weight: normal;
                     font-style: normal;
                 }
 
                 @font-face {
                     font-family: 'Nobile';
-                    src: url('http://127.0.0.1:8000/static/font/Nobile-34.ttf');
+                    src: url('http://{{BASE_HOST}}/static/font/Nobile-34.ttf');
                     font-weight: normal;
                     font-style: normal;
                 }
@@ -27,17 +27,17 @@
     </head>
     <body>
         <center>
-            <img src="http://127.0.0.1:8000/static/dogspot_certificate.png" width="280px" height="280px">
+            <img src="http://{{BASE_HOST}}/static/dogspot_certificate.png" width="280px" height="280px">
             <p style="font-family:Lobster;">
                 <span style=" font-size:32px;">
-                    We are proud to be
+                    We are proud to be a
                 </span>
                 <br>
                 <span style="font-size:48px;">
                     dog-friendly spot!
                 </span>
                 <br><br>
-                <img src="http://127.0.0.1:8000/qrcode/{{spot.id}}/2/"><br>
+                <img src="http://{{BASE_HOST}}/qrcode/{{spot.id}}/2/"><br>
                 <span style="font-family:Nobile; font-size:18px;">
                     <br>
                     <big>{{spot.name|safe}}</big>
