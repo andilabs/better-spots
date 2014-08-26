@@ -162,8 +162,8 @@ class Spot(models.Model):
         return facebook_url
 
     @property
-    def raitings(self):
-        return Raiting.objects.filter(spot_id=self.id)
+    def ratings(self):
+        return Rating.objects.filter(spot_id=self.id)
 
     @property
     def address(self):
@@ -190,7 +190,7 @@ DOGS_ALLOWED = (
 )
 
 
-class Raiting(models.Model):
+class Rating(models.Model):
     data_added = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(DogspotUser)
     spot = models.ForeignKey(Spot)
@@ -199,7 +199,7 @@ class Raiting(models.Model):
 
     @property
     def opinion(self):
-        opinion = Opinion.objects.filter(raiting=self)
+        opinion = Opinion.objects.filter(rating=self)
         if opinion:
             return opinion
         else:
@@ -213,16 +213,25 @@ class Raiting(models.Model):
             self.friendly_rate
             )
 
+    def unique_error_message(self, Rating, unique_check):
+        if Rating == type(self) and unique_check == ('user', 'spot'):
+            return "You can review spot only once"
+        else:
+            return super(Rating, self).unique_error_message(Rating, unique_check)
+
+    class Meta:
+        unique_together = (('user', 'spot'),)
+
 
 class Opinion(models.Model):
-    raiting = models.OneToOneField(Raiting, primary_key=True)
+    rating = models.OneToOneField(Rating, primary_key=True)
     opinion_text = models.CharField(max_length=500)
 
     def __unicode__(self):
         return self.opinion_text
 
     @property
-    def opinion_usefulnes_raitings(self):
+    def opinion_usefulnes_ratings(self):
         return OpinionUsefulnessRating.objects.filter(opinion=self)
 
 
@@ -258,19 +267,19 @@ class UsersSpotsList(models.Model):
             )
 
 
-@receiver(post_save, sender=Raiting)
+@receiver(post_save, sender=Rating)
 def update_spot_ratings(instance, **kwags):
 
     spot = instance.spot
 
-    all_raitings_of_spot = Raiting.objects.filter(spot_id=spot.id)
+    all_ratings_of_spot = Rating.objects.filter(spot_id=spot.id)
     spot_rate = sum(
-        i.friendly_rate for i in all_raitings_of_spot) / float(
-        len(all_raitings_of_spot))
+        i.friendly_rate for i in all_ratings_of_spot) / float(
+        len(all_ratings_of_spot))
 
     spot_allowance = True if sum(
-        i.dogs_allowed for i in all_raitings_of_spot) > len(
-        all_raitings_of_spot) / 2 else False
+        i.dogs_allowed for i in all_ratings_of_spot) > len(
+        all_ratings_of_spot) / 2 else False
 
     spot.friendly_rate = spot_rate
     spot.dogs_allowed = spot_allowance

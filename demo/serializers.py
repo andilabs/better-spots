@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from demo.models import (
-    Spot, Raiting, Opinion, OpinionUsefulnessRating, DogspotUser, OtoFoto)
+    Spot, Rating, Opinion, OpinionUsefulnessRating, DogspotUser, OtoFoto)
 
 
 class OtoFotoSerializer(serializers.HyperlinkedModelSerializer):
@@ -30,18 +30,18 @@ class OpinionUsefulnessRatingSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class OpinionSerializer(serializers.HyperlinkedModelSerializer):
-    raiting = serializers.HyperlinkedRelatedField(
-        many=False, read_only=True, view_name='raiting-detail')
-    opinion_usefulnes_raitings = OpinionUsefulnessRatingSerializer(
+    rating = serializers.HyperlinkedRelatedField(
+        many=False, read_only=True, view_name='rating-detail')
+    opinion_usefulnes_ratings = OpinionUsefulnessRatingSerializer(
         read_only=True)
 
     class Meta:
         model = Opinion
         fields = (
-            'opinion_text', 'url', 'raiting', 'opinion_usefulnes_raitings')
+            'opinion_text', 'url', 'rating', 'opinion_usefulnes_ratings')
 
 
-class RaitingSerializer(serializers.HyperlinkedModelSerializer):
+class RatingSerializer(serializers.HyperlinkedModelSerializer):
 
     opinion = OpinionSerializer(many=False, read_only=True)
     spot = serializers.HyperlinkedRelatedField(
@@ -51,7 +51,7 @@ class RaitingSerializer(serializers.HyperlinkedModelSerializer):
     dogs_allowed = serializers.BooleanField()
 
     class Meta:
-        model = Raiting
+        model = Rating
         fields = (
             'url', 'dogs_allowed', 'friendly_rate', 'spot', 'opinion', 'user')
 
@@ -64,7 +64,7 @@ class SpotListSerializer(serializers.HyperlinkedModelSerializer):
 
 class SpotDetailSerializer(SpotListSerializer):
 
-    raitings = RaitingSerializer(read_only=True)
+    ratings = RatingSerializer(read_only=True)
 
     class Meta:
         model = Spot

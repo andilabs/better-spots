@@ -10,6 +10,15 @@ $ ->
     # starOff : 'star-off-big.png'
     # starOn  : 'star-on-big.png'
 
+
+  $("#dgos_allowance").on "click", (e) ->
+    $(@).find('.allowance').each ->
+      if $(@).prop('checked') is false
+        $(@).parent().css('opacity','0.2')
+
+      else
+        $(@).parent().css('opacity','1')
+
    $("#map_canvas_spot_detail").gmap({'scrollwheel':false}).bind "init", (evt, map) ->
 
     $("#map_canvas_spot_detail").gmap "addMarker",
@@ -26,12 +35,5 @@ $ ->
 
     $("#map_canvas_spot_detail").gmap "option", "zoom", 17
 
-    $("#dgos_allowance").on "click", (e) ->
-      console.log "fired"
-      $(@).find('.allowance').each ->
-        if $(@).prop('checked') is false
-          $(@).parent().css('opacity','0.2')
 
-        else
-          $(@).parent().css('opacity','1')
 

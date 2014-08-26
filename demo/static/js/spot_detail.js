@@ -5,6 +5,15 @@
       readOnly: false,
       score: 0
     });
+    $("#dgos_allowance").on("click", function(e) {
+      return $(this).find('.allowance').each(function() {
+        if ($(this).prop('checked') === false) {
+          return $(this).parent().css('opacity', '0.2');
+        } else {
+          return $(this).parent().css('opacity', '1');
+        }
+      });
+    });
     return $("#map_canvas_spot_detail").gmap({
       'scrollwheel': false
     }).bind("init", function(evt, map) {
@@ -18,17 +27,7 @@
           size: new google.maps.Size(50, 50)
         }
       });
-      $("#map_canvas_spot_detail").gmap("option", "zoom", 17);
-      return $("#dgos_allowance").on("click", function(e) {
-        console.log("fired");
-        return $(this).find('.allowance').each(function() {
-          if ($(this).prop('checked') === false) {
-            return $(this).parent().css('opacity', '0.2');
-          } else {
-            return $(this).parent().css('opacity', '1');
-          }
-        });
-      });
+      return $("#map_canvas_spot_detail").gmap("option", "zoom", 17);
     });
   });
 

@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
-from demo.models import DogspotUser, Dog, Spot, Raiting, Opinion, OpinionUsefulnessRating, OtoFoto
+from demo.models import DogspotUser, Dog, Spot, Rating, Opinion, OpinionUsefulnessRating, OtoFoto
 from django import forms
 import random
 import string
@@ -15,20 +15,20 @@ from import_export import resources
 import urllib
 import json
 from django.utils.http import urlquote
-YOUR_API_KEY = "AIzaSyBj2VxTkcBPQ9yOXerWQUil-pzMuTaz4Ao"
-
-
-"""This method for given in parameter address makes request to Google Maps API, and returns latitude and longitude"""
+# YOUR_API_KEY = "AIzaSyBj2VxTkcBPQ9yOXerWQUil-pzMuTaz4Ao"
 
 
 def geocode(addr):
+    """
+        This method for given in parameter address makes request to Google Maps API
+        and returns latitude and longitude
+    """
+
     url = "http://maps.googleapis.com/maps/api/geocode/json?address=%s&sensor=false" \
           % (urlquote(addr.replace(' ', '+')))
-    print url
+
     data = urllib.urlopen(url).read()
     info = json.loads(data).get("results")[0].get("geometry").get("location")
-    #print info
-    #print "%2.5f,%2.5f" % (info['lat'],info['lng'])
     return info
 
 
@@ -176,7 +176,7 @@ class SpotAdmin(ImportExportModelAdmin):
 admin.site.register(Dog, DogAdmin)
 admin.site.register(DogspotUser, DogspotUserAdmin)
 admin.site.register(Spot, SpotAdmin)
-admin.site.register(Raiting)
+admin.site.register(Rating)
 admin.site.register(Opinion)
 admin.site.register(OpinionUsefulnessRating)
 admin.site.register(OtoFoto)

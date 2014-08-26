@@ -26,8 +26,8 @@ urlpatterns = patterns(
     url(r'^opinionusefulnessrating/(?P<pk>\d+)/$', views.OpinionUsefulness.as_view(), name="opinionusefulnessrating-detail"),
     url(r'^opinions/(?P<pk>\d+)/$', views.OpinionDetail.as_view(), name="opinion-detail"),
 
-    url(r'^raitings/$', views.RaitingList.as_view(), name="raiting-list"),
-    url(r'^raitings/(?P<pk>\d+)/$', views.RaitingDetail.as_view(), name="raiting-detail"),
+    url(r'^ratings/$', views.RatingList.as_view(), name="rating-list"),
+    url(r'^ratings/(?P<pk>\d+)/$', views.RatingDetail.as_view(), name="rating-detail"),
 
 
     url(r'^pdf/(?P<pk>\d+)/$', 'demo.views.pdf_sticker', name="pdf_sticker"),

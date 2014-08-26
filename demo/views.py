@@ -35,11 +35,11 @@ from rest_framework import generics
 
 from .models import (
     Spot, DogspotUser, Dog, EmailVerification,
-    Raiting, Opinion, OpinionUsefulnessRating, OtoFoto, SPOT_TYPE)
+    Rating, Opinion, OpinionUsefulnessRating, OtoFoto, SPOT_TYPE)
 
 from .serializers import (
     SpotDetailSerializer,
-    SpotWithDistanceSerializer, SpotListSerializer, RaitingSerializer,
+    SpotWithDistanceSerializer, SpotListSerializer, RatingSerializer,
     OpinionSerializer, OpinionUsefulnessRatingSerializer,
     DogspotUserSerializer, OtoFotoSerializer)
 
@@ -154,17 +154,17 @@ class OpinionDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OpinionSerializer
 
 
-class RaitingList(generics.ListCreateAPIView):
-    serializer_class = RaitingSerializer
+class RatingList(generics.ListCreateAPIView):
+    serializer_class = RatingSerializer
 
     def get_queryset(self):
-        queryset = Raiting.objects.all()
+        queryset = Rating.objects.all()
         return queryset
 
 
-class RaitingDetail(generics.RetrieveUpdateDestroyAPIView):
-    model = Raiting
-    serializer_class = RaitingSerializer
+class RatingDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Rating
+    serializer_class = RatingSerializer
 
 
 class SpotDetail(generics.RetrieveUpdateDestroyAPIView):

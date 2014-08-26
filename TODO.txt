@@ -1,5 +1,9 @@
 TODO:
 
+- by addding the spot determine its lat, lng via Google Maps API  based on street, street #, city
+
+- use the fonts locally!
+
 - deploy to AMAZON ec2
 
 - implement Python SOCIAL AUTH (facebook, twitter, google)
