@@ -20,19 +20,20 @@ AUTH_USER_MODEL = 'demo.DogspotUser'
 SECRET_KEY = 'kq$$wn#ff0qt)j7mm!d$6cee22e7hw9z#i11-@g1qaya^o!gnj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
-if DEBUG:
-    SITE_ID = 1  # 127.0.0.1:8000
-else:
-    SITE_ID = 2  # dogspot.eu
+#if DEBUG:
+#    SITE_ID = 1  # 127.0.0.1:8000
+#else:
+#    SITE_ID = 2  # dogspot.eu
 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '127.0.0.1:8000', 'localhost:8000', '*']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '127.0.0.1:8000', 'localhost:8000', '*','.dogspot.eu','.dogspot.eu.']
 
 FORMAT_MODULE_PATH = 'mbf.formats'
+
 
 DESIRED_PASSWORD_LENGTH = 5
 REST_FRAMEWORK = {
@@ -54,6 +55,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 )
 
+RAVEN_CONFIG = {
+    'dsn': 'https://4fa3854da7cd48f1a8b7a14a349d251d:c9cd00443c434d5fb1b204d8e5a95ffa@app.getsentry.com/29551',
+}
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -63,14 +67,15 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework.authtoken',
-    'social.apps.django_app.default',
+    #'social.apps.django_app.default',
     #'bootstrap_toolkit',
     'bootstrap3_datetime',
     'django_extensions',
+    'raven.contrib.django.raven_compat',
     #'datetimewidget',
     'bootstrap3',
     'demo',
-    'import_export',
+    #'import_export',
     'rest_framework',
     # 'south',
 )
@@ -101,15 +106,29 @@ LANGUAGES = (
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'DOGSPOT_PLAY',                      # Or path to database file if using sqlite3.
+	'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'dogspot',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': 'django',
+        'USER': 'dogspot',
         'PASSWORD': 'P@ssw0rd',
-        'HOST': 'dogspot.dyndns.org',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        'HOST': 'localhost',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '5432',                      # Set to empty string for default.
     }
 }
+
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#        'NAME': 'DOGSPOT_PLAY',                      # Or path to database file if using sqlite3.
+        # The following settings are not used with sqlite3:
+#        'USER': 'django',
+#        'PASSWORD': 'P@ssw0rd',
+#        'HOST': 'dogspot.dyndns.org',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+#        'PORT': '',                      # Set to empty string for default.
+#    }
+#}
 
 
 # DATABASES = {

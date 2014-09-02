@@ -59,6 +59,7 @@ class RaitingSerializer(serializers.HyperlinkedModelSerializer):
 class SpotListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
+	exclude = ('mpoint',)
         model = Spot
 
 
@@ -67,6 +68,7 @@ class SpotDetailSerializer(SpotListSerializer):
     raitings = RaitingSerializer(read_only=True)
 
     class Meta:
+	exclude = ('mpoint',)
         model = Spot
 
 
@@ -75,4 +77,5 @@ class SpotWithDistanceSerializer(SpotListSerializer):
     distance = serializers.Field()
 
     class Meta:
+	exclude = ('mpoint',)
         model = Spot

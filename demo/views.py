@@ -25,6 +25,9 @@ from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.http import Http404
 
+from django.contrib.gis.measure import D 
+from django.contrib.gis.geos import (Point, fromstr, fromfile, GEOSGeometry, MultiPoint, MultiPolygon, Polygon)
+
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework.decorators import authentication_classes
@@ -184,22 +187,13 @@ class JSONResponse(HttpResponse):
 
 def nearby_spots(request, lat, lng, radius=5000, limit=50):
 
-    radius = float(radius) / 1000.0
+    user_location = fromstr("POINT(%s %s)" % (lng, lat))
 
-    kwerenda = """SELECT id, (6367*acos(cos(radians(%2f))
-               *cos(radians(latitude))*cos(radians(longitude)-radians(%2f))
-               +sin(radians(%2f))*sin(radians(latitude))))
-               AS distance FROM demo_spot HAVING
-               distance < %2f ORDER BY distance LIMIT 0, %d""" % (
-        float(lat),
-        float(lng),
-        float(lat),
-        radius,
-        limit
-    )
+    desired_radius = {'m':radius}
 
-    queryset = Spot.objects.raw(kwerenda)
-    serializer = SpotWithDistanceSerializer(queryset, many=True)
+    nearby_spots = Spot.objects.filter(mpoint__distance_lte=(user_location, D(**desired_radius))).distance(user_location).order_by('distance')[:limit]
+
+    serializer = SpotWithDistanceSerializer(nearby_spots, many=True)
     return JSONResponse(serializer.data)
 
 

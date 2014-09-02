@@ -9,7 +9,7 @@ Sphinx==1.2.2
 backports.ssl-match-hostname==3.4.0.2
 blockdiag==1.3.2
 diff-match-patch==20110725.1
-django-admin-bootstrapped==1.6.4
+#django-admin-bootstrapped==1.6.4
 django-bootstrap-toolkit==2.15.0
 django-bootstrap3==4.4.1
 django-bootstrap3-datetimepicker==2.2.3
@@ -17,18 +17,18 @@ django-braces==1.4.0
 django-crispy-forms==1.4.0
 django-datetime-widget==0.6
 django-extensions==1.3.3
-django-grappelli==2.4.8
+#django-grappelli==2.4.8
 django-image-cropping==0.8
 django-import-export==0.2.1
--e git://github.com/Soaa-/django-nested-inlines.git@aaf995a223720ca7d6b4bfc74fb5707cd1bd08dd#egg=django_nested_inlines-master
+#-e git://github.com/Soaa-/django-nested-inlines.git@aaf995a223720ca7d6b4bfc74fb5707cd1bd08dd#egg=django_nested_inlines-master
 django-polymorphic==0.5.3
 django-shell-plus==1.1.5
 djangorestframework==2.3.13
 docutils==0.11
-easy-thumbnails==1.5
+#easy-thumbnails==1.5
 funcparserlib==0.3.6
 futures==2.1.6
--e git://github.com/datahub/grappelli-nested-inlines.git@6fbef892d5c79febd4035c5725050c34e7bffbe9#egg=grappelli_nested_inlines-master
+#-e git://github.com/datahub/grappelli-nested-inlines.git@6fbef892d5c79febd4035c5725050c34e7bffbe9#egg=grappelli_nested_inlines-master
 html5lib==0.999
 ipdb==0.8
 ipython==1.2.1

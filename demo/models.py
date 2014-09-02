@@ -6,6 +6,7 @@ import base64
 
 from django.db import models
 from django.db.models.signals import post_save
+from django.contrib.gis.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, PermissionsMixin, BaseUserManager
 )
@@ -140,8 +141,13 @@ SPOT_TYPE = (
 
 class Spot(models.Model):
     name = models.CharField(max_length=250)
+
     latitude = models.DecimalField(max_digits=8, decimal_places=5)
     longitude = models.DecimalField(max_digits=8, decimal_places=5)
+
+    mpoint = models.PointField(max_length=40, null=True)
+    objects = models.GeoManager()
+
     address_street = models.CharField(max_length=254, default='')
     address_number = models.CharField(max_length=10, default='')
     address_city = models.CharField(max_length=100, default='')
@@ -153,8 +159,8 @@ class Spot(models.Model):
     www = models.URLField(blank=True, null=True)
     facebook = models.CharField(max_length=254, blank=True, null=True)
 
-    dogs_allowed = models.NullBooleanField(default=None)
-    friendly_rate = models.DecimalField(default=-1.00, max_digits=3, decimal_places=2)
+    dogs_allowed = models.NullBooleanField(default=None, null=True)
+    friendly_rate = models.DecimalField(default=-1.00, max_digits=3, decimal_places=2, null=True)
 
     @property
     def facebook_url(self):
