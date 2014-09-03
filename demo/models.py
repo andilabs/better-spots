@@ -11,7 +11,7 @@ from django.contrib.auth.models import (
     AbstractBaseUser, PermissionsMixin, BaseUserManager
 )
 from django.dispatch import receiver
-from django.contrib.sites.models import Site
+# from django.contrib.sites.models import Site
 from django.core.mail import EmailMessage
 from django.conf import settings
 
@@ -26,7 +26,8 @@ class OtoFoto(models.Model):
 
     @property
     def obrazek_full(self):
-        return Site.objects.get_current().domain + self.obrazek.url
+        return settings.DOGSPOT_DOMAIN + self.obrazek.url
+        # return Site.objects.get_current().domain + self.obrazek.url
 
 SEX = (
     (0, 'female'),
@@ -294,13 +295,14 @@ def verify_email(sender, instance, created, *args, **kwargs):
 
 @receiver(post_save, sender=EmailVerification)
 def send_email(sender, instance, created, *args, **kwargs):
-    current_site = Site.objects.get_current()
+    # current_site = Site.objects.get_current()
 
     if created:
         subject = "Verify your e-mail to activate your Dogpsot account."
         mail_content = ("Please clcik this link to activate your account"
                         "http://%s/user/email_verification/%s") % (
-            current_site.domain,
+            # current_site.domain,
+            settings.DOGSPOT_DOMAIN,
             instance.verification_key)
 
         msg = EmailMessage(

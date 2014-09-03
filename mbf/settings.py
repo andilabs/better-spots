@@ -24,13 +24,13 @@ DEBUG = False
 
 TEMPLATE_DEBUG = False
 
-#if DEBUG:
-#    SITE_ID = 1  # 127.0.0.1:8000
-#else:
-#    SITE_ID = 2  # dogspot.eu
+if DEBUG:
+    DOGSPOT_DOMAIN = "127.0.0.1:8000"
+else:
+    DOGSPOT_DOMAIN = "dogspot.eu"
 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '127.0.0.1:8000', 'localhost:8000', '*','.dogspot.eu','.dogspot.eu.']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '127.0.0.1:8000', 'localhost:8000', '*', '.dogspot.eu', '.dogspot.eu.']
 
 FORMAT_MODULE_PATH = 'mbf.formats'
 

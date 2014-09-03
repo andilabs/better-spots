@@ -11,7 +11,7 @@ from django.http import QueryDict
 from django.http import HttpResponse
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.sites.models import Site
+# from django.contrib.sites.models import Site
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
 from django.views.generic import FormView
@@ -80,12 +80,13 @@ def render_to_pdf(template_src, context_dict):
 def pdf_sticker(request, pk):
 
     if Spot.objects.get(pk=pk).friendly_rate > 4.5:
-        current_site = Site.objects.get_current()
+        # current_site = Site.objects.get_current()
 
         return render_to_pdf(
             'mytemplatePDF.html',
             {
-                'BASE_HOST': current_site.domain,
+                'BASE_HOST': settings.DOGSPOT_DOMAIN,
+                # 'BASE_HOST': current_site.domain,
                 'pagesize': 'A6',
                 'spot': Spot.objects.get(pk=pk),
             }
