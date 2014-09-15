@@ -174,8 +174,8 @@ STATIC_URL = '/static/'
 
 
 # EMAIL_USE_TLS = True
-EMAIL_HOST = 'dogspot.eu'
-EMAIL_PORT = 110
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
 EMAIL_HOST_USER = 'andi@dogspot.eu'
 EMAIL_HOST_PASSWORD = 'P@ssw0rd'
 
