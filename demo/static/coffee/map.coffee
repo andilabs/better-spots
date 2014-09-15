@@ -312,7 +312,7 @@ $ ->
     $("#spots_list").hide ->
       $('#left_container')
         .append "<div class='list-group'  id='spot_detail'>
-          <a class='list-group-item disabled' id='spot_detail_icons'>
+          <a href='#' class='list-group-item disabled' id='spot_detail_icons'>
           <i class='fa fa-list fa-2x' id='back_to_list'></i></a>
           <span class='list-group-item disabled' id='spot_detail_content'>
           <h4 class='list-group-item-heading'>Spot name</h4>
