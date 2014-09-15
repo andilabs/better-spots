@@ -173,11 +173,11 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'noreplydogspot@gmail.com'
-EMAIL_HOST_PASSWORD = 'Cichosz@'
+# EMAIL_USE_TLS = True
+EMAIL_HOST = 'dogspot.eu'
+EMAIL_PORT = 110
+EMAIL_HOST_USER = 'andi@dogspot.eu'
+# EMAIL_HOST_PASSWORD = 'Cichosz@'
 
 TOKEN_EXPIRES_AFTER = 24
 EMAIL_VERIFY_KEY_EXPIREATION_PERIOD_HOURS = 48
