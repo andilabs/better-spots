@@ -254,6 +254,10 @@ def map_two(request):
         response = TemplateResponse(request, 'map_two.html', {})
         return response
 
+def mobile(request):
+    if request.method == 'GET':
+        response = TemplateResponse(request, 'mobile.html', {})
+        return response
 
 def favourites(request):
     if request.method == 'GET':
