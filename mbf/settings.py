@@ -183,5 +183,5 @@ TOKEN_EXPIRES_AFTER = 24
 EMAIL_VERIFY_KEY_EXPIREATION_PERIOD_HOURS = 48
 
 PROJECT_ROOT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-MEDIA_ROOT = os.path.join(PROJECT_ROOT_PATH, 'media/')
+MEDIA_ROOT = '/home/ubuntu/dogspot.eu/mbf/' #os.path.join(PROJECT_ROOT_PATH, 'media/')
 MEDIA_URL = '/media/'
