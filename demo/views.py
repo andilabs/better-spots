@@ -86,6 +86,7 @@ def pdf_sticker(request, pk):
             'mytemplatePDF.html',
             {
                 'BASE_HOST': settings.DOGSPOT_DOMAIN,
+                'MEDIA_ROOT': settings.MEDIA_ROOT,
                 # 'BASE_HOST': current_site.domain,
                 'pagesize': 'A6',
                 'spot': Spot.objects.get(pk=pk),
