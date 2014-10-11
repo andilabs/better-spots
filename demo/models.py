@@ -299,7 +299,7 @@ def send_email(sender, instance, created, *args, **kwargs):
 
     if created:
         subject = "Verify your e-mail to activate your Dogpsot account."
-        mail_content = ("Please clcik this link to activate your account"
+        mail_content = ("Please clcik this link to activate your account "
                         "http://%s/user/email_verification/%s") % (
             # current_site.domain,
             settings.DOGSPOT_DOMAIN,
