@@ -450,7 +450,7 @@ def qrencode_vcard(request, pk, size=3):
 
 def qrencode_link(request, pk, size=3):
 
-    dane = reverse('spot', kwargs={'pk': pk})
+    dane = reverse('spot-detail', kwargs={'pk': pk})
     img = make_qrcode(dane, box_size=size)
 
     response = HttpResponse(content_type="image/png")
