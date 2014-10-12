@@ -7,6 +7,7 @@ import vobject
 import qrcode
 from datetime import datetime, timedelta
 
+from django.core.urlresolvers import reverse
 from django.http import QueryDict
 from django.http import HttpResponse
 from django.conf import settings
