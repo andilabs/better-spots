@@ -41,7 +41,7 @@
                 </span>
                 <br><br>
                 <p>qrurl: {% url 'qrencode_link' pk=spot.pk size='10' %}</p>
-                <img src="{% url 'qrencode_link' pk=spot.pk size='10' %}"><br>
+                <img src="http://dogspot.eu/qrcode_link/{{spot.id}}/10"><br>
                 <span style="font-family:Nobile; font-size:18px;">
                     <br>
                     <big>{{spot.name|safe}}</big>
