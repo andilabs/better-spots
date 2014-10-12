@@ -443,9 +443,21 @@ def qrencode_vcard(request, pk, size=3):
 
     response = HttpResponse(content_type="image/png")
     img.save(response, "png")
-    response['Content-Disposition'] = 'filename=%s by dogspot.png' % spot.name
+    # below line because of encoding issues can cause strange 500's errors - handle encoding to be url/file name safe!
+    #response['Content-Disposition'] = 'filename=%s by dogspot.png' % spot.name
     return response
 
+
+def qrencode_link(request, pk, size=3):
+
+    dane = reverse('spot', kwargs={'pk': pk})
+    img = make_qrcode(dane, box_size=size)
+
+    response = HttpResponse(content_type="image/png")
+    img.save(response, "png")
+    # response['Content-Disposition'] = 'filename=%s by dogspot.png' % spot.name
+    return response
+    
 
 @csrf_exempt
 def auth_ex(request):
