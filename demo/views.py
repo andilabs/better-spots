@@ -279,7 +279,7 @@ def certificate(request, pk):
         spot = Spot.objects.get(pk=pk)
         if request.method == 'GET':
 
-            link = '/qrcode/%d/' % int(pk)
+            link = '/qrcode/%d/2' % int(pk)
             return render(
                 request,
                 'certificate.html',
