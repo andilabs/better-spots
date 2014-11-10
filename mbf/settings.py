@@ -76,7 +76,7 @@ INSTALLED_APPS = (
     'bootstrap3',
     'demo',
     #'import_export',
-    'django.contrib.gis'
+    'django.contrib.gis',
     'rest_framework',
     # 'south',
 )
