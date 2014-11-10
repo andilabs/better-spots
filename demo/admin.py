@@ -169,7 +169,7 @@ class SpotAdmin(admin.ModelAdmin):
     resource_class = SpotSerializer
 
     list_display = ['name', 'address_street', 'address_number', 'address_city', 'address_country',  'spot_type', 'is_accepted', 'friendly_rate', 'latitude', 'longitude']
-
+    exclude = ('mpoint',)
 
 admin.site.register(Dog, DogAdmin)
 admin.site.register(DogspotUser, DogspotUserAdmin)

@@ -7,6 +7,7 @@ import base64
 from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.gis.db import models
+from django.contrib.gis.geos import Point
 from django.contrib.auth.models import (
     AbstractBaseUser, PermissionsMixin, BaseUserManager
 )
@@ -147,6 +148,7 @@ class Spot(models.Model):
     longitude = models.DecimalField(max_digits=8, decimal_places=5)
 
     mpoint = models.PointField(max_length=40, null=True)
+
     objects = models.GeoManager()
 
     address_street = models.CharField(max_length=254, default='')
@@ -179,6 +181,10 @@ class Spot(models.Model):
             self.address_street,
             self.address_number
             )
+
+    def save(self, *args, **kwargs):
+        self.mpoint = Point(self.latitude, self.longitude)
+        super(Spot, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name

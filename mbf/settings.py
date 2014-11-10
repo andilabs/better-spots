@@ -72,6 +72,7 @@ INSTALLED_APPS = (
     'bootstrap3_datetime',
     'django_extensions',
     'raven.contrib.django.raven_compat',
+    'django.contrib.gis',
     #'datetimewidget',
     'bootstrap3',
     'demo',
