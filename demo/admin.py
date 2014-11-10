@@ -1,4 +1,3 @@
-from import_export.admin import ImportExportModelAdmin
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
@@ -166,11 +165,10 @@ class DogAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 
-class SpotAdmin(ImportExportModelAdmin):
+class SpotAdmin(admin.ModelAdmin):
     resource_class = SpotSerializer
 
     list_display = ['name', 'address_street', 'address_number', 'address_city', 'address_country',  'spot_type', 'is_accepted', 'friendly_rate', 'latitude', 'longitude']
-
 
 
 admin.site.register(Dog, DogAdmin)

@@ -20,9 +20,9 @@ AUTH_USER_MODEL = 'demo.DogspotUser'
 SECRET_KEY = 'kq$$wn#ff0qt)j7mm!d$6cee22e7hw9z#i11-@g1qaya^o!gnj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
 if DEBUG:
     DOGSPOT_DOMAIN = "127.0.0.1:8000"
@@ -111,37 +111,11 @@ DATABASES = {
         'NAME': 'dogspot',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'dogspot',
-        'PASSWORD': 'P@ssw0rd',
+        'PASSWORD': 'c9c38a6dc8cdb66a0c416a9e1f8eac21',
         'HOST': 'localhost',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '5432',                      # Set to empty string for default.
     }
 }
-
-
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#        'NAME': 'DOGSPOT_PLAY',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-#        'USER': 'django',
-#        'PASSWORD': 'P@ssw0rd',
-#        'HOST': 'dogspot.dyndns.org',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-#        'PORT': '',                      # Set to empty string for default.
-#    }
-#}
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#         'NAME': 'DOGSPOT_BERLIN_DEMO',                      # Or path to database file if using sqlite3.
-#         # The following settings are not used with sqlite3:
-#         'USER': 'root',
-#         'PASSWORD': 'P@ssw0rd',
-#         'HOST': '127.0.0.1',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-#         'PORT': '',                      # Set to empty string for default.
-#     }
-# }
 
 
 AUTHENTICATION_BACKENDS = (

@@ -1575,7 +1575,7 @@ sys9ix7in6f6wjmswk5nwrmqqhvd523q	MzEyNTU1NzM0MDFmZDUxOTBhMDc5ODRkZjg1ODM4Y2M2OTI
 
 
 --
--- Data for Name: spatial_ref_sys; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: spatial_ref_sys; Type: TABLE DATA; Schema: public; Owner: andi
 --
 
 COPY spatial_ref_sys (srid, auth_name, auth_srid, srtext, proj4text) FROM stdin;
@@ -1943,12 +1943,12 @@ ALTER TABLE ONLY django_admin_log
 
 
 --
--- Name: public; Type: ACL; Schema: -; Owner: postgres
+-- Name: public; Type: ACL; Schema: -; Owner: andi
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM postgres;
-GRANT ALL ON SCHEMA public TO postgres;
+REVOKE ALL ON SCHEMA public FROM andi;
+GRANT ALL ON SCHEMA public TO andi;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
