@@ -183,7 +183,7 @@ class Spot(models.Model):
             )
 
     def save(self, *args, **kwargs):
-        self.mpoint = Point(float(self.latitude), float(self.longitude))
+        self.mpoint = Point(float(self.longitude), float(self.latitude))
         super(Spot, self).save(*args, **kwargs)
 
     def __unicode__(self):
