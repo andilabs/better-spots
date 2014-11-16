@@ -1,4 +1,3 @@
-from import_export.admin import ImportExportModelAdmin
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
@@ -24,7 +23,7 @@ YOUR_API_KEY = "AIzaSyBj2VxTkcBPQ9yOXerWQUil-pzMuTaz4Ao"
 def geocode(addr):
     url = "http://maps.googleapis.com/maps/api/geocode/json?address=%s&sensor=false" \
           % (urlquote(addr.replace(' ', '+')))
-    print url
+
     data = urllib.urlopen(url).read()
     info = json.loads(data).get("results")[0].get("geometry").get("location")
     #print info
@@ -166,12 +165,11 @@ class DogAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 
-class SpotAdmin(ImportExportModelAdmin):
+class SpotAdmin(admin.ModelAdmin):
     resource_class = SpotSerializer
 
     list_display = ['name', 'address_street', 'address_number', 'address_city', 'address_country',  'spot_type', 'is_accepted', 'friendly_rate', 'latitude', 'longitude']
-
-
+    exclude = ('mpoint',)
 
 admin.site.register(Dog, DogAdmin)
 admin.site.register(DogspotUser, DogspotUserAdmin)
