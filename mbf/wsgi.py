@@ -21,7 +21,7 @@ import sys
 # Append paths
 #site.addsitedir(envpath)
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mbf.settings.production")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mbf.settings")
 #sys.path.append('/home/ubuntu/dogspot.eu')
 # os.environ['DJANGO_SETTINGS_MODULE'] = 'mbf.settings'
 

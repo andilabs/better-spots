@@ -17,8 +17,7 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 # remember about APACHE-mappings in files see: /etc/apache2/sites-available/00<N>-<INSTANCE>.eu.conf
-print PROJECT_ROOT_PATH
-import ipdb; ipdb.set_trace()
+
 if PROJECT_ROOT_PATH.split('/')[3] == 'dogspot.eu':
     from .dogspot import *
 
