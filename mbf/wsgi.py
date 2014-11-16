@@ -21,9 +21,9 @@ import sys
 # Append paths
 #site.addsitedir(envpath)
 
-#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mbf.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mbf.settings.production")
 #sys.path.append('/home/ubuntu/dogspot.eu')
-os.environ['DJANGO_SETTINGS_MODULE'] = 'mbf.settings.production'
+# os.environ['DJANGO_SETTINGS_MODULE'] = 'mbf.settings'
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
