@@ -23,7 +23,7 @@ import sys
 
 #os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mbf.settings")
 #sys.path.append('/home/ubuntu/dogspot.eu')
-os.environ['DJANGO_SETTINGS_MODULE'] = 'mbf.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'mbf.settings.production'
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
