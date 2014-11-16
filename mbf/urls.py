@@ -35,7 +35,7 @@ urlpatterns = patterns(
     url(r'^spots/$', views.SpotList.as_view(), name="spot-list"),
     url(r'^spots/(?P<pk>\d+)/$', views.SpotDetail.as_view(), name="spot-detail"),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', 'demo.views.map', name='glowna'),
+    url(r'^$', 'demo.views.main', name='main'),
     url(r'^contact/$', ContactView.as_view(), name='contact'),
     url(r'^dogs/$', 'demo.views.dogs', name='dogs_list'),
     url(r'^map/$', 'demo.views.map', name='map'),

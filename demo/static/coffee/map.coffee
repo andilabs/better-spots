@@ -125,6 +125,7 @@ hideAllInfoWindows = ->
 
 
 filterSpots = ->
+  console.log "filterSpots fired"
 
   filtered_allowance = ['lapka']
 
@@ -205,7 +206,7 @@ loadMarkers = (lat, lng) ->
                               #{marker.address_street} #{marker.address_number}</div>")
           .append(rating_stars)[0]
 
-      console.log marker.id
+      console.log marker
       marker.dogs_allowed = "dog_undefined_allowed"  if marker.is_accepted is false
 
       icony_allowed =

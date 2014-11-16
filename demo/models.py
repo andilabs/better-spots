@@ -4,14 +4,12 @@ import os
 import uuid
 import base64
 
-from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.gis.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, PermissionsMixin, BaseUserManager
 )
 from django.dispatch import receiver
-# from django.contrib.sites.models import Site
 from django.core.mail import EmailMessage
 from django.conf import settings
 
@@ -26,8 +24,7 @@ class OtoFoto(models.Model):
 
     @property
     def obrazek_full(self):
-        return settings.DOGSPOT_DOMAIN + self.obrazek.url
-        # return Site.objects.get_current().domain + self.obrazek.url
+        return settings.INSTANCE_DOMAIN + self.obrazek.url
 
 SEX = (
     (0, 'female'),
@@ -142,13 +139,10 @@ SPOT_TYPE = (
 
 class Spot(models.Model):
     name = models.CharField(max_length=250)
-
     latitude = models.DecimalField(max_digits=8, decimal_places=5)
     longitude = models.DecimalField(max_digits=8, decimal_places=5)
-
     mpoint = models.PointField(max_length=40, null=True)
     objects = models.GeoManager()
-
     address_street = models.CharField(max_length=254, default='')
     address_number = models.CharField(max_length=10, default='')
     address_city = models.CharField(max_length=100, default='')
@@ -159,7 +153,6 @@ class Spot(models.Model):
     email = models.EmailField(blank=True, null=True)
     www = models.URLField(blank=True, null=True)
     facebook = models.CharField(max_length=254, blank=True, null=True)
-
     dogs_allowed = models.NullBooleanField(default=None, null=True)
     friendly_rate = models.DecimalField(default=-1.00, max_digits=3, decimal_places=2, null=True)
 
@@ -295,14 +288,12 @@ def verify_email(sender, instance, created, *args, **kwargs):
 
 @receiver(post_save, sender=EmailVerification)
 def send_email(sender, instance, created, *args, **kwargs):
-    # current_site = Site.objects.get_current()
 
     if created:
         subject = "Verify your e-mail to activate your Dogpsot account."
         mail_content = ("Please clcik this link to activate your account "
                         "http://%s/user/email_verification/%s") % (
-            # current_site.domain,
-            settings.DOGSPOT_DOMAIN,
+            settings.INSTANCE_DOMAIN,
             instance.verification_key)
 
         msg = EmailMessage(

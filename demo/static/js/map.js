@@ -139,6 +139,7 @@
 
   filterSpots = function() {
     var filtered_allowance, filtered_types, k, v;
+    console.log("filterSpots fired");
     filtered_allowance = ['lapka'];
     if (filters_allowance["dog_not_allowed"] === true) {
       filtered_allowance.push(false);
@@ -215,7 +216,7 @@
           score: marker.friendly_rate
         });
         contentOfInfoWindow = $("<div class='spot_info' id='" + marker.id + "'> <h4>" + marker.name + "</h4><br> " + marker.address_street + " " + marker.address_number + "</div>").append(rating_stars)[0];
-        console.log(marker.id);
+        console.log(marker);
         if (marker.is_accepted === false) {
           marker.dogs_allowed = "dog_undefined_allowed";
         }

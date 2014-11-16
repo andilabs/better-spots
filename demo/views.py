@@ -61,6 +61,10 @@ from django.template import Context
 from cgi import escape
 
 
+def main(request):
+    return redirect('map')
+
+
 def render_to_pdf(template_src, context_dict):
     template = get_template(template_src)
     context = Context(context_dict)
@@ -86,7 +90,7 @@ def pdf_sticker(request, pk):
         return render_to_pdf(
             'mytemplatePDF.html',
             {
-                'BASE_HOST': settings.DOGSPOT_DOMAIN,
+                'BASE_HOST': settings.INSTANCE_DOMAIN,
                 'MEDIA_ROOT': settings.MEDIA_ROOT,
                 # 'BASE_HOST': current_site.domain,
                 'pagesize': 'A6',
@@ -307,7 +311,7 @@ def mylogin(request):
                 messages.add_message(
                     request,
                     messages.SUCCESS, 'You were sucessfully logged in!')
-                return redirect('glowna')
+                return redirect('main')
             else:
                 messages.add_message(
                     request,
@@ -451,7 +455,7 @@ def qrencode_vcard(request, pk, size=3):
 
 def qrencode_link(request, pk, size=3):
 
-    dane = "http://%s%s" %(settings.DOGSPOT_DOMAIN, reverse('spot-detail', kwargs={'pk': pk}))
+    dane = "http://%s%s" %(settings.INSTANCE_DOMAIN, reverse('spot-detail', kwargs={'pk': pk}))
     img = make_qrcode(dane, box_size=size)
 
     response = HttpResponse(content_type="image/png")
