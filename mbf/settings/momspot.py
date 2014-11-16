@@ -1,9 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-DEBUG = True
-TEMPLATE_DEBUG = True
-
 INSTANCE_DOMAIN = "momspot.eu"
 
 EMAIL_USE_TLS = True
