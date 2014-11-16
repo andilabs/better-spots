@@ -1,9 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from .production import *
-
-
 INSTANCE_DOMAIN = "dogspot.eu"
 
 # EMAIL_USE_TLS = True
