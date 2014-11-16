@@ -13,7 +13,7 @@ EMAIL_PORT = 25
 # EMAIL_HOST_PASSWORD = 'P@ssw0rd'
 
 STATIC_ROOT = '/home/ubuntu/dogspot.eu/static_assets/'
-
+POSTGIS_VERSION = (2, 1, 2)
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
