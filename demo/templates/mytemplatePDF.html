@@ -7,14 +7,14 @@
         <style type="text/css">
                  @font-face {
                     font-family: "Lobster";
-                    src: url({{ MEDIA_ROOT}}/font/Lobster-32.ttf);
+                    src: url({{MEDIA_ROOT}}/font/Lobster-32.ttf);
                     font-weight: normal;
                     font-style: normal;
                 }
 
                 @font-face {
                     font-family: "Nobile";
-                    src: url({{ MEDIA_ROOT}}/font/Nobile-34.ttf);
+                    src: url({{MEDIA_ROOT}}/font/Nobile-34.ttf);
                     font-weight: normal;
                     font-style: normal;
                 }  
@@ -38,6 +38,7 @@
                 <br>
                 <span style="font-size:48px;">
                     dog-friendly spot!
+
                 </span>
                 <br><br>
                 <img src="http://{{BASE_HOST}}{% url 'qrencode_link' pk=spot.pk size='4' %}"><br>

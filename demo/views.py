@@ -262,7 +262,9 @@ def map_two(request):
 
 def mobile(request):
     if request.method == 'GET':
-        response = TemplateResponse(request, 'mobile.html', {'DEBUG_PLEASE': settings.PROJECT_ROOT_PATH})
+        response = TemplateResponse(
+            request, 'mobile.html', {
+            'DEBUG_PLEASE': settings.PROJECT_ROOT_PATH})
         return response
 
 def favourites(request):
