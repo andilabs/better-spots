@@ -52,7 +52,7 @@ STATIC_URL = '/static/'
 #     from .dogspot import *
 
 # elif 'momspot.eu' in PROJECT_ROOT_PATH.split('/'):
-from .momspot import *
+from .dogspot import *
 
 # else:
 #     from .dogspot import *
