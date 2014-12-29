@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>{{SPOT_PROJECT_NAME}} - {{SPOT_PROJECT_SLOGAN}}</title>
+  <title>{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Andrzej Kostanski">
   <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico">
@@ -84,7 +84,7 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="/">
-            <img src={{SPOT_PROJECT_BRAND_LOGO}}>
+            <img src={% settings_value "SPOT_PROJECT_BRAND_LOGO" %}>
             <span id="lobster">{% settings_value "SPOT_PROJECT_NAME" %}</span>
           </a>
         </div>
@@ -170,7 +170,7 @@
     <footer>
       <div class="row">
           <div class="col-xs-6">
-            <span id="pacifico">{{SPOT_PROJECT_SLOGAN}}</span>
+            <span id="pacifico">{% settings_value "SPOT_PROJECT_SLOGAN" %}</span>
           </div>
 
           <div class="col-xs-6" align="right">
