@@ -69,7 +69,7 @@
 }
 </style>
 </head>
-
+{% load instance_settings_via_tags %}
 <body>
   <div class="container">
     <nav class="navbar navbar-default"  role="navigation">
@@ -85,7 +85,7 @@
           </button>
           <a class="navbar-brand" href="/">
             <img src={{SPOT_PROJECT_BRAND_LOGO}}>
-            <span id="lobster">{{SPOT_PROJECT_NAME}}</span>
+            <span id="lobster">{% settings_value "SPOT_PROJECT_NAME" %}</span>
           </a>
         </div>
 
