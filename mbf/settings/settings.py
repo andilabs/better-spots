@@ -38,7 +38,7 @@ TEMPLATE_DEBUG = True
 
 # /home/ubuntu/<INSTANCE>/mbf/demo
 PROJECT_ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
-PROJECT_ROOT_PATH = '/'.join(PROJECT_ROOT_PATH.split("/")[:-1])
+PROJECT_ROOT_PATH = '/'.join(PROJECT_ROOT_PATH.split("/")[:-2])
 # /home/ubuntu/<INSTANCE>/mbf/mbf/media/
 MEDIA_ROOT = os.path.join(PROJECT_ROOT_PATH, 'media/')
 MEDIA_URL = '/media/'
