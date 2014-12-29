@@ -54,6 +54,9 @@ if 'dogspot.eu' in PROJECT_ROOT_PATH.split('/'):
 elif 'momspot.eu' in PROJECT_ROOT_PATH.split('/'):
     from .momspot import *
 
+else:
+    from .dogspot import *
+
 # elif PROJECT_ROOT_PATH.split('/')[3] == 'enabledspot.eu':
 #     from .enabledspot import *
 
