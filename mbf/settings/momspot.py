@@ -30,7 +30,7 @@ SPOT_PROJECT_BRAND_LOGO = ''
 
 SPOT_PROJECT_CERTIFICATE_LOGO = ''
 
-SPOT_PROJECT_SLOGAN = 'Moms\' Revolution starts in cafes! Let\'s get out and meet together!'
+SPOT_PROJECT_SLOGAN = 'Moms\' Revolution starts in cafes!'
 
 SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing moms and childrens friendly spots'
 
