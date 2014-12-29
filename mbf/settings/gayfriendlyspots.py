@@ -25,8 +25,8 @@ SPOT_PROJECT_BRAND_LOGO = ''
 
 SPOT_PROJECT_CERTIFICATE_LOGO = ''
 
-SPOT_PROJECT_SLOGAN = ''
+SPOT_PROJECT_SLOGAN = 'Let\'s make the difference by diversity!'
 
 SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing LGBT friendly spots'
 
-SPOT_PROJECT_SUBJECT = ''
+SPOT_PROJECT_SUBJECT = 'gay'

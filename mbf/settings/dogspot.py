@@ -32,8 +32,8 @@ SPOT_PROJECT_BRAND_LOGO = ''
 
 SPOT_PROJECT_CERTIFICATE_LOGO = ''
 
-SPOT_PROJECT_SLOGAN = ''
+SPOT_PROJECT_SLOGAN = 'Wow the World !'
 
 SPOT_PROJECT_DESCRIPTION = 'Is an app for exploring and reviewing dog friendly spots'
 
-SPOT_PROJECT_SUBJECT = ''
+SPOT_PROJECT_SUBJECT = 'dog'

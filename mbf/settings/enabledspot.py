@@ -25,8 +25,8 @@ SPOT_PROJECT_BRAND_LOGO = ''
 
 SPOT_PROJECT_CERTIFICATE_LOGO = ''
 
-SPOT_PROJECT_SLOGAN = ''
+SPOT_PROJECT_SLOGAN = 'Enabled World '
 
 SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing spots in terms of being enabled for people with disabilites'
 
-SPOT_PROJECT_SUBJECT = ''
+SPOT_PROJECT_SUBJECT = 'people with disabilites'
