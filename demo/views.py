@@ -269,7 +269,7 @@ def mobile(request):
 
 def favourites(request):
     if request.method == 'GET':
-        response = TemplateResponse(request, 'favourites.html', {})
+        response = TemplateResponse(request, 'favourites.html', {'my_debug': settings.PROJECT_ROOT_PATH})
         return response
 
 
