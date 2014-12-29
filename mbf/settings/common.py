@@ -75,6 +75,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+DEFAULT_FROM_EMAIL = 'no-reply@dogspot.eu'
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
