@@ -18,3 +18,15 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+SPOT_PROJECT_NAME = 'gayfriendlyspots'
+
+SPOT_PROJECT_BRAND_LOGO = ''
+
+SPOT_PROJECT_CERTIFICATE_LOGO = ''
+
+SPOT_PROJECT_SLOGAN = ''
+
+SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing LGBT friendly spots'
+
+SPOT_PROJECT_SUBJECT = ''

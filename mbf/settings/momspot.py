@@ -10,7 +10,7 @@ EMAIL_HOST_USER = 'no-reply@momspot.eu'
 EMAIL_HOST_PASSWORD = 'c9c38a6dc8cdb66a0c416a9e1f8eac21'
 
 
-STATIC_ROOT = '/home/ubuntu/dogspot.eu/static_assets/'
+STATIC_ROOT = '/home/ubuntu/momspot.eu/static_assets/'
 POSTGIS_VERSION = (2, 1, 2)
 
 DATABASES = {
@@ -23,3 +23,15 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+SPOT_PROJECT_NAME = 'momspot'
+
+SPOT_PROJECT_BRAND_LOGO = ''
+
+SPOT_PROJECT_CERTIFICATE_LOGO = ''
+
+SPOT_PROJECT_SLOGAN = ''
+
+SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing moms and childrens friendly spots'
+
+SPOT_PROJECT_SUBJECT = ''

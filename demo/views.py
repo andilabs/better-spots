@@ -260,12 +260,14 @@ def map_two(request):
         response = TemplateResponse(request, 'map_two.html', {})
         return response
 
+
 def mobile(request):
     if request.method == 'GET':
         response = TemplateResponse(
             request, 'mobile.html', {
             'DEBUG_PLEASE': settings.PROJECT_ROOT_PATH})
         return response
+
 
 def favourites(request):
     if request.method == 'GET':
@@ -457,14 +459,14 @@ def qrencode_vcard(request, pk, size=3):
 
 def qrencode_link(request, pk, size=3):
 
-    dane = "http://%s%s" %(settings.INSTANCE_DOMAIN, reverse('spot-detail', kwargs={'pk': pk}))
+    dane = "http://%s%s" % (settings.INSTANCE_DOMAIN, reverse('spot-detail', kwargs={'pk': pk}))
     img = make_qrcode(dane, box_size=size)
 
     response = HttpResponse(content_type="image/png")
     img.save(response, "png")
     # response['Content-Disposition'] = 'filename=%s by dogspot.png' % spot.name
     return response
-    
+
 
 @csrf_exempt
 def auth_ex(request):
