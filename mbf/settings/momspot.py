@@ -18,5 +18,6 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'momspot',
         'USER': 'postgres',
+        'PASSWORD': 'P@ssw0rd',
     }
 }
