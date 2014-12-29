@@ -48,14 +48,14 @@ STATIC_URL = '/static/'
 
 # remember about APACHE-mappings in files see: /etc/apache2/sites-available/00<N>-<INSTANCE>.eu.conf
 
-# if 'dogspot.eu' in PROJECT_ROOT_PATH.split('/'):
-#     from .dogspot import *
+if 'dogspot.eu' in PROJECT_ROOT_PATH.split('/'):
+    from .dogspot import *
 
-# elif 'momspot.eu' in PROJECT_ROOT_PATH.split('/'):
-from .dogspot import *
+elif 'momspot.eu' in PROJECT_ROOT_PATH.split('/'):
+    from .momspot import *
 
-# else:
-#     from .dogspot import *
+else:
+    from .dogspot import *
 
 # elif PROJECT_ROOT_PATH.split('/')[3] == 'enabledspot.eu':
 #     from .enabledspot import *
