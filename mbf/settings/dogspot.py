@@ -15,10 +15,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'dogspot',
-        'USER': 'dogspot',
-        'PASSWORD': 'P@ssw0rd',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        # 'USER': 'dogspot',
+        # 'PASSWORD': 'P@ssw0rd',
+        # 'HOST': 'localhost',
+        # 'PORT': '5432',
     }
 }
 
