@@ -7,7 +7,7 @@ TEMPLATE_DEBUG = True
 
 # /home/ubuntu/<INSTANCE>/mbf/demo
 PROJECT_ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
-PROJECT_ROOT_PATH = '/'.join(PROJECT_ROOT_PATH.split("/")[:-])
+PROJECT_ROOT_PATH = '/'.join(PROJECT_ROOT_PATH.split("/")[:-2])
 # /home/ubuntu/<INSTANCE>/mbf/mbf/media/
 MEDIA_ROOT = os.path.join(PROJECT_ROOT_PATH, 'media/')
 MEDIA_URL = '/media/'
@@ -23,8 +23,8 @@ if 'dogspot.eu' in PROJECT_ROOT_PATH.split('/'):
 elif 'momspot.eu' in PROJECT_ROOT_PATH.split('/'):
     from .momspot import *
 
-# elif 'enabledspot.eu' in PROJECT_ROOT_PATH.split('/'):
-#     from .enabledspot import *
+elif 'enabledspot.eu' in PROJECT_ROOT_PATH.split('/'):
+    from .enabledspot import *
 
-# elif 'gayfriendlyspots.com' in PROJECT_ROOT_PATH.split('/'):
-#     from .gayfriendlyspots import *
+elif 'gayfriendlyspots.com' in PROJECT_ROOT_PATH.split('/'):
+    from .gayfriendlyspots import *
