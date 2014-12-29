@@ -17,9 +17,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'momspot',
-        'USER': 'momspot',
-        'PASSWORD': 'P@ssw0rd',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'USER': 'postgres',
     }
 }
