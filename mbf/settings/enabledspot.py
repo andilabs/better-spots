@@ -14,6 +14,7 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'enabledspot',
         'USER': 'enabledspot',
+        'PASSWORD': 'c9c38a6dc8cdb66a0c416a9e1f8eac21',
         'HOST': 'localhost',
         'PORT': '5432',
     }
