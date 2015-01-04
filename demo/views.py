@@ -62,7 +62,10 @@ from cgi import escape
 
 
 def main(request):
-    return redirect('map')
+    # return redirect('map')
+    if request.method == 'GET':
+        response = TemplateResponse(request, 'mission.html', {})
+        return response
 
 
 def render_to_pdf(template_src, context_dict):

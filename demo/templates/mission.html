@@ -1,0 +1,59 @@
+{% extends "base.html" %}o
+
+{% block content %}
+<style>
+h2 {
+	font-family: 'Lato', serif;
+	font-style:thin;
+	font-weight: 100;
+}
+</style>
+<h1 style="font-family: 'Lobster'">
+{% load instance_settings_via_tags %}
+{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %} <br>
+<h2>
+{% settings_value "SPOT_PROJECT_NAME"|upper %} {% settings_value "SPOT_PROJECT_DESCRIPTION" %}</h2>
+<div class="row">
+<div class="col-md-1">
+	<h2><i class="fa fa-map-marker fa-2x" style="color:#e7e7e7"></i></h2>
+</div>
+<div class="col-md-11 no-col-padding">
+	<h2>Visualize nearby spots on Map</h2>
+</div>
+</div>
+
+
+<div class="row">
+<div class="col-md-1">
+	<h2><i class="fa fa-heart fa-2x" style="color:#e7e7e7"></i></h2>
+</div>
+<div class="col-md-11 no-col-padding">
+	<h2> Remeber your beloved spots by hearting it</h2>
+</div>
+</div>
+
+
+<div class="row">
+<div class="col-md-1">
+	<h2><i class="fa fa-certificate fa-2x" style="color:#e7e7e7"></i> </h2>
+</div>
+<div class="col-md-11 no-col-padding">
+	<h2> Choose among most {% settings_value "SPOT_PROJECT_SUBJECT" %}-friendly spots which were awarded the certificate.</h2>
+</div>
+</div>
+
+
+<div class="row">
+<div class="col-md-1">
+	<h2><i class="fa fa-mobile fa-2x" style="color:#e7e7e7"></i> </h2>
+</div>
+<div class="col-md-11 no-col-padding">
+	<h2> User mobile version on the go</h2>
+</div>
+</div>
+
+{{DEBUG_PLEASE}}
+</h4>
+<br>
+
+{% endblock %}
