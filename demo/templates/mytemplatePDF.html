@@ -31,13 +31,11 @@
         <center>
             <img src="{% settings_value "SPOT_PROJECT_CERTIFICATE_LOGO_URL" %}" width="280px" height="280px">
             <p style="font-family:Lobster;">
-                <span style=" font-size:32px;">
-                    We are proud to be a
+                <span style="font-size:60px;">
+                    {% settings_value "SPOT_PROJECT_SUBJECT" %}<br>
                 </span>
-                <br>
-                <span style="font-size:48px;">
-                    {% settings_value "SPOT_PROJECT_SUBJECT" %}-friendly spot!
-
+                <span style=" font-size:32px;">
+                    friendly spot!
                 </span>
                 <br><br>
                 <img src="http://{{BASE_HOST}}{% url 'qrencode_link' pk=spot.pk size='4' %}"><br>
