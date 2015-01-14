@@ -29,6 +29,6 @@ SPOT_PROJECT_NAME = 'momspot'
 
 SPOT_PROJECT_SLOGAN = 'Moms\' Revolution starts in cafes!'
 
-SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing moms and childrens friendly spots'
+SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing moms and children friendly spots'
 
 SPOT_PROJECT_SUBJECT = 'mom'
