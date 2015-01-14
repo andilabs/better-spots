@@ -12,9 +12,9 @@ h2 {
 <center><img src="{% settings_value "SPOT_PROJECT_BRAND_LOGO_URL" %}" alt="{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}">
 <h1 style="font-family: 'Lobster'">
 
-{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %} <br></center>
+{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %} <br>
 <h2>
-{% settings_value "SPOT_PROJECT_NAME"|upper %} {% settings_value "SPOT_PROJECT_DESCRIPTION" %}</h2>
+ {% settings_value "SPOT_PROJECT_DESCRIPTION" %}</h2></center>
 <div class="row">
 <div class="col-md-1">
 	<h2><i class="fa fa-map-marker fa-2x" style="color:#e7e7e7"></i></h2>
@@ -53,6 +53,7 @@ h2 {
 	<h2> User mobile version on the go</h2>
 </div>
 </div>
+
 
 {{DEBUG_PLEASE}}
 </h4>

@@ -25,6 +25,6 @@ SPOT_PROJECT_SLOGAN = 'Let\'s make the difference by diversity!'
 
 SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing LGBT friendly spots'
 
-SPOT_PROJECT_SUBJECT = 'gay'
+SPOT_PROJECT_SUBJECT = 'Gay'
 
 SPOT_PROJECT_FAVICON_URL = ''
