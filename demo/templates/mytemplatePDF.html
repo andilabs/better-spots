@@ -1,3 +1,4 @@
+{% load instance_settings_via_tags %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
@@ -28,14 +29,14 @@
     </head>
     <body>
         <center>
-            <img src="{{MEDIA_ROOT}}/dogspot_certificate.png" width="280px" height="280px">
+            <img src="{% settings_value "SPOT_PROJECT_CERTIFICATE_LOGO_URL" %}" width="280px" height="280px">
             <p style="font-family:Lobster;">
                 <span style=" font-size:32px;">
                     We are proud to be a
                 </span>
                 <br>
                 <span style="font-size:48px;">
-                    dog-friendly spot!
+                    {% settings_value "SPOT_PROJECT_SUBJECT" %}-friendly spot!
 
                 </span>
                 <br><br>

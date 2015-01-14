@@ -1,25 +1,30 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-INSTANCE_DOMAIN = "gayfriendlyspots.eu"
+INSTANCE_DOMAIN = "veganspot.org"
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'poczta.superhost.pl'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'no-reply@gayfriendlyspots.com'
+EMAIL_HOST_USER = 'no-reply@veganspot.org'
 EMAIL_HOST_PASSWORD = 'c9c38a6dc8cdb66a0c416a9e1f8eac21'
+
+
+STATIC_ROOT = '/home/ubuntu/veganspot.org/static_assets/'
+POSTGIS_VERSION = (2, 1, 2)
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'gayfriendlyspots',
-        'USER': 'gayfriendlyspots',
+        'NAME': 'veganspot',
+        'USER': 'veganspot',
+        'PASSWORD': 'c9c38a6dc8cdb66a0c416a9e1f8eac21',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
 
-SPOT_PROJECT_NAME = 'gayfriendlyspots'
+SPOT_PROJECT_NAME = 'veganspot'
 
 SPOT_PROJECT_FAVICON_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, 'favicon.ico')
 
@@ -27,10 +32,8 @@ SPOT_PROJECT_BRAND_LOGO_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, 'logo.
 
 SPOT_PROJECT_CERTIFICATE_LOGO_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_certificate.png')
 
-SPOT_PROJECT_SLOGAN = 'Let\'s make the difference by diversity!'
+SPOT_PROJECT_SLOGAN = 'And, all the world is green!'
 
-SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing LGBT friendly spots'
+SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing vegans and vegetarians friendly spots'
 
-SPOT_PROJECT_SUBJECT = 'gay'
-
-SPOT_PROJECT_FAVICON_URL = ''
+SPOT_PROJECT_SUBJECT = 'vegans and vegetarians'

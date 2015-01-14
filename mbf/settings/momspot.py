@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import os
 
 INSTANCE_DOMAIN = "momspot.eu"
 
@@ -26,9 +27,11 @@ DATABASES = {
 
 SPOT_PROJECT_NAME = 'momspot'
 
-SPOT_PROJECT_BRAND_LOGO = ''
+SPOT_PROJECT_FAVICON_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, 'favicon.ico')
 
-SPOT_PROJECT_CERTIFICATE_LOGO = ''
+SPOT_PROJECT_BRAND_LOGO_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, 'logo.svg')
+
+SPOT_PROJECT_CERTIFICATE_LOGO_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_certificate.png')
 
 SPOT_PROJECT_SLOGAN = 'Moms\' Revolution starts in cafes!'
 

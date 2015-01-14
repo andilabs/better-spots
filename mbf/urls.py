@@ -31,23 +31,31 @@ urlpatterns = patterns(
 
 
     url(r'^pdf/(?P<pk>\d+)/$', 'demo.views.pdf_sticker', name="pdf_sticker"),
-    url(r'^mobile/','demo.views.mobile', name='mobile'),
+    url(r'^mobile/', 'demo.views.mobile', name='mobile'),
     url(r'^spots/$', views.SpotList.as_view(), name="spot-list"),
     url(r'^spots/(?P<pk>\d+)/$', views.SpotDetail.as_view(), name="spot-detail"),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'demo.views.main', name='main'),
     url(r'^contact/$', ContactView.as_view(), name='contact'),
+
+
     url(r'^dogs/$', 'demo.views.dogs', name='dogs_list'),
+
+
     url(r'^map/$', 'demo.views.map', name='map'),
     url(r'^map_two/$', 'demo.views.map_two', name='map_two'),
     url(r'^certificate/(?P<pk>\d+)/$', 'demo.views.certificate', name='certificate'),
+
+
     url(r'^about/$', 'demo.views.about', name='about'),
+
+
     url(r'^qrcode_link/(?P<pk>\d+)/(?P<size>\d*)/?$', 'demo.views.qrencode_link', name='qrencode_link'),
     url(r'^qrcode_vcard/(?P<pk>\d+)/(?P<size>\d*)/?$', 'demo.views.qrencode_vcard', name='qrcode_vcard'),
     url(r'^qrcode/(?P<pk>\d+)/(?P<size>\d*)/?$', 'demo.views.qrencode_vcard', name='qrcode_scaled'),
     url(r'^vcard/(?P<pk>\d+)/$', 'demo.views.download_vcard', name='vcard'),
     url(r'^favourites/$', 'demo.views.favourites', name='favourites'),
-    url(r'^dogs/create/$', DogCreate.as_view(), name='dogs_add'),
+    # url(r'^dogs/create/$', DogCreate.as_view(), name='dogs_add'),
     url(r'^user/create/$', DogspotUserCreate.as_view(), name='user_create'),
     url(r'^user/login/$', 'demo.views.mylogin', name='login'),
     url(r'^user/logout/$', 'demo.views.mylogout'),
@@ -56,6 +64,6 @@ urlpatterns = patterns(
     url(r'^vcard', 'demo.views.vcard'),
     url(r'^nearby/(?P<lat>-?\d{2,3}.\d{5})/(?P<lng>-?\d{2,3}.\d{5})?/$', 'demo.views.nearby_spots'),
     url(r'^nearby/(?P<lat>-?\d{2,3}.\d{5})/(?P<lng>-?\d{2,3}.\d{5})/(?P<radius>\d*)$', 'demo.views.nearby_spots'),
-    url(r'^favicon\.ico$', RedirectView.as_view(url=settings.STATIC_URL + 'favicon.ico')),
+    url(r'^favicon\.ico$', RedirectView.as_view(url=settings.SPOT_PROJECT_FAVICON_URL)),
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])

@@ -28,3 +28,6 @@ elif 'enabledspot.eu' in PROJECT_ROOT_PATH.split('/'):
 
 elif 'gayfriendlyspots.com' in PROJECT_ROOT_PATH.split('/'):
     from .gayfriendlyspots import *
+
+elif 'veganspot.org' in PROJECT_ROOT_PATH.split('/'):
+    from .veganspot import *
