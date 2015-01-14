@@ -40,7 +40,7 @@ elif 'veganspot.org' in PROJECT_ROOT_PATH.split('/'):
     from .veganspot import *
     SPOT_PROJECT_NAME = 'veganspot'
 
-SPOT_PROJECT_FAVICON_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, 'favicon.ico')
+SPOT_PROJECT_FAVICON_URL = os.path.join('media', SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_favicon.ico')
 
 SPOT_PROJECT_BRAND_LOGO_URL = os.path.join('media', SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_logo.png')
 
