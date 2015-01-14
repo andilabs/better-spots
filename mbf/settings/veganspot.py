@@ -26,12 +26,6 @@ DATABASES = {
 
 SPOT_PROJECT_NAME = 'veganspot'
 
-SPOT_PROJECT_FAVICON_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, 'favicon.ico')
-
-SPOT_PROJECT_BRAND_LOGO_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, 'logo.svg')
-
-SPOT_PROJECT_CERTIFICATE_LOGO_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_certificate.png')
-
 SPOT_PROJECT_SLOGAN = 'And, all the world is green!'
 
 SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing vegans and vegetarians friendly spots'

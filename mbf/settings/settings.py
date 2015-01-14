@@ -16,6 +16,11 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 # remember about APACHE-mappings in files see: /etc/apache2/sites-available/00<N>-<INSTANCE>.eu.conf
+SPOT_PROJECT_FAVICON_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, 'favicon.ico')
+
+SPOT_PROJECT_BRAND_LOGO_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, 'logo.svg')
+
+SPOT_PROJECT_CERTIFICATE_LOGO_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_certificate.png')
 
 if 'dogspot.eu' in PROJECT_ROOT_PATH.split('/'):
     from .dogspot import *
