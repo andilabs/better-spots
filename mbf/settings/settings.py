@@ -16,23 +16,32 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 # remember about APACHE-mappings in files see: /etc/apache2/sites-available/00<N>-<INSTANCE>.eu.conf
+
+if 'dogspot.eu' in PROJECT_ROOT_PATH.split('/'):
+    from .dogspot import *
+    SPOT_PROJECT_NAME = 'dogspot'
+
+
+elif 'momspot.eu' in PROJECT_ROOT_PATH.split('/'):
+    from .momspot import *
+    SPOT_PROJECT_NAME = 'momspot'
+
+
+elif 'enabledspot.eu' in PROJECT_ROOT_PATH.split('/'):
+    from .enabledspot import *
+    SPOT_PROJECT_NAME = 'enabledspot'
+
+
+elif 'gayfriendlyspots.com' in PROJECT_ROOT_PATH.split('/'):
+    from .gayfriendlyspots import *
+    SPOT_PROJECT_NAME = 'gayfriendlyspots'
+
+elif 'veganspot.org' in PROJECT_ROOT_PATH.split('/'):
+    from .veganspot import *
+    SPOT_PROJECT_NAME = 'veganspot'
+
 SPOT_PROJECT_FAVICON_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, 'favicon.ico')
 
 SPOT_PROJECT_BRAND_LOGO_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, 'logo.svg')
 
 SPOT_PROJECT_CERTIFICATE_LOGO_URL = os.path.join(MEDIA_ROOT, SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_certificate.png')
-
-if 'dogspot.eu' in PROJECT_ROOT_PATH.split('/'):
-    from .dogspot import *
-
-elif 'momspot.eu' in PROJECT_ROOT_PATH.split('/'):
-    from .momspot import *
-
-elif 'enabledspot.eu' in PROJECT_ROOT_PATH.split('/'):
-    from .enabledspot import *
-
-elif 'gayfriendlyspots.com' in PROJECT_ROOT_PATH.split('/'):
-    from .gayfriendlyspots import *
-
-elif 'veganspot.org' in PROJECT_ROOT_PATH.split('/'):
-    from .veganspot import *
