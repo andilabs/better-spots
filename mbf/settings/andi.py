@@ -30,10 +30,10 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 STATIC_ROOT = '/Users/andi/dogspot_pseudo_static_media_server/'
 
-# SPOT_PROJECT_NAME = 'veganspot'
-# SPOT_PROJECT_SLOGAN = 'And, all the world is green!'
-# SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing vegans and vegetarians friendly spots'
-# SPOT_PROJECT_SUBJECT = 'Vege'
+SPOT_PROJECT_NAME = 'veganspot'
+SPOT_PROJECT_SLOGAN = 'And, all the world is green!'
+SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing vegans and vegetarians friendly spots'
+SPOT_PROJECT_SUBJECT = 'Vege'
 
 
 # SPOT_PROJECT_NAME = 'enabledspot'
@@ -46,10 +46,10 @@ STATIC_ROOT = '/Users/andi/dogspot_pseudo_static_media_server/'
 # SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing moms and childrens friendly spots'
 # SPOT_PROJECT_SUBJECT = 'Moms'
 
-SPOT_PROJECT_NAME = 'dogspot'
-SPOT_PROJECT_SLOGAN = 'Wow the World !'
-SPOT_PROJECT_DESCRIPTION = 'Is an app for exploring and reviewing dog friendly spots'
-SPOT_PROJECT_SUBJECT = 'Dog'
+# SPOT_PROJECT_NAME = 'dogspot'
+# SPOT_PROJECT_SLOGAN = 'Wow the World !'
+# SPOT_PROJECT_DESCRIPTION = 'Is an app for exploring and reviewing dog friendly spots'
+# SPOT_PROJECT_SUBJECT = 'Dog'
 
 SPOT_PROJECT_FAVICON_URL = os.path.join('media', SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_favicon.ico')
 SPOT_PROJECT_BRAND_LOGO_URL = os.path.join('media', SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_logo.png')

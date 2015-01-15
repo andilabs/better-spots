@@ -37,14 +37,32 @@
                 <span style=" font-size:32px;">
                     friendly spot!
                 </span>
-                <br><br>
-                <img src="http://{{BASE_HOST}}{% url 'qrencode_link' pk=spot.pk size='4' %}"><br>
-                <span style="font-family:Nobile; font-size:18px;">
-                    <br>
-                    <big>{{spot.name|safe}}</big>
-                    <br>
-                    {{spot.address|safe}}
-                </span>
+                <br>
+                <table>
+                    <tr>
+                        <td>
+                            <img src="http://{{BASE_HOST}}{% url 'qrencode_link' pk=spot.pk size='4' %}"><br>
+                        </td>
+                        <td>
+                            <span style="font-family:Nobile; font-size:18px;">
+                                <br>
+                                <big>{{spot.name|safe}}</big>
+                                <br>
+                                {{spot.address|safe}}
+                            </span>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td colspan=2><br>
+                        <span style="font-family:Nobile; font-size:15px;">
+                                Powered by: </span>
+                        <span style="font-family:Lobster; font-size:25px;">
+                                {% settings_value "SPOT_PROJECT_NAME" %}
+                             <img src="{% settings_value "SPOT_PROJECT_BRAND_LOGO_URL" %}" height="50px">
+                        </span>
+                        </td>
+                    </tr>
+                </table>
             </p>
         </center>
     </body>
