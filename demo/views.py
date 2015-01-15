@@ -425,7 +425,7 @@ def download_vcard(request, pk):
     dane = prepare_vcard(spot)
 
     response = HttpResponse(dane, content_type="text/x-vcard")
-    response['Content-Disposition'] = 'filename=%s via dogspot.vcf' % spot.name
+    response['Content-Disposition'] = 'filename=vcard_from_%s.vcf' % settings.SPOT_PROJECT_NAME
 
     return response
 
