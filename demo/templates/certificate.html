@@ -19,7 +19,7 @@
             <center>
             <br>
                 {% load instance_settings_via_tags %}
-                <img src="{% settings_value "SPOT_PROJECT_CERTIFICATE_LOGO_URL" %}" width="280px" height="280px">
+                <img src="/media/{% settings_value "SPOT_PROJECT_NAME" %}/{% settings_value "SPOT_PROJECT_NAME" %}_certificate.png" width="280px" height="280px">
         		<h1> {{spot.name}} </h1>
         		<h3> {{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}</h3>
         		<span id="lobster" style="font-size:48px">is {% settings_value "SPOT_PROJECT_SUBJECT" %}-friendly spot!<br>
