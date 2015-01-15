@@ -229,7 +229,8 @@ def mail_verification(request, verification_key):
                 user.save()
                 messages.add_message(
                     request, messages.SUCCESS,
-                    "Account was activated! Log in and enjoy dogspot!")
+                    "Account was activated! Log in and enjoy %s!" % settings.SPOT_PROJECT_NAME
+                )
                 return redirect('login')
 
             else:
