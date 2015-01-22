@@ -15,35 +15,7 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 
 
-def get_image_path(instance, filename):
-    return os.path.join('img', filename)
-
-
-class OtoFoto(models.Model):
-    title = models.CharField(max_length=254)
-    obrazek = models.ImageField(upload_to=get_image_path)
-
-    @property
-    def obrazek_full(self):
-        return settings.INSTANCE_DOMAIN + self.obrazek.url
-
-SEX = (
-    (0, 'female'),
-    (1, 'male'),
-)
-
-
-class Dog(models.Model):
-    name = models.CharField(max_length=254)
-    sex = models.BooleanField(choices=SEX)
-    bred = models.CharField(max_length=254, default="not specified")
-    comment = models.CharField(max_length=254)
-
-    def __unicode__(self):
-        return self.name
-
-
-class DogspotUserManager(BaseUserManager):
+class SpotUserManager(BaseUserManager):
 
     def create_user(self, email, password=None, mail_verified=False):
         """
@@ -74,7 +46,7 @@ class DogspotUserManager(BaseUserManager):
         return user
 
 
-class DogspotUser(AbstractBaseUser, PermissionsMixin):
+class SpotUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
         max_length=255,
         unique=True,
@@ -84,7 +56,7 @@ class DogspotUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
-    objects = DogspotUserManager()
+    objects = SpotUserManager()
 
     USERNAME_FIELD = 'email'
     #REQUIRED_FIELDS = ['mail_verified', ]
@@ -97,7 +69,6 @@ class DogspotUser(AbstractBaseUser, PermissionsMixin):
         # The user is identified by their email address
         return self.email
 
-    # On Python 3: def __str__(self):
     def __unicode__(self):
         return self.email
 
@@ -121,7 +92,7 @@ class DogspotUser(AbstractBaseUser, PermissionsMixin):
 class EmailVerification(models.Model):
     verification_key = models.CharField(max_length=21, unique=True)
     key_timestamp = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(DogspotUser)
+    user = models.ForeignKey(SpotUser)
 
 
 SPOT_TYPE = (
@@ -140,9 +111,7 @@ SPOT_TYPE = (
 
 class Spot(models.Model):
     name = models.CharField(max_length=250)
-    latitude = models.DecimalField(max_digits=8, decimal_places=5)
-    longitude = models.DecimalField(max_digits=8, decimal_places=5)
-    mpoint = models.PointField(max_length=40, null=True)
+    location = models.PointField(max_length=40, null=True)
 
     objects = models.GeoManager()
     address_street = models.CharField(max_length=254, default='')
@@ -155,7 +124,7 @@ class Spot(models.Model):
     email = models.EmailField(blank=True, null=True)
     www = models.URLField(blank=True, null=True)
     facebook = models.CharField(max_length=254, blank=True, null=True)
-    dogs_allowed = models.NullBooleanField(default=None, null=True)
+    is_enabled = models.NullBooleanField(default=None, null=True)
     friendly_rate = models.DecimalField(default=-1.00, max_digits=3, decimal_places=2, null=True)
 
     @property
@@ -168,6 +137,14 @@ class Spot(models.Model):
         return Raiting.objects.filter(spot_id=self.id)
 
     @property
+    def latitude(self):
+        return self.location.coords[1]
+
+    @property
+    def longitude(self):
+        return self.location.coords[0]
+
+    @property
     def address(self):
         return "%s, %s %s" % (
             self.address_city,
@@ -175,9 +152,9 @@ class Spot(models.Model):
             self.address_number
             )
 
-    def save(self, *args, **kwargs):
-        self.mpoint = Point(float(self.longitude), float(self.latitude))
-        super(Spot, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.location = Point(float(self.longitude), float(self.latitude))
+    #     super(Spot, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name
@@ -198,9 +175,9 @@ DOGS_ALLOWED = (
 
 class Raiting(models.Model):
     data_added = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(DogspotUser)
+    user = models.ForeignKey(SpotUser)
     spot = models.ForeignKey(Spot)
-    dogs_allowed = models.BooleanField(choices=DOGS_ALLOWED)
+    is_enabled = models.BooleanField(choices=DOGS_ALLOWED)
     friendly_rate = models.PositiveIntegerField(choices=LIKERT)
 
     @property
@@ -214,10 +191,13 @@ class Raiting(models.Model):
     def __unicode__(self):
         return "%s %s by: %s rate: %2.f" % (
             self.spot.name,
-            DOGS_ALLOWED[self.dogs_allowed][1],
+            DOGS_ALLOWED[self.is_enabled][1],
             self.user.email,
             self.friendly_rate
             )
+
+    class Meta:
+        unique_together = ("user", "spot")
 
 
 class Opinion(models.Model):
@@ -240,7 +220,7 @@ VOTE = (
 
 class OpinionUsefulnessRating(models.Model):
     opinion = models.ForeignKey(Opinion)
-    user = models.ForeignKey(DogspotUser)
+    user = models.ForeignKey(SpotUser)
     vote = models.IntegerField(max_length=1, choices=VOTE)
 
 
@@ -253,15 +233,8 @@ LIST_ROLES = (
 class UsersSpotsList(models.Model):
     data_added = models.DateTimeField(auto_now_add=True)
     spot = models.ForeignKey(Spot)
-    user = models.ForeignKey(DogspotUser)
+    user = models.ForeignKey(SpotUser)
     role = models.IntegerField(max_length=1, choices=LIST_ROLES)
-
-    def __unicode__(self):
-        return "%s where: %s by: %s " % (
-            LIST_ROLES[self.role-1][1],
-            self.spot.name,
-            self.user.email
-            )
 
 
 @receiver(post_save, sender=Raiting)
@@ -275,15 +248,15 @@ def update_spot_ratings(instance, **kwags):
         len(all_raitings_of_spot))
 
     spot_allowance = True if sum(
-        i.dogs_allowed for i in all_raitings_of_spot) > len(
+        i.is_enabled for i in all_raitings_of_spot) > len(
         all_raitings_of_spot) / 2 else False
 
     spot.friendly_rate = spot_rate
-    spot.dogs_allowed = spot_allowance
+    spot.is_enabled = spot_allowance
     spot.save()
 
 
-@receiver(post_save, sender=DogspotUser)
+@receiver(post_save, sender=SpotUser)
 def verify_email(sender, instance, created, *args, **kwargs):
     if created:
         email_verification = EmailVerification(
@@ -296,7 +269,7 @@ def verify_email(sender, instance, created, *args, **kwargs):
 def send_email(sender, instance, created, *args, **kwargs):
 
     if created:
-        subject = "Verify your e-mail to activate your Dogpsot account."
+        subject = "Verify your e-mail to activate your account."
         mail_content = ("Please clcik this link to activate your account "
                         "http://%s/user/email_verification/%s") % (
             settings.INSTANCE_DOMAIN,

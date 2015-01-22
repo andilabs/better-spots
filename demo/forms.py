@@ -7,7 +7,7 @@ from django import forms
 # from django.core.mail import EmailMessage
 from bootstrap3_datetime.widgets import DateTimePicker
 
-from demo.models import DogspotUser
+from demo.models import SpotUser
 #from datetimewidget.widgets import DateTimeWidget
 
 
@@ -36,7 +36,7 @@ class UserCreationForm(forms.ModelForm):
         widget=forms.PasswordInput)
 
     class Meta:
-        model = DogspotUser
+        model = SpotUser
         fields = ('email', )
 
     def clean_password2(self):

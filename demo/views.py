@@ -6,7 +6,7 @@ import quopri
 import vobject
 import qrcode
 from datetime import datetime, timedelta
-
+from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from django.http import QueryDict
 from django.http import HttpResponse
@@ -26,7 +26,7 @@ from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.http import Http404
 
-from django.contrib.gis.measure import D 
+from django.contrib.gis.measure import D
 from django.contrib.gis.geos import (Point, fromstr, fromfile, GEOSGeometry, MultiPoint, MultiPolygon, Polygon)
 
 from rest_framework.permissions import IsAuthenticated
@@ -38,14 +38,14 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework import generics
 
 from .models import (
-    Spot, DogspotUser, Dog, EmailVerification,
-    Raiting, Opinion, OpinionUsefulnessRating, OtoFoto, SPOT_TYPE)
+    Spot, SpotUser, EmailVerification,
+    Raiting, Opinion, OpinionUsefulnessRating, SPOT_TYPE)
 
 from .serializers import (
     SpotDetailSerializer,
     SpotWithDistanceSerializer, SpotListSerializer, RaitingSerializer,
     OpinionSerializer, OpinionUsefulnessRatingSerializer,
-    DogspotUserSerializer, OtoFotoSerializer)
+    SpotUserSerializer)
 
 from .authentication import ExpiringTokenAuthentication
 
@@ -123,30 +123,30 @@ def ajax_search(request):
         content_type="application/json")
 
 
-class OtoFotoDetail(generics.RetrieveUpdateDestroyAPIView):
-    model = OtoFoto
-    serializer_class = OtoFotoSerializer
+# class OtoFotoDetail(generics.RetrieveUpdateDestroyAPIView):
+#     model = OtoFoto
+#     serializer_class = OtoFotoSerializer
 
 
-class OtoFotoList(generics.ListCreateAPIView):
-    serializer_class = OtoFotoSerializer
+# class OtoFotoList(generics.ListCreateAPIView):
+#     serializer_class = OtoFotoSerializer
+
+#     def get_queryset(self):
+#         queryset = OtoFoto.objects.all()
+#         return queryset
+
+
+class SpotUserList(generics.ListCreateAPIView):
+    serializer_class = SpotUserSerializer
 
     def get_queryset(self):
-        queryset = OtoFoto.objects.all()
+        queryset = SpotUser.objects.all()
         return queryset
 
 
-class DogspotUserList(generics.ListCreateAPIView):
-    serializer_class = DogspotUserSerializer
-
-    def get_queryset(self):
-        queryset = DogspotUser.objects.all()
-        return queryset
-
-
-class DogspotUserDetail(generics.RetrieveUpdateDestroyAPIView):
-    model = DogspotUser
-    serializer_class = DogspotUserSerializer
+class SpotUserDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = SpotUser
+    serializer_class = SpotUserSerializer
 
 
 class SpotList(generics.ListCreateAPIView):
@@ -168,6 +168,7 @@ class OpinionDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class RaitingList(generics.ListCreateAPIView):
+    model = Raiting
     serializer_class = RaitingSerializer
 
     def get_queryset(self):
@@ -175,14 +176,42 @@ class RaitingList(generics.ListCreateAPIView):
         return queryset
 
 
-class RaitingDetail(generics.RetrieveUpdateDestroyAPIView):
+class RaitingDetail(RaitingList):
     model = Raiting
     serializer_class = RaitingSerializer
+
+    def get_queryset(self):
+        queryset = Raiting.objects.all()
+        return queryset
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        # filter = {}
+        # for field in self.multiple_lookup_fields:
+        #     filter[field] = self.kwargs[field]
+        # import ipdb; ipdb.set_trace()
+        obj = get_object_or_404(queryset, pk=self.kwargs['pk'])
+        # self.check_object_permissions(self.request, obj)
+        return obj
 
 
 class SpotDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Spot
     serializer_class = SpotDetailSerializer
+
+    def get_queryset(self):
+        queryset = Spot.objects.all()
+        return queryset
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        # filter = {}
+        # for field in self.multiple_lookup_fields:
+        #     filter[field] = self.kwargs[field]
+        # import ipdb; ipdb.set_trace()
+        obj = get_object_or_404(queryset, pk=self.kwargs['pk'])
+        # self.check_object_permissions(self.request, obj)
+        return obj
 
 
 class JSONResponse(HttpResponse):
@@ -201,7 +230,7 @@ def nearby_spots(request, lat, lng, radius=5000, limit=50):
 
     desired_radius = {'m':radius}
 
-    nearby_spots = Spot.objects.filter(mpoint__distance_lte=(user_location, D(**desired_radius))).distance(user_location).order_by('distance')[:limit]
+    nearby_spots = Spot.objects.filter(location__distance_lte=(user_location, D(**desired_radius))).distance(user_location).order_by('distance')[:limit]
 
     serializer = SpotWithDistanceSerializer(nearby_spots, many=True)
     return JSONResponse(serializer.data)
@@ -366,7 +395,7 @@ class ContactView(FormView):
         return super(ContactView, self).form_valid(form)
 
 
-class DogspotUserCreate(CreateView):
+class SpotUserCreate(CreateView):
     template_name = 'demo/dogspotuser_form.html'
     form_class = UserCreationForm
     success_url = '/'
@@ -378,26 +407,26 @@ class DogspotUserCreate(CreateView):
             'Your account was created, but it is not active.' +
             ' We sent you e-mail with confrimation link'
             )
-        return super(DogspotUserCreate, self).form_valid(form)
+        return super(SpotUserCreate, self).form_valid(form)
 
 
-def dogs(request):
-    dogs_list = Dog.objects.all()
-    paginator = Paginator(dogs_list, 6)
-    page = request.GET.get('page')
-    try:
-        dogs = paginator.page(page)
-    except PageNotAnInteger:
-        dogs = paginator.page(1)
-    except EmptyPage:
-        dogs = paginator.page(paginator.num_pages)
-    return render(request, 'dog_list.html', {'dogs': dogs})
+# def dogs(request):
+#     dogs_list = Dog.objects.all()
+#     paginator = Paginator(dogs_list, 6)
+#     page = request.GET.get('page')
+#     try:
+#         dogs = paginator.page(page)
+#     except PageNotAnInteger:
+#         dogs = paginator.page(1)
+#     except EmptyPage:
+#         dogs = paginator.page(paginator.num_pages)
+#     return render(request, 'dog_list.html', {'dogs': dogs})
 
 
-class DogCreate(CreateView):
-    model = Dog
-    fields = ('name', 'sex', 'bred', 'comment')
-    success_url = '/dogs'
+# class DogCreate(CreateView):
+#     model = Dog
+#     fields = ('name', 'sex', 'bred', 'comment')
+#     success_url = '/dogs'
 
 
 def prepare_vcard(spot):
@@ -531,7 +560,7 @@ def vcard(request):
     if request.method == 'PUT':
         put = QueryDict(request.body)
         fair_id = int(put.get('fair_id'))
-        this_user = DogspotUser.objects.get(email=request.user)
+        this_user = SpotUser.objects.get(email=request.user)
 
         try:
             this_exhibitor = Exhibitor.objects.get(user=this_user, fair=fair_id)

@@ -36,7 +36,7 @@
   arrMarkers = {};
 
   filters_allowance = {
-    "dog_allowed": true,
+    "is_allowed": true,
     "dog_undefined_allowed": true,
     "dog_not_allowed": true
   };
@@ -144,7 +144,7 @@
     if (filters_allowance["dog_not_allowed"] === true) {
       filtered_allowance.push(false);
     }
-    if (filters_allowance["dog_allowed"] === true) {
+    if (filters_allowance["is_allowed"] === true) {
       filtered_allowance.push(true);
     }
     if (filters_allowance["dog_undefined_allowed"] === true) {
@@ -158,7 +158,7 @@
       }
     }
     $('#map_canvas').gmap('find', 'markers', {
-      'property': 'dogs_allowed',
+      'property': 'is_enabled',
       'value': filtered_allowance
     }, function(marker, found) {
       return marker.setVisible(found);
@@ -174,7 +174,7 @@
     });
     return $("#spots_list span.list-group-item").not("#memo_empty").each(function() {
       var _ref, _ref1;
-      if ((_ref = $(this).data("markerek").dogs_allowed, __indexOf.call(filtered_allowance, _ref) < 0) || (_ref1 = spot_type_lookup[$(this).data("markerek").spot_type], __indexOf.call([
+      if ((_ref = $(this).data("markerek").is_enabled, __indexOf.call(filtered_allowance, _ref) < 0) || (_ref1 = spot_type_lookup[$(this).data("markerek").spot_type], __indexOf.call([
         (function() {
           var _results;
           _results = [];
@@ -218,26 +218,26 @@
         contentOfInfoWindow = $("<div class='spot_info' id='" + marker.id + "'> <h4>" + marker.name + "</h4><br> " + marker.address_street + " " + marker.address_number + "</div>").append(rating_stars)[0];
         console.log(marker);
         if (marker.is_accepted === false) {
-          marker.dogs_allowed = "dog_undefined_allowed";
+          marker.is_enabled = "dog_undefined_allowed";
         }
         icony_allowed = {
-          "true": STATIC_URL + "dog_allowed.png",
-          "false": STATIC_URL + "dog_not_allowed.png",
-          dog_undefined_allowed: STATIC_URL + "dog_undefined_allowed.png",
-          "null": STATIC_URL + "dog_undefined_allowed.png"
+          "true": ICON_URL + "marker-ok.png",
+          "false": ICON_URL + "marker-bad.png",
+          dog_undefined_allowed: ICON_URL + "dog_undefined_allowed.png",
+          "null": ICON_URL + "dog_undefined_allowed.png"
         };
         SpotIcon = {
-          url: icony_allowed[marker.dogs_allowed],
+          url: icony_allowed[marker.is_enabled],
           size: null,
           origin: new google.maps.Point(0, 0),
           anchor: new google.maps.Point(0, 0),
-          scaledSize: new google.maps.Size(30 / zoomBasedIconScaleRatio(), 30 / zoomBasedIconScaleRatio())
+          scaledSize: new google.maps.Size(45 / zoomBasedIconScaleRatio(), 45 / zoomBasedIconScaleRatio())
         };
         SpotMarker = new google.maps.Marker({
           position: new google.maps.LatLng(marker.latitude, marker.longitude),
           bounds: false,
           id: marker.id,
-          dogs_allowed: [marker.dogs_allowed],
+          is_enabled: [marker.is_enabled],
           spot_type: [spot_type_lookup[marker.spot_type]],
           icon: SpotIcon
         });
@@ -359,7 +359,7 @@
         $("#map_canvas").gmap("addMarker", {
           position: clientPosition,
           bounds: true,
-          dogs_allowed: ['lapka'],
+          is_enabled: ['lapka'],
           spot_type: ['lapka'],
           icon: {
             url: STATIC_URL + 'lapka_icon.png',

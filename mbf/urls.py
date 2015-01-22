@@ -4,25 +4,21 @@ from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.views.generic import RedirectView
 from django.contrib import admin
-from demo.views import DogCreate, ContactView, DogspotUserCreate
-from rest_framework import routers#,viewsets
+from demo.views import ContactView, SpotUserCreate
+from rest_framework import routers
 from demo import views
 from rest_framework.urlpatterns import format_suffix_patterns
 from django.conf.urls.static import static
 admin.autodiscover()
 
-# router = routers.DefaultRouter()
-# router.register(r'spots/$', views.SpotViewSet)
-
 
 urlpatterns = patterns(
     '',
     url(r'^ajax_search/$', views.ajax_search),
-    # url(r'^ajax_search/$', views.ajax_search, name="ajax_search"),
-    url(r'^foto/(?P<pk>\d+)/$', views.OtoFotoDetail.as_view(), name="otofoto-detail"),
-    url(r'^foto/$', views.OtoFotoList.as_view(), name="otofoto-list"),
-    url(r'^users/$', views.DogspotUserList.as_view(), name="users-list"),
-    url(r'^users/(?P<pk>\d+)/$', views.DogspotUserDetail.as_view(), name="dogspotuser-detail"),
+    # url(r'^foto/(?P<pk>\d+)/$', views.OtoFotoDetail.as_view(), name="otofoto-detail"),
+    # url(r'^foto/$', views.OtoFotoList.as_view(), name="otofoto-list"),
+    url(r'^users/$', views.SpotUserList.as_view(), name="users-list"),
+    url(r'^users/(?P<pk>\d+)/$', views.SpotUserDetail.as_view(), name="dogspotuser-detail"),
     url(r'^opinionusefulnessrating/(?P<pk>\d+)/$', views.OpinionUsefulness.as_view(), name="opinionusefulnessrating-detail"),
     url(r'^opinions/(?P<pk>\d+)/$', views.OpinionDetail.as_view(), name="opinion-detail"),
 
@@ -39,7 +35,7 @@ urlpatterns = patterns(
     url(r'^contact/$', ContactView.as_view(), name='contact'),
 
 
-    url(r'^dogs/$', 'demo.views.dogs', name='dogs_list'),
+    # url(r'^dogs/$', 'demo.views.dogs', name='dogs_list'),
 
 
     url(r'^map/$', 'demo.views.map', name='map'),
@@ -55,8 +51,7 @@ urlpatterns = patterns(
     url(r'^qrcode/(?P<pk>\d+)/(?P<size>\d*)/?$', 'demo.views.qrencode_vcard', name='qrcode_scaled'),
     url(r'^vcard/(?P<pk>\d+)/$', 'demo.views.download_vcard', name='vcard'),
     url(r'^favourites/$', 'demo.views.favourites', name='favourites'),
-    # url(r'^dogs/create/$', DogCreate.as_view(), name='dogs_add'),
-    url(r'^user/create/$', DogspotUserCreate.as_view(), name='user_create'),
+    url(r'^user/create/$', SpotUserCreate.as_view(), name='user_create'),
     url(r'^user/login/$', 'demo.views.mylogin', name='login'),
     url(r'^user/logout/$', 'demo.views.mylogout'),
     url(r'^user/email_verification/(?P<verification_key>[^/]+)/$', 'demo.views.mail_verification'),

@@ -5,7 +5,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-AUTH_USER_MODEL = 'demo.DogspotUser'
+AUTH_USER_MODEL = 'demo.SpotUser'
 
 SECRET_KEY = 'kq$$wn#ff0qt)j7mm!d$6cee22e7hw9z#i11-@g1qaya^o!gnj'
 
@@ -16,7 +16,6 @@ FORMAT_MODULE_PATH = 'mbf.formats'
 DESIRED_PASSWORD_LENGTH = 5
 
 REST_FRAMEWORK = {
-
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'demo.authentication.ExpiringTokenAuthentication',
@@ -36,6 +35,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 INSTALLED_APPS = (
+    'south',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,12 +43,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework.authtoken',
+    'django.contrib.gis',
     'bootstrap3_datetime',
     'django_extensions',
     'raven.contrib.django.raven_compat',
     'bootstrap3',
     'demo',
     'rest_framework',
+    # 'django_google_maps',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -65,15 +67,15 @@ ROOT_URLCONF = 'mbf.urls'
 
 WSGI_APPLICATION = 'mbf.wsgi.application'
 
-AUTHENTICATION_BACKENDS = (
-    'social.backends.open_id.OpenIdAuth',
-    'social.backends.google.GoogleOpenId',
-    'social.backends.google.GoogleOAuth2',
-    'social.backends.google.GoogleOAuth',
-    'social.backends.twitter.TwitterOAuth',
-    'social.backends.yahoo.YahooOpenId',
-    'django.contrib.auth.backends.ModelBackend',
-)
+# AUTHENTICATION_BACKENDS = (
+#     'social.backends.open_id.OpenIdAuth',
+#     'social.backends.google.GoogleOpenId',
+#     'social.backends.google.GoogleOAuth2',
+#     'social.backends.google.GoogleOAuth',
+#     'social.backends.twitter.TwitterOAuth',
+#     'social.backends.yahoo.YahooOpenId',
+#     'django.contrib.auth.backends.ModelBackend',
+# )
 
 DEFAULT_FROM_EMAIL = 'no-reply@dogspot.eu'
 

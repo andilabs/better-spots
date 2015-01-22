@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
-from demo.models import DogspotUser, Dog, Spot, Raiting, Opinion, OpinionUsefulnessRating, OtoFoto
+from demo.models import SpotUser, Spot, Raiting, Opinion, OpinionUsefulnessRating#, Rental
 from django import forms
 import random
 import string
@@ -18,6 +18,16 @@ YOUR_API_KEY = "AIzaSyBj2VxTkcBPQ9yOXerWQUil-pzMuTaz4Ao"
 
 
 """This method for given in parameter address makes request to Google Maps API, and returns latitude and longitude"""
+
+
+# from django_google_maps import widgets as map_widgets
+# from django_google_maps import fields as map_fields
+
+
+# class RentalAdmin(admin.ModelAdmin):
+#     formfield_overrides = {
+#         map_fields.AddressField: {'widget': map_widgets.GoogleMapsAddressWidget},
+#     }
 
 
 def geocode(addr):
@@ -54,7 +64,7 @@ class UserCreationForm(forms.ModelForm):
         widget=forms.PasswordInput)
 
     class Meta:
-        model = DogspotUser
+        model = SpotUser
         fields = ('email', 'mail_verified',)
 
     def clean_password2(self):
@@ -89,7 +99,7 @@ class UserChangeForm(forms.ModelForm):
     """
 
     class Meta:
-        model = DogspotUser
+        model = SpotUser
         fields = ('email', 'password', 'mail_verified', 'is_active', 'is_admin')
 
     def clean_password(self):
@@ -101,7 +111,7 @@ class UserChangeForm(forms.ModelForm):
     def save(self, commit=True):
         user = super(UserChangeForm, self).save(commit=False)
         cleaned_data = self.cleaned_data
-        old_status = DogspotUser.objects.get(email=cleaned_data['email'])
+        old_status = SpotUser.objects.get(email=cleaned_data['email'])
         if ((old_status.mail_verified is False or old_status.mail_verified is None) and
                 cleaned_data['mail_verified'] is True):
             new_pass = get_new_password()
@@ -124,7 +134,7 @@ def send_credentials(email, new_pass):
 
 def send_credentials_to_selected(modeladmin, request, queryset):
     for q in queryset:
-        this_user = DogspotUser.objects.get(email=q)
+        this_user = SpotUser.objects.get(email=q)
         if this_user.mail_verified is False:
             this_user.mail_verified = True
             new_pass = get_new_password()
@@ -133,7 +143,7 @@ def send_credentials_to_selected(modeladmin, request, queryset):
             send_credentials(this_user.email, new_pass)
 
 
-class DogspotUserAdmin(UserAdmin):
+class SpotUserAdmin(UserAdmin):
     # The forms to add and change user instances
     form = UserChangeForm
     add_form = UserCreationForm
@@ -168,13 +178,12 @@ class DogAdmin(admin.ModelAdmin):
 class SpotAdmin(admin.ModelAdmin):
     resource_class = SpotSerializer
 
-    list_display = ['name', 'address_street', 'address_number', 'address_city', 'address_country',  'spot_type', 'is_accepted', 'friendly_rate', 'latitude', 'longitude']
-    exclude = ('mpoint',)
+    # list_display = ['name', 'address_street', 'address_number', 'address_city', 'address_country',  'spot_type', 'is_accepted', 'friendly_rate', 'latitude', 'longitude']
+    exclude = ('location',)
 
-admin.site.register(Dog, DogAdmin)
-admin.site.register(DogspotUser, DogspotUserAdmin)
+admin.site.register(SpotUser, SpotUserAdmin)
 admin.site.register(Spot, SpotAdmin)
 admin.site.register(Raiting)
 admin.site.register(Opinion)
 admin.site.register(OpinionUsefulnessRating)
-admin.site.register(OtoFoto)
+# admin.site.register(Rental, RentalAdmin)
