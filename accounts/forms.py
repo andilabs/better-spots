@@ -1,27 +1,6 @@
-
-import datetime
-
 from django import forms
-#from django.contrib.auth import authenticate
 
-# from django.core.mail import EmailMessage
-from bootstrap3_datetime.widgets import DateTimePicker
-
-from demo.models import SpotUser
-#from datetimewidget.widgets import DateTimeWidget
-
-
-# dateTimeOptions = {
-#     'id': "date",
-#     'format': 'dd-mm-yyyy',
-#     'autoclose': 'true',
-#     'showMeridian': 'true',
-#     'weekStart': 1,
-#     'startView': 2,
-#     'minView': 2,
-#     'maxView': 2,
-#     'todayBtn': 'true'
-# }
+from .models import SpotUser
 
 
 class UserCreationForm(forms.ModelForm):
@@ -53,24 +32,3 @@ class UserCreationForm(forms.ModelForm):
         user.set_password(self.cleaned_data["password1"])
         user.save()
         return user
-
-
-class ContactForm(forms.Form):
-    name = forms.CharField(max_length=100,)
-    mail = forms.EmailField()
-    # date = forms.DateTimeField(
-    #     widget=DateTimeWidget(options=dateTimeOptions),
-    # )
-
-    date = forms.DateField(
-        initial=datetime.date.today,
-        widget=DateTimePicker(
-            options={
-                "format": "DD-MM-YYYY",
-                "pickTime": False,
-                "showToday": True,
-                })
-        )
-
-    message = forms.CharField(widget=forms.Textarea)
-
