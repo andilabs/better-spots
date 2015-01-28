@@ -1,0 +1,162 @@
+[
+  {
+    "pk": 1,
+    "model": "core.spot",
+    "fields": {
+      "phone_number": "22 656 62 81",
+      "is_enabled": true,
+      "address_city": "Warszawa",
+      "friendly_rate": "3.00",
+      "name": "Cafe Kulturalna",
+      "address_number": "1",
+      "address_country": "Polska",
+      "www": "http://www.kulturalna.pl/",
+      "location": "POINT (21.0066200000000016 52.2317699999999974)",
+      "facebook": "CafeKulturalna",
+      "spot_type": 1,
+      "is_accepted": true,
+      "address_street": "Plac Defilad",
+      "email": "justyna@kulturalna.pl"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "core.spot",
+    "fields": {
+      "phone_number": "22 826 08 22",
+      "is_enabled": true,
+      "address_city": "Warszawa",
+      "friendly_rate": "5.00",
+      "name": "Kafka",
+      "address_number": "3",
+      "address_country": "Polska",
+      "www": "http://www.kawiarnia-kafka.pl/",
+      "location": "POINT (21.0227600000000017 52.2395899999999997)",
+      "facebook": "Kawiarnia.Kafka",
+      "spot_type": 1,
+      "is_accepted": true,
+      "address_street": "Oboźna",
+      "email": "kafka@kafka.com.pl"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "core.spot",
+    "fields": {
+      "phone_number": "513191641",
+      "is_enabled": true,
+      "address_city": "Warszawa",
+      "friendly_rate": "5.00",
+      "name": "Pardon to tu",
+      "address_number": "12/16",
+      "address_country": "Polska",
+      "www": "http://www.pardontotu.pl/",
+      "location": "POINT (21.0026900000000012 52.2362600000000015)",
+      "facebook": "pardontotu",
+      "spot_type": 1,
+      "is_accepted": true,
+      "address_street": "Pl. Grzybowski",
+      "email": ""
+    }
+  },
+  {
+    "pk": 4,
+    "model": "core.spot",
+    "fields": {
+      "phone_number": "22 620 32 57",
+      "is_enabled": false,
+      "address_city": "Warszawa",
+      "friendly_rate": null,
+      "name": "Cafe Próżna",
+      "address_number": "12",
+      "address_country": "Polska",
+      "www": "http://www.cafeprozna.pl/",
+      "location": "POINT (21.0046600000000012 52.2364099999999993)",
+      "facebook": "pages/Cafe-Pr\\u00f3\\u017cna/110777395610257?sk=info",
+      "spot_type": 1,
+      "is_accepted": false,
+      "address_street": "Próżna",
+      "email": "cafeprozna@o2.pl"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "core.spot",
+    "fields": {
+      "phone_number": "22 339 17 10",
+      "is_enabled": false,
+      "address_city": "Warszawa",
+      "friendly_rate": "1.00",
+      "name": "Szwejk",
+      "address_number": "1",
+      "address_country": "Polska",
+      "www": null,
+      "location": "POINT (21.0164000000000009 52.2214499999999973)",
+      "facebook": null,
+      "spot_type": 2,
+      "is_accepted": true,
+      "address_street": "Plac Konstytucji",
+      "email": null
+    }
+  },
+  {
+    "pk": 6,
+    "model": "core.spot",
+    "fields": {
+      "phone_number": "22 628 44 59",
+      "is_enabled": true,
+      "address_city": "Warszawa",
+      "friendly_rate": "5.00",
+      "name": "Charlotte. Chleb i Wino",
+      "address_number": "18",
+      "address_country": "Polska",
+      "www": "http://www.bistrocharlotte.com/",
+      "location": "POINT (21.0187400000000011 52.2199299999999980)",
+      "facebook": "bistrocharlotte",
+      "spot_type": 1,
+      "is_accepted": true,
+      "address_street": "Wyzwolenia",
+      "email": "info@bistrocharlotte.pl"
+    }
+  },
+  {
+    "pk": 7,
+    "model": "core.spot",
+    "fields": {
+      "phone_number": "22 825 16 50",
+      "is_enabled": false,
+      "address_city": "Warszawa",
+      "friendly_rate": "1.00",
+      "name": "Jeffs",
+      "address_number": "32",
+      "address_country": "Polska",
+      "www": "",
+      "location": "POINT (20.9884799999999991 52.2110399999999970)",
+      "facebook": "",
+      "spot_type": 2,
+      "is_accepted": true,
+      "address_street": "Żwirki i Wigóry",
+      "email": ""
+    }
+  },
+  {
+    "pk": 8,
+    "model": "core.spot",
+    "fields": {
+      "phone_number": "12 656 65 60",
+      "is_enabled": true,
+      "address_city": "Kraków",
+      "friendly_rate": "5.00",
+      "name": "Drukarnia Jazz Club",
+      "address_number": "1",
+      "address_country": "Polska",
+      "www": "http://www.drukarniaclub.pl/",
+      "location": "POINT (19.9492900000000013 50.0460800000000035)",
+      "facebook": "DrukarniaJazzClub",
+      "spot_type": 1,
+      "is_accepted": true,
+      "address_street": "Nadwiślańska",
+      "email": "drukarnia@drukarniaclub.pl"
+    }
+  }
+]

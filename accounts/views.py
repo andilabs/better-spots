@@ -66,7 +66,7 @@ def mail_verification(request, verification_key):
 
 
 class SpotUserCreate(CreateView):
-    template_name = 'demo/dogspotuser_form.html'
+    template_name = 'www/dogspotuser_form.html'
     form_class = UserCreationForm
     success_url = '/'
 

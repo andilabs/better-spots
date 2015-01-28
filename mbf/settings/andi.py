@@ -17,7 +17,7 @@ EMAIL_HOST_PASSWORD = 'c9c38a6dc8cdb66a0c416a9e1f8eac21'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'pink_pussies',
+        'NAME': 'andispot',
         'USER': 'dogspot',
         'HOST': 'localhost',
         'PORT': '5432',

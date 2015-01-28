@@ -15,7 +15,7 @@ from django.template.response import TemplateResponse
 from django.views.generic import FormView
 
 from core.models import Spot, SPOT_TYPE
-from utils import make_qrcode
+from utils.qrcodes import make_qrcode
 from .forms import ContactForm
 
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from demo.models import (
+from core.models import (
     Spot, Raiting, Opinion, OpinionUsefulnessRating, SpotUser)#, OtoFoto)
 
 from django.contrib.gis.geos import fromstr

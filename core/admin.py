@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
-from demo.models import SpotUser, Spot, Raiting, Opinion, OpinionUsefulnessRating#, Rental
+from core.models import SpotUser, Spot, Raiting, Opinion, OpinionUsefulnessRating#, Rental
 from django import forms
 import random
 import string

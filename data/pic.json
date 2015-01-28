@@ -1,10 +1,10 @@
 [
   {
     "pk": 2,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "224004844",
-      "dogs_allowed": true,
+      "is_enabled": true,
       "address_city": "Warszawa",
       "friendly_rate": "3.33",
       "name": "Bydło i Powidło",
@@ -21,10 +21,10 @@
   },
   {
     "pk": 3,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "222220700",
-      "dogs_allowed": false,
+      "is_enabled": false,
       "address_city": "Warszawa",
       "friendly_rate": "2.00",
       "name": "Hard Rock Cafe Warsaw",
@@ -41,10 +41,10 @@
   },
   {
     "pk": 4,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "228901811",
-      "dogs_allowed": false,
+      "is_enabled": false,
       "address_city": "Warszawa",
       "friendly_rate": "1.00",
       "name": "77 Sushi",
@@ -61,10 +61,10 @@
   },
   {
     "pk": 5,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "22 656 62 81",
-      "dogs_allowed": true,
+      "is_enabled": true,
       "address_city": "Warszawa",
       "friendly_rate": "3.00",
       "name": "Cafe Kulturalna",
@@ -81,10 +81,10 @@
   },
   {
     "pk": 6,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "22 826 08 22",
-      "dogs_allowed": true,
+      "is_enabled": true,
       "address_city": "Warszawa",
       "friendly_rate": "5.00",
       "name": "Kafka",
@@ -101,10 +101,10 @@
   },
   {
     "pk": 7,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "71 386 19 93",
-      "dogs_allowed": true,
+      "is_enabled": true,
       "address_city": "Warszawa",
       "friendly_rate": "5.00",
       "name": "Starbucks DOG",
@@ -121,10 +121,10 @@
   },
   {
     "pk": 8,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "501 620 669",
-      "dogs_allowed": true,
+      "is_enabled": true,
       "address_city": "Warszawa",
       "friendly_rate": "5.00",
       "name": "Mucha nie siada",
@@ -141,10 +141,10 @@
   },
   {
     "pk": 9,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "513191641",
-      "dogs_allowed": true,
+      "is_enabled": true,
       "address_city": "Warszawa",
       "friendly_rate": "5.00",
       "name": "Pardon to tu",
@@ -161,10 +161,10 @@
   },
   {
     "pk": 10,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "22 620 32 57",
-      "dogs_allowed": false,
+      "is_enabled": false,
       "address_city": "Warszawa",
       "friendly_rate": null,
       "name": "Cafe Próżna",
@@ -181,10 +181,10 @@
   },
   {
     "pk": 12,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "30 89206540",
-      "dogs_allowed": null,
+      "is_enabled": null,
       "address_city": "Berlin",
       "friendly_rate": null,
       "name": "Cafe Oliv",
@@ -201,10 +201,10 @@
   },
   {
     "pk": 14,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "22 339 17 10",
-      "dogs_allowed": true,
+      "is_enabled": true,
       "address_city": "Warszawa",
       "friendly_rate": "3.67",
       "name": "Szwejk",
@@ -221,10 +221,10 @@
   },
   {
     "pk": 15,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "22 628 44 59",
-      "dogs_allowed": null,
+      "is_enabled": null,
       "address_city": "Warszawa",
       "friendly_rate": null,
       "name": "Charlotte. Chleb i Wino",
@@ -241,10 +241,10 @@
   },
   {
     "pk": 16,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "22 849 40 75",
-      "dogs_allowed": false,
+      "is_enabled": false,
       "address_city": "Warszawa",
       "friendly_rate": null,
       "name": "Pasta i Basta",
@@ -261,10 +261,10 @@
   },
   {
     "pk": 17,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "221234567",
-      "dogs_allowed": true,
+      "is_enabled": true,
       "address_city": "Warszawa",
       "friendly_rate": "5.00",
       "name": "Mood Cafe Trattoria",
@@ -281,10 +281,10 @@
   },
   {
     "pk": 18,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "22 825 16 50",
-      "dogs_allowed": false,
+      "is_enabled": false,
       "address_city": "Warszawa",
       "friendly_rate": "1.00",
       "name": "Jeffs",
@@ -301,10 +301,10 @@
   },
   {
     "pk": 19,
-    "model": "demo.spot",
+    "model": "core.spot",
     "fields": {
       "phone_number": "12 656 65 60",
-      "dogs_allowed": true,
+      "is_enabled": true,
       "address_city": "Kraków",
       "friendly_rate": "5.00",
       "name": "Drukarnia Jazz Club",
@@ -317,26 +317,6 @@
       "is_accepted": true,
       "address_street": "Nadwiślańska",
       "email": "drukarnia@drukarniaclub.pl"
-    }
-  },
-  {
-    "pk": 20,
-    "model": "demo.spot",
-    "fields": {
-      "phone_number": "1234",
-      "dogs_allowed": null,
-      "address_city": "d",
-      "friendly_rate": "-1.00",
-      "name": "KFC",
-      "address_number": "d",
-      "address_country": "d",
-      "www": "",
-      "location": "POINT (20.9945500000000003 52.2424600000000012)",
-      "facebook": "",
-      "spot_type": 2,
-      "is_accepted": false,
-      "address_street": "a",
-      "email": ""
     }
   }
 ]

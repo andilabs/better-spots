@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 
 from django.conf import settings
 from django.contrib.auth import authenticate
+from django.contrib.gis.measure import D
 from django.contrib.gis.geos import fromstr
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -27,7 +28,7 @@ from .serializers import (
     OpinionSerializer,
     OpinionUsefulnessRatingSerializer
     )
-from .authentication import ExpiringTokenAuthentication
+from accounts.authentication import ExpiringTokenAuthentication
 
 # class OtoFotoDetail(generics.RetrieveUpdateDestroyAPIView):
 #     model = OtoFoto
@@ -131,7 +132,7 @@ def nearby_spots(request, lat, lng, radius=5000, limit=50):
 
 
 @csrf_exempt
-def auth_ex(request):
+def authentication(request):
     """
         Method is responsible to provide TOKEN
         to sucessfully authenticated user
@@ -140,7 +141,7 @@ def auth_ex(request):
         - password
 
         EXAMPLE CALL:
-        curl -X POST http://127.0.0.1:8000/auth_ex -d "email=andrzej.kostanski@daftcode.pl&password=andi"
+        curl -X POST http://127.0.0.1:8000/authentication -d "email=andi@andilabs.com&password=d00r00tk@"
         EXAMPLE RESP (without headers):
         {"token": "3a3f1cd20ee72b468a9bd7d6ab20e2e0a408ead5"}
     """

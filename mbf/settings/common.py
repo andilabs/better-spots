@@ -5,7 +5,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-AUTH_USER_MODEL = 'demo.SpotUser'
+AUTH_USER_MODEL = 'accounts.SpotUser'
 
 SECRET_KEY = 'kq$$wn#ff0qt)j7mm!d$6cee22e7hw9z#i11-@g1qaya^o!gnj'
 
@@ -18,7 +18,7 @@ DESIRED_PASSWORD_LENGTH = 5
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
-        'demo.authentication.ExpiringTokenAuthentication',
+        'accounts.authentication.ExpiringTokenAuthentication',
     ),
 }
 
@@ -28,10 +28,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.static",
     "django.core.context_processors.request",
-    "social.apps.django_app.context_processors.backends",
-    "social.apps.django_app.context_processors.login_redirect",
     "django.contrib.messages.context_processors.messages",
-
 )
 
 INSTALLED_APPS = (

@@ -93,7 +93,7 @@ class EmailVerification(models.Model):
 
 @receiver(post_save, sender=SpotUser)
 def verify_email(sender, instance, created, *args, **kwargs):
-    if created:
+    if created and not instance.mail_verified:
         email_verification = EmailVerification(
             verification_key=base64.urlsafe_b64encode(uuid.uuid4().bytes)[:21],
             user=instance)
