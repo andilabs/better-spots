@@ -32,3 +32,5 @@ SPOT_PROJECT_SLOGAN = 'Moms\' Revolution starts in cafes!'
 SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing moms and children friendly spots'
 
 SPOT_PROJECT_SUBJECT = 'Mom'
+
+SPOT_PROJECT_MAIN_COLOR = '#eb386f'

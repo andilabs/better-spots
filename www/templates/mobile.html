@@ -1,11 +1,12 @@
 {% extends "base.html" %}o
 
 {% block content %}
-<h2><i class="fa fa-mobile fa-2x" style="color:#ea7474"></i> Mobile version</h2>
+
+{% load instance_settings_via_tags %}
+<h2><i class="fa fa-mobile fa-2x" style="color:{% settings_value "SPOT_PROJECT_MAIN_COLOR" %}"></i> Mobile version</h2>
 
 <h4>- we are working on mobile app for iOS (iPhone)
 Below we present some screenshots. Shortly it will be avaliable in AppStore. Stay tuned!!
-{{DEBUG_PLEASE}}
 </h4>
 <br>
 <img src="{{STATIC_URL}}iPhone-Dogspot-animated.gif" style="width:20%; height:50%">	

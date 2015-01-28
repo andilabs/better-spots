@@ -2,11 +2,8 @@
 
 
 {% block content %}
-
-	<h2> <i class="fa fa-heart fa-2x" style="color:#ea7474"></i> Your favourites spots!
+{% load instance_settings_via_tags %}
+	<h2> <i class="fa fa-heart fa-2x" style="color:{% settings_value "SPOT_PROJECT_MAIN_COLOR" %}"></i> Your favourites spots!
 	</h2>
-	<pre>
-	{{my_debug}}
-	</pre>
 
 {% endblock %}

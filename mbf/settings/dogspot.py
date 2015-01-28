@@ -34,3 +34,5 @@ SPOT_PROJECT_SLOGAN = 'Wow the World !'
 SPOT_PROJECT_DESCRIPTION = 'Is an app for exploring and reviewing dog friendly spots'
 
 SPOT_PROJECT_SUBJECT = 'Dog'
+
+SPOT_PROJECT_MAIN_COLOR = '#fcbd41'
