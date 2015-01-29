@@ -205,12 +205,14 @@
     spinner = new Spinner(opts).spin(target);
     arrMarkers = {};
     $('#map_canvas').gmap('clear', 'markers');
-    url = BASE_HOST + ("/nearby/" + (lat.toFixed(5)) + "/" + (lng.toFixed(5)) + "/" + desiredRadius);
+    url = BASE_HOST + ("/api/nearby/" + (lat.toFixed(5)) + "/" + (lng.toFixed(5)) + "/" + desiredRadius);
     return jqxhr = $.getJSON(url, function(data) {
       var k, marker;
-      $.each(data, function(i, marker) {
+      console.log(data);
+      console.log(data.results);
+      $.each(data.results, function(i, marker) {
         var SpotIcon, SpotInfoWindow, SpotMarker, box, contentOfInfoWindow, icony_allowed, rating_stars;
-        box = $("<span class='list-group-item' id='" + marker.id + "'> <span class='badge' style='background-color:transparent'> <a href='/spots/" + marker.id + "' class='spot-details-link disabled' style='color:white'> <i class='fa fa-angle-double-right fa-2x'></i></a></span> <h4 class='list-group-item-heading'>" + marker.name + "</h4> <p class='list-group-item-text'>" + marker.address_street + " " + marker.address_number + " <span class='spot_item_details' id='" + marker.id + "'> <br><span class='glyphicon glyphicon-phone-alt'></span> " + marker.phone_number + " <a href='http://www.facebook.com/" + marker.id + "' > <i class='fa fa-facebook'></i></a> </span> </p></span>").data("markerek", marker);
+        box = $("<span class='list-group-item' id='" + marker.id + "'> <span class='badge' style='background-color:transparent'> <a href='api/spots/" + marker.id + "' class='spot-details-link disabled' style='color:white'> <i class='fa fa-angle-double-right fa-2x'></i></a></span> <h4 class='list-group-item-heading'>" + marker.name + "</h4> <p class='list-group-item-text'>" + marker.address_street + " " + marker.address_number + " <span class='spot_item_details' id='" + marker.id + "'> <br><span class='glyphicon glyphicon-phone-alt'></span> " + marker.phone_number + " <a href='http://www.facebook.com/" + marker.id + "' > <i class='fa fa-facebook'></i></a> </span> </p></span>").data("markerek", marker);
         rating_stars = $("<div class='rate' id='" + marker.id + "'></div>").raty({
           readOnly: false,
           score: marker.friendly_rate
@@ -234,7 +236,7 @@
           scaledSize: new google.maps.Size(45 / zoomBasedIconScaleRatio(), 45 / zoomBasedIconScaleRatio())
         };
         SpotMarker = new google.maps.Marker({
-          position: new google.maps.LatLng(marker.latitude, marker.longitude),
+          position: new google.maps.LatLng(marker.location.latitude, marker.location.longitude),
           bounds: false,
           id: marker.id,
           is_enabled: [marker.is_enabled],

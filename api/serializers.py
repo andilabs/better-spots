@@ -17,7 +17,7 @@ class OpinionUsefulnessRatingSerializer(serializers.HyperlinkedModelSerializer):
     opinion = serializers.HyperlinkedRelatedField(
         read_only=True, view_name='opinion-detail')
     user = serializers.HyperlinkedRelatedField(
-        read_only=True, view_name='dogspotuser-detail')
+        read_only=True, view_name='spotuser-detail')
 
     class Meta:
         model = OpinionUsefulnessRating
@@ -28,7 +28,7 @@ class OpinionSerializer(serializers.HyperlinkedModelSerializer):
     raiting = serializers.HyperlinkedRelatedField(
         read_only=True, view_name='raiting-detail')
     opinion_usefulnes_raitings = OpinionUsefulnessRatingSerializer(
-        read_only=True)
+        read_only=True, many=True)
 
     class Meta:
         model = Opinion
@@ -42,28 +42,24 @@ class RaitingSerializer(serializers.HyperlinkedModelSerializer):
     spot = serializers.HyperlinkedRelatedField(
         read_only=True, view_name='spot-detail')
     user = serializers.HyperlinkedRelatedField(
-        read_only=True, view_name='dogspotuser-detail')
+        read_only=True, view_name='spotuser-detail')
     is_enabled = serializers.BooleanField()
 
     class Meta:
         model = Raiting
         fields = (
-            'url', 'is_enabled', 'friendly_rate', 'spot', 'opinion', 'user')
+            'url', 'is_enabled', 'friendly_rate', 'spot', 'user', 'opinion')
 
 
-class SpotListSerializer(serializers.ModelSerializer):
+class SpotListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
-        # exclude = ('location',)
         model = Spot
 
     def to_representation(self, instance):
         ret = super(SpotListSerializer, self).to_representation(instance)
         pnt = fromstr(ret['location'])
         ret['location'] = {'longitude': pnt.coords[0], 'latitude': pnt.coords[1]}
-        # ret['distance'] = instance.distance.km
-        ret['longitude'] = pnt.coords[0]
-        ret['latitude'] = pnt.coords[1]
         return ret
 
 
@@ -74,18 +70,11 @@ class SpotDetailSerializer(SpotListSerializer):
         model = Spot
 
 
-class SpotWithDistanceSerializer(serializers.ModelSerializer):
+class SpotWithDistanceSerializer(SpotListSerializer):
     distance = serializers.ReadOnlyField()
-
-    class Meta:
-        model = Spot
 
     def to_representation(self, instance):
         ret = super(SpotWithDistanceSerializer, self).to_representation(instance)
-        # pnt = fromstr(ret['location'])
-        # ret['location'] = {'longitude': pnt.coords[0], 'latitude': pnt.coords[1]}
-        # ret['longitude'] = pnt.coords[0]
-        # ret['latitude'] = pnt.coords[1]
         ret['distance'] = instance.distance.km
         return ret
 

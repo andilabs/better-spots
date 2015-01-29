@@ -6,16 +6,18 @@ from cgi import escape
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMessage
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
 from django.shortcuts import render
 from django.template import Context
 from django.template.loader import get_template
 from django.template.response import TemplateResponse
-from django.views.generic import FormView
+from django.views.generic import FormView, CreateView
 
 from core.models import Spot, SPOT_TYPE
 from utils.qrcodes import make_qrcode
+from accounts.forms import UserCreationForm
 from .forms import ContactForm
 
 
@@ -157,17 +159,32 @@ def download_vcard(request, pk):
     return response
 
 
-# def dogs(request):
-#     dogs_list = Dog.objects.all()
-#     paginator = Paginator(dogs_list, 6)
-#     page = request.GET.get('page')
-#     try:
-#         dogs = paginator.page(page)
-#     except PageNotAnInteger:
-#         dogs = paginator.page(1)
-#     except EmptyPage:
-#         dogs = paginator.page(paginator.num_pages)
-#     return render(request, 'dog_list.html', {'dogs': dogs})
+def spots(request):
+    spots_list = Spot.objects.all()
+    paginator = Paginator(spots_list, 6)
+    page = request.GET.get('page')
+    try:
+        spots = paginator.page(page)
+    except PageNotAnInteger:
+        spots = paginator.page(1)
+    except EmptyPage:
+        spots = paginator.page(paginator.num_pages)
+    return render(request, 'spot_list.html', {'spots': spots})
+
+
+class SpotUserCreate(CreateView):
+    template_name = 'spotuser_form.html'
+    form_class = UserCreationForm
+    success_url = '/'
+
+    def form_valid(self, form):
+        messages.add_message(
+            self.request,
+            messages.WARNING,
+            'Your account was created, but it is not active.' +
+            ' We sent you e-mail with confrimation link')
+
+        return super(SpotUserCreate, self).form_valid(form)
 
 
 class ContactView(FormView):

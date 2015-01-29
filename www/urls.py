@@ -1,5 +1,5 @@
 from django.conf.urls import *
-from www.views import ContactView
+from www.views import ContactView, SpotUserCreate
 
 # place app url patterns here
 urlpatterns = patterns(
@@ -9,6 +9,7 @@ urlpatterns = patterns(
     url(r'^pdf/(?P<pk>\d+)/$', 'www.views.pdf_sticker', name="pdf_sticker"),
     url(r'^$', 'www.views.main', name='main'),
     url(r'^mobile/', 'www.views.mobile', name='mobile'),
+    url(r'^user/create/$', SpotUserCreate.as_view(), name='user_create'),
     url(r'^contact/$', ContactView.as_view(), name='contact'),
     url(r'^map/$', 'www.views.map', name='map'),
     url(r'^map_two/$', 'www.views.map_two', name='map_two'),

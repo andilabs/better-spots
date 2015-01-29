@@ -32,3 +32,27 @@ class UserCreationForm(forms.ModelForm):
         user.set_password(self.cleaned_data["password1"])
         user.save()
         return user
+
+
+class UserChangeForm(forms.ModelForm):
+
+    """A form for updating users. Includes all the fields on
+    the user, but replaces the password field with admin's
+    password hash display field.
+    """
+
+    class Meta:
+        model = SpotUser
+        fields = ('email', 'password', 'mail_verified', 'is_active', 'is_admin')
+
+    def clean_password(self):
+        # Regardless of what the user provides, return the initial value.
+        # This is done here, rather than on the field, because the
+        # field does not have access to the initial value
+        return self.initial["password"]
+
+    def save(self, commit=True):
+        user = super(UserChangeForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        user.save()
+        return user

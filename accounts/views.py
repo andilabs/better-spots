@@ -66,7 +66,7 @@ def mail_verification(request, verification_key):
 
 
 class SpotUserCreate(CreateView):
-    template_name = 'www/dogspotuser_form.html'
+    template_name = 'spotuser_form.html'
     form_class = UserCreationForm
     success_url = '/'
 
@@ -116,6 +116,7 @@ def mylogin(request):
 
 
 def mylogout(request):
+
     if request.method == 'GET':
 
         if request.user.is_authenticated():
