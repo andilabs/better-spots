@@ -114,7 +114,7 @@ class RaitingList(generics.ListCreateAPIView):
         return queryset
 
 
-class RaitingDetail(RaitingList):
+class RaitingDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Raiting
     serializer_class = RaitingSerializer
 
