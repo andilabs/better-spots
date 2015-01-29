@@ -9,7 +9,6 @@ import string
 from rest_framework import serializers
 from django.core.mail import EmailMessage
 
-from import_export import resources
 
 import urllib
 import json
@@ -17,20 +16,11 @@ from django.utils.http import urlquote
 YOUR_API_KEY = "AIzaSyBj2VxTkcBPQ9yOXerWQUil-pzMuTaz4Ao"
 
 
-"""This method for given in parameter address makes request to Google Maps API, and returns latitude and longitude"""
-
-
-# from django_google_maps import widgets as map_widgets
-# from django_google_maps import fields as map_fields
-
-
-# class RentalAdmin(admin.ModelAdmin):
-#     formfield_overrides = {
-#         map_fields.AddressField: {'widget': map_widgets.GoogleMapsAddressWidget},
-#     }
-
-
 def geocode(addr):
+    """
+        This method for given in parameter address makes request to Google Maps API, and returns latitude and longitude
+    """
+
     url = "http://maps.googleapis.com/maps/api/geocode/json?address=%s&sensor=false" \
           % (urlquote(addr.replace(' ', '+')))
 
@@ -39,17 +29,6 @@ def geocode(addr):
     #print info
     #print "%2.5f,%2.5f" % (info['lat'],info['lng'])
     return info
-
-
-class SpotSerializer(resources.ModelResource):
-
-    class Meta:
-        model = Spot
-        # fields = (
-        #     'id', 'url', 'name', 'latitude', 'longitude', 'address_street',
-        #     'address_number', 'address_city', 'address_country', 'spot_type',
-        #     'is_accepted', 'friendly_rate', 'dogs_allowed', 'phone_number'
-        #     )
 
 
 class UserCreationForm(forms.ModelForm):
@@ -122,27 +101,6 @@ class UserChangeForm(forms.ModelForm):
         return user
 
 
-def send_credentials(email, new_pass):
-    mail_content = ('Hi! Welcome to adfairs below are your' +
-                    'login credentials.\n e-mail: {0} \n password:' +
-                    ' {1} \n Have nice time on fairs! \n Adfairs Team'
-                    ).format(email, new_pass)
-    msg = EmailMessage('Adfairs login data', mail_content,
-                       'from@testadfairs.com', [email, ])
-    msg.send()
-
-
-def send_credentials_to_selected(modeladmin, request, queryset):
-    for q in queryset:
-        this_user = SpotUser.objects.get(email=q)
-        if this_user.mail_verified is False:
-            this_user.mail_verified = True
-            new_pass = get_new_password()
-            this_user.set_password(new_pass)
-            this_user.save()
-            send_credentials(this_user.email, new_pass)
-
-
 class SpotUserAdmin(UserAdmin):
     # The forms to add and change user instances
     form = UserChangeForm
@@ -168,7 +126,6 @@ class SpotUserAdmin(UserAdmin):
     search_fields = ('email',)
     ordering = ('email',)
     filter_horizontal = ()
-    actions = [send_credentials_to_selected]
 
 
 class DogAdmin(admin.ModelAdmin):
@@ -176,14 +133,11 @@ class DogAdmin(admin.ModelAdmin):
 
 
 class SpotAdmin(admin.ModelAdmin):
-    resource_class = SpotSerializer
-
-    # list_display = ['name', 'address_street', 'address_number', 'address_city', 'address_country',  'spot_type', 'is_accepted', 'friendly_rate', 'latitude', 'longitude']
     exclude = ('location',)
+
 
 admin.site.register(SpotUser, SpotUserAdmin)
 admin.site.register(Spot, SpotAdmin)
 admin.site.register(Raiting)
 admin.site.register(Opinion)
 admin.site.register(OpinionUsefulnessRating)
-# admin.site.register(Rental, RentalAdmin)

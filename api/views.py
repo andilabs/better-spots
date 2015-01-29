@@ -14,9 +14,10 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import authentication_classes
-from rest_framework.decorators import permission_classes
-from rest_framework.permissions import IsAuthenticated
-
+from rest_framework.decorators import permission_classes, api_view
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from utils.json_response import JSONResponse
 from core.models import Spot, Raiting, Opinion, OpinionUsefulnessRating
@@ -30,17 +31,6 @@ from .serializers import (
     )
 from accounts.authentication import ExpiringTokenAuthentication
 
-# class OtoFotoDetail(generics.RetrieveUpdateDestroyAPIView):
-#     model = OtoFoto
-#     serializer_class = OtoFotoSerializer
-
-
-# class OtoFotoList(generics.ListCreateAPIView):
-#     serializer_class = OtoFotoSerializer
-
-#     def get_queryset(self):
-#         queryset = OtoFoto.objects.all()
-#         return queryset
 
 @authentication_classes((ExpiringTokenAuthentication, ))
 @permission_classes((IsAuthenticated,))
@@ -59,8 +49,8 @@ class SpotUserDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SpotUserSerializer
 
 
-@authentication_classes((ExpiringTokenAuthentication, ))
-@permission_classes((IsAuthenticated,))
+# @authentication_classes((ExpiringTokenAuthentication, ))
+# @permission_classes((IsAuthenticated,))
 class SpotList(generics.ListCreateAPIView):
     serializer_class = SpotListSerializer
 
@@ -109,8 +99,21 @@ class RaitingDetail(RaitingList):
 
 
 class SpotDetail(generics.RetrieveUpdateDestroyAPIView):
+
+    """
+    * Requires `token authentication`
+    * Only `admin` users are able to access this view.
+
+
+        EXAMPLE CALL:
+
+            curl -X GET http://127.0.0.1:8000/api/spots/2/ -H 'Authorization: Token 299dc186f3d3f113921b4555b3c22a197d1da254'
+
+    """
+
     model = Spot
     serializer_class = SpotDetailSerializer
+    permission_classes = (IsAdminUser,)
 
     def get_queryset(self):
         queryset = Spot.objects.all()
@@ -122,27 +125,35 @@ class SpotDetail(generics.RetrieveUpdateDestroyAPIView):
         return obj
 
 
+@api_view(http_method_names=['GET'])
 def nearby_spots(request, lat, lng, radius=5000, limit=50):
 
     user_location = fromstr("POINT(%s %s)" % (lng, lat))
     desired_radius = {'m': radius}
     nearby_spots = Spot.objects.filter(location__distance_lte=(user_location, D(**desired_radius))).distance(user_location).order_by('distance')[:limit]
     serializer = SpotWithDistanceSerializer(nearby_spots, many=True)
-    return JSONResponse(serializer.data)
+    return Response(serializer.data)
 
 
+@api_view(http_method_names=['GET',  'POST'])
 @csrf_exempt
 def authentication(request):
     """
-        Method is responsible to provide TOKEN
-        to sucessfully authenticated user
-        Following parameters should be passed in HTTP POST:
-        - email
-        - password
+    Method is responsible to provide TOKEN
+    to sucessfully authenticated user
 
-        EXAMPLE CALL:
-        curl -X POST http://127.0.0.1:8000/authentication -d "email=andi@andilabs.com&password=d00r00tk@"
-        EXAMPLE RESP (without headers):
+
+    Following parameters should be passed in HTTP POST:
+
+    `email`
+    `password`
+
+    EXAMPLE REQUEST:
+
+        curl -X POST http://127.0.0.1:8000/api/authentication -d "email=andi@andilabs.com&password=d00r00tk@"
+
+    EXAMPLE RESPONSE:
+
         {"token": "3a3f1cd20ee72b468a9bd7d6ab20e2e0a408ead5"}
     """
     if request.method == 'POST':
@@ -167,4 +178,6 @@ def authentication(request):
                     content_type="application/json; charset=UTF-8")
 
         else:
-            return HttpResponse('Unauthorized', status=401)
+            return Response('Unauthorized', status=401)
+    else:
+        return  Response('Unauthorized', status=401)

@@ -1,15 +1,8 @@
-from rest_framework import serializers
-from core.models import (
-    Spot, Raiting, Opinion, OpinionUsefulnessRating, SpotUser)#, OtoFoto)
-
 from django.contrib.gis.geos import fromstr
+from rest_framework import serializers
 
-# class OtoFotoSerializer(serializers.HyperlinkedModelSerializer):
-#     obrazek_full = serializers.Field()
-
-#     class Meta:
-#         model = OtoFoto
-#         fields = ('url', 'obrazek', 'obrazek_full')
+from core.models import (
+    Spot, Raiting, Opinion, OpinionUsefulnessRating, SpotUser)
 
 
 class SpotUserSerializer(serializers.HyperlinkedModelSerializer):
