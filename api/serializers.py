@@ -1,5 +1,6 @@
 from django.contrib.gis.geos import fromstr
 from rest_framework import serializers
+from rest_framework.pagination import PaginationSerializer
 
 from core.models import (
     Spot, Raiting, Opinion, OpinionUsefulnessRating, SpotUser)
@@ -67,34 +68,16 @@ class SpotListSerializer(serializers.ModelSerializer):
 
 
 class SpotDetailSerializer(SpotListSerializer):
-    # raitings = serializers.HyperlinkedRelatedField(
-    #     many=True, read_only=True, view_name='raiting-detail')
-    # raitings = serializers.SlugRelatedField(
-    #     many=True,
-    #     read_only=True,
-    #     slug_field='pk'
-    # )
     raitings = RaitingSerializer(read_only=True, many=True)
 
     class Meta:
         model = Spot
 
-    # def to_representation(self, instance):
-    #     ret = super(SpotDetailSerializer, self).to_representation(instance)
-    #     pnt = fromstr(ret['location'])
-    #     ret['location'] = {'longitude': pnt.coords[0], 'latitude': pnt.coords[1]}
-    #     # ret['distance'] = instance.distance.km
-    #     ret['longitude'] = pnt.coords[0]
-    #     ret['latitude'] = pnt.coords[1]
-    #     return ret
 
-
-class SpotWithDistanceSerializer(SpotListSerializer):
-    # id = serializers.Field()
+class SpotWithDistanceSerializer(serializers.ModelSerializer):
     distance = serializers.ReadOnlyField()
 
     class Meta:
-        # exclude = ('location',)
         model = Spot
 
     def to_representation(self, instance):
@@ -105,3 +88,8 @@ class SpotWithDistanceSerializer(SpotListSerializer):
         # ret['latitude'] = pnt.coords[1]
         ret['distance'] = instance.distance.km
         return ret
+
+
+class PaginetedSpotWithDistanceSerializer(PaginationSerializer):
+        class Meta:
+            object_serializer_class = SpotWithDistanceSerializer

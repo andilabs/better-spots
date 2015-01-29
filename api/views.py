@@ -7,6 +7,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.gis.measure import D
 from django.contrib.gis.geos import fromstr
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
@@ -24,7 +25,7 @@ from core.models import Spot, Raiting, Opinion, OpinionUsefulnessRating
 from accounts.models import SpotUser
 from .serializers import (
     SpotUserSerializer,
-    SpotListSerializer, SpotDetailSerializer, SpotWithDistanceSerializer,
+    SpotListSerializer, SpotDetailSerializer, PaginetedSpotWithDistanceSerializer,
     RaitingSerializer,
     OpinionSerializer,
     OpinionUsefulnessRatingSerializer
@@ -131,8 +132,28 @@ def nearby_spots(request, lat, lng, radius=5000, limit=50):
     user_location = fromstr("POINT(%s %s)" % (lng, lat))
     desired_radius = {'m': radius}
     nearby_spots = Spot.objects.filter(location__distance_lte=(user_location, D(**desired_radius))).distance(user_location).order_by('distance')[:limit]
-    serializer = SpotWithDistanceSerializer(nearby_spots, many=True)
+
+    paginator = Paginator(nearby_spots, 5)
+
+    page = request.QUERY_PARAMS.get('page')
+    try:
+        result = paginator.page(page)
+    except PageNotAnInteger:
+        result = paginator.page(1)
+    except EmptyPage:
+        result = paginator.page(paginator.num_pages)
+
+    serializer_context = {'request': request}
+
+    serializer = PaginetedSpotWithDistanceSerializer(
+        result,
+        context=serializer_context
+        )
+
     return Response(serializer.data)
+
+    # serializer = SpotWithDistanceSerializer(nearby_spots, many=True)
+    # return Response(serializer.data)
 
 
 @api_view(http_method_names=['GET',  'POST'])
