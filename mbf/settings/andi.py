@@ -36,11 +36,11 @@ STATIC_ROOT = '/Users/andi/dogspot_pseudo_static_media_server/'
 # SPOT_PROJECT_SUBJECT = 'Vege'
 # SPOT_PROJECT_MAIN_COLOR = '#59b84d'
 
-SPOT_PROJECT_NAME = 'enabledspot'
-SPOT_PROJECT_SLOGAN = 'The Brave New Enabled World '
-SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing spots in terms of being enabled for people with disabilites'
-SPOT_PROJECT_SUBJECT = 'Disabled'
-SPOT_PROJECT_MAIN_COLOR = '#4f5fa7'
+# SPOT_PROJECT_NAME = 'enabledspot'
+# SPOT_PROJECT_SLOGAN = 'The Brave New Enabled World '
+# SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing spots in terms of being enabled for people with disabilites'
+# SPOT_PROJECT_SUBJECT = 'Disabled'
+# SPOT_PROJECT_MAIN_COLOR = '#4f5fa7'
 
 # SPOT_PROJECT_NAME = 'momspot'
 # SPOT_PROJECT_SLOGAN = 'Moms\' Revolution starts in cafes!'
@@ -48,11 +48,11 @@ SPOT_PROJECT_MAIN_COLOR = '#4f5fa7'
 # SPOT_PROJECT_SUBJECT = 'Moms'
 # SPOT_PROJECT_MAIN_COLOR = '#eb386f'
 
-# SPOT_PROJECT_NAME = 'dogspot'
-# SPOT_PROJECT_SLOGAN = 'Wow the World !'
-# SPOT_PROJECT_DESCRIPTION = 'Is an app for exploring and reviewing dog friendly spots'
-# SPOT_PROJECT_SUBJECT = 'Dog'
-# SPOT_PROJECT_MAIN_COLOR = '#fcbd41'
+SPOT_PROJECT_NAME = 'dogspot'
+SPOT_PROJECT_SLOGAN = 'Wow the World !'
+SPOT_PROJECT_DESCRIPTION = 'Is an app for exploring and reviewing dog friendly spots'
+SPOT_PROJECT_SUBJECT = 'Dog'
+SPOT_PROJECT_MAIN_COLOR = '#fcbd41'
 
 SPOT_PROJECT_FAVICON_URL = os.path.join('media', SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_favicon.ico')
 SPOT_PROJECT_BRAND_LOGO_URL = os.path.join('media', SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_logo.png')

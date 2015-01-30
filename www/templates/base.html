@@ -132,10 +132,6 @@
 	      </a>
             </li>
 
-            <li>
-              {# <a href="/contact" class="hallujah">Contact</a> #}
-            </li>
-
             </ul>
             <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -168,8 +164,9 @@
 
   <div class="container">
     {% bootstrap_messages %}
+    <div  style="min-height: 500px">
     {% block content %}Empty page{% endblock %}
-
+    </div>
     <p><hr></p>
 
     <footer>

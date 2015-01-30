@@ -130,11 +130,11 @@ def ajax_search(request):
         content_type="application/json")
 
 
-def qrencode_link(request, pk, size=3):
+def qrencode_link(request, pk, size=3, for_view='spot-detail'):
 
     dane = "http://%s%s" % (
         settings.INSTANCE_DOMAIN,
-        reverse('spot-detail', kwargs={'pk': pk}))
+        reverse(for_view, kwargs={'pk': pk}))
     img = make_qrcode(dane, box_size=size)
     response = HttpResponse(content_type="image/png")
     img.save(response, "png")

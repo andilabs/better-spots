@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block extra_head %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+
+<style>
+.label-suczka {
+  background-color: pink;
+}
+</style>
+
+{% load instance_settings_via_tags %}
+<h2>
+  <span class="fa fa-th-large fa-2x" style="color:{% settings_value "SPOT_PROJECT_MAIN_COLOR" %}"></span> Spots!
+</h2>
+
+
+<div class="row">
+{% for spot in spots %}
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <img data-src="holder.js/350x150" alt="...">
+      <div class="caption">
+        <h4>
+          {{ spot.name|upper }}
+        </h4>
+        <p>{{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}<br>
+        {{spot.phone_number}}</p>
+        <span data-score="{{spot.friendly_rate}}" class="rating"></span>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+
+
+
+{% if spots.paginator.num_pages > 1 %}
+
+    <ul class="pagination pagination-centered">
+
+        {% if spots.has_previous %}
+            <li><a href="?page=1"><<</a></li>
+            <li><a href="?page={{ spots.previous_page_number }}"><</a></li>
+        {% endif %}
+
+        {% for i in spots.paginator.page_range %}
+            <li {% if spots.number == i %} class="active" {% endif %}><a href="?page={{i}}">{{i}}</a></li>
+        {% endfor %}
+
+        {% if spots.has_next %}
+            <li><a href="?page={{ spots.next_page_number }}">></a></li>
+            <li><a href="?page={{ spots.paginator.num_pages }}">>></a></li>
+        {% endif %}
+
+    </ul>
+
+{% endif %}
+
+
+
+
+
+{% endblock %}
+{% block scripts %}
+  {{ block.super }}
+  <script language="javascript"> var STATIC_URL = "/static/"; var BASE_HOST = "//{{request.META.HTTP_HOST}}"</script>
+  <script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
+  <script>
+  $('span.rating').raty({
+  score: function() {
+    return $(this).attr('data-score');
+  },
+  readOnly: function() {
+    return 'true becomes readOnly' == 'true becomes readOnly';
+  }
+});
+  </script>
+</script>
+{% endblock scripts %}
+
