@@ -41,7 +41,7 @@ class SpotUserAdmin(UserAdmin):
 
 class SpotAdmin(admin.ModelAdmin):
     exclude = ('location',)
-
+    readonly_fields = ['spot_slug',]
 
 admin.site.register(SpotUser, SpotUserAdmin)
 admin.site.register(Spot, SpotAdmin)

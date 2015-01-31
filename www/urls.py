@@ -17,6 +17,8 @@ urlpatterns = patterns(
     url(r'^favourites/$', 'www.views.favourites', name='favourites'),
     url(r'^about/$', 'www.views.about', name='about'),
     url(r'^spots/$', 'www.views.spots', name='spots'),
+    url(r'^spots/(?P<pk>\d+)(?:/(?P<slug>[\w\d-]+))?/$', 'www.views.spot', name='spot'),
+
     url(r'^qrcode_link/(?P<pk>\d+)/(?P<size>\d*)/?$', 'www.views.qrencode_link', name='qrencode_link'),
     url(r'^qrcode_link/(?P<pk>\d+)/(?P<size>\d*)/(?P<for_view>.+)?$', 'www.views.qrencode_link', name='qrencode_link'),
     url(r'^qrcode_vcard/(?P<pk>\d+)/(?P<size>\d*)/?$', 'www.views.qrencode_vcard', name='qrcode_vcard'),

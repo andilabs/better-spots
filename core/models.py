@@ -3,6 +3,7 @@
 from django.db.models.signals import post_save
 from django.contrib.gis.db import models
 from django.dispatch import receiver
+from django.utils.text import slugify
 
 from accounts.models import SpotUser
 
@@ -37,6 +38,7 @@ class Spot(models.Model):
     is_enabled = models.NullBooleanField(default=None, null=True)
     friendly_rate = models.DecimalField(default=-1.00, max_digits=3, decimal_places=2, null=True)
 
+    spot_slug = models.SlugField()
     objects = models.GeoManager()
 
     @property
@@ -85,6 +87,18 @@ class Spot(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.spot_slug = slugify(
+            "%s %s %s %s %s" % (
+                self.name,
+                SPOT_TYPE[self.spot_type-1][1],
+                self.address_city,
+                self.address_street,
+                self.address_number,
+                )
+            )
+        super(Spot, self).save(*args, **kwargs)
 
 
 LIKERT = (

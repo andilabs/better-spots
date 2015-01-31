@@ -9,7 +9,7 @@ from django.core.mail import EmailMessage
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.template import Context
 from django.template.loader import get_template
 from django.template.response import TemplateResponse
@@ -170,6 +170,11 @@ def spots(request):
     except EmptyPage:
         spots = paginator.page(paginator.num_pages)
     return render(request, 'spot_list.html', {'spots': spots})
+
+
+def spot(request, pk, slug):
+    spot = get_object_or_404(Spot, pk=pk)
+    return render(request, 'spot_detail.html', {'spot': spot})
 
 
 class SpotUserCreate(CreateView):

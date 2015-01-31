@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block extra_head %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+{% load instance_settings_via_tags %}
+<h2>
+  {% if spot.is_enabled %}
+    <img src="/media/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png">
+  {% else %}
+    <img src="/media/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png">
+  {% endif %}{{ spot.name|upper }}
+</h2>
+{% endblock %}
+{% block scripts %}
+  {{ block.super }}
+  <script language="javascript"> var STATIC_URL = "/static/"; var BASE_HOST = "//{{request.META.HTTP_HOST}}"</script>
+  <script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
+  <script>
+  $('span.rating').raty({
+  score: function() {
+    return $(this).attr('data-score');
+  },
+  readOnly: function() {
+    return 'true becomes readOnly' == 'true becomes readOnly';
+  }
+});
+  </script>
+</script>
+{% endblock scripts %}

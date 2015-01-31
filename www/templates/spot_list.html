@@ -8,11 +8,6 @@
 
 {% block content %}
 
-<style>
-.label-suczka {
-  background-color: pink;
-}
-</style>
 
 {% load instance_settings_via_tags %}
 <h2>
@@ -27,7 +22,11 @@
       <img data-src="holder.js/350x150" alt="...">
       <div class="caption">
         <h4>
-          {{ spot.name|upper }}
+          {% if spot.is_enabled %}
+            <img src="/media/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png">
+          {% else %}
+            <img src="/media/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png">
+          {% endif %}<a href="{% url 'spot' spot.pk spot.spot_slug %}">{{ spot.name|upper }}</a>
         </h4>
         <p>{{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}<br>
         {{spot.phone_number}}</p>
