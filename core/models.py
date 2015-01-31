@@ -1,9 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import os
+import uuid
+
+from image_cropping import ImageCropField, ImageRatioField
+from easy_thumbnails.files import get_thumbnailer
+
 from django.db.models.signals import post_save
+from django.conf import settings
 from django.contrib.gis.db import models
+from django.core.urlresolvers import reverse
 from django.dispatch import receiver
 from django.utils.text import slugify
+
 
 from accounts.models import SpotUser
 
@@ -22,6 +31,10 @@ SPOT_TYPE = (
 )
 
 
+def get_image_path(instance, filename):
+    return os.path.join('img', uuid.uuid4().hex)
+
+
 class Spot(models.Model):
     name = models.CharField(max_length=250)
     location = models.PointField(max_length=40, null=True)
@@ -38,8 +51,28 @@ class Spot(models.Model):
     is_enabled = models.NullBooleanField(default=None, null=True)
     friendly_rate = models.DecimalField(default=-1.00, max_digits=3, decimal_places=2, null=True)
 
+    venue_photo = ImageCropField(upload_to=get_image_path, blank=True, null=True)
+    cropping_venue_photo = ImageRatioField(
+        'venue_photo',
+        settings.VENUE_PHOTO_SIZE['W']+"x"+settings.VENUE_PHOTO_SIZE['H'],
+        size_warning=True)
+
     spot_slug = models.SlugField()
     objects = models.GeoManager()
+
+    @property
+    def thumbnail_venue_photo(self):
+        if not self.venue_photo:
+            return None
+        thumbnail_url = get_thumbnailer(self.venue_photo).get_thumbnail({
+            'size': (
+                int(settings.VENUE_PHOTO_SIZE['W']),
+                int(settings.VENUE_PHOTO_SIZE['H'])
+                ),
+            'box': self.cropping_venue_photo,
+            'crop': True,
+            'detail': True, }).url
+        return thumbnail_url
 
     @property
     def facebook_url(self):
@@ -63,8 +96,7 @@ class Spot(models.Model):
         return "%s, %s %s" % (
             self.address_city,
             self.address_street,
-            self.address_number
-            )
+            self.address_number,)
 
     @property
     def prepare_vcard(self):
@@ -85,6 +117,11 @@ class Spot(models.Model):
 
         return dane
 
+    @property
+    def www_url(self):
+        return "http://%s%s" % (settings.INSTANCE_DOMAIN, reverse(
+            'www.views.spot', args=[self.pk, self.spot_slug]))
+
     def __unicode__(self):
         return self.name
 
@@ -95,9 +132,8 @@ class Spot(models.Model):
                 SPOT_TYPE[self.spot_type-1][1],
                 self.address_city,
                 self.address_street,
-                self.address_number,
-                )
-            )
+                self.address_number,))
+
         super(Spot, self).save(*args, **kwargs)
 
 

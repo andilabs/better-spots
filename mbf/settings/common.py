@@ -32,6 +32,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 INSTALLED_APPS = (
+    'image_cropping',
+    'easy_thumbnails',
     'south',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -90,3 +92,5 @@ USE_TZ = False
 
 TOKEN_EXPIRES_AFTER = 24
 EMAIL_VERIFY_KEY_EXPIREATION_PERIOD_HOURS = 48
+
+VENUE_PHOTO_SIZE = {'W': '350', 'H': '150'}

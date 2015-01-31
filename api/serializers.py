@@ -52,14 +52,17 @@ class RaitingSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class SpotListSerializer(serializers.HyperlinkedModelSerializer):
+    www_url = serializers.ReadOnlyField()
 
     class Meta:
         model = Spot
+        exclude = ('spot_slug', )
 
     def to_representation(self, instance):
         ret = super(SpotListSerializer, self).to_representation(instance)
         pnt = fromstr(ret['location'])
         ret['location'] = {'longitude': pnt.coords[0], 'latitude': pnt.coords[1]}
+        ret['www_url'] = instance.www_url
         return ret
 
 

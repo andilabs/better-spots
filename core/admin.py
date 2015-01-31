@@ -1,14 +1,9 @@
-from django.conf import settings
+from image_cropping import ImageCroppingMixin
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-# Register your models here.
-from core.models import SpotUser, Spot, Raiting, Opinion, OpinionUsefulnessRating#, Rental
-from django import forms
-import random
-import string
-from rest_framework import serializers
-from django.core.mail import EmailMessage
 
+from core.models import SpotUser, Spot, Raiting, Opinion, OpinionUsefulnessRating
 from accounts.forms import UserCreationForm, UserChangeForm
 
 
@@ -39,9 +34,9 @@ class SpotUserAdmin(UserAdmin):
     filter_horizontal = ()
 
 
-class SpotAdmin(admin.ModelAdmin):
+class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
     exclude = ('location',)
-    readonly_fields = ['spot_slug',]
+    readonly_fields = ['spot_slug', ]
 
 admin.site.register(SpotUser, SpotUserAdmin)
 admin.site.register(Spot, SpotAdmin)

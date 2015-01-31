@@ -59,23 +59,9 @@ def about(request):
 
 
 def certificate(request, pk):
-
-    try:
-        spot = Spot.objects.get(pk=pk)
-        if request.method == 'GET':
-
-            link = '/qrcode/%d/2' % int(pk)
-            return render(
-                request,
-                'certificate.html',
-                {'spot': spot, 'qrcode_link': link})
-
-    except:
-        return render(
-            request,
-            'certificate.html',
-            {'spot': None,
-             'qrcode_link': 'holder.js/200x200/text:qrcode not avaliable'})
+    spot = get_object_or_404(Spot, pk=pk)
+    link = '/qrcode/%d/2' % int(pk)
+    return render(request, 'certificate.html', {'spot': spot, 'qrcode_link': link})
 
 
 def render_to_pdf(template_src, context_dict):

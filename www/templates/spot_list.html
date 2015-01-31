@@ -19,13 +19,17 @@
 {% for spot in spots %}
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
-      <img data-src="holder.js/350x150" alt="...">
+      {% if spot.thumbnail_venue_photo %}
+        <img src="{{spot.thumbnail_venue_photo}}">
+      {% else %}
+        <img data-src="holder.js/350x150/text: no photo" alt="...">
+      {% endif %}
       <div class="caption">
         <h4>
           {% if spot.is_enabled %}
-            <img src="/media/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png">
+            <img src="/media/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png" class="enablence_symbol">
           {% else %}
-            <img src="/media/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png">
+            <img src="/media/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png" class="enablence_symbol">
           {% endif %}<a href="{% url 'spot' spot.pk spot.spot_slug %}">{{ spot.name|upper }}</a>
         </h4>
         <p>{{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}<br>
@@ -71,6 +75,7 @@
   <script language="javascript"> var STATIC_URL = "/static/"; var BASE_HOST = "//{{request.META.HTTP_HOST}}"</script>
   <script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
   <script>
+  $("img.enablence_symbol").css({marginTop: '-=50px'});
   $('span.rating').raty({
   score: function() {
     return $(this).attr('data-score');

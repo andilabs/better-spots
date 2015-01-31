@@ -21,7 +21,7 @@
   <!-- bootstrap3 for django https://github.com/dyve/django-bootstrap3 -->
   {% load bootstrap3 %}
   <link href="{{ STATIC_URL }}css/fontello.css" rel="stylesheet">
-  <link href="{{ STATIC_URL }}css/bootstrap.min.css" media="screen" rel="stylesheet">
+  <link href="{{ STATIC_URL }}css/{% settings_value "SPOT_PROJECT_NAME" %}/bootstrap.min.css" media="screen" rel="stylesheet">
 
   <!-- jquery UI -->
   <link rel="stylesheet" href="{{ STATIC_URL }}external/jqueryui/themes/flick/jquery-ui.css" type="text/css" media="screen" />
