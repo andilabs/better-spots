@@ -3,6 +3,8 @@
 
 import os
 
+from easy_thumbnails.conf import Settings as thumbnail_settings
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 AUTH_USER_MODEL = 'accounts.SpotUser'
@@ -94,3 +96,10 @@ TOKEN_EXPIRES_AFTER = 24
 EMAIL_VERIFY_KEY_EXPIREATION_PERIOD_HOURS = 48
 
 VENUE_PHOTO_SIZE = {'W': '350', 'H': '150'}
+
+
+THUMBNAIL_PROCESSORS = (
+    'image_cropping.thumbnail_processors.crop_corners',
+) + thumbnail_settings.THUMBNAIL_PROCESSORS
+
+IMAGE_CROPPING_SIZE_WARNING = True
