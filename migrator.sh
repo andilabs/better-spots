@@ -22,4 +22,5 @@ python manage.py create_andi
 cp -r data/"$instance_name"/initial_img/. media/img
 python manage.py loaddata data/"$instance_name"/spots.json
 python manage.py create_slugs
+python manage.py collectstatic
 
