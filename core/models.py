@@ -57,22 +57,20 @@ class Spot(models.Model):
         settings.VENUE_PHOTO_SIZE['W']+"x"+settings.VENUE_PHOTO_SIZE['H'],
         size_warning=True)
 
-    spot_slug = models.SlugField()
+    spot_slug = models.SlugField(max_length=1000)
     objects = models.GeoManager()
 
     @property
     def thumbnail_venue_photo(self):
         if not self.venue_photo:
             return None
-        thumbnail_url = get_thumbnailer(self.venue_photo).get_thumbnail({
-            'size': (
-                int(settings.VENUE_PHOTO_SIZE['W']),
-                int(settings.VENUE_PHOTO_SIZE['H'])
-                ),
+        thumbnail_url = 'http://' + settings.INSTANCE_DOMAIN + get_thumbnailer(self.venue_photo).get_thumbnail({
+            'size': (int(settings.VENUE_PHOTO_SIZE['W']), int(settings.VENUE_PHOTO_SIZE['H'])),
             'box': self.cropping_venue_photo,
             'crop': True,
             'detail': True, }).url
         return thumbnail_url
+
 
     @property
     def facebook_url(self):

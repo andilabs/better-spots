@@ -16,15 +16,18 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'localhost.debug@gmail.com'
 EMAIL_HOST_PASSWORD = 'c9c38a6dc8cdb66a0c416a9e1f8eac21'
 
+POSTGIS_VERSION = (2, 1, 3)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'andispot',
-        'USER': 'dogspot',
+        'USER': 'andi',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+
 PROJECT_ROOT_PATH = os.path.abspath(os.path.dirname(__name__))
 
 MEDIA_ROOT = os.path.join(PROJECT_ROOT_PATH, 'media/')

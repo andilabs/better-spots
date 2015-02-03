@@ -97,6 +97,9 @@ EMAIL_VERIFY_KEY_EXPIREATION_PERIOD_HOURS = 48
 
 VENUE_PHOTO_SIZE = {'W': '350', 'H': '150'}
 
+SOUTH_MIGRATION_MODULES = {
+    'easy_thumbnails': 'easy_thumbnails.south_migrations',
+}
 
 THUMBNAIL_PROCESSORS = (
     'image_cropping.thumbnail_processors.crop_corners',

@@ -35,7 +35,10 @@ class SpotUserAdmin(UserAdmin):
 
 
 class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
-    exclude = ('location',)
+    list_display = ('name', 'friendly_rate', 'address_city', 'is_enabled')
+    list_filter = ('address_city', 'is_enabled')
+    search_fields = ['name', 'address_city', 'address_street']
+    exclude = ('location', )
     readonly_fields = ['spot_slug', ]
 
 admin.site.register(SpotUser, SpotUserAdmin)

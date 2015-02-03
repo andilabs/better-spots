@@ -25,6 +25,9 @@ class Migration(SchemaMigration):
             ('facebook', self.gf('django.db.models.fields.CharField')(max_length=254, null=True, blank=True)),
             ('is_enabled', self.gf('django.db.models.fields.NullBooleanField')(default=None, null=True, blank=True)),
             ('friendly_rate', self.gf('django.db.models.fields.DecimalField')(default=-1.0, null=True, max_digits=3, decimal_places=2)),
+            ('venue_photo', self.gf(u'django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True)),
+            ('cropping_venue_photo', self.gf(u'django.db.models.fields.CharField')(default=u'', max_length=255, blank=True)),
+            ('spot_slug', self.gf('django.db.models.fields.SlugField')(max_length=1000)),
         ))
         db.send_create_signal(u'core', ['Spot'])
 
@@ -150,6 +153,7 @@ class Migration(SchemaMigration):
             'address_country': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100'}),
             'address_number': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '10'}),
             'address_street': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '254'}),
+            'cropping_venue_photo': (u'django.db.models.fields.CharField', [], {'default': "u''", 'max_length': '255', 'blank': 'True'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'null': 'True', 'blank': 'True'}),
             'facebook': ('django.db.models.fields.CharField', [], {'max_length': '254', 'null': 'True', 'blank': 'True'}),
             'friendly_rate': ('django.db.models.fields.DecimalField', [], {'default': '-1.0', 'null': 'True', 'max_digits': '3', 'decimal_places': '2'}),
@@ -159,7 +163,9 @@ class Migration(SchemaMigration):
             'location': ('django.contrib.gis.db.models.fields.PointField', [], {'max_length': '40', 'null': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             'phone_number': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100'}),
+            'spot_slug': ('django.db.models.fields.SlugField', [], {'max_length': '1000'}),
             'spot_type': ('django.db.models.fields.IntegerField', [], {'max_length': '3'}),
+            'venue_photo': (u'django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'www': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'})
         },
         u'core.usersspotslist': {

@@ -1,10 +1,12 @@
 from django.conf.urls import url, patterns
 
 from rest_framework.urlpatterns import format_suffix_patterns
+
 from api import views
 
 
 # place app url patterns here
+
 urlpatterns = patterns(
     '',
     url(r'^authentication', 'api.views.authentication'),
