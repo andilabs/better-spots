@@ -1,4 +1,4 @@
-from django.contrib.gis.geos import fromstr
+from django.contrib.gis.geos import fromstr, Point
 from rest_framework import serializers
 from rest_framework.pagination import PaginationSerializer
 
@@ -58,6 +58,12 @@ class SpotListSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Spot
         exclude = ('spot_slug', 'cropping_venue_photo', 'venue_photo', )
+
+    def to_internal_value(self, data):
+        ret = super(SpotListSerializer, self).to_internal_value(data)
+        ret['location'] = Point(eval(data['location'])['longitude'], eval(data['location'])['latitude'])
+
+        return ret
 
     def to_representation(self, instance):
         ret = super(SpotListSerializer, self).to_representation(instance)

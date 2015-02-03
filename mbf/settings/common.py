@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'raven.contrib.django.raven_compat',
     'bootstrap3',
     'rest_framework',
+    'rest_framework.authtoken',
     'accounts',
     'core',
     'api',
@@ -99,6 +100,7 @@ VENUE_PHOTO_SIZE = {'W': '350', 'H': '150'}
 
 SOUTH_MIGRATION_MODULES = {
     'easy_thumbnails': 'easy_thumbnails.south_migrations',
+    # 'rest_framework.authtoken': 'rest_framework.authtoken.south_migrations',
 }
 
 THUMBNAIL_PROCESSORS = (

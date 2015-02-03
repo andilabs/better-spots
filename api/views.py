@@ -156,6 +156,8 @@ class SpotDetail(generics.RetrieveUpdateDestroyAPIView):
         obj = get_object_or_404(queryset, pk=self.kwargs['pk'])
         return obj
 
+    # def update(request, *args, **kwargs):
+    #     import ipdb; ipdb.set_trace()
 
 @api_view(http_method_names=['GET'])
 def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
@@ -182,7 +184,6 @@ def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
         result, context={'request': request})
 
     return Response(serializer.data)
-
 
 @api_view(http_method_names=['GET',  'POST'])
 @csrf_exempt
