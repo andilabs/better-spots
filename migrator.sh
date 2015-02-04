@@ -19,7 +19,7 @@ python manage.py migrate rest_framework.authtoken
 python manage.py migrate django_extensions
 
 python manage.py create_andi
-cp -r data/"$instance_name"/initial_img/. media/img
+# cp -r data/"$instance_name"/initial_img/. media/img
 python manage.py loaddata data/"$instance_name"/spots.json
 python manage.py create_slugs
 python manage.py collectstatic
