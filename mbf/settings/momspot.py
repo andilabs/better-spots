@@ -10,6 +10,9 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'no-reply@momspot.eu'
 EMAIL_HOST_PASSWORD = 'c9c38a6dc8cdb66a0c416a9e1f8eac21'
 
+RAVEN_CONFIG = {
+    'dsn': 'https://c2ed6b81264746a0b97644c7fedd29d4:f75054def0234501b24baf4c512e8613@app.getsentry.com/37316',
+}
 
 STATIC_ROOT = '/home/ubuntu/momspot.eu/static_assets/'
 POSTGIS_VERSION = (2, 1, 2)
@@ -34,3 +37,5 @@ SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing moms and children friendly s
 SPOT_PROJECT_SUBJECT = 'Mom'
 
 SPOT_PROJECT_MAIN_COLOR = '#eb386f'
+
+
