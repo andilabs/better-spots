@@ -82,8 +82,9 @@ def render_to_pdf(template_src, context_dict):
 
 
 def pdf_sticker(request, pk):
-
-    if Spot.objects.get(pk=pk).friendly_rate > 4.5:
+    spot = get_object_or_404(Spot, pk=pk)
+ 
+    if spot.friendly_rate >= 4.5:
         return render_to_pdf(
             'mytemplatePDF.html',
             {
@@ -117,10 +118,10 @@ def ajax_search(request):
 
 
 def qrencode_link(request, pk, size=3, for_view='spot-detail'):
-
+    spot = get_object_or_404(Spot, pk=pk)
     dane = "http://%s%s" % (
         settings.INSTANCE_DOMAIN,
-        reverse(for_view, kwargs={'pk': pk}))
+        reverse(for_view, kwargs={'pk': spot.pk}))
     img = make_qrcode(dane, box_size=size)
     response = HttpResponse(content_type="image/png")
     img.save(response, "png")
@@ -128,8 +129,7 @@ def qrencode_link(request, pk, size=3, for_view='spot-detail'):
 
 
 def qrencode_vcard(request, pk, size=3):
-
-    spot = Spot.objects.get(pk=pk)
+    spot = get_object_or_404(Spot, pk=pk)
     img = make_qrcode(spot.prepare_vcard, box_size=size)
     response = HttpResponse(content_type="image/png")
     img.save(response, "png")
@@ -137,8 +137,7 @@ def qrencode_vcard(request, pk, size=3):
 
 
 def download_vcard(request, pk):
-
-    spot = Spot.objects.get(pk=pk)
+    spot = get_object_or_404(Spot, pk=pk)
     response = HttpResponse(spot.prepare_vcard, content_type="text/x-vcard")
     response['Content-Disposition'] = (
         'filename=vcard_from_%s.vcf' % settings.SPOT_PROJECT_NAME)
