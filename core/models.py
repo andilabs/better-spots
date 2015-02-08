@@ -64,6 +64,10 @@ class Spot(models.Model):
     def thumbnail_venue_photo(self):
         if not self.venue_photo:
             return None
+        if self.venue_photo and self.venue_photo.name == '':
+            return None
+        if not os.path.isfile(settings.MEDIA_ROOT + '/' + self.venue_photo.name):
+            return None
         thumbnail_url = get_thumbnailer(self.venue_photo).get_thumbnail({
             'size': (int(settings.VENUE_PHOTO_SIZE['W']), int(settings.VENUE_PHOTO_SIZE['H'])),
             'box': self.cropping_venue_photo,
