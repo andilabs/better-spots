@@ -14,6 +14,8 @@ RAVEN_CONFIG = {
 }
 
 STATIC_ROOT = '/home/ubuntu/enabledspot.eu/static_assets/'
+MEDIA_ROOT= '/home/ubuntu/enabledpot.eu/media_assets/'
+
 POSTGIS_VERSION = (2, 1, 2)
 
 DATABASES = {

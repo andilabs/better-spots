@@ -14,6 +14,8 @@ RAVEN_CONFIG = {
 }
 
 STATIC_ROOT = '/home/ubuntu/veganspot.org/static_assets/'
+MEDIA_ROOT= '/home/ubuntu/veganspot.org/media_assets/'
+
 POSTGIS_VERSION = (2, 1, 2)
 
 DATABASES = {

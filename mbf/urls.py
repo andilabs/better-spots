@@ -19,4 +19,4 @@ urlpatterns = patterns(
     url(r'^admin/', include(admin.site.urls)),
     url(r'^favicon\.ico$', RedirectView.as_view(
         url=settings.SPOT_PROJECT_FAVICON_URL)),
-) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

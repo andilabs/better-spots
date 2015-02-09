@@ -41,7 +41,8 @@ STATICFILES_DIRS = (
 MEDIA_ROOT = os.path.join(PROJECT_ROOT_PATH, 'media/')
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
-STATIC_ROOT = '/Users/andi/dogspot_pseudo_static_media_server/'
+STATIC_ROOT = '/Users/andi/pseudo_static_server_spots/'
+MEDIA_ROOT = '/Users/andi/pseudo_media_server_spots/'
 
 # SPOT_PROJECT_NAME = 'veganspot'
 # SPOT_PROJECT_SLOGAN = 'And, all the world is green!'
