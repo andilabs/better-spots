@@ -16,8 +16,8 @@ STATICFILES_DIRS = (
     PROJECT_ROOT_PATH.child('static_assets'),
 )
 
-
-# /home/ubuntu/<INSTANCE>/mbf/mbf/media/
+# MEDIA_ROOT is defined in <INSTANCE> specific settings file and has form
+# '/home/ubuntu/<INSTANCE>/media_assets/'
 MEDIA_URL = '/media/'
 # STATIC_ROOT is defined in <INSTANCE> specific settings file and has form
 # '/home/ubuntu/<INSTANCE>/static_assets/'
