@@ -29,3 +29,5 @@ reportlab==3.1.8
 html5lib==0.999
 
 Markdown==2.5.2
+
+Unipath==1.0

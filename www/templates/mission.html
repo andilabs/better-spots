@@ -10,7 +10,8 @@ h2 {
 }
 </style>
 {% load instance_settings_via_tags %}
-<center><img src="/media/{% settings_value "SPOT_PROJECT_NAME" %}/{% settings_value "SPOT_PROJECT_NAME" %}_logo.png" alt="{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}">
+
+<center><img src="{% settings_value "SPOT_PROJECT_BRAND_LOGO_URL" %}" alt="{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}">
 <h1 style="font-family: 'Lobster'">
 
 {% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %} <br>
@@ -55,41 +56,6 @@ h2 {
 </div>
 </div>
 
-<!-- <table>
-	<tr>
-		<td align="center">
-			<h2><i class="fa fa-map-marker fa-2x" style="color:#e7e7e7"></i></h2>
-		</td>
-		<td align="center">
-			<h2><i class="fa fa-heart fa-2x" style="color:#e7e7e7"></i></h2>
-		</td>
-		<td align="center">
-			<h2><i class="fa fa-certificate fa-2x" style="color:#e7e7e7"></i> </h2>
-		</td>
-		<td align="center">
-			<h2><i class="fa fa-mobile fa-2x" style="color:#e7e7e7"></i> </h2>
-		</td>
-	</tr>
-
-
-	<tr>
-		<td align="center" valign="top">
-			<h2>Visualize nearby spots on Map</h2>
-		</td>
-
-		<td align="center" valign="top">
-			<h2> Remeber your beloved spots by hearting it</h2>
-		</td>
-
-		<td align="center" valign="top">
-			<h2> Choose among most<br>{% settings_value "SPOT_PROJECT_SUBJECT" %}-friendly spots which were awarded the certificate.</h2>
-		</td>
-
-		<td align="center" valign="top">
-			<h2> User mobile version on the go</h2>
-		</td>
-	</tr>
-</table> -->
 {{DEBUG_PLEASE}}
 </h4>
 <br>

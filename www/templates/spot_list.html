@@ -27,9 +27,9 @@
       <div class="caption">
         <h4>
           {% if spot.is_enabled %}
-            <img src="/media/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png" class="enablence_symbol">
+            <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png" class="enablence_symbol">
           {% else %}
-            <img src="/media/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png" class="enablence_symbol">
+            <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png" class="enablence_symbol">
           {% endif %}<a href="{% url 'spot' spot.pk spot.spot_slug %}">{{ spot.name|upper }}</a>
         </h4>
         <p>{{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}<br>

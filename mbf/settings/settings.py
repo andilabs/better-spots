@@ -1,6 +1,7 @@
 from .common import *
 import os
 
+from unipath import Path
 
 DEBUG = True
 TEMPLATE_DEBUG = True
@@ -8,6 +9,14 @@ TEMPLATE_DEBUG = True
 # /home/ubuntu/<INSTANCE>/mbf/demo
 PROJECT_ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT_PATH = '/'.join(PROJECT_ROOT_PATH.split("/")[:-2])
+
+# PROJECT_ROOT_PATH = Path(__file__).ancestor(3)
+
+STATICFILES_DIRS = (
+    PROJECT_DIR.child('static_assets'),
+)
+
+
 # /home/ubuntu/<INSTANCE>/mbf/mbf/media/
 MEDIA_ROOT = os.path.join(PROJECT_ROOT_PATH, 'media/')
 MEDIA_URL = '/media/'

@@ -28,7 +28,14 @@ DATABASES = {
     }
 }
 
-PROJECT_ROOT_PATH = os.path.abspath(os.path.dirname(__name__))
+# PROJECT_ROOT_PATH = os.path.abspath(os.path.dirname(__name__))
+from unipath import Path
+PROJECT_ROOT_PATH = Path(__file__).ancestor(3)
+
+STATICFILES_DIRS = (
+    PROJECT_ROOT_PATH.child('static_assets'),
+)
+
 
 MEDIA_ROOT = os.path.join(PROJECT_ROOT_PATH, 'media/')
 MEDIA_URL = '/media/'
@@ -59,7 +66,7 @@ SPOT_PROJECT_MAIN_COLOR = '#eb386f'
 # SPOT_PROJECT_SUBJECT = 'Dog'
 # SPOT_PROJECT_MAIN_COLOR = '#fcbd41'
 
-SPOT_PROJECT_FAVICON_URL = os.path.join('media', SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_favicon.ico')
-SPOT_PROJECT_BRAND_LOGO_URL = os.path.join('media', SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_logo.png')
-SPOT_PROJECT_CERTIFICATE_LOGO_URL = os.path.join('media', SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_certificate.png')
+SPOT_PROJECT_FAVICON_URL = os.path.join('static', SPOT_PROJECT_NAME, 'favicon.ico')
+# SPOT_PROJECT_BRAND_LOGO_URL = os.path.join('static', SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_logo.png')
+# SPOT_PROJECT_CERTIFICATE_LOGO_URL = os.path.join('static', SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_certificate.png')
 

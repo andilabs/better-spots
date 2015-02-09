@@ -17,6 +17,4 @@ urlpatterns = patterns(
     # url(r'', include('core.urls')),
     url(r'', include('www.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^favicon\.ico$', RedirectView.as_view(
-        url=settings.SPOT_PROJECT_FAVICON_URL)),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
