@@ -169,7 +169,7 @@ def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
     desired_radius = {'m': radius}
     nearby_spots = Spot.objects.filter(location__distance_lte=(user_location, D(**desired_radius))).distance(user_location).order_by('distance')[:limit]
 
-    paginator = Paginator(nearby_spots, 5)
+    paginator = Paginator(nearby_spots, 15)
 
     page = request.QUERY_PARAMS.get('page')
 
