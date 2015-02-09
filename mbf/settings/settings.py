@@ -13,7 +13,7 @@ PROJECT_ROOT_PATH = Path(__file__).ancestor(3)
 
 
 STATICFILES_DIRS = (
-    PROJECT_DIR.child('static_assets'),
+    PROJECT_ROOT_PATH.child('static_assets'),
 )
 
 
