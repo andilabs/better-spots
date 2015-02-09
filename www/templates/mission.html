@@ -11,7 +11,7 @@ h2 {
 </style>
 {% load instance_settings_via_tags %}
 
-<center><img src="{% settings_value "SPOT_PROJECT_BRAND_LOGO_URL" %}" alt="{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}">
+<center><img src="{{STATIC_URL}}{% settings_value "SPOT_PROJECT_NAME" %}/logo.png" alt="{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}">
 <h1 style="font-family: 'Lobster'">
 
 {% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %} <br>
