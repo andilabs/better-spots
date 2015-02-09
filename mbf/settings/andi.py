@@ -4,6 +4,7 @@
 import os
 from .common import *
 
+from unipath import Path
 
 DEBUG = True
 TEMPLATE_DEBUG = True
@@ -29,7 +30,7 @@ DATABASES = {
 }
 
 # PROJECT_ROOT_PATH = os.path.abspath(os.path.dirname(__name__))
-from unipath import Path
+
 PROJECT_ROOT_PATH = Path(__file__).ancestor(3)
 
 STATICFILES_DIRS = (
@@ -67,6 +68,3 @@ SPOT_PROJECT_MAIN_COLOR = '#eb386f'
 # SPOT_PROJECT_MAIN_COLOR = '#fcbd41'
 
 SPOT_PROJECT_FAVICON_URL = os.path.join('static', SPOT_PROJECT_NAME, 'favicon.ico')
-# SPOT_PROJECT_BRAND_LOGO_URL = os.path.join('static', SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_logo.png')
-# SPOT_PROJECT_CERTIFICATE_LOGO_URL = os.path.join('static', SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_certificate.png')
-
