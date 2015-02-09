@@ -204,7 +204,7 @@
       var k, marker, _ref;
       $.each(data.results, function(i, marker) {
         var SpotIcon, SpotInfoWindow, SpotMarker, box, contentOfInfoWindow, icony_allowed, rating_stars;
-        box = $("<span class='list-group-item' id='" + marker.id + "'> <span class='badge' style='background-color:transparent'> <a href='" + marker.url + "' class='spot-details-link disabled' style='color:white'> <i class='fa fa-angle-double-right fa-2x'></i></a></span> <h4 class='list-group-item-heading'>" + marker.name + "</h4> <p class='list-group-item-text'>" + marker.address_street + " " + marker.address_number + " <span class='spot_item_details' id='" + marker.id + "'> <br><span class='glyphicon glyphicon-phone-alt'></span> " + marker.phone_number + " <a href='http://www.facebook.com/" + marker.id + "' > <i class='fa fa-facebook'></i></a> </span> </p></span>").data("markerek", marker);
+        box = $("<span class='list-group-item' id='" + marker.id + "'> <span class='badge' style='background-color:transparent'> <a href='" + marker.url + "' class='spot-details-link disabled' style='color:white'> <i class='fa fa-angle-double-right fa-2x'></i></a></span> <h4 class='list-group-item-heading'>" + marker.name + "</h4> <p class='list-group-item-text'>" + marker.address_street + " " + marker.address_number + " <span class='spot_item_details' id='" + marker.id + "'> <br><span class='glyphicon glyphicon-phone-alt'></span> " + marker.phone_number + " <a href='http://www.facebook.com/" + marker.facebook + "' target='_blank'> <i class='fa fa-facebook'></i></a> </span> </p></span>").data("markerek", marker);
         rating_stars = $("<div class='rate' id='" + marker.id + "'></div>").raty({
           readOnly: false,
           score: marker.friendly_rate

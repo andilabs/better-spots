@@ -187,7 +187,7 @@ loadMarkers = (lat, lng) ->
             #{marker.address_number}
             <span class='spot_item_details' id='#{marker.id}'>
             <br><span class='glyphicon glyphicon-phone-alt'></span>
-            #{marker.phone_number} <a href='http://www.facebook.com/#{marker.id}' >
+            #{marker.phone_number} <a href='http://www.facebook.com/#{marker.facebook}' target='_blank'>
             <i class='fa fa-facebook'></i></a>
             </span>
             </p></span>").data("markerek", marker)
