@@ -58,7 +58,7 @@ MEDIA_ROOT = '/Users/andi/pseudo_media_server_spots/'
 
 SPOT_PROJECT_NAME = 'momspot'
 SPOT_PROJECT_SLOGAN = 'Moms\' Revolution starts in cafes!'
-SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing moms and childrens friendly spots'
+SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing moms and children friendly spots'
 SPOT_PROJECT_SUBJECT = 'Moms'
 SPOT_PROJECT_MAIN_COLOR = '#eb386f'
 
