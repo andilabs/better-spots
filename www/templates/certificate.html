@@ -7,18 +7,17 @@
 {% endblock %}
 
 {% block content %}
-
+{% load instance_settings_via_tags %}
 
 {% if spot.is_enabled and spot.friendly_rate > 4.5  %}
     <div class="row">
         <div class="col-md-9 col-md-push-3">
             <center>
             <br>
-                {% load instance_settings_via_tags %}
                 <img src="{{ STATIC_URL }}/{% settings_value "SPOT_PROJECT_NAME" %}/certificate.png"  style="max-height: 300px">
-        		<h1> {{spot.name}} </h1>
-        		<h3> {{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}</h3>
-        		<span id="lobster" style="font-size:48px">is {% settings_value "SPOT_PROJECT_SUBJECT" %}-friendly spot!<br>
+        		<h1 style="font-family:Lato Italic"> {{spot.name}} </h1>
+        		<h3 style="font-family:Nobile"> {{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}</h3>
+        		<span style="font-size:48px; font-family:Lobster">is {% settings_value "SPOT_PROJECT_SUBJECT" %}-friendly spot!<br>
         		{{spot.friendly_rate|floatformat:1}}/5.0</span>
     	   </center>
         </div>
@@ -33,28 +32,28 @@
                 </li>
                 {% if spot.phone_number %}
                 <li class="list-group-item">
-                    <span class="badge fa fa-phone fa-2x" style="opacity:0.5"> </span>
+                    <span class="badge invert fa fa-phone fa-2x"> </span>
                      <a href='tel://{{spot.phone_number}}'>{{spot.phone_number}}</a>
                 </li>
                 {% endif %}
 
                 {% if spot.email %}
                 <li class="list-group-item">
-                    <span class="badge fa fa-envelope-o fa-2x" style="opacity:0.5"> </span>
+                    <span class="badge invert fa fa-envelope-o fa-2x"> </span>
                     <a href='mailto:{{spot.email}}' target='_blank'>{{spot.email|truncatechars:25}}</a>
                 </li>
                 {% endif %}
 
                 {% if spot.www %}
                 <li class="list-group-item">
-                    <span class="badge fa fa-link fa-2x" style="opacity:0.5"> </span>
+                    <span class="badge invert fa fa-link fa-2x"> </span>
                     <a href='{{spot.www}}' target='_blank'>{{spot.www|truncatechars:25}}</a>
                 </li>
                 {% endif %}
 
                 {% if spot.facebook %}
                 <li class="list-group-item">
-                    <span class="badge fa fa-facebook fa-2x" style="opacity:0.5"> </span>
+                    <span class="badge invert fa fa-facebook fa-2x"> </span>
                     <a href='{{spot.facebook_url}}' target='_blank'>{{spot.facebook_url|truncatechars:25}}</a>
                 </li>
                 {% endif %}

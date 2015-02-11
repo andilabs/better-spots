@@ -12,7 +12,12 @@
                     font-weight: normal;
                     font-style: normal;
                 }
-
+                @font-face {
+                    font-family: "Lato";
+                    src: url({% settings_value "STATIC_ROOT" %}/font/Lato-Hairline.ttf);
+                    font-weight: 100;
+                    font-style: thin;
+                }
                 @font-face {
                     font-family: "Nobile";
                     src: url({% settings_value "STATIC_ROOT" %}/font/Nobile-34.ttf);
@@ -44,11 +49,12 @@
                             <img src="http://{{BASE_HOST}}{% url 'qrencode_link' pk=spot.pk size=4 for_view='certificate' %}"><br>
                         </td>
                         <td>
-                            <span style="font-family:Nobile; font-size:18px;">
-                                <br>
+                            <span style="font-family:Lato; font-size:24px; vertical-align:top">
                                 <big>{{spot.name|safe}}</big>
-                                <br>
+                            </style><br>
+                            <span style="font-family:Lato; font-size:20px; vertical-align:bottom">
                                 {{spot.address|safe}}
+                            </style>                                
                             </span>
                         </td>
                         </tr>

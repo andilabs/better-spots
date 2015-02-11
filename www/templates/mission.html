@@ -2,284 +2,98 @@
 
 {% block content %}
 {% load instance_settings_via_tags %}
-<style>
 
 
-* {
-	margin: 0;
-	padding: 0;
+<center>
+    <img src="{{STATIC_URL}}{% settings_value "SPOT_PROJECT_NAME" %}/logo.png" alt="{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}" style="max-height:200px">
 
-	-webkit-font-smoothing: antialiased;
+    <h1 style="font-family: 'Lobster'">
+        {% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}<br>
+    </h1>
+    <h2 class='project_description'>
+        {% settings_value "SPOT_PROJECT_DESCRIPTION" %}
+        <br><br>
+    </h2>
+ </center>
+        <div class="banner spot_project_color_background">
+            <ul>
+                <li style="">
+                    <div class="inner">
+                        <h1>MAP</h1>
+                        <p class='banner_function_description'>Visualize nearby spots on the map</p>
+                        <i class="fa fa-map-marker fa-5x" style="color:#ffffff"></i>
+                        
+                    </div>
+                </li>
 
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-body {
-	/*color: #a48d66;*/
-	/*font: 14px/23px proxima-nova-alt, "Proxima Nova Alt", sans-serif;*/
-}
-p {
-			font-size: 22px;
-		line-height: 28px;
-	color: white;
-}
-.banner {
-	position: relative;
-	width: 100%;
-	overflow: auto;
+                <li style="">
+                    <div class="inner">
+                        <h1>MOBILE</h1>
+                        <p class='banner_function_description'>Use mobile version on the go</p>
+                        <i class="fa fa-mobile fa-5x" style="color:#ffffff"></i> 
+                        
+                    </div>
+                </li>
 
-	font-size: 18px;
-	line-height: 24px;
-	text-align: center;
+                <li>
+                    <div class="inner">
+                        <h1>CERTIFICATED</h1>
+                        <p class='banner_function_description'>Find the best spots</p>
+                        <i class="fa fa-certificate fa-5x" style="color:#ffffff"></i>
+                        
+                    </div>
+                </li>
 
-	color: rgba(255,255,255,.6);
-	text-shadow: 0 0 1px rgba(0,0,0,.05), 0 1px 2px rgba(0,0,0,.3);
-
-	background: {% settings_value "SPOT_PROJECT_MAIN_COLOR" %};
-	/*box-shadow: 0 1px 2px rgba(0,0,0,.25);*/
-}
-	.banner ul {
-		list-style: none;
-		width: 300%;
-	}
-	.banner ul li {
-		display: block;
-		float: left;
-		width: 33%;
-		min-height: 350px;
-
-		-o-background-size: 100% 100%;
-		-ms-background-size: 100% 100%;
-		-moz-background-size: 100% 100%;
-		-webkit-background-size: 100% 100%;
-		background-size: 100% 100%;
-
-		box-shadow: inset 0 -3px 6px rgba(0,0,0,.1);
-	}
-
-	.banner .inner {
-		padding: 60px 0 50px;
-	}
-
-	.banner h1, .banner h2 {
-		font-size: 40px;
-		line-height: 52px;
-		color: white;
-	}
-
-	.banner .btn {
-		display: inline-block;
-		margin: 25px 0 0;
-		padding: 9px 22px 7px;
-		clear: both;
-
-		color: #fff;
-		font-size: 12px;
-		font-weight: bold;
-		text-transform: uppercase;
-		text-decoration: none;
-
-		border: 2px solid rgba(255,255,255,.4);
-		border-radius: 5px;
-	}
-		.banner .btn:hover {
-			background: rgba(255,255,255,.05);
-		}
-		.banner .btn:active {
-			-webkit-filter: drop-shadow(0 -1px 2px rgba(0,0,0,.5));
-			-moz-filter: drop-shadow(0 -1px 2px rgba(0,0,0,.5));
-			-ms-filter: drop-shadow(0 -1px 2px rgba(0,0,0,.5));
-			-o-filter: drop-shadow(0 -1px 2px rgba(0,0,0,.5));
-			filter: drop-shadow(0 -1px 2px rgba(0,0,0,.5));
-		}
-
-	.banner .btn, .banner .dot {
-		-webkit-filter: drop-shadow(0 1px 2px rgba(0,0,0,.3));
-		-moz-filter: drop-shadow(0 1px 2px rgba(0,0,0,.3));
-		-ms-filter: drop-shadow(0 1px 2px rgba(0,0,0,.3));
-		-o-filter: drop-shadow(0 1px 2px rgba(0,0,0,.3));
-		filter: drop-shadow(0 1px 2px rgba(0,0,0,.3));
-	}
-
-	.banner .dots {
-		position: absolute;
-		left: 0;
-		right: 0;
-		bottom: 20px;
-	}
-		.banner .dots li {
-			display: inline-block;
-			width: 10px;
-			height: 10px;
-			margin: 0 4px;
-
-			text-indent: -999em;
-
-			border: 2px solid #fff;
-			border-radius: 6px;
-
-			cursor: pointer;
-			opacity: .4;
-
-			-webkit-transition: background .5s, opacity .5s;
-			-moz-transition: background .5s, opacity .5s;
-			transition: background .5s, opacity .5s;
-		}
-			.banner .dots li.active {
-				background: #fff;
-				opacity: 1;
-			}
-
-	.banner .arrows {
-		position: absolute;
-		bottom: 20px;
-		right: 20px;
-		color: #fff;
-	}
-		.banner .arrow {
-			display: inline;
-			padding-left: 10px;
-			cursor: pointer;
-		}
-
-h2 {
-	font-family: 'Lato', serif;
-	color:black;
-	font-style:thin;
-	font-weight: 100;
-	font-size: 24px;
-}
-
-</style>
+                <li>
+                    <div class="inner">
+                        <h1>HEART IT</h1>
+                        <p class='banner_function_description'>Remeber your beloved spots by hearting it</p>
+                        <i class="fa fa-heart fa-5x" style="color:#ffffff"></i>
+                        
+                    </div>
+                </li>
+            </ul>
+        </div>
 
 
-<center><img src="{{STATIC_URL}}{% settings_value "SPOT_PROJECT_NAME" %}/logo.png" alt="{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}" style="max-height:200px">
-<h1 style="font-family: 'Lobster'">
 
-{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %} <br>
-<h2>
- {% settings_value "SPOT_PROJECT_DESCRIPTION" %}<br><br></h2></center>
- 		<div class="banner">
-			<ul>
-				<li style="">
-					<div class="inner">
-						<h1>MAP</h1>
-						<p>Visualize nearby spots on the map</p>
-						<i class="fa fa-map-marker fa-5x" style="color:#ffffff"></i>
-						
-					</div>
-				</li>
+        <script type="text/javascript" src="{{ STATIC_URL }}external/unslider/unslider.min.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/mission.js"></script>
+        <script>
+            // if(window.chrome) {
+            //     $('.banner li').css('background-size', '100% 100%');
+            // }
 
-				<li style="">
-					<div class="inner">
-						<h1>MOBILE</h1>
-						<p>Use mobile version on the go</p>
-						<i class="fa fa-mobile fa-5x" style="color:#ffffff"></i> 
-						
-					</div>
-				</li>
+            // $('.banner').unslider({
+            //     speed: 1500,
+            //     arrows: false,
+            //     fluid: true,
+            //     dots: true
+            // });
 
-				<li>
-					<div class="inner">
-						<h1>CERTIFICATED</h1>
-						<p>Find the best spots</p>
-						<i class="fa fa-certificate fa-5x" style="color:#ffffff"></i>
-						
-					</div>
-				</li>
+            // //  Find any element starting with a # in the URL
+            // //  And listen to any click events it fires
+            // $('a[href^="#"]').click(function() {
+            //     //  Find the target element
+            //     var target = $($(this).attr('href'));
 
-				<li>
-					<div class="inner">
-						<h1>HEART IT</h1>
-						<p>Remeber your beloved spots by hearting it</p>
-						<i class="fa fa-heart fa-5x" style="color:#ffffff"></i>
-						
-					</div>
-				</li>
-			</ul>
-		</div>
-<!-- <div class="row">
-<div class="col-md-1">
-	<h2><i class="fa fa-map-marker fa-2x" style="color:#e7e7e7"></i></h2>
-</div>
-<div class="col-md-11 no-col-padding">
-	<h2>Visualize nearby spots on Map</h2>
-</div>
-</div>
+            //     //  And get its position
+            //     var pos = target.offset(); // fallback to scrolling to top || {left: 0, top: 0};
 
+            //     //  jQuery will return false if there's no element
+            //     //  and your code will throw errors if it tries to do .offset().left;
+            //     if(pos) {
+            //         //  Scroll the page
+            //         $('html, body').animate({
+            //             scrollTop: pos.top,
+            //             scrollLeft: pos.left
+            //         }, 1500);
+            //     }
 
-<div class="row">
-<div class="col-md-1">
-	<h2><i class="fa fa-heart fa-2x" style="color:#e7e7e7"></i></h2>
-</div>
-<div class="col-md-11 no-col-padding">
-	<h2> Remeber your beloved spots by hearting it</h2>
-</div>
-</div>
+            //     //  Don't let them visit the url, we'll scroll you there
+            //     return false;
+            // });
 
-
-<div class="row">
-<div class="col-md-1">
-	<h2><i class="fa fa-certificate fa-2x" style="color:#e7e7e7"></i> </h2>
-</div>
-<div class="col-md-11 no-col-padding">
-	<h2> Choose among most {% settings_value "SPOT_PROJECT_SUBJECT" %}-friendly spots which were awarded the certificate.</h2>
-</div>
-</div>
-
-
-<div class="row">
-<div class="col-md-1">
-	<h2><i class="fa fa-mobile fa-2x" style="color:#e7e7e7"></i> </h2>
-</div>
-<div class="col-md-11 no-col-padding">
-	<h2> Use mobile version on the go</h2>
-</div>
-</div> -->
-
-
-		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-
-		<script src="http://stephband.info/jquery.event.move/js/jquery.event.move.js"></script>
-		<script src="http://stephband.info/jquery.event.swipe/js/jquery.event.swipe.js"></script>
-
-		<script src="http://unslider.com/unslider.min.js"></script>
-		<script>
-			if(window.chrome) {
-				$('.banner li').css('background-size', '100% 100%');
-			}
-
-			$('.banner').unslider({
-				speed: 1500,
-				arrows: false,
-				fluid: true,
-				dots: true
-			});
-
-			//  Find any element starting with a # in the URL
-			//  And listen to any click events it fires
-			$('a[href^="#"]').click(function() {
-				//  Find the target element
-				var target = $($(this).attr('href'));
-
-				//  And get its position
-				var pos = target.offset(); // fallback to scrolling to top || {left: 0, top: 0};
-
-				//  jQuery will return false if there's no element
-				//  and your code will throw errors if it tries to do .offset().left;
-				if(pos) {
-					//  Scroll the page
-					$('html, body').animate({
-						scrollTop: pos.top,
-						scrollLeft: pos.left
-					}, 1500);
-				}
-
-				//  Don't let them visit the url, we'll scroll you there
-				return false;
-			});
-
-		</script>
+        </script>
 
 {% endblock %}

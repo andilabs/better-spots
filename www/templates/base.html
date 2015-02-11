@@ -10,14 +10,7 @@
   <link rel="shortcut icon" href="/{% settings_value "SPOT_PROJECT_FAVICON_URL" %}" />
 
   <!-- Font Awesome Icons -->
-  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-
-  <!-- Google Fonts API -->
-  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Pacifico">
-  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lobster">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato:100,400">
-  <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Fjalla+One' >
-  <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' >
+  <link  rel="stylesheet" href="{{STATIC_URL}}external/font-awesome-4.3.0/css/font-awesome.min.css">
   <!-- bootstrap3 for django https://github.com/dyve/django-bootstrap3 -->
   {% load bootstrap3 %}
   <link href="{{ STATIC_URL }}css/fontello.css" rel="stylesheet">
@@ -28,11 +21,17 @@
   <link rel="stylesheet" href="{{ STATIC_URL }}external/jqueryui/themes/flick/jquery.ui.theme.css" type="text/css" media="screen" />
 
   <!-- my custom CSS -->
-  <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
-
+  <!-- <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet"> -->
+  <link href="{{ STATIC_URL }}css/layout.css" rel="stylesheet">
   <!-- jQuery must be loaded here for things like datepicker to work :/ -->
   <script type="text/javascript" src="{{ STATIC_URL }}external/jquery/jquery-1.10.1.min.js"></script>
 <style>
+.spot_project_color {
+  color: {% settings_value "SPOT_PROJECT_MAIN_COLOR" %};
+}
+.spot_project_color_background {
+  background-color: {% settings_value "SPOT_PROJECT_MAIN_COLOR" %};
+}
 .is_enabled {
   background:url(/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png) no-repeat;
     cursor:pointer;
@@ -71,7 +70,7 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="/">
-            <span id="lobster">{% settings_value "SPOT_PROJECT_NAME" %}</span>
+            <span id="navbar_project_logo">{% settings_value "SPOT_PROJECT_NAME" %}</span>
           </a>
         </div>
 
@@ -121,7 +120,7 @@
 
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle hallujah" data-toggle="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-family: Gloria Hallelujah">
                 {% if user.is_authenticated %}
                   {{user.email}}
                 {% else %}
@@ -131,12 +130,12 @@
               </a>
               <ul class="dropdown-menu" role="menu">
                 {% if user.is_authenticated %}
-                    <li><a href="#" class="hallujah">Edit profile</a></li>
+                    <li><a href="#">Edit profile</a></li>
                     <li class="divider"></li>
-                    <li><a href="/user/logout" class="hallujah">Log me out!</a></li>
+                    <li><a href="/user/logout">Log me out!</a></li>
                 {% else %}
-                  <li><a href="/user/create" class="hallujah">Register</a></li>
-                  <li><a href="/user/login" class="hallujah">Login</a></li>
+                  <li><a href="/user/create">Register</a></li>
+                  <li><a href="/user/login">Login</a></li>
                 {% endif %}
               </ul>
             </li>
@@ -160,10 +159,10 @@
     <footer>
       <div class="row">
           <div class="col-xs-6">
-            <span id="pacifico">{% settings_value "SPOT_PROJECT_SLOGAN" %}</span>
+            <span class="footer-text">{% settings_value "SPOT_PROJECT_SLOGAN" %}</span>
           </div>
           <div class="col-xs-6" align="right">
-            <span id="pacifico">2014 &copy; by</span><a href="http://andilabs.com/"><div class="andilabs"></div></a>
+            <span class="footer-text">2014 &copy; by</span><a href="http://andilabs.com/"><div class="andilabs_logo"></div></a>
           </div>
       </div>
     </footer>
