@@ -38,7 +38,15 @@ filters_types =
         "restaurant": true
         "veterinary_care": true
 
+minimumDesiredRadius = 100
+
 desiredRadius = 2000  #in meters
+
+getDesiredRadius = () ->
+    if desiredRadius < minimumDesiredRadius
+        minimumDesiredRadius
+    else
+        desiredRadius
 
 currentMapCenter =
     lat: null
@@ -173,7 +181,7 @@ loadMarkers = (lat, lng) ->
     window.arrMarkers = {}
     $('#map_canvas').gmap('clear', 'markers')
 
-    url = BASE_HOST + "/api/nearby/#{lat.toFixed(5)}/#{lng.toFixed(5)}/#{desiredRadius}"
+    url = BASE_HOST + "/api/nearby/#{lat.toFixed(5)}/#{lng.toFixed(5)}/#{getDesiredRadius()}"
     jqxhr = $.getJSON url, (data) ->
     # here we iterate over all the returned markers
 
@@ -290,10 +298,10 @@ $ ->
             placement: "right"
             html: true
             title: "Setup your filters:"
-            content: $("#map_filters").load(STATIC_URL + "filters_popover.html")
-        .on 'click', (e) ->
-            $("#map_filters").css('display','block')
-
+            content: """<div id='map_filters' class='no_copy'><label class='is_enabled' title='enabled ;-)'><input class='map_filter' type='checkbox' name='is_enabled' hidden></label>
+                        <label class='is_not_enabled' title='NOT enabled :-('><input class='map_filter' type='checkbox' name='is_not_enabled' hidden></label><br><br>
+                        <label class='fa fa-coffee fa-2x mar-r-5' title='Coffee'><input class='map_filter' type='checkbox' name='caffe' hidden></label>
+                        <label class='fa fa-cutlery fa-2x mar-r-5' title='Food'><input class='map_filter' type='checkbox' name='restaurant' hidden></label></div>"""
 
     $(document).on 'click', '#back_to_list', (e) ->
 

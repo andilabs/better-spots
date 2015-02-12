@@ -4,23 +4,11 @@
     if (window.chrome) {
       $('.banner li').css('background-size', '100% 100%');
     }
-    $('.banner').unslider({
+    return $('.banner').unslider({
       speed: 1500,
       arrows: false,
       fluid: true,
       dots: true
-    });
-    return $('a[href^="#"]').click(function() {
-      var pos, target;
-      target = $($(this).attr('href'));
-      pos = target.offset();
-      if (pos) {
-        $('html, body').animate({
-          scrollTop: pos.top,
-          scrollLeft: pos.left
-        }, 1500);
-      }
-      return false;
     });
   });
 

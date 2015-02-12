@@ -25,6 +25,12 @@
 
   .collapse.in {
     display: block !important; } }
+#bs-example-navbar-collapse-1 > ul.nav.navbar-nav.navbar-right > li > a {
+  font-family: Gloria Hallelujah; }
+
+#bs-example-navbar-collapse-1 > ul.nav.navbar-nav.navbar-right > li > ul > li > a {
+  font-family: Gloria Hallelujah; }
+
 .right-inner-addon {
   position: relative; }
 
@@ -140,13 +146,14 @@
   color: white !important; }
 
 #filters_map_overlay {
-  width: 320px;
   height: 50px;
   position: absolute;
   top: 0px;
   left: 100px;
   z-index: 10;
   opacity: 0; }
+  #filters_map_overlay .popover {
+    position: relative; }
 
 * {
   margin: 0;
