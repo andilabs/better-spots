@@ -72,6 +72,8 @@
 
 .project_description {
   font-family: "Lato", serif;
+  color: black;
+  font-style: thin;
   font-weight: 100;
   font-size: 26px; }
 
@@ -127,7 +129,11 @@
   max-height: 500px !important;
   overflow-y: auto; }
 
+#spots_list span.list-group-item p.list-group-item-text span.spot_item_details {
+  display: none; }
+
 #spots_list span.list-group-item.active p.list-group-item-text span.spot_item_details {
+  display: block;
   color: white !important; }
 
 #spots_list span.list-group-item.active p.list-group-item-text span.spot_item_details a {
