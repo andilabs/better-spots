@@ -29,14 +29,13 @@ spot_type_lookup =
 
 window.arrMarkers = {}
 
-filters_allowance =
+window.filters_allowance =
         "is_enabled": true
         "is_not_enabled": true
 
-filters_types =
+window.filters_types =
         "caffe": true
         "restaurant": true
-        "veterinary_care": true
 
 minimumDesiredRadius = 100
 
@@ -132,7 +131,7 @@ hideAllInfoWindows = ->
 
 
 filterSpots = ->
-    # console.log "filterSpots fired"
+
 
     filtered_allowance = ['current_location']
 
@@ -142,24 +141,26 @@ filterSpots = ->
     if filters_allowance["is_enabled"] is true
         filtered_allowance.push true
 
-    filtered_types = ['current_location']
 
-    for k,v of filters_types
-        if v is true
-            filtered_types.push k
+    filtered_types = ['current_location']
+    (filtered_types.push k for k,v of filters_types when v is true)
+
+    # console.log filtered_allowance
+    # console.log filtered_types
+
 
     $('#map_canvas').gmap 'find', 'markers', { 'property': 'is_enabled', 'value': filtered_allowance}, (marker, found) ->
         marker.setVisible(found)
 
     $('#map_canvas').gmap 'find', 'markers', { 'property': 'spot_type', 'value': filtered_types }, (marker, found) ->
-     if marker.visible isnt false
+        if marker.visible isnt false
             marker.setVisible(found)
         hideAllInfoWindows()
 
     $("#spots_list span.list-group-item").not("#memo_empty").each ->
 
-            if $(@).data("markerek").is_enabled not in filtered_allowance or
-            spot_type_lookup[$(@).data("markerek").spot_type] not in [k for k,v of filters_types when v is true][0]
+            if $(@).data("spot").is_enabled not in filtered_allowance or
+            spot_type_lookup[$(@).data("spot").spot_type] not in [k for k,v of filters_types when v is true][0]
                 $(@).hide()
             else
                 $(@).show()
@@ -178,41 +179,42 @@ loadMarkers = (lat, lng) ->
     target = document.getElementById("right_container")
     spinner = new Spinner(opts).spin(target)
 
+    #on each load of markers clean arrMarkers setting it to empty arr
     window.arrMarkers = {}
+    #on each reload clean all markers on map
     $('#map_canvas').gmap('clear', 'markers')
+    # console.log "------------DELETING MARKERS-------------"
 
     url = BASE_HOST + "/api/nearby/#{lat.toFixed(5)}/#{lng.toFixed(5)}/#{getDesiredRadius()}"
-    jqxhr = $.getJSON url, (data) ->
-    # here we iterate over all the returned markers
 
-        $.each data.results, (i, marker) ->
-            box = $("<span class='list-group-item' id='#{marker.id}'>
+    jqxhr = $.getJSON url, (data) ->
+        $.each data.results, (i, spot) ->
+
+            box = $("<span class='list-group-item' id='#{spot.id}'>
                         <span class='badge' style='background-color:transparent'>
-                        <a href='#{marker.url}' class='spot-details-link disabled' style='color:white'>
+                        <a href='#{spot.url}' class='spot-details-link disabled' style='color:white'>
                         <i class='fa fa-angle-double-right fa-2x'></i></a></span>
-                        <h4 class='list-group-item-heading'>#{marker.name}</h4>
-                        <p class='list-group-item-text'>#{marker.address_street}
-                        #{marker.address_number}
-                        <span class='spot_item_details' id='#{marker.id}'>
+                        <h4 class='list-group-item-heading'>#{spot.name}</h4>
+                        <p class='list-group-item-text'>#{spot.address_street}
+                        #{spot.address_number}
+                        <span class='spot_item_details' id='#{spot.id}'>
                         <br><span class='glyphicon glyphicon-phone-alt'></span>
-                        #{marker.phone_number} <a href='http://www.facebook.com/#{marker.facebook}' target='_blank'>
+                        #{spot.phone_number} <a href='http://www.facebook.com/#{spot.facebook}' target='_blank'>
                         <i class='fa fa-facebook'></i></a>
                         </span>
-                        </p></span>").data("markerek", marker)
+                        </p></span>").data("spot", spot)
 
 
-            rating_stars = $("<div class='rate' id='#{marker.id}'></div>")
-                    .raty
-                        readOnly: false  #here should be variable from django informing either user is logged in or not
-                        score: marker.friendly_rate
+            rating_stars = $("<div class='rate' id='#{spot.id}'></div>")
+                .raty
+                    readOnly: false  #here should be variable from django informing either user is logged in or not
+                    score: spot.friendly_rate
 
-
-            contentOfInfoWindow = $("<div class='spot_info' id='#{marker.id}'>
-                                                            <h4>#{marker.name}</h4><br>
-                                                            #{marker.address_street} #{marker.address_number}</div>")
-                    .append(rating_stars)[0]
-
-            # console.log marker
+            #3 fun renderInfoWindow()
+            contentOfInfoWindow = $("<div class='spot_info' id='#{spot.id}'>
+                                     <h4>#{spot.name}</h4><br>
+                                     #{spot.address_street} #{spot.address_number}</div>")
+                .append(rating_stars)[0]
 
             icony_allowed =
                 true: ICON_URL + "marker-ok.png"
@@ -220,7 +222,7 @@ loadMarkers = (lat, lng) ->
 
             # debugger
             SpotIcon =
-                url: icony_allowed[marker.is_enabled]
+                url: icony_allowed[spot.is_enabled]
                 size: null
                 origin: new google.maps.Point(0, 0)
                 anchor: new google.maps.Point(0, 0)
@@ -228,18 +230,20 @@ loadMarkers = (lat, lng) ->
 
 
             SpotMarker = new google.maps.Marker
-                position: new google.maps.LatLng(marker.location.latitude, marker.location.longitude)
+                position: new google.maps.LatLng(spot.location.latitude, spot.location.longitude)
                 bounds: false
-                id: marker.id
-                is_enabled: [marker.is_enabled]
-                spot_type: [spot_type_lookup[marker.spot_type]]
+                id: spot.id
+                is_enabled: [spot.is_enabled]
+                spot_type: [spot_type_lookup[spot.spot_type]]
                 icon: SpotIcon
 
 
             SpotInfoWindow = new google.maps.InfoWindow
                 content: contentOfInfoWindow
 
-            window.arrMarkers[marker.id] =
+            #important id is exact id from django API
+            window.arrMarkers[spot.id] =
+                spot: spot
                 marker: SpotMarker
                 info_window: SpotInfoWindow
                 box: box
@@ -252,25 +256,35 @@ loadMarkers = (lat, lng) ->
         $("#spots_list").empty()
 
 
-        for k, marker of window.arrMarkers
 
-            $("#spots_list").append marker.box
-            $("#map_canvas").gmap("addMarker", marker.marker).click ->
+        # split into TWO seperate funS:
+        # 1 for adding spots to spots list in left tableView ------> addCellsToSpotToTableView
+        # 2 for adding spots markers and infowindows to MAP ----------------> addMarkersOnMap()
+        # 3 content  for infowindow gets rendered on the go---> renderInfoWindow(spotId)
+        # 4 activation of spotTableViewCell for spotId of clicked marker ---> activateSpotTableViewCell(spotId)
+        for k, spot of window.arrMarkers
+            #1
+            $("#spots_list").append spot.box
+            #2
+
+            # console.log "dodaje marker dla #{spot.spot.name}"
+            $("#map_canvas").gmap("addMarker", spot.marker).click ->
+                
                 # console.log "Clicked marker with ID=#{@id}"
-
+                # @ is marker
                 $("#map_canvas").gmap("get", "map").panTo @getPosition()
                 $("#map_canvas")
                     .gmap "openInfoWindow", 
                         position: @getPosition()
-                        content: arrMarkers[@.id].info_window.content
+                        content: window.arrMarkers[@id].info_window.content #3
 
-
-                id = @.id #$(contentOfInfoWindow).attr("id")
+                #4
+                id = @.id
                 $("#spots_list span").not("##{id}").removeClass "active"
                 $("#spots_list").find("##{id}").addClass "active"
-
                 $("#spots_list").scrollTop( $("#spots_list").scrollTop() + $("#spots_list").find("##{id}").position().top)
-
+        
+        # console.log "------------KONIEC dodawania markerow------------"
 
 
         checkIfEmpty()
@@ -343,6 +357,8 @@ $ ->
         # RESTORE state of filters from cookies
 
         $("#map_filters input.map_filter").each ->
+
+
             theCookie = $.cookie($(@).attr('name'))
             if theCookie
                 if theCookie == "true"
@@ -358,6 +374,7 @@ $ ->
 
         $(@).parent().css('opacity', if $(@).prop('checked') is false then '0.2' else '1')
 
+        # set cookies to represent current state of filters
         $.cookie($(@).attr('name'), $(@).prop('checked'), {path: '/map', expires: 1})
 
         check_cookies()
