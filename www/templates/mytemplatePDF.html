@@ -34,7 +34,7 @@
     </head>
     <body>
         <center>
-            <img src="{% settings_value "STATIC_ROOT" %}/{% settings_value "SPOT_PROJECT_NAME" %}/certificate.png" height="280px">
+            <img src="{% settings_value "STATIC_ROOT" %}/{% settings_value "SPOT_PROJECT_NAME" %}/certificate.png" height="240px">
             <p style="font-family:Lobster;">
                 <span style="font-size:60px;">
                     {% settings_value "SPOT_PROJECT_SUBJECT" %}<br>
@@ -54,19 +54,22 @@
                             </style><br>
                             <span style="font-family:Lato; font-size:20px; vertical-align:bottom">
                                 {{spot.address|safe}}
-                            </style>                                
+                            </style>
                             </span>
                         </td>
                         </tr>
                         <tr>
-                        <td colspan=2>
-                        <span style="font-family:Nobile; font-size:15px;">
+                            <td colspan=2 height=5></td>
+                        </tr>
+                        <tr>
+                            <td colspan=2>
+                                <span style="font-family:Nobile; font-size:15px;">
                                 Powered by: <img src="{% settings_value "STATIC_ROOT" %}/{% settings_value "SPOT_PROJECT_NAME" %}/logo.png" height="50px"> </span>
-                        <span style="font-family:Lobster; font-size:25px;">
-                                {% settings_value "SPOT_PROJECT_NAME" %}
-                        </span>
-                        </td>
-                    </tr>
+                                <span style="font-family:Lobster; font-size:25px;">
+                                        {% settings_value "SPOT_PROJECT_NAME" %}
+                                </span>
+                            </td>
+                        </tr>
                 </table>
             </p>
         </center>
