@@ -16,9 +16,12 @@
   {% endif %}{{ spot.name|upper }}
 </h2>
 {% endblock %}
+
+
 {% block scripts %}
   {{ block.super }}
   <script language="javascript"> var STATIC_URL = "/static/"; var BASE_HOST = "//{{request.META.HTTP_HOST}}"</script>
+  
   <script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
   <script>
   $('span.rating').raty({

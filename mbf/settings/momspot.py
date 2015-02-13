@@ -32,7 +32,7 @@ DATABASES = {
 
 SPOT_PROJECT_NAME = 'momspot'
 
-SPOT_PROJECT_SLOGAN = 'Moms\' Revolution starts in cafes!'
+SPOT_PROJECT_SLOGAN = 'Mom\'s Revolution starts in cafes!'
 
 SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing moms and children friendly spots'
 

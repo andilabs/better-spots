@@ -251,8 +251,7 @@ loadMarkers = (lat, lng) ->
         spinner.stop()
 
 
-        $("#map_canvas").animate({"opacity": "1.0"}, "slow")
-        $("#filters_map_overlay").animate({"opacity": "1.0"}, "slow")
+        $("#map_canvas, #map_filters_button").animate({"opacity": "1.0"}, "slow")
         $("#spots_list").empty()
 
 
@@ -269,7 +268,7 @@ loadMarkers = (lat, lng) ->
 
             # console.log "dodaje marker dla #{spot.spot.name}"
             $("#map_canvas").gmap("addMarker", spot.marker).click ->
-                
+
                 # console.log "Clicked marker with ID=#{@id}"
                 # @ is marker
                 $("#map_canvas").gmap("get", "map").panTo @getPosition()
@@ -283,9 +282,8 @@ loadMarkers = (lat, lng) ->
                 $("#spots_list span").not("##{id}").removeClass "active"
                 $("#spots_list").find("##{id}").addClass "active"
                 $("#spots_list").scrollTop( $("#spots_list").scrollTop() + $("#spots_list").find("##{id}").position().top)
-        
-        # console.log "------------KONIEC dodawania markerow------------"
 
+        # console.log "------------KONIEC dodawania markerow------------"
 
         checkIfEmpty()
         filterSpots()
@@ -294,15 +292,12 @@ loadMarkers = (lat, lng) ->
 
 $ ->
 
-
-
-    filtersFireButton = null
     check_cookies()
 
 
 
     $('body').on 'click', (e) ->
-        if $(e.target).parents("#filters_map_overlay").length is 0
+        if $(e.target).parents("#map_filters").length is 0 and e.target.id isnt "map_filters_button"
             $('#map_filters_button').popover 'hide'
 
 
@@ -321,7 +316,6 @@ $ ->
 
         $("#spot_detail").remove()
         switchColumsClasses('#right_container', '#left_container')
-        filtersFireButton.appendTo("#right_container")
 
         $("#spots_list").show()
         $("#map_canvas").gmap "option", "zoom", 14
@@ -343,9 +337,6 @@ $ ->
                     #{link}<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                     </p></span>
                     </div>"
-
-
-            filtersFireButton = $("#filters_map_overlay").detach()
 
             switchColumsClasses('#left_container', '#right_container')
 
@@ -415,42 +406,42 @@ $ ->
 
 
 
-$("#map_canvas").on 'click', (e) ->
+    $("#map_canvas").on 'click', (e) ->
 
-    new_position =  $('#map_canvas').gmap('get','map').getCenter()
-    user_zoom_level = $('#map_canvas').gmap('get','map').getZoom()
-
-
-    if checkIfNewSpotsShouldBeLoaded(new_position.lat(), new_position.lng(), user_zoom_level)
-        currentMapCenter.lat = new_position.lat()
-        currentMapCenter.lng = new_position.lng()
-        currentZoomLevel = $('#map_canvas').gmap('get','map').getZoom()
-        desiredRadius =  Math.floor(currentZoomLevel.getRatioForZoom()/10/2)
-        loadMarkers(new_position.lat(), new_position.lng())
-        clientPosition = new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng)
+        new_position =  $('#map_canvas').gmap('get','map').getCenter()
+        user_zoom_level = $('#map_canvas').gmap('get','map').getZoom()
 
 
-    # console.log "currentZoomLevel: #{currentZoomLevel} R=#{desiredRadius}"
+        if checkIfNewSpotsShouldBeLoaded(new_position.lat(), new_position.lng(), user_zoom_level)
+            currentMapCenter.lat = new_position.lat()
+            currentMapCenter.lng = new_position.lng()
+            currentZoomLevel = $('#map_canvas').gmap('get','map').getZoom()
+            desiredRadius =  Math.floor(currentZoomLevel.getRatioForZoom()/10/2)
+            loadMarkers(new_position.lat(), new_position.lng())
+            clientPosition = new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng)
 
 
-
-$("#map_canvas").on 'click', 'div.rate', (e) ->
-        #here should happen POST with rating for spot given by logged-in user.
-        # console.log "spot: #{@.id} score: #{$(@).find('input[name="score"]').val()}"
+        # console.log "currentZoomLevel: #{currentZoomLevel} R=#{desiredRadius}"
 
 
 
-$("#spots_list").on "click", "span.list-group-item:not(#memo_empty)", (evt) ->
-
-    id = $(@).attr("id")
-    $("#spots_list span").not("##{id}").removeClass "active"
-    $("#spots_list").find("##{id}").addClass "active"
-    $("#spots_list").find("##{id}").find('a.spot-details-link').removeClass('disabled')
-
-    $("#map_canvas")
-        .gmap "openInfoWindow", 
-            position: window.arrMarkers[id].marker.getPosition()
-            content: window.arrMarkers[id].info_window.content
+    $("#map_canvas").on 'click', 'div.rate', (e) ->
+            #here should happen POST with rating for spot given by logged-in user.
+            # console.log "spot: #{@.id} score: #{$(@).find('input[name="score"]').val()}"
 
 
-    $("#map_canvas").gmap("get", "map").panTo window.arrMarkers[id].marker.getPosition()
+
+    $("#spots_list").on "click", "span.list-group-item:not(#memo_empty)", (evt) ->
+
+        id = $(@).attr("id")
+        $("#spots_list span").not("##{id}").removeClass "active"
+        $("#spots_list").find("##{id}").addClass "active"
+        $("#spots_list").find("##{id}").find('a.spot-details-link').removeClass('disabled')
+
+        $("#map_canvas")
+            .gmap "openInfoWindow",
+                position: window.arrMarkers[id].marker.getPosition()
+                content: window.arrMarkers[id].info_window.content
+
+
+        $("#map_canvas").gmap("get", "map").panTo window.arrMarkers[id].marker.getPosition()

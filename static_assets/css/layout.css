@@ -145,14 +145,13 @@
 #spots_list span.list-group-item.active p.list-group-item-text span.spot_item_details a {
   color: white !important; }
 
-#filters_map_overlay {
-  height: 50px;
+#map_filters_button {
   position: absolute;
-  top: 0px;
   left: 100px;
-  z-index: 10;
-  opacity: 0; }
-  #filters_map_overlay .popover {
+  z-index: 99;
+  opacity: 0;
+  z-index: 99; }
+  #map_filters_button .popover {
     position: relative; }
 
 * {

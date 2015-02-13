@@ -249,10 +249,7 @@
         };
       });
       spinner.stop();
-      $("#map_canvas").animate({
-        "opacity": "1.0"
-      }, "slow");
-      $("#filters_map_overlay").animate({
+      $("#map_canvas, #map_filters_button").animate({
         "opacity": "1.0"
       }, "slow");
       $("#spots_list").empty();
@@ -279,11 +276,9 @@
   };
 
   $(function() {
-    var filtersFireButton;
-    filtersFireButton = null;
     check_cookies();
     $('body').on('click', function(e) {
-      if ($(e.target).parents("#filters_map_overlay").length === 0) {
+      if ($(e.target).parents("#map_filters").length === 0 && e.target.id !== "map_filters_button") {
         return $('#map_filters_button').popover('hide');
       }
     });
@@ -297,7 +292,6 @@
     $(document).on('click', '#back_to_list', function(e) {
       $("#spot_detail").remove();
       switchColumsClasses('#right_container', '#left_container');
-      filtersFireButton.appendTo("#right_container");
       $("#spots_list").show();
       $("#map_canvas").gmap("option", "zoom", 14);
       return $('#map_canvas').gmap('refresh');
@@ -308,7 +302,6 @@
       link = $(this).attr('href');
       return $("#spots_list").hide(function() {
         $('#left_container').append("<div class='list-group'  id='spot_detail'> <a href='#' class='list-group-item disabled' id='spot_detail_icons'> <i class='fa fa-list fa-2x' id='back_to_list'></i></a> <span class='list-group-item disabled' id='spot_detail_content'> <h4 class='list-group-item-heading'>Spot name</h4> <p class='list-group-item-text'> " + link + "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> </p></span> </div>");
-        filtersFireButton = $("#filters_map_overlay").detach();
         switchColumsClasses('#left_container', '#right_container');
         $("#map_canvas").gmap("option", "zoom", 17);
         return $('#map_canvas').gmap("refresh");
@@ -338,7 +331,7 @@
       filterSpots();
       return checkIfEmpty();
     });
-    return $("#map_canvas").gmap({
+    $("#map_canvas").gmap({
       'scrollwheel': false
     }).bind("init", function(evt, map) {
       var options;
@@ -364,35 +357,32 @@
         return $("#map_canvas").gmap("option", "zoom", 14);
       });
     });
-  });
-
-  $("#map_canvas").on('click', function(e) {
-    var clientPosition, new_position, user_zoom_level;
-    new_position = $('#map_canvas').gmap('get', 'map').getCenter();
-    user_zoom_level = $('#map_canvas').gmap('get', 'map').getZoom();
-    if (checkIfNewSpotsShouldBeLoaded(new_position.lat(), new_position.lng(), user_zoom_level)) {
-      currentMapCenter.lat = new_position.lat();
-      currentMapCenter.lng = new_position.lng();
-      currentZoomLevel = $('#map_canvas').gmap('get', 'map').getZoom();
-      desiredRadius = Math.floor(currentZoomLevel.getRatioForZoom() / 10 / 2);
-      loadMarkers(new_position.lat(), new_position.lng());
-      return clientPosition = new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng);
-    }
-  });
-
-  $("#map_canvas").on('click', 'div.rate', function(e) {});
-
-  $("#spots_list").on("click", "span.list-group-item:not(#memo_empty)", function(evt) {
-    var id;
-    id = $(this).attr("id");
-    $("#spots_list span").not("#" + id).removeClass("active");
-    $("#spots_list").find("#" + id).addClass("active");
-    $("#spots_list").find("#" + id).find('a.spot-details-link').removeClass('disabled');
-    $("#map_canvas").gmap("openInfoWindow", {
-      position: window.arrMarkers[id].marker.getPosition(),
-      content: window.arrMarkers[id].info_window.content
+    $("#map_canvas").on('click', function(e) {
+      var clientPosition, new_position, user_zoom_level;
+      new_position = $('#map_canvas').gmap('get', 'map').getCenter();
+      user_zoom_level = $('#map_canvas').gmap('get', 'map').getZoom();
+      if (checkIfNewSpotsShouldBeLoaded(new_position.lat(), new_position.lng(), user_zoom_level)) {
+        currentMapCenter.lat = new_position.lat();
+        currentMapCenter.lng = new_position.lng();
+        currentZoomLevel = $('#map_canvas').gmap('get', 'map').getZoom();
+        desiredRadius = Math.floor(currentZoomLevel.getRatioForZoom() / 10 / 2);
+        loadMarkers(new_position.lat(), new_position.lng());
+        return clientPosition = new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng);
+      }
     });
-    return $("#map_canvas").gmap("get", "map").panTo(window.arrMarkers[id].marker.getPosition());
+    $("#map_canvas").on('click', 'div.rate', function(e) {});
+    return $("#spots_list").on("click", "span.list-group-item:not(#memo_empty)", function(evt) {
+      var id;
+      id = $(this).attr("id");
+      $("#spots_list span").not("#" + id).removeClass("active");
+      $("#spots_list").find("#" + id).addClass("active");
+      $("#spots_list").find("#" + id).find('a.spot-details-link').removeClass('disabled');
+      $("#map_canvas").gmap("openInfoWindow", {
+        position: window.arrMarkers[id].marker.getPosition(),
+        content: window.arrMarkers[id].info_window.content
+      });
+      return $("#map_canvas").gmap("get", "map").panTo(window.arrMarkers[id].marker.getPosition());
+    });
   });
 
 }).call(this);

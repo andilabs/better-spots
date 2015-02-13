@@ -31,7 +31,7 @@ RAVEN_CONFIG = {
 
 SPOT_PROJECT_NAME = 'dogspot'
 
-SPOT_PROJECT_SLOGAN = 'Wow the World !'
+SPOT_PROJECT_SLOGAN = 'Wow the World!'
 
 SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing dog friendly spots'
 

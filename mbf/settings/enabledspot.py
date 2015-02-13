@@ -31,7 +31,7 @@ DATABASES = {
 
 SPOT_PROJECT_NAME = 'enabledspot'
 
-SPOT_PROJECT_SLOGAN = 'Enabled World!'
+SPOT_PROJECT_SLOGAN = 'The Brave New Enabled World!'
 
 SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing the disabled people accessible spots'
 
