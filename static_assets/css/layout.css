@@ -86,7 +86,8 @@
 .banner_function_description {
   font-family: Nobile;
   font-size: 18pt;
-  color: #ffffff; }
+  color: #ffffff;
+  letter-spacing: 3px; }
 
 .navbartext {
   font-family: "Gloria Hallelujah", serif; }
@@ -190,7 +191,8 @@
   .banner h1, .banner h2 {
     font-size: 40px;
     line-height: 52px;
-    color: white; }
+    color: white;
+    letter-spacing: 2px; }
   .banner .btn {
     display: inline-block;
     margin: 25px 0 0;
