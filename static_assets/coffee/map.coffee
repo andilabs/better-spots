@@ -273,7 +273,7 @@ loadMarkers = (lat, lng) ->
                 # @ is marker
                 $("#map_canvas").gmap("get", "map").panTo @getPosition()
                 $("#map_canvas")
-                    .gmap "openInfoWindow", 
+                    .gmap "openInfoWindow",
                         position: @getPosition()
                         content: window.arrMarkers[@id].info_window.content #3
 
@@ -285,9 +285,8 @@ loadMarkers = (lat, lng) ->
 
         # console.log "------------KONIEC dodawania markerow------------"
 
-        checkIfEmpty()
         filterSpots()
-
+        checkIfEmpty()
 
 
 $ ->
@@ -393,7 +392,7 @@ $ ->
 
 
             loadMarkers(clientPosition.lat(), clientPosition.lng())
-
+            checkIfEmpty()
             # here we set icon showing user current location
             $("#map_canvas")
                 .gmap "addMarker",

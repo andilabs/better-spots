@@ -270,8 +270,8 @@
           return $("#spots_list").scrollTop($("#spots_list").scrollTop() + $("#spots_list").find("#" + id).position().top);
         });
       }
-      checkIfEmpty();
-      return filterSpots();
+      filterSpots();
+      return checkIfEmpty();
     });
   };
 
@@ -348,6 +348,7 @@
           currentMapCenter.lng = position.coords.longitude;
         }
         loadMarkers(clientPosition.lat(), clientPosition.lng());
+        checkIfEmpty();
         $("#map_canvas").gmap("addMarker", {
           position: clientPosition,
           bounds: true,
