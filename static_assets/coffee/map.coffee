@@ -41,6 +41,17 @@ minimumDesiredRadius = 100
 
 desiredRadius = 2000  #in meters
 
+getIPbasedLocation = () ->
+    loc = null
+    $.ajax
+        type: 'GET'
+        dataType: 'json'
+        url: 'http://ipinfo.io/json'
+        success: (result) ->
+            loc = result.loc
+        async: false
+    return loc
+
 getDesiredRadius = () ->
     if desiredRadius < minimumDesiredRadius
         minimumDesiredRadius
@@ -176,6 +187,16 @@ switchColumsClasses = (left, right) ->
 
 
 loadMarkers = (lat, lng) ->
+    # console.log "HERE: #{lat}"
+    # console.log "HERE: #{lng}"
+    if lat == undefined or lng == undefined  or lat == null or lng ==null
+        [lat, lng] = getIPbasedLocation().split(',')
+        [lat, lng] = [Number(lat), Number(lng)]
+    currentMapCenter.lat = lat
+    currentMapCenter.lng = lng
+
+    # console.log "HERE: #{lat}"
+
     target = document.getElementById("right_container")
     spinner = new Spinner(opts).spin(target)
 
@@ -184,9 +205,8 @@ loadMarkers = (lat, lng) ->
     #on each reload clean all markers on map
     $('#map_canvas').gmap('clear', 'markers')
     # console.log "------------DELETING MARKERS-------------"
-
     url = BASE_HOST + "/api/nearby/#{lat.toFixed(5)}/#{lng.toFixed(5)}/#{getDesiredRadius()}"
-
+    console.log url
     jqxhr = $.getJSON url, (data) ->
         $.each data.results, (i, spot) ->
 
@@ -376,27 +396,30 @@ $ ->
 
     $("#map_canvas").gmap({'scrollwheel':false}).bind "init", (evt, map) ->
 
+        # https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
         options =
-                enableHighAccuracy: true # boolean (default: false)
-                timeout: 10000 #  in milliseconds (default: no limit)
-                maximumAge: 10000000 #  in milliseconds (default: 0)
+            enableHighAccuracy: true # boolean (default: false)
+            timeout: 10000 #  in milliseconds (default: no limit)
+            maximumAge: 10000000 #  in milliseconds (default: 0)
 
 
         # here we get current geo-position of user
         $("#map_canvas").gmap "getCurrentPosition", (position, status, options) ->
-
+            console.log status
             if status is "OK"
                 clientPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-                currentMapCenter.lat = position.coords.latitude
-                currentMapCenter.lng = position.coords.longitude
 
+            if clientPosition
+                loadMarkers(clientPosition.lat(), clientPosition.lng())
+            else
+                loadMarkers(null, null)
 
-            loadMarkers(clientPosition.lat(), clientPosition.lng())
             checkIfEmpty()
+
             # here we set icon showing user current location
             $("#map_canvas")
                 .gmap "addMarker",
-                    position: clientPosition
+                    position: new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng)
                     bounds: true
                     is_enabled: ['current_location']
                     spot_type: ['current_location']
@@ -418,16 +441,6 @@ $ ->
             desiredRadius =  Math.floor(currentZoomLevel.getRatioForZoom()/10/2)
             loadMarkers(new_position.lat(), new_position.lng())
             clientPosition = new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng)
-
-
-        # console.log "currentZoomLevel: #{currentZoomLevel} R=#{desiredRadius}"
-
-
-
-    $("#map_canvas").on 'click', 'div.rate', (e) ->
-            #here should happen POST with rating for spot given by logged-in user.
-            # console.log "spot: #{@.id} score: #{$(@).find('input[name="score"]').val()}"
-
 
 
     $("#spots_list").on "click", "span.list-group-item:not(#memo_empty)", (evt) ->
