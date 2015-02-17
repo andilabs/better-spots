@@ -135,6 +135,13 @@
   min-width: 200px !important;
   max-height: 500px !important;
   overflow-y: auto; }
+  #spots_list .dynamic-last {
+    margin-bottom: 0 !important;
+    border-bottom-right-radius: 4px !important;
+    border-bottom-left-radius: 4px !important; }
+  #spots_list .dynamic-first {
+    border-top-right-radius: 4px !important;
+    border-top-left-radius: 4px !important; }
 
 #spots_list span.list-group-item p.list-group-item-text span.spot_item_details {
   display: none; }

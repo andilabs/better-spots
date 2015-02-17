@@ -134,6 +134,14 @@ checkIfEmpty = ->
     else
         $("span#memo_empty").remove()
 
+    $('#spots_list span.list-group-item:visible')
+        .removeClass('dynamic-last')
+        .removeClass('dynamic-first')
+        .first().addClass('dynamic-first')
+        .end()
+        .last().addClass('dynamic-last')
+        # .removeClass('dynamic-last').last().addClass('dynamic-last')
+    # $('#spots_list span.list-group-item:visible').last().addClass('dynamic-last')
 
 
 hideAllInfoWindows = ->
@@ -169,12 +177,14 @@ filterSpots = ->
         hideAllInfoWindows()
 
     $("#spots_list span.list-group-item").not("#memo_empty").each ->
+        console.log "hello"
+        if $(@).data("spot").is_enabled not in filtered_allowance or
+        spot_type_lookup[$(@).data("spot").spot_type] not in [k for k,v of filters_types when v is true][0]
+            $(@).hide()
+        else
+            $(@).show()
 
-            if $(@).data("spot").is_enabled not in filtered_allowance or
-            spot_type_lookup[$(@).data("spot").spot_type] not in [k for k,v of filters_types when v is true][0]
-                $(@).hide()
-            else
-                $(@).show()
+
 
 
 switchColumsClasses = (left, right) ->
@@ -335,13 +345,14 @@ $ ->
 
         $("#spot_detail").remove()
         switchColumsClasses('#right_container', '#left_container')
-
+        $("#map_filters_button").show()
         $("#spots_list").show()
         $("#map_canvas").gmap "option", "zoom", 14
         $('#map_canvas').gmap 'refresh'
 
 
     $(document).on 'click', 'a.spot-details-link', (e) ->
+        $("#map_filters_button").hide()
         e.preventDefault()
         link = $(@).attr('href')
 

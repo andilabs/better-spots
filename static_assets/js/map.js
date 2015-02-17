@@ -148,11 +148,12 @@
     if ($("#spots_list span.list-group-item:visible").not("#memo_empty").size() === 0) {
       box = $("<span class='list-group-item disabled' id='memo_empty'> <h4 class='list-group-item-heading'>No spots to show</h4> <p class='list-group-item-text'> Try using filters and zoom out to find some spots </p></span>");
       if ($("#spots_list span#memo_empty").size() === 0) {
-        return $("#spots_list").append(box);
+        $("#spots_list").append(box);
       }
     } else {
-      return $("span#memo_empty").remove();
+      $("span#memo_empty").remove();
     }
+    return $('#spots_list span.list-group-item:visible').removeClass('dynamic-last').removeClass('dynamic-first').first().addClass('dynamic-first').end().last().addClass('dynamic-last');
   };
 
   hideAllInfoWindows = function() {
@@ -192,6 +193,7 @@
     });
     return $("#spots_list span.list-group-item").not("#memo_empty").each(function() {
       var _ref, _ref1;
+      console.log("hello");
       if ((_ref = $(this).data("spot").is_enabled, __indexOf.call(filtered_allowance, _ref) < 0) || (_ref1 = spot_type_lookup[$(this).data("spot").spot_type], __indexOf.call([
         (function() {
           var _results;
@@ -314,12 +316,14 @@
     $(document).on('click', '#back_to_list', function(e) {
       $("#spot_detail").remove();
       switchColumsClasses('#right_container', '#left_container');
+      $("#map_filters_button").show();
       $("#spots_list").show();
       $("#map_canvas").gmap("option", "zoom", 14);
       return $('#map_canvas').gmap('refresh');
     });
     $(document).on('click', 'a.spot-details-link', function(e) {
       var link;
+      $("#map_filters_button").hide();
       e.preventDefault();
       link = $(this).attr('href');
       return $("#spots_list").hide(function() {
