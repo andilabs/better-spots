@@ -153,7 +153,8 @@
     } else {
       $("span#memo_empty").remove();
     }
-    return $('#spots_list span.list-group-item:visible').removeClass('dynamic-last').removeClass('dynamic-first').first().addClass('dynamic-first').end().last().addClass('dynamic-last');
+    $('#spots_list span.list-group-item').removeClass('dynamic-first').removeClass('dynamic-last');
+    return $('#spots_list span.list-group-item:visible').first().addClass('dynamic-first').end().last().addClass('dynamic-last');
   };
 
   hideAllInfoWindows = function() {

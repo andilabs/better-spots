@@ -134,14 +134,16 @@ checkIfEmpty = ->
     else
         $("span#memo_empty").remove()
 
-    $('#spots_list span.list-group-item:visible')
-        .removeClass('dynamic-last')
+    $('#spots_list span.list-group-item')
         .removeClass('dynamic-first')
+        .removeClass('dynamic-last')
+
+
+    $('#spots_list span.list-group-item:visible')
         .first().addClass('dynamic-first')
         .end()
         .last().addClass('dynamic-last')
-        # .removeClass('dynamic-last').last().addClass('dynamic-last')
-    # $('#spots_list span.list-group-item:visible').last().addClass('dynamic-last')
+
 
 
 hideAllInfoWindows = ->
