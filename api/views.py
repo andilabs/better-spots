@@ -127,14 +127,14 @@ class RaitingDetail(generics.RetrieveUpdateDestroyAPIView):
         obj = get_object_or_404(queryset, pk=self.kwargs['pk'])
         return obj
 
-
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
 @permission_classes((IsAuthenticatedOrReadOnly,))
 class SpotDetail(generics.RetrieveUpdateDestroyAPIView):
 
     """
-    * Requires `token authentication`
-    * Only `admin` users are able to access this view.
+    * Provides `get`, `put`, `patch` and `delete` method handlers.
+    * Requires `token authentication` for modifing methods.
+
 
 
     Example request for token based authentication:

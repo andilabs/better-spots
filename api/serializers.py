@@ -62,8 +62,12 @@ class SpotListSerializer(serializers.HyperlinkedModelSerializer):
 
     def to_internal_value(self, data):
         ret = super(SpotListSerializer, self).to_internal_value(data)
-        ret['location'] = Point(eval(data['location'])['longitude'], eval(data['location'])['latitude'])
-
+        if isinstance(data['location'], basestring):
+           ret['location'] = Point(eval(data['location'])['longitude'], eval(data['location'])['latitude'])
+        elif isinstance(data['location'], dict):
+            ret['location'] = Point(data['location']['longitude'], data['location']['latitude'])
+        else:
+            ret['location'] = Point()
         return ret
 
     def to_representation(self, instance):
