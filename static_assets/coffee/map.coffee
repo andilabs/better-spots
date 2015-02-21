@@ -167,6 +167,7 @@ filterSpots = ->
         else
             $(@).show()
 
+    checkIfEmpty()
 
 switchColumsClasses = (left, right) ->
     $(left)
@@ -276,7 +277,6 @@ loadMarkers = (lat, lng) ->
                 activateSpotTableViewCellFor(@id)
 
         filterSpots()
-        checkIfEmpty()
         spinner.stop()
 
 
@@ -359,8 +359,6 @@ $ ->
         $.cookie($(@).attr('name'), $(@).prop('checked'), {path: '/map', expires: 1})
         checkCookies()
         filterSpots()
-        checkIfEmpty()
-
 
     $("#map_canvas").gmap({'scrollwheel':false}).bind "init", (evt, map) ->
         # here the map is initialized
@@ -380,8 +378,6 @@ $ ->
                 loadMarkers(clientPosition.lat(), clientPosition.lng())
             else
                 loadMarkers(null, null)
-
-            checkIfEmpty()
 
             # here we set icon showing user current location
             $("#map_canvas")

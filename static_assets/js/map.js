@@ -183,7 +183,7 @@
       }
       return hideAllInfoWindows();
     });
-    return $("#spots_list span.list-group-item").not("#memo_empty").each(function() {
+    $("#spots_list span.list-group-item").not("#memo_empty").each(function() {
       var _ref, _ref1;
       if ((_ref = $(this).data("spot").is_enabled, __indexOf.call(filtered_allowance, _ref) < 0) || (_ref1 = spot_type_lookup[$(this).data("spot").spot_type], __indexOf.call([
         (function() {
@@ -203,6 +203,7 @@
         return $(this).show();
       }
     });
+    return checkIfEmpty();
   };
 
   switchColumsClasses = function(left, right) {
@@ -294,7 +295,6 @@
         });
       }
       filterSpots();
-      checkIfEmpty();
       return spinner.stop();
     });
   };
@@ -354,8 +354,7 @@
         expires: 1
       });
       checkCookies();
-      filterSpots();
-      return checkIfEmpty();
+      return filterSpots();
     });
     $("#map_canvas").gmap({
       'scrollwheel': false
@@ -376,7 +375,6 @@
         } else {
           loadMarkers(null, null);
         }
-        checkIfEmpty();
         $("#map_canvas").gmap("addMarker", {
           position: new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng),
           bounds: true,
