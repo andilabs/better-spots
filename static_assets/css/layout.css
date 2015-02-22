@@ -73,6 +73,10 @@
   src: url(/static/font/Pacifico.ttf);
   font-weight: normal;
   font-style: normal; }
+.thumbnail {
+  max-width: 350px;
+  margin: 10px auto; }
+
 .titles {
   font-family: "Gloria Hallelujah"; }
 
