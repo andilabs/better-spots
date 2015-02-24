@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+
+{% block extra_head %}
+    {{ form.media }}
+
+{% endblock %}
+
+{% block content %}
+
+{% load instance_settings_via_tags %}
+
+  <div class="row row-map">
+
+    <div class="col-md-3" id="left_container">
+        <div class="list-group"  id="spots_list">
+
+        </div>
+    </div>
+
+    <div class="col-md-9 no-col-padding" id="right_container">
+      <button type='button' class='btn btn-default btn-lg' id='map_filters_button' style="margin-top:20px">
+        <span class='glyphicon glyphicon-filter'></span> Filter by
+      </button>
+      <div id="map_canvas" style="height:500px;opacity:0.1" >
+      </div>
+    </div>
+
+  </div>
+
+
+
+{% endblock %}
+
+
+{% block scripts %}
+  {{ block.super }}
+  <script type="text/javascript" src="{{ STATIC_URL }}external/spin/spin.min.js"></script>
+  <script language="javascript">var ICON_URL = "/static/{% settings_value "SPOT_PROJECT_NAME" %}/"; var STATIC_URL = "/static/"; var BASE_HOST = "//{{request.META.HTTP_HOST}}"</script>
+  <script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
+  
+  <script type="text/javascript" src="{{ STATIC_URL }}js/map.js"></script>
+{% endblock scripts %}
+
+
+

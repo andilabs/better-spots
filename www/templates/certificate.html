@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block extra_head %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+{% load instance_settings_via_tags %}
+
+{% if spot.is_enabled and spot.friendly_rate > 4.5  %}
+    <div class="row">
+        <div class="col-md-9 col-md-push-3">
+            <center>
+            <br>
+                <img src="{{ STATIC_URL }}/{% settings_value "SPOT_PROJECT_NAME" %}/certificate.png"  style="max-height: 300px">
+        		<h1 style="font-family:Lato Italic"> {{spot.name}} </h1>
+        		<h3 style="font-family:Nobile"> {{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}</h3>
+        		<span style="font-size:48px; font-family:Lobster">is {% settings_value "SPOT_PROJECT_SUBJECT" %}-friendly spot!<br>
+        		{{spot.friendly_rate|floatformat:1}}/5.0</span>
+    	   </center>
+        </div>
+        <div class="col-md-3 col-md-pull-9">
+
+
+
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div id="map_canvas_spot_detail" style="height:260px" ></div>
+                </li>
+                {% if spot.phone_number %}
+                <li class="list-group-item">
+                    <span class="badge invert fa fa-phone fa-2x"> </span>
+                     <a href='tel://{{spot.phone_number}}'>{{spot.phone_number}}</a>
+                </li>
+                {% endif %}
+
+                {% if spot.email %}
+                <li class="list-group-item">
+                    <span class="badge invert fa fa-envelope-o fa-2x"> </span>
+                    <a href='mailto:{{spot.email}}' target='_blank'>{{spot.email|truncatechars:25}}</a>
+                </li>
+                {% endif %}
+
+                {% if spot.www %}
+                <li class="list-group-item">
+                    <span class="badge invert fa fa-link fa-2x"> </span>
+                    <a href='{{spot.www}}' target='_blank'>{{spot.www|truncatechars:25}}</a>
+                </li>
+                {% endif %}
+
+                {% if spot.facebook %}
+                <li class="list-group-item">
+                    <span class="badge invert fa fa-facebook fa-2x"> </span>
+                    <a href='{{spot.facebook_url}}' target='_blank'>{{spot.facebook_url|truncatechars:25}}</a>
+                </li>
+                {% endif %}
+
+                <li class="list-group-item">
+                    <center>
+                        <img src="{{qrcode_link}}"><br>
+                        <a href='{% url 'vcard' pk=spot.pk %}'>Download vCard</a>
+                    </center>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+{% else %}
+    <div class="row">
+        <div class="col-md-6 col-md-push-3">
+            <center>
+                <h1> This spot is not certificated.</h1>
+                <h1> {{spot.name}} </h1>
+                <h3> {{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}</h3>
+            </center>
+        </div>
+        <div class="col-md-3 col-md-pull-6">
+            <div id="map_canvas_spot_detail" style="height:260px" >
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="fa fa-certificate" style="font-size:272px;color: gray;opacity: 0.1;width: 233px!important;height: 272px!important;">
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}
+{% block scripts %}
+  {{ block.super }}
+
+<script language="javascript">var STATIC_URL = "/{% settings_value "SPOT_PROJECT_BRAND_LOGO_URL" %}";  var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/spot_detail.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
+{% endblock scripts %}
+

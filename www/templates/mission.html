@@ -1,0 +1,80 @@
+{% extends "base.html" %}o
+
+{% block content %}
+{% load instance_settings_via_tags %}
+
+
+<center>
+    <img src="{{STATIC_URL}}{% settings_value "SPOT_PROJECT_NAME" %}/logo.png" alt="{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}" style="max-height:200px">
+
+    <h1 style="font-family: 'Lobster'">
+        {% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}<br>
+    </h1>
+    <h2 class='project_description'>
+        {% settings_value "SPOT_PROJECT_DESCRIPTION" %}
+        <br><br>
+    </h2>
+ </center>
+        <div class="no_copy spot_project_color_background banner">
+            <ul>
+                <li style="">
+                    <div class="inner">
+                        <h1>DISCOVER</h1>
+                        <p class='banner_function_description'>{% settings_value "SPOT_PROJECT_SUBJECT" %} friendly spots</p>
+                        <i class="fa fa-coffee fa-4x" style="color:#ffffff"></i> &nbsp; <i class="fa fa-plus fa-2x" style="color:#ffffff"></i> &nbsp;<i class="fa fa-cutlery fa-4x" style="color:#ffffff">&nbsp; </i> <i class="fa fa-plus fa-2x" style="color:#ffffff"></i> &nbsp; <i class="fa fa-glass fa-4x" style="color:#ffffff"></i>
+                    </div>
+                </li>
+
+                <li style="">
+                    <div class="inner">
+                        <h1>MAP</h1>
+                        <p class='banner_function_description'>Visualize nearby spots on the map</p>
+                        <i class="fa fa-map-marker fa-5x" style="color:#ffffff"></i>
+
+                    </div>
+                </li>
+
+                <li style="">
+                    <div class="inner">
+                        <h1>MOBILE</h1>
+                        <p class='banner_function_description'>Use mobile version on the go</p>
+                        <i class="fa fa-mobile fa-5x" style="color:#ffffff"></i>
+
+                    </div>
+                </li>
+
+                <li>
+                    <div class="inner">
+                        <h1>CERTIFICATED</h1>
+                        <p class='banner_function_description'>Find the best spots</p>
+                        <i class="fa fa-certificate fa-5x" style="color:#ffffff"></i>
+
+                    </div>
+                </li>
+
+                <li>
+                    <div class="inner">
+                        <h1>HEART IT</h1>
+                        <p class='banner_function_description'>Remeber your beloved spots by hearting it</p>
+                        <i class="fa fa-heart fa-5x" style="color:#ffffff"></i>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+
+  {{ block.super }}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/mission.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}external/unslider/unslider.min.js"></script>
+
+{% endblock scripts %}
+
+
+
