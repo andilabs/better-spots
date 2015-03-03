@@ -20,6 +20,9 @@ from rest_framework.decorators import authentication_classes
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework.response import Response
+from rest_framework.parsers import FileUploadParser
+from rest_framework.views import APIView
+
 
 from core.models import Spot, Raiting, Opinion, OpinionUsefulnessRating
 from accounts.models import SpotUser
@@ -33,6 +36,39 @@ from .serializers import (
     )
 from accounts.authentication import ExpiringTokenAuthentication
 
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+
+import base64
+@authentication_classes((ExpiringTokenAuthentication, ))
+class FileUploadView(APIView):
+    parser_classes = (FileUploadParser,)
+
+    def post(self, request, format='jpg'):
+        spot = Spot.objects.get(pk=1)
+        up_file = request.FILES['file']
+
+        path = default_storage.save('img/'+ up_file.name, ContentFile(up_file.read()))
+
+        spot.venue_photo = path# ContentFile(up_file.read())
+        spot.cropping_venue_photo = '200,200,500,500'
+        spot.save()
+
+        destination = open('/Users/andi/Desktop/' + up_file.name, 'wb+')
+        # import ipdb; ipdb.set_trace()
+        for chunk in up_file.chunks():
+            destination.write(chunk)
+            destination.close()
+
+        return Response(up_file.name, status=201)
+
+    # def put(self, request, format=None):
+    #     file_obj = request.FILES['file']
+    #     path = default_storage.save('heart_of_the_swarm.jpg', ContentFile(file_obj.file.read()))
+
+    #     import ipdb; ipdb.set_trace()
+
+    #     return Response(status=204)
 
 # @authentication_classes((ExpiringTokenAuthentication, ))
 # @permission_classes((IsAuthenticatedOrReadOnly,))

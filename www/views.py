@@ -41,8 +41,7 @@ def map_two(request):
 
 def mobile(request):
     if request.method == 'GET':
-        response = TemplateResponse(request, 'mobile.html', {
-            'DEBUG_PLEASE': settings.PROJECT_ROOT_PATH})
+        response = TemplateResponse(request, 'mobile.html', {})
         return response
 
 
@@ -83,7 +82,7 @@ def render_to_pdf(template_src, context_dict):
 
 def pdf_sticker(request, pk):
     spot = get_object_or_404(Spot, pk=pk)
- 
+
     if spot.friendly_rate >= 4.5:
         return render_to_pdf(
             'mytemplatePDF.html',

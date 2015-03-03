@@ -9,6 +9,8 @@ from api import views
 
 urlpatterns = patterns(
     '',
+    url(r'^imageUpload', views.FileUploadView.as_view()),
+
     url(r'^authentication', 'api.views.authentication'),
     url(r'^users/$', views.SpotUserList.as_view(), name="users-list"),
     url(r'^users/(?P<pk>\d+)/$', views.SpotUserDetail.as_view(), name="spotuser-detail"),

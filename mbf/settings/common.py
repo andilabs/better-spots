@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'image_cropping',
     'easy_thumbnails',
     'south',
+    'django_hstore',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -112,3 +113,7 @@ THUMBNAIL_PROCESSORS = (
 ) + thumbnail_settings.THUMBNAIL_PROCESSORS
 
 IMAGE_CROPPING_SIZE_WARNING = True
+
+# FILE_UPLOAD_HANDLERS = (
+#     'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+# )

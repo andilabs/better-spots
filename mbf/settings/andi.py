@@ -62,6 +62,70 @@ SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing moms and children friendly s
 SPOT_PROJECT_SUBJECT = 'Moms'
 SPOT_PROJECT_MAIN_COLOR = '#eb386f'
 
+HSTORE_SCHEMA =  [
+	{
+		"name": "fresh_water",
+		"class": "BooleanField",
+		"kwargs": {
+			"default": False,
+			"verbose_name": "fresh water served"
+		}
+	},
+	{
+		"name": "snacks",
+		"class": "BooleanField",
+		"kwargs": {
+			"default": False,
+			"verbose_name": "snacks"
+		}
+	},
+	{
+		"name": "special_menu",
+		"class": "BooleanField",
+		"kwargs": {
+			"default": False,
+			"verbose_name": "special menu for dogs"
+		}
+	},
+    {
+	    'name': 'choice',
+	    'class': 'CharField',
+	    'kwargs': {
+	        'blank': True,
+	        'max_length': 10,
+	        'choices': (('choice1', 'choice1'), ('choice2', 'choice2'))
+	    }
+	},
+    {
+        'name': 'number',
+        'class': 'IntegerField',
+        'kwargs': {
+            'default': 0
+        }
+    },
+    {
+        'name': 'float',
+        'class': 'FloatField',
+        'kwargs': {
+            'default': 1.0
+        }
+    },
+    {
+        'name': 'char',
+        'class': 'CharField',
+        'kwargs': {
+            'default': 'test', 'blank': True, 'max_length': 10
+        }
+    },
+    {
+        'name': 'text',
+        'class': 'TextField',
+        'kwargs': {
+            'blank': True
+        }
+    }
+]
+
 # SPOT_PROJECT_NAME = 'dogspot'
 # SPOT_PROJECT_SLOGAN = 'Wow the World!'
 # SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing dog friendly spots'

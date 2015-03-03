@@ -279,7 +279,6 @@ loadMarkers = (lat, lng) ->
         filterSpots()
         spinner.stop()
 
-
 $ ->
 
     checkCookies()
@@ -360,7 +359,7 @@ $ ->
         checkCookies()
         filterSpots()
 
-    $("#map_canvas").gmap({'scrollwheel':false}).bind "init", (evt, map) ->
+    $("#map_canvas").gmap({'scrollwheel':false, 'disableDefaultUI':true}).bind "init", (evt, map) ->
         # here the map is initialized
         # https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
         options =

@@ -157,8 +157,13 @@ class Raiting(models.Model):
     data_added = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(SpotUser)
     spot = models.ForeignKey(Spot)
+
     is_enabled = models.BooleanField(choices=DOGS_ALLOWED)
+
     friendly_rate = models.PositiveIntegerField(choices=LIKERT)
+
+    # facilities = hstore.DictionaryField(schema=settings.HSTORE_SCHEMA)
+
 
     @property
     def opinion(self):
@@ -234,3 +239,14 @@ def update_spot_ratings(instance, **kwags):
     spot.friendly_rate = spot_rate
     spot.is_enabled = spot_allowance
     spot.save()
+
+
+from django_hstore import hstore
+
+class Something(models.Model):
+    name = models.CharField(max_length=32, help_text="normal django field blah")
+    data = hstore.DictionaryField(schema=settings.HSTORE_SCHEMA)
+
+    # objects = hstore.HStoreManager()
+    # IF YOU ARE USING POSTGIS:
+    objects = hstore.HStoreGeoManager()
