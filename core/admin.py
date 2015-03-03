@@ -1,9 +1,10 @@
 from image_cropping import ImageCroppingMixin
 
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from core.models import SpotUser, Spot, Raiting, Opinion, OpinionUsefulnessRating, Something
+from core.models import SpotUser, Spot, Raiting, Opinion, OpinionUsefulnessRating
 from accounts.forms import UserCreationForm, UserChangeForm
 
 
@@ -38,12 +39,12 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
     list_display = ('name', 'friendly_rate', 'address_city', 'is_enabled')
     list_filter = ('address_city', 'is_enabled')
     search_fields = ['name', 'address_city', 'address_street']
-    exclude = ('location', )
-    readonly_fields = ['spot_slug', ]
+    exclude = ('location',)
+    readonly_fields = ['spot_slug'] + [field['name'] for field in settings.HSTORE_SCHEMA]
+
 
 admin.site.register(SpotUser, SpotUserAdmin)
 admin.site.register(Spot, SpotAdmin)
 admin.site.register(Raiting)
 admin.site.register(Opinion)
 admin.site.register(OpinionUsefulnessRating)
-admin.site.register(Something)

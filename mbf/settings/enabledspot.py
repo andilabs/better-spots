@@ -38,3 +38,30 @@ SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing the disabled people accessib
 SPOT_PROJECT_SUBJECT = 'Disabled People'
 
 SPOT_PROJECT_MAIN_COLOR = '#4f5fa7'
+
+HSTORE_SCHEMA = [
+    {
+        "name": "toilet_enabled",
+        "class": "NullBooleanField",
+        "kwargs": {
+            "default": None,
+            "verbose_name": "enabled toilet"
+        }
+    },
+    {
+        "name": "entrance_enabled",
+        "class": "NullBooleanField",
+        "kwargs": {
+            "default": None,
+            "verbose_name": "enabled entrance"
+        }
+    },
+    {
+        "name": "tables_enabled",
+        "class": "NullBooleanField",
+        "kwargs": {
+            "default": None,
+            "verbose_name": "enabled tables"
+        }
+    }
+]

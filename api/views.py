@@ -40,7 +40,9 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from utils.img_path import get_image_path
 
+
 @authentication_classes((ExpiringTokenAuthentication, ))
+@permission_classes((IsAuthenticatedOrReadOnly,))
 class FileUploadView(APIView):
     parser_classes = (FileUploadParser,)
 
@@ -50,14 +52,7 @@ class FileUploadView(APIView):
         generated_filename = get_image_path()
 
         spot.venue_photo = default_storage.save(generated_filename, ContentFile(up_file.read()))
-        # spot.cropping_venue_photo = '200,200,500,500'
         spot.save()
-
-        # destination = open('/Users/andi/Desktop/' + up_file.name, 'wb+')
-
-        # for chunk in up_file.chunks():
-        #     destination.write(chunk)
-        #     destination.close()
 
         return Response({'file_url': spot.thumbnail_venue_photo}, status=201)
 

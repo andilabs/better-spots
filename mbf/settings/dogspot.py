@@ -38,3 +38,30 @@ SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing dog friendly spots'
 SPOT_PROJECT_SUBJECT = 'Dog'
 
 SPOT_PROJECT_MAIN_COLOR = '#fcbd41'
+
+HSTORE_SCHEMA = [
+	{
+		"name": "fresh_water",
+		"class": "NullBooleanField",
+		"kwargs": {
+			"default": None,
+			"verbose_name": "fresh water served"
+		}
+	},
+	{
+		"name": "dog_snacks",
+		"class": "NullBooleanField",
+		"kwargs": {
+			"default": None,
+			"verbose_name": "snacks"
+		}
+	},
+	{
+		"name": "dedicated_dogs_menu",
+		"class": "NullBooleanField",
+		"kwargs": {
+			"default": None,
+			"verbose_name": "special menu for dogs"
+		}
+	}
+]

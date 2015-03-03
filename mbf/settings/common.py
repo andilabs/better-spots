@@ -24,11 +24,6 @@ REST_FRAMEWORK = {
     ),
 }
 
-# STATICFILES_FINDERS = (
-#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#     'django.contrib.staticfiles.finders.FileSystemFinder',
-# )
-
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     "django.contrib.auth.context_processors.auth",
@@ -76,15 +71,6 @@ ROOT_URLCONF = 'mbf.urls'
 
 WSGI_APPLICATION = 'mbf.wsgi.application'
 
-# AUTHENTICATION_BACKENDS = (
-#     'social.backends.open_id.OpenIdAuth',
-#     'social.backends.google.GoogleOpenId',
-#     'social.backends.google.GoogleOAuth2',
-#     'social.backends.google.GoogleOAuth',
-#     'social.backends.twitter.TwitterOAuth',
-#     'social.backends.yahoo.YahooOpenId',
-#     'django.contrib.auth.backends.ModelBackend',
-# )
 
 DEFAULT_FROM_EMAIL = 'no-reply@dogspot.eu'
 
@@ -105,7 +91,6 @@ VENUE_PHOTO_SIZE = {'W': '350', 'H': '150'}
 
 SOUTH_MIGRATION_MODULES = {
     'easy_thumbnails': 'easy_thumbnails.south_migrations',
-    # 'rest_framework.authtoken': 'rest_framework.authtoken.south_migrations',
 }
 
 THUMBNAIL_PROCESSORS = (
@@ -113,7 +98,3 @@ THUMBNAIL_PROCESSORS = (
 ) + thumbnail_settings.THUMBNAIL_PROCESSORS
 
 IMAGE_CROPPING_SIZE_WARNING = True
-
-# FILE_UPLOAD_HANDLERS = (
-#     'django.core.files.uploadhandler.TemporaryFileUploadHandler',
-# )

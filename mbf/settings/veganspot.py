@@ -39,4 +39,21 @@ SPOT_PROJECT_SUBJECT = 'Vege'
 
 SPOT_PROJECT_MAIN_COLOR = '#59b84d'
 
-
+HSTORE_SCHEMA = [
+	{
+		"name": "vegetarian_menu",
+		"class": "NullBooleanField",
+		"kwargs": {
+			"default": None,
+			"verbose_name": "vegetarian menu"
+		}
+	},
+	{
+		"name": "vegan_menu",
+		"class": "NullBooleanField",
+		"kwargs": {
+			"default": None,
+			"verbose_name": "vegan menu"
+		}
+	}
+]

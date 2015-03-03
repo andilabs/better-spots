@@ -1,10 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import os
-import uuid
 
-from image_cropping import ImageCropField, ImageRatioField
+from django_hstore import hstore
 from easy_thumbnails.files import get_thumbnailer
+from image_cropping import ImageCropField, ImageRatioField
+
 
 from django.db.models.signals import post_save
 from django.conf import settings
@@ -16,6 +17,7 @@ from django.utils.text import slugify
 
 from accounts.models import SpotUser
 from utils.img_path import get_image_path
+
 
 SPOT_TYPE = (
     (1, 'cafe'),
@@ -54,7 +56,9 @@ class Spot(models.Model):
         size_warning=True)
 
     spot_slug = models.SlugField(max_length=1000)
-    objects = models.GeoManager()
+    facilities = hstore.DictionaryField(schema=settings.HSTORE_SCHEMA)
+
+    objects = hstore.HStoreGeoManager()
 
     @property
     def thumbnail_venue_photo(self):
@@ -153,13 +157,11 @@ class Raiting(models.Model):
     data_added = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(SpotUser)
     spot = models.ForeignKey(Spot)
-
     is_enabled = models.BooleanField(choices=DOGS_ALLOWED)
-
     friendly_rate = models.PositiveIntegerField(choices=LIKERT)
+    facilities = hstore.DictionaryField(schema=settings.HSTORE_SCHEMA)
 
-    # facilities = hstore.DictionaryField(schema=settings.HSTORE_SCHEMA)
-
+    objects = hstore.HStoreGeoManager()
 
     @property
     def opinion(self):
@@ -223,26 +225,24 @@ def update_spot_ratings(instance, **kwags):
 
     spot = instance.spot
 
-    all_raitings_of_spot = Raiting.objects.filter(spot_id=spot.id)
+    all_raitings_of_spot = Raiting.objects.filter(spot=spot)
+
     spot_rate = sum(
         i.friendly_rate for i in all_raitings_of_spot) / float(
         len(all_raitings_of_spot))
+    spot.friendly_rate = spot_rate
 
-    spot_allowance = True if sum(
+    spot_enabled = True if sum(
         i.is_enabled for i in all_raitings_of_spot) > len(
         all_raitings_of_spot) / 2 else False
+    spot.is_enabled = spot_enabled
 
-    spot.friendly_rate = spot_rate
-    spot.is_enabled = spot_allowance
+    # stat = {}
+
+    # for raiting in all_raitings_of_spot:
+    #     for facility_name, facility_value in raiting.facilities.items():
+    #         if facility_value is True
+    #             stat[facility_name]['positive'] += 1
+    #         elif facility_value is False
+
     spot.save()
-
-
-from django_hstore import hstore
-
-class Something(models.Model):
-    name = models.CharField(max_length=32, help_text="normal django field blah")
-    data = hstore.DictionaryField(schema=settings.HSTORE_SCHEMA)
-
-    # objects = hstore.HStoreManager()
-    # IF YOU ARE USING POSTGIS:
-    objects = hstore.HStoreGeoManager()
