@@ -15,7 +15,7 @@ from django.utils.text import slugify
 
 
 from accounts.models import SpotUser
-
+from utils.img_path import get_image_path
 
 SPOT_TYPE = (
     (1, 'cafe'),
@@ -29,10 +29,6 @@ SPOT_TYPE = (
     (9, 'veterinary care'),  # google type: veterinary_care
     (10, 'hotel'),
 )
-
-
-def get_image_path(instance, filename):
-    return os.path.join('img', uuid.uuid4().hex)
 
 
 class Spot(models.Model):

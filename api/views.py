@@ -38,37 +38,29 @@ from accounts.authentication import ExpiringTokenAuthentication
 
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
+from utils.img_path import get_image_path
 
-import base64
 @authentication_classes((ExpiringTokenAuthentication, ))
 class FileUploadView(APIView):
     parser_classes = (FileUploadParser,)
 
-    def post(self, request, format='jpg'):
+    def post(self, request):
         spot = Spot.objects.get(pk=1)
         up_file = request.FILES['file']
+        generated_filename = get_image_path()
 
-        path = default_storage.save('img/'+ up_file.name, ContentFile(up_file.read()))
-
-        spot.venue_photo = path# ContentFile(up_file.read())
-        spot.cropping_venue_photo = '200,200,500,500'
+        spot.venue_photo = default_storage.save(generated_filename, ContentFile(up_file.read()))
+        # spot.cropping_venue_photo = '200,200,500,500'
         spot.save()
 
-        destination = open('/Users/andi/Desktop/' + up_file.name, 'wb+')
-        # import ipdb; ipdb.set_trace()
-        for chunk in up_file.chunks():
-            destination.write(chunk)
-            destination.close()
+        # destination = open('/Users/andi/Desktop/' + up_file.name, 'wb+')
 
-        return Response(up_file.name, status=201)
+        # for chunk in up_file.chunks():
+        #     destination.write(chunk)
+        #     destination.close()
 
-    # def put(self, request, format=None):
-    #     file_obj = request.FILES['file']
-    #     path = default_storage.save('heart_of_the_swarm.jpg', ContentFile(file_obj.file.read()))
+        return Response({'file_url': spot.thumbnail_venue_photo}, status=201)
 
-    #     import ipdb; ipdb.set_trace()
-
-    #     return Response(status=204)
 
 # @authentication_classes((ExpiringTokenAuthentication, ))
 # @permission_classes((IsAuthenticatedOrReadOnly,))
@@ -163,6 +155,7 @@ class RaitingDetail(generics.RetrieveUpdateDestroyAPIView):
         obj = get_object_or_404(queryset, pk=self.kwargs['pk'])
         return obj
 
+
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
 @permission_classes((IsAuthenticatedOrReadOnly,))
 class SpotDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -173,9 +166,9 @@ class SpotDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-    Example request for token based authentication:
+    Example request:
 
-        curl -X GET http://127.0.0.1:8000/api/spots/2/ -H 'Authorization: Token 299dc186f3d3f113921b4555b3c22a197d1da254'
+        curl -X DELETE http://127.0.0.1:8000/api/spots/2/ -H 'Authorization: Token 299dc186f3d3f113921b4555b3c22a197d1da254'
 
     """
 
@@ -192,8 +185,6 @@ class SpotDetail(generics.RetrieveUpdateDestroyAPIView):
         obj = get_object_or_404(queryset, pk=self.kwargs['pk'])
         return obj
 
-    # def update(request, *args, **kwargs):
-    #     import ipdb; ipdb.set_trace()
 
 @api_view(http_method_names=['GET'])
 def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
