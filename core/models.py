@@ -222,40 +222,40 @@ class UsersSpotsList(models.Model):
 
 @receiver(post_save, sender=Raiting)
 def update_spot_ratings(instance, **kwags):
-
     spot = instance.spot
-
     all_raitings_of_spot = Raiting.objects.filter(spot=spot)
 
+    # determine average sppot RATE
     spot_rate = sum(
         i.friendly_rate for i in all_raitings_of_spot) / float(
         len(all_raitings_of_spot))
     spot.friendly_rate = spot_rate
 
+
+    # determine either spot is ENABLED
     spot_enabled = True if sum(
         i.is_enabled for i in all_raitings_of_spot) > len(
         all_raitings_of_spot) / 2 else False
     spot.is_enabled = spot_enabled
 
+
+    # determine each FACILITY fullfilment
     stats = {}
 
     for facility in [facility['name'] for facility in settings.HSTORE_SCHEMA]:
-
         facilities_record = [r.facilities[facility] for r in all_raitings_of_spot]
         stats[facility] = {
             'positive': facilities_record.count(True),
-            'count': len(facilities_record)-facilities_record.count(None)
+            'all': len(facilities_record)-facilities_record.count(None)
         }
 
-
-    for facility, values in stats.items():
-        if values['count'] > 0:
-            positive_ratio = values['positive'] / float(values['count'])
+    for facility, counts in stats.items():
+        if counts['all'] > 0:
+            positive_ratio = counts['positive'] / float(counts['all'])
             if positive_ratio > 0.5:
                 spot.facilities[facility] = True
-            elif positive_ratio == 0.5:
-                spot.facilities[facility] = None
             else:
                 spot.facilities[facility] = False
-
+        else:
+            spot.facilities[facility] = None
     spot.save()

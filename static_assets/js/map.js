@@ -357,8 +357,7 @@
       return filterSpots();
     });
     $("#map_canvas").gmap({
-      'scrollwheel': false,
-      'disableDefaultUI': true
+      'scrollwheel': false
     }).bind("init", function(evt, map) {
       var options;
       options = {

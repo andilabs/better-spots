@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.gis.geos import fromstr, Point
 from rest_framework import serializers
 from rest_framework.pagination import PaginationSerializer
@@ -58,7 +59,7 @@ class SpotListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Spot
-        exclude = ('spot_slug', 'cropping_venue_photo', 'venue_photo', )
+        exclude = tuple(['spot_slug', 'cropping_venue_photo', 'venue_photo'] + [field['name'] for field in settings.HSTORE_SCHEMA])
 
     def to_internal_value(self, data):
         ret = super(SpotListSerializer, self).to_internal_value(data)
@@ -72,8 +73,16 @@ class SpotListSerializer(serializers.HyperlinkedModelSerializer):
 
     def to_representation(self, instance):
         ret = super(SpotListSerializer, self).to_representation(instance)
-        pnt = fromstr(ret['location'])
-        ret['location'] = {'longitude': pnt.coords[0], 'latitude': pnt.coords[1]}
+
+        if ret.get('location'):
+            pnt = fromstr(ret['location'])
+            ret['location'] = {'longitude': pnt.coords[0], 'latitude': pnt.coords[1]}
+        else:
+            ret['location'] = None
+
+        ret['facilities'] = dict([
+            (i[0], eval('None' if not i[1] else i[1])) for i in ret['facilities'].iteritems()
+        ])
         ret['www_url'] = instance.www_url
         ret['thumbnail_venue_photo'] = instance.thumbnail_venue_photo
         return ret
@@ -84,6 +93,7 @@ class SpotDetailSerializer(SpotListSerializer):
 
     class Meta:
         model = Spot
+        exclude = tuple(['spot_slug']+[field['name'] for field in settings.HSTORE_SCHEMA])
 
 
 class SpotWithDistanceSerializer(SpotListSerializer):
