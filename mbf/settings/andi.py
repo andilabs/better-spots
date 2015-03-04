@@ -51,22 +51,22 @@ MEDIA_ROOT = '/Users/andi/pseudo_media_server_spots/'
 # SPOT_PROJECT_MAIN_COLOR = '#59b84d'
 
 # HSTORE_SCHEMA = [
-# 	{
-# 		"name": "vegetarian_menu",
-# 		"class": "NullBooleanField",
-# 		"kwargs": {
-# 			"default": None,
-# 			"verbose_name": "vegetarian menu"
-# 		}
-# 	},
-# 	{
-# 		"name": "vegan_menu",
-# 		"class": "NullBooleanField",
-# 		"kwargs": {
-# 			"default": None,
-# 			"verbose_name": "vegan menu"
-# 		}
-# 	}
+#   {
+#       "name": "vegetarian_menu",
+#       "class": "NullBooleanField",
+#       "kwargs": {
+#           "default": None,
+#           "verbose_name": "vegetarian menu"
+#       }
+#   },
+#   {
+#       "name": "vegan_menu",
+#       "class": "NullBooleanField",
+#       "kwargs": {
+#           "default": None,
+#           "verbose_name": "vegan menu"
+#       }
+#   }
 # ]
 
 # SPOT_PROJECT_NAME = 'enabledspot'
@@ -109,30 +109,30 @@ SPOT_PROJECT_SUBJECT = 'Moms'
 SPOT_PROJECT_MAIN_COLOR = '#eb386f'
 
 HSTORE_SCHEMA = [
-	{
-		"name": "baby_changing",
-		"class": "NullBooleanField",
-		"kwargs": {
-			"default": None,
-			"verbose_name": "baby changing facilites"
-		}
-	},
-	{
-		"name": "playroom",
-		"class": "NullBooleanField",
-		"kwargs": {
-			"default": None,
-			"verbose_name": "playroom for kids"
-		}
-	},
-	{
-		"name": "kids_menu",
-		"class": "NullBooleanField",
-		"kwargs": {
-			"default": None,
-			"verbose_name": "kids menu"
-		}
-	}
+  {
+      "name": "baby_changing",
+      "class": "NullBooleanField",
+      "kwargs": {
+          "default": None,
+          "verbose_name": "baby changing facilites"
+      }
+  },
+  {
+      "name": "playroom",
+      "class": "NullBooleanField",
+      "kwargs": {
+          "default": None,
+          "verbose_name": "playroom for kids"
+      }
+  },
+  {
+      "name": "kids_menu",
+      "class": "NullBooleanField",
+      "kwargs": {
+          "default": None,
+          "verbose_name": "kids menu"
+      }
+  }
 ]
 
 # SPOT_PROJECT_NAME = 'dogspot'
@@ -142,30 +142,30 @@ HSTORE_SCHEMA = [
 # SPOT_PROJECT_MAIN_COLOR = '#fcbd41'
 
 # HSTORE_SCHEMA = [
-# 	{
-# 		"name": "fresh_water",
-# 		"class": "NullBooleanField",
-# 		"kwargs": {
-# 			"default": None,
-# 			"verbose_name": "fresh water served"
-# 		}
-# 	},
-# 	{
-# 		"name": "dedicated_dogs_menusnacks",
-# 		"class": "NullBooleanField",
-# 		"kwargs": {
-# 			"default": None,
-# 			"verbose_name": "snacks"
-# 		}
-# 	},
-# 	{
-# 		"name": "dedicated_dogs_menu",
-# 		"class": "NullBooleanField",
-# 		"kwargs": {
-# 			"default": None,
-# 			"verbose_name": "special menu for dogs"
-# 		}
-# 	}
+#     {
+#         "name": "fresh_water",
+#         "class": "NullBooleanField",
+#         "kwargs": {
+#             "default": None,
+#             "verbose_name": "fresh water served"
+#         }
+#     },
+#     {
+#         "name": "dedicated_dogs_menusnacks",
+#         "class": "NullBooleanField",
+#         "kwargs": {
+#             "default": None,
+#             "verbose_name": "snacks"
+#         }
+#     },
+#     {
+#         "name": "dedicated_dogs_menu",
+#         "class": "NullBooleanField",
+#         "kwargs": {
+#             "default": None,
+#             "verbose_name": "special menu for dogs"
+#         }
+#     }
 # ]
 
 SPOT_PROJECT_FAVICON_URL = os.path.join('static', SPOT_PROJECT_NAME, 'favicon.ico')

@@ -36,7 +36,7 @@ class SpotUserAdmin(UserAdmin):
 
 
 class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
-    list_display = ('name', 'friendly_rate', 'address_city', 'is_enabled')
+    list_display = ['name', 'friendly_rate', 'address_city', 'is_enabled'] + [field['name'] for field in settings.HSTORE_SCHEMA]
     list_filter = ('address_city', 'is_enabled')
     search_fields = ['name', 'address_city', 'address_street']
     exclude = ('location',)
