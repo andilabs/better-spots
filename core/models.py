@@ -148,8 +148,8 @@ LIKERT = (
 )
 
 DOGS_ALLOWED = (
-    (0, 'Not allowed'),
-    (1, 'Allowed'),
+    (False, 'Not allowed'),
+    (True, 'Allowed'),
 )
 
 
@@ -157,7 +157,7 @@ class Raiting(models.Model):
     data_added = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(SpotUser)
     spot = models.ForeignKey(Spot)
-    is_enabled = models.BooleanField(choices=DOGS_ALLOWED)
+    is_enabled = models.BooleanField(choices=DOGS_ALLOWED, default=False)
     friendly_rate = models.PositiveIntegerField(choices=LIKERT)
     facilities = hstore.DictionaryField(schema=settings.HSTORE_SCHEMA)
 
@@ -237,12 +237,25 @@ def update_spot_ratings(instance, **kwags):
         all_raitings_of_spot) / 2 else False
     spot.is_enabled = spot_enabled
 
-    # stat = {}
+    stats = {}
 
-    # for raiting in all_raitings_of_spot:
-    #     for facility_name, facility_value in raiting.facilities.items():
-    #         if facility_value is True
-    #             stat[facility_name]['positive'] += 1
-    #         elif facility_value is False
+    for facility in [facility['name'] for facility in settings.HSTORE_SCHEMA]:
+
+        facilities_record = [r.facilities[facility] for r in all_raitings_of_spot]
+        stats[facility] = {
+            'positive': facilities_record.count(True),
+            'count': len(facilities_record)-facilities_record.count(None)
+        }
+
+
+    for facility, values in stats.items():
+        if values['count'] > 0:
+            positive_ratio = values['positive'] / float(values['count'])
+            if positive_ratio > 0.5:
+                spot.facilities[facility] = True
+            elif positive_ratio == 0.5:
+                spot.facilities[facility] = None
+            else:
+                spot.facilities[facility] = False
 
     spot.save()
