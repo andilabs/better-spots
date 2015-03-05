@@ -4,11 +4,10 @@ import os
 
 INSTANCE_DOMAIN = "dogspot.eu"
 
-# EMAIL_USE_TLS = True
+
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
-# EMAIL_HOST_USER = 'andi@dogspot.eu'
-# EMAIL_HOST_PASSWORD = 'P@ssw0rd'
+
 
 STATIC_ROOT = '/home/ubuntu/dogspot.eu/static_assets/'
 MEDIA_ROOT= '/home/ubuntu/dogspot.eu/media_assets/'
@@ -19,7 +18,7 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'dogspot',
         'USER': 'dogspot',
-        'PASSWORD': 'c9c38a6dc8cdb66a0c416a9e1f8eac21',
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': 'localhost',
         'PORT': '5432',
     }

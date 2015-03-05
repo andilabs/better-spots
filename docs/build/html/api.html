@@ -1,0 +1,396 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API &mdash; betterSpots 1.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+        <link rel="author" title="About these documents"
+              href="about.html"/>
+    <link rel="top" title="betterSpots 1.0 documentation" href="index.html"/>
+        <link rel="next" title="Google Places API" href="google_places_api.html"/>
+        <link rel="prev" title="DevOps" href="devops.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" class="fa fa-home"> betterSpots</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devops.html">DevOps</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="devops.html#pull-repo-collectstatic-restart-apache-pull-and-restart-sh">Pull repo, collectstatic, restart apache [pull_and_restart.sh]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devops.html#create-new-instance-create-instance-sh">create new instance [create_instance.sh]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devops.html#create-new-instance-postgres-db-with-all-extensions-create-db-sh">create new instance postgres db with all extensions [create_db.sh]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devops.html#performs-all-migraitons-and-loads-initial-data-for-new-instance-migrator-sh">performs all migraitons and loads initial data for new instance [migrator.sh]</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#authentication">authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nearby-spots">nearby_spots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spots">spots</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="google_places_api.html">Google Places API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="google_places_api.html#places-api-endpoint">places API endpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="google_places_api.html#places-nearby-search">places nearby search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="google_places_api.html#place-detail">place detail</a></li>
+<li class="toctree-l2"><a class="reference internal" href="google_places_api.html#place-photo">place photo</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">betterSpots</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>API</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/api.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="authentication">
+<h2>authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h2>
+<dl class="post">
+<dt id="post--api-authentication">
+<tt class="descname">POST </tt><tt class="descname">/api/authentication</tt><a class="headerlink" href="#post--api-authentication" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>email</strong> &#8211; user email</li>
+<li><strong>password</strong> &#8211; user plain text password</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p><strong>Example request</strong>:</p>
+<div class="highlight-http"><div class="highlight"><pre>curl -X POST http://dogspot.eu/api/authentication -d &quot;email=andi@andilabs.com&amp;password=somepass&quot;
+</pre></div>
+</div>
+<p><strong>Example response</strong>:</p>
+<div class="highlight-http"><div class="highlight"><pre>{&quot;token&quot;: &quot;56a06f4c57817518fdef216fdfd1118250ca069f&quot;}
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">statuscode 200:</th><td class="field-body">user sucessfully authenticated</td>
+</tr>
+<tr class="field-even field"><th class="field-name">statuscode 401:</th><td class="field-body">user UNAUTHORIZED</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="nearby-spots">
+<h2>nearby_spots<a class="headerlink" href="#nearby-spots" title="Permalink to this headline">¶</a></h2>
+<dl class="get">
+<dt id="get--api-nearby-(float-lat)-(float-lng)-(int-radius)">
+<tt class="descname">GET </tt><tt class="descname">/api/nearby/</tt><big>(</big><em class="property">float: </em><em>lat</em><big>)</big><tt class="descname">/</tt><big>(</big><em class="property">float: </em><em>lng</em><big>)</big><tt class="descname">/</tt><big>(</big><em class="property">int: </em><em>radius</em><big>)</big><a class="headerlink" href="#get--api-nearby-(float-lat)-(float-lng)-(int-radius)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lat</strong> &#8211; latitude in exact format: d{2,3}.d{5}</li>
+<li><strong>lng</strong> &#8211; longitude in exact format: d{2,3}.d{5}</li>
+<li><strong>radius</strong> &#8211; desired radius, if not provided default 5000m will be used</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p><strong>Example request</strong>:</p>
+<div class="highlight-http"><div class="highlight"><pre>curl -X GET http://dogspot.eu/api/nearby/52.18654/21.01687/3500
+</pre></div>
+</div>
+<p><strong>Example response</strong>:</p>
+<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span>
+  <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nt">&quot;next&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="nt">&quot;previous&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="nt">&quot;results&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://dogspot.eu/api/spots/7/&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;www_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://dogspot.eu/spots/7/jeffs-restaurant-warszawa-zwirki-i-wigory-32/&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+      <span class="nt">&quot;thumbnail_venue_photo&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+      <span class="nt">&quot;distance&quot;</span><span class="p">:</span> <span class="mf">3.3414842332930004</span><span class="p">,</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Jeffs&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;latitude&quot;</span><span class="p">:</span> <span class="mf">52.21104</span><span class="p">,</span>
+        <span class="nt">&quot;longitude&quot;</span><span class="p">:</span> <span class="mf">20.98848</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;address_street&quot;</span><span class="p">:</span> <span class="s2">&quot;Żwirki i Wigóry&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;address_number&quot;</span><span class="p">:</span> <span class="s2">&quot;32&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;address_city&quot;</span><span class="p">:</span> <span class="s2">&quot;Warszawa&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;address_country&quot;</span><span class="p">:</span> <span class="s2">&quot;Polska&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;spot_type&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&quot;is_accepted&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;phone_number&quot;</span><span class="p">:</span> <span class="s2">&quot;22 825 16 50&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;www&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;facebook&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;is_enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nt">&quot;friendly_rate&quot;</span><span class="p">:</span> <span class="s2">&quot;1.00&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>PAGINATION</strong></p>
+<dl class="get">
+<dt id="get--api-nearby-(float-lat)-(float-lng)-(int-radius)?page=(int-page_number)">
+<tt class="descname">GET </tt><tt class="descname">/api/nearby/</tt><big>(</big><em class="property">float: </em><em>lat</em><big>)</big><tt class="descname">/</tt><big>(</big><em class="property">float: </em><em>lng</em><big>)</big><tt class="descname">/</tt><big>(</big><em class="property">int: </em><em>radius</em><big>)</big><tt class="descname">?page=</tt><big>(</big><em class="property">int: </em><em>page_number</em><big>)</big><a class="headerlink" href="#get--api-nearby-(float-lat)-(float-lng)-(int-radius)?page=(int-page_number)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>This view uses pagination. If the number of results for given query exeeds the defined in settings MAX_SPOTS_PER_PAGE the pagination will be used. The next parameter will contain link to next page of results.</p>
+</div>
+<div class="section" id="spots">
+<h2>spots<a class="headerlink" href="#spots" title="Permalink to this headline">¶</a></h2>
+<dl class="get">
+<dt id="get--api-spots">
+<tt class="descname">GET </tt><tt class="descname">/api/spots</tt><a class="headerlink" href="#get--api-spots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns list of all spots.</p>
+</dd></dl>
+
+<p><strong>Example request</strong>:</p>
+<div class="highlight-http"><div class="highlight"><pre>curl -X GET http://dogspot.eu/api/spots/
+</pre></div>
+</div>
+<p><strong>Example response</strong>:</p>
+<div class="highlight-json"><div class="highlight"><pre><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://dogspot.eu/api/spots/2/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;www_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://dogspot.eu/spots/2/kafka-cafe-warszawa-obozna-3/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&quot;thumbnail_venue_photo&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Kafka&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;latitude&quot;</span><span class="p">:</span> <span class="mf">52.23959</span><span class="p">,</span>
+      <span class="nt">&quot;longitude&quot;</span><span class="p">:</span> <span class="mf">21.02276</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;address_street&quot;</span><span class="p">:</span> <span class="s2">&quot;Oboźna&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;address_number&quot;</span><span class="p">:</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;address_city&quot;</span><span class="p">:</span> <span class="s2">&quot;Warszawa&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;address_country&quot;</span><span class="p">:</span> <span class="s2">&quot;Polska&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;spot_type&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;is_accepted&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;phone_number&quot;</span><span class="p">:</span> <span class="s2">&quot;22 826 08 22&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;kafka@kafka.com.pl&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;www&quot;</span><span class="p">:</span> <span class="s2">&quot;http://www.kawiarnia-kafka.pl/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;facebook&quot;</span><span class="p">:</span> <span class="s2">&quot;Kawiarnia.Kafka&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;is_enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;friendly_rate&quot;</span><span class="p">:</span> <span class="s2">&quot;5.00&quot;</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://dogspot.eu/api/spots/3/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;www_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://dogspot.eu/spots/3/pardon-to-tu-cafe-warszawa-pl-grzybowski-1216/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="nt">&quot;thumbnail_venue_photo&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Pardon to tu&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;latitude&quot;</span><span class="p">:</span> <span class="mf">52.23626</span><span class="p">,</span>
+      <span class="nt">&quot;longitude&quot;</span><span class="p">:</span> <span class="mf">21.00269</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;address_street&quot;</span><span class="p">:</span> <span class="s2">&quot;Pl. Grzybowski&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;address_number&quot;</span><span class="p">:</span> <span class="s2">&quot;12/16&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;address_city&quot;</span><span class="p">:</span> <span class="s2">&quot;Warszawa&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;address_country&quot;</span><span class="p">:</span> <span class="s2">&quot;Polska&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;spot_type&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;is_accepted&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;phone_number&quot;</span><span class="p">:</span> <span class="s2">&quot;513191641&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;www&quot;</span><span class="p">:</span> <span class="s2">&quot;http://www.pardontotu.pl/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;facebook&quot;</span><span class="p">:</span> <span class="s2">&quot;pardontotu&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;is_enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;friendly_rate&quot;</span><span class="p">:</span> <span class="s2">&quot;5.00&quot;</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://dogspot.eu/api/spots/1/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;www_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://dogspot.eu/spots/1/cafe-kulturalna-cafe-warszawa-plac-defilad-1/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;thumbnail_venue_photo&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Cafe Kulturalna&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;latitude&quot;</span><span class="p">:</span> <span class="mf">52.23177</span><span class="p">,</span>
+      <span class="nt">&quot;longitude&quot;</span><span class="p">:</span> <span class="mf">21.00662</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;address_street&quot;</span><span class="p">:</span> <span class="s2">&quot;Plac Defilad&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;address_number&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;address_city&quot;</span><span class="p">:</span> <span class="s2">&quot;Warszawa&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;address_country&quot;</span><span class="p">:</span> <span class="s2">&quot;Polska&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;spot_type&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;is_accepted&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;phone_number&quot;</span><span class="p">:</span> <span class="s2">&quot;22 656 62 81&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;justyna@kulturalna.pl&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;www&quot;</span><span class="p">:</span> <span class="s2">&quot;http://www.kulturalna.pl/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;facebook&quot;</span><span class="p">:</span> <span class="s2">&quot;CafeKulturalna&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;is_enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;friendly_rate&quot;</span><span class="p">:</span> <span class="s2">&quot;3.00&quot;</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<dl class="post">
+<dt id="post--api-spots">
+<tt class="descname">POST </tt><tt class="descname">/api/spots</tt><a class="headerlink" href="#post--api-spots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add new spot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Request Headers:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.8">Authorization</a> &#8211; must provide token to authenticate or be session authenticated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="google_places_api.html" class="btn btn-neutral float-right" title="Google Places API"/>Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="devops.html" class="btn btn-neutral" title="DevOps"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Andrzej Kostanski andilabs.
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -9,13 +9,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 AUTH_USER_MODEL = 'accounts.SpotUser'
 
-SECRET_KEY = 'kq$$wn#ff0qt)j7mm!d$6cee22e7hw9z#i11-@g1qaya^o!gnj'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
 
 ALLOWED_HOSTS = ['*']
 
 FORMAT_MODULE_PATH = 'mbf.formats'
 
 DESIRED_PASSWORD_LENGTH = 5
+
+MAX_SPOTS_PER_PAGE = 10
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -71,9 +75,6 @@ ROOT_URLCONF = 'mbf.urls'
 
 WSGI_APPLICATION = 'mbf.wsgi.application'
 
-
-DEFAULT_FROM_EMAIL = 'no-reply@dogspot.eu'
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -85,6 +86,7 @@ USE_L10N = True
 USE_TZ = False
 
 TOKEN_EXPIRES_AFTER = 24
+
 EMAIL_VERIFY_KEY_EXPIREATION_PERIOD_HOURS = 48
 
 VENUE_PHOTO_SIZE = {'W': '350', 'H': '150'}

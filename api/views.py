@@ -16,11 +16,10 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import authentication_classes
-from rest_framework.decorators import permission_classes, api_view
+from rest_framework.decorators import authentication_classes, permission_classes, api_view
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
-from rest_framework.response import Response
 from rest_framework.parsers import FileUploadParser
+from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
@@ -33,7 +32,7 @@ from .serializers import (
     RaitingSerializer,
     OpinionSerializer,
     OpinionUsefulnessRatingSerializer
-    )
+)
 from accounts.authentication import ExpiringTokenAuthentication
 
 from django.core.files.base import ContentFile
@@ -41,7 +40,7 @@ from django.core.files.storage import default_storage
 from utils.img_path import get_image_path
 
 
-@authentication_classes((ExpiringTokenAuthentication, ))
+@authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
 @permission_classes((IsAuthenticatedOrReadOnly,))
 class FileUploadView(APIView):
     parser_classes = (FileUploadParser,)
@@ -84,7 +83,7 @@ class SpotUserDetail(generics.RetrieveUpdateDestroyAPIView):
         return obj
 
 
-@authentication_classes((ExpiringTokenAuthentication, ))
+@authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
 @permission_classes((IsAuthenticatedOrReadOnly,))
 class SpotList(generics.ListCreateAPIView):
     serializer_class = SpotListSerializer
@@ -94,7 +93,7 @@ class SpotList(generics.ListCreateAPIView):
         return queryset
 
 
-@authentication_classes((ExpiringTokenAuthentication, ))
+@authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
 @permission_classes((IsAuthenticatedOrReadOnly,))
 class OpinionUsefulness(generics.RetrieveUpdateDestroyAPIView):
     model = OpinionUsefulnessRating
@@ -110,7 +109,7 @@ class OpinionUsefulness(generics.RetrieveUpdateDestroyAPIView):
         return obj
 
 
-@authentication_classes((ExpiringTokenAuthentication, ))
+@authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
 @permission_classes((IsAuthenticatedOrReadOnly,))
 class OpinionDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Opinion
@@ -126,7 +125,7 @@ class OpinionDetail(generics.RetrieveUpdateDestroyAPIView):
         return obj
 
 
-@authentication_classes((ExpiringTokenAuthentication, ))
+@authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
 @permission_classes((IsAuthenticatedOrReadOnly,))
 class RaitingList(generics.ListCreateAPIView):
     model = Raiting
@@ -136,7 +135,8 @@ class RaitingList(generics.ListCreateAPIView):
         queryset = Raiting.objects.all()
         return queryset
 
-
+@authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
+@permission_classes((IsAuthenticatedOrReadOnly,))
 class RaitingDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Raiting
     serializer_class = RaitingSerializer
@@ -191,7 +191,7 @@ def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
     desired_radius = {'m': radius}
     nearby_spots = Spot.objects.filter(location__distance_lte=(user_location, D(**desired_radius))).distance(user_location).order_by('distance')[:limit]
 
-    paginator = Paginator(nearby_spots, 15)
+    paginator = Paginator(nearby_spots, settings.MAX_SPOTS_PER_PAGE)
 
     page = request.QUERY_PARAMS.get('page')
 
@@ -211,22 +211,8 @@ def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
 @csrf_exempt
 def authentication(request):
     """
-    Method is responsible to provide TOKEN
-    to sucessfully authenticated user
+        docs/build/html/api.html#post--api-authentication
 
-
-    Following parameters should be passed in HTTP POST:
-
-    `email`
-    `password`
-
-    EXAMPLE REQUEST:
-
-        curl -X POST http://127.0.0.1:8000/api/authentication -d "email=andi@andilabs.com&password=d00r00tk@"
-
-    EXAMPLE RESPONSE:
-
-        {"token": "3a3f1cd20ee72b468a9bd7d6ab20e2e0a408ead5"}
     """
     if request.method == 'POST':
 

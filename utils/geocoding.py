@@ -3,9 +3,6 @@ import json
 
 from django.utils.http import urlquote
 
-YOUR_API_KEY = "AIzaSyBj2VxTkcBPQ9yOXerWQUil-pzMuTaz4Ao"
-
-
 def geocode(address):
     """
         This method for given in parameter:
