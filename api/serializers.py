@@ -56,6 +56,7 @@ class SpotListSerializer(serializers.HyperlinkedModelSerializer):
     www_url = serializers.ReadOnlyField()
     id = serializers.ReadOnlyField()
     thumbnail_venue_photo = serializers.ReadOnlyField()
+    location = serializers.CharField(required=True)
 
     class Meta:
         model = Spot

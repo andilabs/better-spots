@@ -178,4 +178,31 @@ spots
 
     Add new spot.
 
+    .. sourcecode:: http
+
+        curl -X POST http://127.0.0.1:8000/api/spots/ -H 'Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a' -H 'Content-Type:application/json' -d '{
+          "name": "Some New Spot",
+          "location": {
+            "latitude": 52.23177,
+            "longitude": 21.00662
+          },
+          "address_street": "Newestreet",
+          "address_number": "7",
+          "address_city": "Warsaw",
+          "address_country": "Poland",
+          "spot_type": 1,
+          "is_accepted": true,
+          "phone_number": "22 000 00 00",
+          "email": "foo@bar.com",
+          "www": "http://www.foo.bar/",
+          "facebook": "FooBarFacebook",
+          "is_enabled": true,
+          "friendly_rate": "3.00",
+          "facilities": {
+            "kids_menu": null,
+            "playroom": null,
+            "baby_changing": true
+          }
+        }'
+
     :reqheader Authorization: must provide token to authenticate or be session authenticated

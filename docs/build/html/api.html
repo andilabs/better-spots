@@ -311,6 +311,32 @@
 <dt id="post--api-spots">
 <tt class="descname">POST </tt><tt class="descname">/api/spots</tt><a class="headerlink" href="#post--api-spots" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add new spot.</p>
+<div class="highlight-http"><div class="highlight"><pre>curl -X POST http://127.0.0.1:8000/api/spots/ -H &#39;Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a&#39; -H &#39;Content-Type:application/json&#39; -d &#39;{
+  &quot;name&quot;: &quot;Some New Spot&quot;,
+  &quot;location&quot;: {
+    &quot;latitude&quot;: 52.23177,
+    &quot;longitude&quot;: 21.00662
+  },
+  &quot;address_street&quot;: &quot;Newestreet&quot;,
+  &quot;address_number&quot;: &quot;7&quot;,
+  &quot;address_city&quot;: &quot;Warsaw&quot;,
+  &quot;address_country&quot;: &quot;Poland&quot;,
+  &quot;spot_type&quot;: 1,
+  &quot;is_accepted&quot;: true,
+  &quot;phone_number&quot;: &quot;22 000 00 00&quot;,
+  &quot;email&quot;: &quot;foo@bar.com&quot;,
+  &quot;www&quot;: &quot;http://www.foo.bar/&quot;,
+  &quot;facebook&quot;: &quot;FooBarFacebook&quot;,
+  &quot;is_enabled&quot;: true,
+  &quot;friendly_rate&quot;: &quot;3.00&quot;,
+  &quot;facilities&quot;: {
+    &quot;kids_menu&quot;: null,
+    &quot;playroom&quot;: null,
+    &quot;baby_changing&quot;: true
+  }
+}&#39;
+</pre></div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
