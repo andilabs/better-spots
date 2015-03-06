@@ -17,13 +17,13 @@ from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import authentication_classes, permission_classes, api_view
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
-from core.models import Spot, Raiting, Opinion, OpinionUsefulnessRating
+from core.models import Spot, Raiting, Opinion, OpinionUsefulnessRating, UsersSpotsList
 from accounts.models import SpotUser
 from .serializers import (
     SpotUserSerializer,
@@ -31,7 +31,8 @@ from .serializers import (
     PaginetedSpotWithDistanceSerializer,
     RaitingSerializer,
     OpinionSerializer,
-    OpinionUsefulnessRatingSerializer
+    OpinionUsefulnessRatingSerializer,
+    FavouritesSpotsListSerializer,
 )
 from accounts.authentication import ExpiringTokenAuthentication
 
@@ -46,7 +47,6 @@ class FileUploadView(APIView):
     parser_classes = (FileUploadParser,)
 
     def post(self, request, pk):
-        import ipdb; ipdb.set_trace()
         spot = Spot.objects.get(pk=pk)
         up_file = request.FILES['file']
         generated_filename = get_image_path()
@@ -76,6 +76,47 @@ class SpotUserDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         queryset = SpotUser.objects.all()
+        return queryset
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = get_object_or_404(queryset, pk=self.kwargs['pk'])
+        return obj
+
+
+
+@authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
+@permission_classes((IsAuthenticated,))
+class UserFavouritesSpotsList(generics.ListCreateAPIView):
+    model = UsersSpotsList
+    serializer_class = FavouritesSpotsListSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = UsersSpotsList.objects.filter(user=self.request.user, role=1)
+        return queryset
+
+    def post(self, request):
+        user = request.user
+        spot = get_object_or_404(Spot, pk=request.data.get('spot_pk'))
+        role = 1 #for now just hardcoded favourites
+
+        if not UsersSpotsList.objects.filter(user=user, spot=spot, role=role):
+            o = UsersSpotsList.objects.create(
+                user=user,
+                spot=spot,
+                role=role,
+            )
+            return Response({'detail': ("Added %s to favourites" % o.spot.name)}, status=201)
+        return Response({'detail': 'This spot is already in your favourites'}, status=304)
+
+
+class UserFavouritesSpotDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = UsersSpotsList
+    serializer_class = FavouritesSpotsListSerializer
+
+    def get_queryset(self):
+        queryset = UsersSpotsList.objects.all()
         return queryset
 
     def get_object(self):

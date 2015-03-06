@@ -4,7 +4,8 @@ from rest_framework import serializers
 from rest_framework.pagination import PaginationSerializer
 
 from core.models import (
-    Spot, Raiting, Opinion, OpinionUsefulnessRating, SpotUser)
+    Spot, Raiting, Opinion, OpinionUsefulnessRating,
+    SpotUser, UsersSpotsList)
 
 
 class SpotUserSerializer(serializers.HyperlinkedModelSerializer):
@@ -109,5 +110,15 @@ class SpotWithDistanceSerializer(SpotListSerializer):
 
 
 class PaginetedSpotWithDistanceSerializer(PaginationSerializer):
-        class Meta:
-            object_serializer_class = SpotWithDistanceSerializer
+    class Meta:
+        object_serializer_class = SpotWithDistanceSerializer
+
+
+class FavouritesSpotsListSerializer(serializers.HyperlinkedModelSerializer):
+    spot = SpotListSerializer(read_only=True)
+    spot_pk = serializers.PrimaryKeyRelatedField(queryset=Spot.objects.all())
+    # spot = serializers.HyperlinkedRelatedField(read_only=False, view_name='spot-detail', queryset=Spot.objects.all())
+
+    class Meta:
+        model = UsersSpotsList
+        fields = ('url', 'spot', 'data_added', 'spot_pk')

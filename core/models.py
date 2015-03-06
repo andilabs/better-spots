@@ -207,7 +207,7 @@ class OpinionUsefulnessRating(models.Model):
     vote = models.IntegerField(max_length=1, choices=VOTE)
 
 
-LIST_ROLES = (
+LIST_KIND = (
     (1, 'Favorites'),
     (2, 'To be visited'),
 )
@@ -217,7 +217,17 @@ class UsersSpotsList(models.Model):
     data_added = models.DateTimeField(auto_now_add=True)
     spot = models.ForeignKey(Spot)
     user = models.ForeignKey(SpotUser)
-    role = models.IntegerField(max_length=1, choices=LIST_ROLES)
+    role = models.IntegerField(max_length=1, choices=LIST_KIND)
+
+    def __unicode__(self):
+        return "%s %s %s"  % (self.user.email, self.spot.name, self.role)
+
+    class Meta:
+        unique_together = ("user", "spot", "role")
+
+    @property
+    def spot_pk(self):
+        return  self.spot.pk
 
 
 @receiver(post_save, sender=Raiting)

@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from core.models import SpotUser, Spot, Raiting, Opinion, OpinionUsefulnessRating
+from core.models import SpotUser, Spot, Raiting, Opinion, OpinionUsefulnessRating, UsersSpotsList
 from accounts.forms import UserCreationForm, UserChangeForm
 
 
@@ -48,3 +48,4 @@ admin.site.register(Spot, SpotAdmin)
 admin.site.register(Raiting)
 admin.site.register(Opinion)
 admin.site.register(OpinionUsefulnessRating)
+admin.site.register(UsersSpotsList)

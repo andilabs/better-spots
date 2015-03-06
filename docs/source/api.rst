@@ -1,6 +1,8 @@
 API
 ===
 
+
+
 authentication
 --------------
 
@@ -14,7 +16,7 @@ authentication
 
 .. sourcecode:: http
 
-    curl -X POST http://dogspot.eu/api/authentication -d "email=andi@andilabs.com&password=somepass"
+    curl -X POST http://127.0.0.1:8000/api/authentication -d "email=andi@andilabs.com&password=somepass"
 
 **Example response**:
 
@@ -40,7 +42,7 @@ nearby spots list
 
 .. sourcecode:: http
 
-    curl -X GET http://dogspot.eu/api/nearby/52.18654/21.01687/3500
+    curl -X GET http://127.0.0.1:8000/api/nearby/52.18654/21.01687/3500
 
 **Example response**:
 
@@ -52,8 +54,8 @@ nearby spots list
       "previous": null,
       "results": [
         {
-          "url": "http://dogspot.eu/api/spots/7/",
-          "www_url": "http://dogspot.eu/spots/7/jeffs-restaurant-warszawa-zwirki-i-wigory-32/",
+          "url": "http://127.0.0.1:8000/api/spots/7/",
+          "www_url": "http://127.0.0.1:8000/spots/7/jeffs-restaurant-warszawa-zwirki-i-wigory-32/",
           "id": 7,
           "thumbnail_venue_photo": null,
           "distance": 3.3414842332930004,
@@ -96,7 +98,7 @@ spots list
 
 .. sourcecode:: http
 
-    curl -X GET http://dogspot.eu/api/spots/
+    curl -X GET http://127.0.0.1:8000/api/spots/
 
 **Example response**:
 
@@ -104,8 +106,8 @@ spots list
 
     [
       {
-        "url": "http://dogspot.eu/api/spots/2/",
-        "www_url": "http://dogspot.eu/spots/2/kafka-cafe-warszawa-obozna-3/",
+        "url": "http://127.0.0.1:8000/api/spots/2/",
+        "www_url": "http://127.0.0.1:8000/spots/2/kafka-cafe-warszawa-obozna-3/",
         "id": 2,
         "thumbnail_venue_photo": null,
         "name": "Kafka",
@@ -127,8 +129,8 @@ spots list
         "friendly_rate": "5.00"
       },
       {
-        "url": "http://dogspot.eu/api/spots/3/",
-        "www_url": "http://dogspot.eu/spots/3/pardon-to-tu-cafe-warszawa-pl-grzybowski-1216/",
+        "url": "http://127.0.0.1:8000/api/spots/3/",
+        "www_url": "http://127.0.0.1:8000/spots/3/pardon-to-tu-cafe-warszawa-pl-grzybowski-1216/",
         "id": 3,
         "thumbnail_venue_photo": null,
         "name": "Pardon to tu",
@@ -150,8 +152,8 @@ spots list
         "friendly_rate": "5.00"
       },
       {
-        "url": "http://dogspot.eu/api/spots/1/",
-        "www_url": "http://dogspot.eu/spots/1/cafe-kulturalna-cafe-warszawa-plac-defilad-1/",
+        "url": "http://127.0.0.1:8000/api/spots/1/",
+        "www_url": "http://127.0.0.1:8000/spots/1/cafe-kulturalna-cafe-warszawa-plac-defilad-1/",
         "id": 1,
         "thumbnail_venue_photo": null,
         "name": "Cafe Kulturalna",
@@ -309,6 +311,10 @@ spot
             }
         }
 
+
+delete spot
+-----------
+
 .. http:delete:: /api/spots/(int:pk)/
 
     Delete single spot
@@ -329,6 +335,9 @@ spot
 
         HTTP/1.0 204 NO CONTENT
 
+
+update spot
+-----------
 
 .. http:put:: /api/spots/(int:pk)/
 
@@ -368,6 +377,7 @@ spot
           "spot_slug": "kafka-cafe-warszawa-obozowa-3"
         }'
 
+
 image upload
 ------------
 
@@ -395,3 +405,73 @@ image upload
         {"file_url":"/media/img/64ad3bc3f06f45a9abcdd8167608faee.350x150_q85_box-0%2C936%2C2448%2C1985_crop_detail.jpg"}
 
 
+favourites spots list
+---------------------
+
+.. http:get:: /api/favourites_spots/
+
+    Get list of favourites spots for authenticated user
+
+    :reqheader Authorization: must provide token to authenticate or be session authenticated
+
+    **Example request**:
+
+    .. sourcecode:: http
+
+        curl -X GET -H "Authorization: Token f5d7d38342a2c23c2205a660f4e3ff0464b9a882" http://127.0.0.1:8000/api/favourites_spots/
+
+
+add spot to favourites
+----------------------
+
+.. http:post:: /api/favourites_spots/
+
+    Add spot to favourites
+
+    :param spot: pk value of spot
+
+    :reqheader Authorization: must provide token to authenticate or be session authenticated
+
+    **Example request**:
+
+    .. sourcecode:: http
+
+        curl -X POST http://127.0.0.1:8000/api/favourites_spots/ -H 'Content-Type:application/json' -H 'Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a' -d '{"spot":5}'
+
+    **Example response**:
+
+    :statuscode 404: There is no spot with given id
+
+      .. sourcecode:: json
+
+          {"detail":"Not found"}%}
+
+    :statuscode 304: The spot is already in users favourites
+
+      .. sourcecode:: json
+
+          {"detail":"This spot is already in your favourites"}
+
+    :statuscode 201: The spot was sucessfully added to favourites
+
+      .. sourcecode:: json
+
+          {"detail":"Added Pardon to tu to favourites"}
+
+
+delete spot from favourites
+---------------------------
+
+.. http:delete:: /api/favourites_spots/(int:pk)/
+
+    required fields:
+
+    :param pk: pk of favourites item
+
+    :reqheader Authorization: must provide token to authenticate or be session authenticated
+
+    **Example request**:
+
+    .. sourcecode:: http
+
+        curl -X DELETE http://127.0.0.1:8000/api/favourites_spots/38/ -H "Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a"

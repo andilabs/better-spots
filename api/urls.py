@@ -25,6 +25,10 @@ urlpatterns = patterns(
     url(r'^spots/$', views.SpotList.as_view(), name="spot-list"),
     url(r'^spots/(?P<pk>\d+)/$', views.SpotDetail.as_view(), name="spot-detail"),
 
+    url(r'^favourites_spots/$', views.UserFavouritesSpotsList.as_view(), name="user-favourites-spot-list"),
+    url(r'^favourites_spots/(?P<pk>\d+)/$', views.UserFavouritesSpotDetail.as_view(), name="usersspotslist-detail"),
+
+
     url(r'^nearby/$', 'api.views.nearby_spots'),
     url(r'^nearby/(?P<lat>-?\d{2,3}.\d{5})/(?P<lng>-?\d{2,3}.\d{5})?/$', 'api.views.nearby_spots', name="nearby_spots"),
     url(r'^nearby/(?P<lat>-?\d{2,3}.\d{5})/(?P<lng>-?\d{2,3}.\d{5})/(?P<radius>\d*)$', 'api.views.nearby_spots'),
