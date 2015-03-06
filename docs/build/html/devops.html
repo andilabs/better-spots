@@ -62,14 +62,16 @@
             <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">DevOps</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#pull-repo-collectstatic-restart-apache-pull-and-restart-sh">Pull repo, collectstatic, restart apache [pull_and_restart.sh]</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#create-new-instance-create-instance-sh">create new instance [create_instance.sh]</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#create-new-instance-postgres-db-with-all-extensions-create-db-sh">create new instance postgres db with all extensions [create_db.sh]</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#performs-all-migraitons-and-loads-initial-data-for-new-instance-migrator-sh">performs all migraitons and loads initial data for new instance [migrator.sh]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scripts">Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#apache">Apache</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api.html#authentication">authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#nearby-spots">nearby spots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#spots-list">spots list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#add-new-spot">add new spot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#image-upload">image Upload</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="google_places_api.html">Google Places API</a><ul>
@@ -115,8 +117,10 @@
             
   <div class="section" id="devops">
 <h1>DevOps<a class="headerlink" href="#devops" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="pull-repo-collectstatic-restart-apache-pull-and-restart-sh">
-<h2>Pull repo, collectstatic, restart apache [pull_and_restart.sh]<a class="headerlink" href="#pull-repo-collectstatic-restart-apache-pull-and-restart-sh" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="scripts">
+<h2>Scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pull-and-restart-sh-pull-repo-collectstatic-restart-apache">
+<h3>[pull_and_restart.sh] - Pull repo, collectstatic, restart apache<a class="headerlink" href="#pull-and-restart-sh-pull-repo-collectstatic-restart-apache" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">declare</span> -a <span class="nv">instances</span><span class="o">=(</span><span class="s2">&quot;dogspot.eu&quot;</span> <span class="s2">&quot;momspot.eu&quot;</span> <span class="s2">&quot;enabledspot.eu&quot;</span> <span class="s2">&quot;veganspot.org&quot;</span><span class="o">)</span>
 
 <span class="k">for</span> instance in <span class="s2">&quot;</span><span class="si">${</span><span class="nv">instances</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -130,8 +134,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="create-new-instance-create-instance-sh">
-<h2>create new instance [create_instance.sh]<a class="headerlink" href="#create-new-instance-create-instance-sh" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="create-instance-sh-create-new-instance">
+<h3>[create_instance.sh] - create new instance<a class="headerlink" href="#create-instance-sh-create-new-instance" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># run with two arguments first is domain, second name for database and dir location, e.g: vagnspot.org veganspot</span>
 <span class="nv">instance_name</span><span class="o">=</span><span class="nv">$1</span>
 <span class="nv">base_name</span><span class="o">=</span><span class="nv">$2</span>
@@ -155,8 +159,8 @@ apachectl restart
 </pre></div>
 </div>
 </div>
-<div class="section" id="create-new-instance-postgres-db-with-all-extensions-create-db-sh">
-<h2>create new instance postgres db with all extensions [create_db.sh]<a class="headerlink" href="#create-new-instance-postgres-db-with-all-extensions-create-db-sh" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="create-db-sh-create-new-instance-postgres-db-with-all-extensions">
+<h3>[create_db.sh] - create new instance postgres db with all extensions<a class="headerlink" href="#create-db-sh-create-new-instance-postgres-db-with-all-extensions" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">base_name</span><span class="o">=</span><span class="nv">$1</span>
 psql <span class="s">&lt;&lt; EOF</span>
 <span class="s">CREATE USER $base_name WITH PASSWORD &#39;c9c38a6dc8cdb66a0c416a9e1f8eac21&#39;;</span>
@@ -177,8 +181,8 @@ psql <span class="s">&lt;&lt; EOF</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="performs-all-migraitons-and-loads-initial-data-for-new-instance-migrator-sh">
-<h2>performs all migraitons and loads initial data for new instance [migrator.sh]<a class="headerlink" href="#performs-all-migraitons-and-loads-initial-data-for-new-instance-migrator-sh" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="migrator-sh-performs-all-migraitons-and-loads-initial-data-for-new-instance">
+<h3>[migrator.sh] - performs all migraitons and loads initial data for new instance<a class="headerlink" href="#migrator-sh-performs-all-migraitons-and-loads-initial-data-for-new-instance" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">instance_name</span><span class="o">=</span><span class="nv">$1</span>
 rm -rf accounts/migrations
 rm -rf core/migrations
@@ -205,6 +209,47 @@ python manage.py loaddata data/<span class="s2">&quot;</span><span class="nv">$i
 python manage.py create_slugs
 python manage.py collectstatic
 </pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="apache">
+<h2>Apache<a class="headerlink" href="#apache" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="xxx-base-conf">
+<h3>xxx-base.conf<a class="headerlink" href="#xxx-base-conf" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre>&lt;VirtualHost *:80&gt;
+
+        ServerName INSTANCE_NAME_PLACEHOLDER
+        ServerAlias www.INSTANCE_NAME_PLACEHOLDER
+        ServerAdmin     andi@INSTANCE_NAME_PLACEHOLDER
+
+        LogLevel info
+        ErrorLog <span class="s2">&quot;/home/ubuntu/INSTANCE_NAME_PLACEHOLDER/logs/INSTANCE_NAME_PLACEHOLDER-error_log&quot;</span>
+        CustomLog <span class="s2">&quot;/home/ubuntu/INSTANCE_NAME_PLACEHOLDER/logs/INSTANCE_NAME_PLACEHOLDER-access_log&quot;</span> common
+
+        DocumentRoot <span class="s2">&quot;/home/ubuntu/INSTANCE_NAME_PLACEHOLDER&quot;</span>
+
+        Alias /static/ /home/ubuntu/INSTANCE_NAME_PLACEHOLDER/static_assets/
+
+        &lt;Directory <span class="s2">&quot;/home/ubuntu/INSTANCE_NAME_PLACEHOLDER/static&quot;</span>&gt;
+                Order deny,allow
+                Allow from all
+        &lt;/Directory&gt;
+
+
+        WSGIDaemonProcess INSTANCE_NAME_PLACEHOLDER python-path<span class="o">=</span>/home/ubuntu/INSTANCE_NAME_PLACEHOLDER/mbf:/home/ubuntu/.virtualenvs/dogspot/lib/python2.7/site-packages
+        WSGIProcessGroup INSTANCE_NAME_PLACEHOLDER
+        WSGIScriptAlias / /home/ubuntu/INSTANCE_NAME_PLACEHOLDER/mbf/mbf/wsgi.py
+        WSGIPassAuthorization On
+
+        &lt;Directory <span class="s2">&quot;/home/ubuntu/INSTANCE_NAME_PLACEHOLDER/mbf/mbf&quot;</span>&gt;
+                &lt;Files wsgi.py&gt;
+                        Order deny,allow
+                        Allow from all
+                &lt;/Files&gt;
+        &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</pre></div>
+</div>
 </div>
 </div>
 </div>

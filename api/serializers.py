@@ -49,7 +49,7 @@ class RaitingSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Raiting
         fields = (
-            'url', 'is_enabled', 'friendly_rate', 'spot', 'user', 'opinion')
+            'url', 'is_enabled', 'friendly_rate', 'spot', 'user', 'opinion', 'facilities')
 
 
 class SpotListSerializer(serializers.HyperlinkedModelSerializer):
@@ -91,6 +91,8 @@ class SpotListSerializer(serializers.HyperlinkedModelSerializer):
 
 class SpotDetailSerializer(SpotListSerializer):
     raitings = RaitingSerializer(read_only=True, many=True)
+    friendly_rate = serializers.ReadOnlyField()
+    is_enabled = serializers.ReadOnlyField()
 
     class Meta:
         model = Spot

@@ -45,8 +45,9 @@ from utils.img_path import get_image_path
 class FileUploadView(APIView):
     parser_classes = (FileUploadParser,)
 
-    def post(self, request):
-        spot = Spot.objects.get(pk=1)
+    def post(self, request, pk):
+        import ipdb; ipdb.set_trace()
+        spot = Spot.objects.get(pk=pk)
         up_file = request.FILES['file']
         generated_filename = get_image_path()
 

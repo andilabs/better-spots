@@ -1,9 +1,11 @@
 DevOps
 ======
 
+Scripts
+^^^^^^^
 
-Pull repo, collectstatic, restart apache [pull_and_restart.sh]
---------------------------------------------------------------
+[pull_and_restart.sh] - Pull repo, collectstatic, restart apache
+----------------------------------------------------------------
 
 .. sourcecode:: bash
 
@@ -19,8 +21,8 @@ Pull repo, collectstatic, restart apache [pull_and_restart.sh]
 	done
 
 
-create new instance [create_instance.sh]
-----------------------------------------
+[create_instance.sh] - create new instance
+------------------------------------------
 
 .. sourcecode:: bash
 
@@ -46,8 +48,8 @@ create new instance [create_instance.sh]
 	apachectl restart
 
 
-create new instance postgres db with all extensions [create_db.sh]
-------------------------------------------------------------------
+[create_db.sh] - create new instance postgres db with all extensions
+--------------------------------------------------------------------
 
 .. sourcecode:: bash
 
@@ -70,8 +72,8 @@ create new instance postgres db with all extensions [create_db.sh]
 	EOF
 
 
-performs all migraitons and loads initial data for new instance [migrator.sh]
-----------------------------------------------------------------------------
+[migrator.sh] - performs all migraitons and loads initial data for new instance
+-------------------------------------------------------------------------------
 
 .. sourcecode:: bash
 
@@ -102,3 +104,43 @@ performs all migraitons and loads initial data for new instance [migrator.sh]
 	python manage.py collectstatic
 
 
+Apache
+^^^^^^
+
+xxx-base.conf
+-------------
+
+.. sourcecode:: bash
+
+	<VirtualHost *:80>
+
+	        ServerName INSTANCE_NAME_PLACEHOLDER
+	        ServerAlias www.INSTANCE_NAME_PLACEHOLDER
+	        ServerAdmin     andi@INSTANCE_NAME_PLACEHOLDER
+
+	        LogLevel info
+	        ErrorLog "/home/ubuntu/INSTANCE_NAME_PLACEHOLDER/logs/INSTANCE_NAME_PLACEHOLDER-error_log"
+	        CustomLog "/home/ubuntu/INSTANCE_NAME_PLACEHOLDER/logs/INSTANCE_NAME_PLACEHOLDER-access_log" common
+
+	        DocumentRoot "/home/ubuntu/INSTANCE_NAME_PLACEHOLDER"
+
+	        Alias /static/ /home/ubuntu/INSTANCE_NAME_PLACEHOLDER/static_assets/
+
+	        <Directory "/home/ubuntu/INSTANCE_NAME_PLACEHOLDER/static">
+	                Order deny,allow
+	                Allow from all
+	        </Directory>
+
+
+	        WSGIDaemonProcess INSTANCE_NAME_PLACEHOLDER python-path=/home/ubuntu/INSTANCE_NAME_PLACEHOLDER/mbf:/home/ubuntu/.virtualenvs/dogspot/lib/python2.7/site-packages
+	        WSGIProcessGroup INSTANCE_NAME_PLACEHOLDER
+	        WSGIScriptAlias / /home/ubuntu/INSTANCE_NAME_PLACEHOLDER/mbf/mbf/wsgi.py
+	        WSGIPassAuthorization On
+
+	        <Directory "/home/ubuntu/INSTANCE_NAME_PLACEHOLDER/mbf/mbf">
+	                <Files wsgi.py>
+	                        Order deny,allow
+	                        Allow from all
+	                </Files>
+	        </Directory>
+	</VirtualHost>

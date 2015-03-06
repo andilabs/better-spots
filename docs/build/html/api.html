@@ -62,16 +62,17 @@
             <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="devops.html">DevOps</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="devops.html#pull-repo-collectstatic-restart-apache-pull-and-restart-sh">Pull repo, collectstatic, restart apache [pull_and_restart.sh]</a></li>
-<li class="toctree-l2"><a class="reference internal" href="devops.html#create-new-instance-create-instance-sh">create new instance [create_instance.sh]</a></li>
-<li class="toctree-l2"><a class="reference internal" href="devops.html#create-new-instance-postgres-db-with-all-extensions-create-db-sh">create new instance postgres db with all extensions [create_db.sh]</a></li>
-<li class="toctree-l2"><a class="reference internal" href="devops.html#performs-all-migraitons-and-loads-initial-data-for-new-instance-migrator-sh">performs all migraitons and loads initial data for new instance [migrator.sh]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devops.html#scripts">Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devops.html#apache">Apache</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#authentication">authentication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#nearby-spots">nearby_spots</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#spots">spots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nearby-spots-list">nearby spots list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spots-list">spots list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-new-spot">add new spot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spot">spot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#image-upload">image upload</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="google_places_api.html">Google Places API</a><ul>
@@ -155,8 +156,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="nearby-spots">
-<h2>nearby_spots<a class="headerlink" href="#nearby-spots" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="nearby-spots-list">
+<h2>nearby spots list<a class="headerlink" href="#nearby-spots-list" title="Permalink to this headline">¶</a></h2>
 <dl class="get">
 <dt id="get--api-nearby-(float-lat)-(float-lng)-(int-radius)">
 <tt class="descname">GET </tt><tt class="descname">/api/nearby/</tt><big>(</big><em class="property">float: </em><em>lat</em><big>)</big><tt class="descname">/</tt><big>(</big><em class="property">float: </em><em>lng</em><big>)</big><tt class="descname">/</tt><big>(</big><em class="property">int: </em><em>radius</em><big>)</big><a class="headerlink" href="#get--api-nearby-(float-lat)-(float-lng)-(int-radius)" title="Permalink to this definition">¶</a></dt>
@@ -213,16 +214,19 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><strong>PAGINATION</strong></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This view uses pagination. If the number of results for given query exeeds the defined in settings MAX_SPOTS_PER_PAGE the pagination will be used. The next parameter will contain link to next page of results. Next page will contain previous filed containg link to previous page.</p>
+</div>
+<p><strong>Pagination:</strong></p>
 <dl class="get">
 <dt id="get--api-nearby-(float-lat)-(float-lng)-(int-radius)?page=(int-page_number)">
 <tt class="descname">GET </tt><tt class="descname">/api/nearby/</tt><big>(</big><em class="property">float: </em><em>lat</em><big>)</big><tt class="descname">/</tt><big>(</big><em class="property">float: </em><em>lng</em><big>)</big><tt class="descname">/</tt><big>(</big><em class="property">int: </em><em>radius</em><big>)</big><tt class="descname">?page=</tt><big>(</big><em class="property">int: </em><em>page_number</em><big>)</big><a class="headerlink" href="#get--api-nearby-(float-lat)-(float-lng)-(int-radius)?page=(int-page_number)" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<p>This view uses pagination. If the number of results for given query exeeds the defined in settings MAX_SPOTS_PER_PAGE the pagination will be used. The next parameter will contain link to next page of results.</p>
 </div>
-<div class="section" id="spots">
-<h2>spots<a class="headerlink" href="#spots" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="spots-list">
+<h2>spots list<a class="headerlink" href="#spots-list" title="Permalink to this headline">¶</a></h2>
 <dl class="get">
 <dt id="get--api-spots">
 <tt class="descname">GET </tt><tt class="descname">/api/spots</tt><a class="headerlink" href="#get--api-spots" title="Permalink to this definition">¶</a></dt>
@@ -307,10 +311,40 @@
 <span class="p">]</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="add-new-spot">
+<h2>add new spot<a class="headerlink" href="#add-new-spot" title="Permalink to this headline">¶</a></h2>
 <dl class="post">
 <dt id="post--api-spots">
 <tt class="descname">POST </tt><tt class="descname">/api/spots</tt><a class="headerlink" href="#post--api-spots" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add new spot.</p>
+<p>required fields:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; string</li>
+<li><strong>point</strong> &#8211; in form of dictionary {&#8220;latitude&#8221;: dd.ddddd, &#8220;longitude&#8221;: dd.ddddd}</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>other fields are optional.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Request Headers:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.8">Authorization</a> &#8211; must provide token to authenticate or be session authenticated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example request</strong>:</p>
 <div class="highlight-http"><div class="highlight"><pre>curl -X POST http://127.0.0.1:8000/api/spots/ -H &#39;Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a&#39; -H &#39;Content-Type:application/json&#39; -d &#39;{
   &quot;name&quot;: &quot;Some New Spot&quot;,
   &quot;location&quot;: {
@@ -327,8 +361,6 @@
   &quot;email&quot;: &quot;foo@bar.com&quot;,
   &quot;www&quot;: &quot;http://www.foo.bar/&quot;,
   &quot;facebook&quot;: &quot;FooBarFacebook&quot;,
-  &quot;is_enabled&quot;: true,
-  &quot;friendly_rate&quot;: &quot;3.00&quot;,
   &quot;facilities&quot;: {
     &quot;kids_menu&quot;: null,
     &quot;playroom&quot;: null,
@@ -337,18 +369,214 @@
 }&#39;
 </pre></div>
 </div>
+</dd></dl>
+
+</div>
+<div class="section" id="spot">
+<h2>spot<a class="headerlink" href="#spot" title="Permalink to this headline">¶</a></h2>
+<dl class="get">
+<dt id="get--api-spots-(int-pk)-">
+<tt class="descname">GET </tt><tt class="descname">/api/spots/</tt><big>(</big><em class="property">int: </em><em>pk</em><big>)</big><tt class="descname">/</tt><a class="headerlink" href="#get--api-spots-(int-pk)-" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get single spot details. All nested raiting, comments and facilities evaluations.</p>
+<p><strong>Example request</strong>:</p>
+<div class="highlight-http"><div class="highlight"><pre>curl -X GET http://127.0.0.1:8000/api/spots/2/
+</pre></div>
+</div>
+<p><strong>Example response</strong>:</p>
+<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span>
+    <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/spots/8/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;www_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/spots/8/drukarnia-jazz-club-cafe-krakow-nadwislanska-1/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="nt">&quot;thumbnail_venue_photo&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;latitude&quot;</span><span class="p">:</span> <span class="mf">50.04608</span><span class="p">,</span>
+        <span class="nt">&quot;longitude&quot;</span><span class="p">:</span> <span class="mf">19.94929</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;raitings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/raitings/2/&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;is_enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&quot;friendly_rate&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="nt">&quot;spot&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/spots/8/&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/users/1/&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;opinion&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;facilities&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;kids_menu&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+                <span class="nt">&quot;playroom&quot;</span><span class="p">:</span> <span class="s2">&quot;False&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;baby_changing&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/raitings/4/&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;is_enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nt">&quot;friendly_rate&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="nt">&quot;spot&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/spots/8/&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/users/2/&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;opinion&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;facilities&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;kids_menu&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;playroom&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+                <span class="nt">&quot;baby_changing&quot;</span><span class="p">:</span> <span class="s2">&quot;False&quot;</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/raitings/7/&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;is_enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&quot;friendly_rate&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&quot;spot&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/spots/8/&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/users/3/&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;opinion&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;facilities&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;kids_menu&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;playroom&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;baby_changing&quot;</span><span class="p">:</span> <span class="kc">null</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Drukarnia Jazz Club&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;address_street&quot;</span><span class="p">:</span> <span class="s2">&quot;Nadwiślańska&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;address_number&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;address_city&quot;</span><span class="p">:</span> <span class="s2">&quot;Kraków&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;address_country&quot;</span><span class="p">:</span> <span class="s2">&quot;Polska&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;spot_type&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;is_accepted&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;phone_number&quot;</span><span class="p">:</span> <span class="s2">&quot;12 656 65 60&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;drukarnia@drukarniaclub.pl&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;www&quot;</span><span class="p">:</span> <span class="s2">&quot;http://www.drukarniaclub.pl/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;facebook&quot;</span><span class="p">:</span> <span class="s2">&quot;DrukarniaJazzClub&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;is_enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;friendly_rate&quot;</span><span class="p">:</span> <span class="s2">&quot;3.00&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;venue_photo&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/media/img/b22d1ba742aa425baa3665ee8eec0f77&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;cropping_venue_photo&quot;</span><span class="p">:</span> <span class="s2">&quot;0,33,620,298&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;facilities&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;playroom&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="nt">&quot;toilet_enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;tables_enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;entrance_enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;baby_changing&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="nt">&quot;kids_menu&quot;</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="delete">
+<dt id="delete--api-spots-(int-pk)-">
+<tt class="descname">DELETE </tt><tt class="descname">/api/spots/</tt><big>(</big><em class="property">int: </em><em>pk</em><big>)</big><tt class="descname">/</tt><a class="headerlink" href="#delete--api-spots-(int-pk)-" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete single spot</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">Request Headers:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pk</strong> &#8211; pk of spot</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Request Headers:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
 <li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.8">Authorization</a> &#8211; must provide token to authenticate or be session authenticated</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+<p><strong>Example request</strong>:</p>
+<div class="highlight-http"><div class="highlight"><pre>curl -X DELETE http://127.0.0.1:8000/api/spots/13/ -H &quot;Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a&quot;
+</pre></div>
+</div>
+<p><strong>Example response</strong>:</p>
+<div class="highlight-http"><div class="highlight"><pre><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.0</span> <span class="m">204</span> <span class="ne">NO CONTENT</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="put">
+<dt id="put--api-spots-(int-pk)-">
+<tt class="descname">PUT </tt><tt class="descname">/api/spots/</tt><big>(</big><em class="property">int: </em><em>pk</em><big>)</big><tt class="descname">/</tt><a class="headerlink" href="#put--api-spots-(int-pk)-" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update single spot</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pk</strong> &#8211; pk of spot</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Request Headers:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.8">Authorization</a> &#8211; must provide token to authenticate or be session authenticated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example request</strong>:</p>
+<div class="highlight-http"><div class="highlight"><pre> curl -X PUT http://127.0.0.1:8000/api/spots/2/ -H &#39;Content-Type:application/json&#39; -H &#39;Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a&#39; -d &#39;{
+  &quot;url&quot;: &quot;http://127.0.0.1:8000/api/spots/2/ SOME UPDATE&quot;,
+  &quot;www_url&quot;: &quot;http://127.0.0.1:8000/spots/2/kafka-cafe-warszawa-obozowa-3/&quot;,
+  &quot;id&quot;: 2,
+  &quot;thumbnail_venue_photo&quot;: null,
+  &quot;raitings&quot;: [],
+  &quot;name&quot;: &quot;Kafka SOME UPDATE&quot;,
+  &quot;location&quot;: {
+    &quot;latitude&quot;: 52.23959,
+    &quot;longitude&quot;: 21.02276
+  },
+  &quot;address_street&quot;: &quot;Oboźna SOME UPDATE&quot;,
+  &quot;address_number&quot;: &quot;3&quot;,
+  &quot;address_city&quot;: &quot;Warszawa SOME UPDATE&quot;,
+  &quot;address_country&quot;: &quot;POLAND SOME UPDATE&quot;,
+  &quot;spot_type&quot;: 1,
+  &quot;is_accepted&quot;: true,
+  &quot;phone_number&quot;: &quot;22 826 08 22&quot;,
+  &quot;email&quot;: &quot;kafka@kafka.com.pl&quot;,
+  &quot;www&quot;: &quot;http://www.kawiarnia-kafka.pl/&quot;,
+  &quot;facebook&quot;: &quot;Kawiarnia.Kafka SOME UPDATE&quot;,
+  &quot;venue_photo&quot;: null,
+  &quot;cropping_venue_photo&quot;: &quot;0,52,458,249&quot;,
+  &quot;spot_slug&quot;: &quot;kafka-cafe-warszawa-obozowa-3&quot;
+}&#39;
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="image-upload">
+<h2>image upload<a class="headerlink" href="#image-upload" title="Permalink to this headline">¶</a></h2>
+<dl class="post">
+<dt id="post--api-image_upload-(int-pk)-">
+<tt class="descname">POST </tt><tt class="descname">/api/image_upload/</tt><big>(</big><em class="property">int: </em><em>pk</em><big>)</big><tt class="descname">/</tt><a class="headerlink" href="#post--api-image_upload-(int-pk)-" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload photo for spot</p>
+<p>required fields:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pk</strong> &#8211; pk of spot</li>
+<li><strong>file</strong> &#8211; image file</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Request Headers:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.8">Authorization</a> &#8211; must provide token to authenticate or be session authenticated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example request</strong>:</p>
+<div class="highlight-http"><div class="highlight"><pre>curl -X POST -H &quot;Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a&quot; -F &quot;file=@/Users/andi/Desktop/dog.jpg;type=image/jpeg&quot; http://127.0.0.1:8000/api/image_upload/1/
+</pre></div>
+</div>
+<p><strong>Example response</strong>:</p>
+<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span><span class="nt">&quot;file_url&quot;</span><span class="p">:</span><span class="s2">&quot;/media/img/64ad3bc3f06f45a9abcdd8167608faee.350x150_q85_box-0%2C936%2C2448%2C1985_crop_detail.jpg&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>

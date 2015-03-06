@@ -9,7 +9,7 @@ from api import views
 
 urlpatterns = patterns(
     '',
-    url(r'^image_upload', views.FileUploadView.as_view(), name="image_upload"),
+    url(r'^image_upload/(?P<pk>[0-9]+)/$', views.FileUploadView.as_view(), name="image_upload"),
 
     url(r'^authentication', 'api.views.authentication', name="authentication"),
 
