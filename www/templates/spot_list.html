@@ -44,10 +44,15 @@
         {{spot.phone_number}}</p>
         <span data-score="{{spot.friendly_rate}}" class="rating"></span>
     </div><div class="col2">
+    <!-- {{user.favourites}} -->
+    <!-- {{user.spot_pk_to_fav_asset_pk}} -->
+    <!-- {{user.spot_pk_to_fav_asset_pk.items}} -->
+    <!-- {{user.spot_pk_to_fav_asset_pk|keyvalue:spot.pk}} -->
+
       {% if spot in user.favourites %}
-        <span class="heart"></span>
+        <span class="heart" data-url="/api/favourites_spots/{{user.spot_pk_to_fav_asset_pk|keyvalue:spot.pk}}/"></span>
       {% else %}
-        <span class="no-heart"></span>
+        <span class="no-heart" data-url="/api/favourites_spots/"></span>
       {% endif %}
     </div>
 
@@ -56,7 +61,9 @@
   </div>
 {% endfor %}
 </div>
-
+<div style="display:none">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+</div>
 
 
 {% if spots.paginator.num_pages > 1 %}
@@ -105,10 +112,47 @@
     $(".venue_photo").hover(function( e ) {
        $(e.target).stop().fadeTo(300, e.type=="mouseenter"?1:0.2);
     });
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        console.log(cookieValue);
+        return cookieValue;
+    }
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        }
+    });
 
     $(document).on("click", "span.heart", function(e) {
       console.log("gonna delete from fav");
+      console.log($(this).data('url'));
       $(this).removeClass('heart').addClass('no-heart');
+      $.ajax({
+            url: $(this).data('url'),
+            // data: {'csrftoken': getCookie('csrftoken')},
+            type: 'DELETE',
+            success: function(result) {
+                // Do something with the result
+            }
+        });
     });
 
     $(document).on("click", "span.no-heart", function(e) {

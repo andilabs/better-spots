@@ -111,6 +111,8 @@ class UserFavouritesSpotsList(generics.ListCreateAPIView):
         return Response({'detail': 'This spot is already in your favourites'}, status=200)
 
 
+@authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
+@permission_classes((IsAuthenticated,))
 class UserFavouritesSpotDetail(generics.RetrieveUpdateDestroyAPIView):
     model = UsersSpotsList
     serializer_class = FavouritesSpotsListSerializer

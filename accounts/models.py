@@ -91,6 +91,10 @@ class SpotUser(AbstractBaseUser, PermissionsMixin):
         return [u_s_l.spot for u_s_l in UsersSpotsList.favourites.filter(user=self)]
 
     @property
+    def spot_pk_to_fav_asset_pk(self):
+         return {u_s_l.spot.pk: '%s'%u_s_l.pk for u_s_l in UsersSpotsList.favourites.filter(user=self)}
+
+    @property
     def to_be_visited(self):
         return UsersSpotsList.to_be_visited.filter(user=self)
 
