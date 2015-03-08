@@ -55,7 +55,7 @@ Scripts
 
 	base_name=$1
 	psql << EOF
-	CREATE USER $base_name WITH PASSWORD 'c9c38a6dc8cdb66a0c416a9e1f8eac21';
+	CREATE USER $base_name WITH PASSWORD $DB_PASSWORD;
 	create database $base_name;
 	GRANT ALL PRIVILEGES ON DATABASE $base_name to $base_name;
 	\connect $base_name

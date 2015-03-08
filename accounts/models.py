@@ -10,6 +10,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from core.models import UsersSpotsList
+
 
 class SpotUserManager(BaseUserManager):
 
@@ -83,6 +85,15 @@ class SpotUser(AbstractBaseUser, PermissionsMixin):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+    @property
+    def favourites(self):
+        return [u_s_l.spot for u_s_l in UsersSpotsList.favourites.filter(user=self)]
+
+    @property
+    def to_be_visited(self):
+        return UsersSpotsList.to_be_visited.filter(user=self)
+
 
 
 class EmailVerification(models.Model):

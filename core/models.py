@@ -14,38 +14,40 @@ from django.core.urlresolvers import reverse
 from django.dispatch import receiver
 from django.utils.text import slugify
 
-
-from accounts.models import SpotUser
 from utils.img_path import get_image_path
 
 
 SPOT_TYPE = (
     (1, 'cafe'),
     (2, 'restaurant'),
-    (3, 'store'),
-    (4, 'institution'),
-    (5, 'pet store'),  # google type: pet_store
-    (6, 'park'),
-    (7, 'bar'),
-    (8, 'art gallery or museum'),  # google types: art_gallery + museum
-    (9, 'veterinary care'),  # google type: veterinary_care
-    (10, 'hotel'),
+    # (3, 'store'),
+    # (4, 'institution'),
+    # (5, 'pet store'),  # google type: pet_store
+    # (6, 'park'),
+    # (7, 'bar'),
+    # (8, 'art gallery or museum'),  # google types: art_gallery + museum
+    # (9, 'veterinary care'),  # google type: veterinary_care
+    # (10, 'hotel'),
 )
 
 
 class Spot(models.Model):
     name = models.CharField(max_length=250)
     location = models.PointField(max_length=40)
+
     address_street = models.CharField(max_length=254, default='', blank=True, null=True)
     address_number = models.CharField(max_length=10, default='', blank=True, null=True)
     address_city = models.CharField(max_length=100, default='', blank=True, null=True)
     address_country = models.CharField(max_length=100, default='', blank=True, null=True)
+
     spot_type = models.IntegerField(max_length=3, choices=SPOT_TYPE)
     is_accepted = models.BooleanField(default=False)
+
     phone_number = models.CharField(max_length=100, default='', blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     www = models.URLField(blank=True, null=True)
     facebook = models.CharField(max_length=254, blank=True, null=True)
+
     is_enabled = models.NullBooleanField(default=None, null=True)
     friendly_rate = models.DecimalField(default=-1.00, max_digits=3, decimal_places=2, null=True)
 
@@ -119,6 +121,14 @@ class Spot(models.Model):
 
         return dane
 
+
+    def is_in_user_favourites(self, user):
+        if UsersSpotsList.favourites.filter(spot=self, user=user).count():
+            return True
+        else:
+            return False
+
+
     @property
     def www_url(self):
         return "http://%s%s" % (settings.INSTANCE_DOMAIN, reverse(
@@ -155,7 +165,7 @@ DOGS_ALLOWED = (
 
 class Raiting(models.Model):
     data_added = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(SpotUser)
+    user = models.ForeignKey('accounts.SpotUser')
     spot = models.ForeignKey(Spot)
     is_enabled = models.BooleanField(choices=DOGS_ALLOWED, default=False)
     friendly_rate = models.PositiveIntegerField(choices=LIKERT)
@@ -203,8 +213,18 @@ VOTE = (
 
 class OpinionUsefulnessRating(models.Model):
     opinion = models.ForeignKey(Opinion)
-    user = models.ForeignKey(SpotUser)
+    user = models.ForeignKey('accounts.SpotUser')
     vote = models.IntegerField(max_length=1, choices=VOTE)
+
+
+class UsersFavouritesSpotsListManager(models.Manager):
+    def get_queryset(self):
+        return super(UsersFavouritesSpotsListManager, self).get_queryset().filter(role=1)
+
+
+class UserToBeVisitedSpotsListManager(models.Manager):
+    def get_queryset(self):
+        return super(UserToBeVisitedSpotsListManager, self).get_queryset().filter(role=2)
 
 
 LIST_KIND = (
@@ -216,11 +236,20 @@ LIST_KIND = (
 class UsersSpotsList(models.Model):
     data_added = models.DateTimeField(auto_now_add=True)
     spot = models.ForeignKey(Spot)
-    user = models.ForeignKey(SpotUser)
+    user = models.ForeignKey('accounts.SpotUser')
     role = models.IntegerField(max_length=1, choices=LIST_KIND)
 
+    objects = models.Manager() # The default manager.
+    favourites = UsersFavouritesSpotsListManager() # The user-favourites-spots
+    to_be_visited = UserToBeVisitedSpotsListManager() # The user-to-be-visited-spots
+
     def __unicode__(self):
-        return "%s %s %s"  % (self.user.email, self.spot.name, self.role)
+        return "%s: %s %s %s"  % (
+            dict(LIST_KIND)[self.role].upper(),
+            self.user.email,
+            self.spot.name,
+            self.role
+        )
 
     class Meta:
         unique_together = ("user", "spot", "role")

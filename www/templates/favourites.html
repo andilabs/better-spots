@@ -13,6 +13,16 @@ h1 {
 	<h2 class="titles">
 		<i class="fa fa-heart fa-2x spot_project_color"></i> Your favourites spots!
 	</h2>
+{% if user.is_authenticated %}
+	{% if user.favourites %}
+		{% for spot in user.favourites %}
+			<h2 style="font-family:Lato Italic">{{spot.name}}</h2>
+		{% endfor %}
+	{% else %}
+			<h2 style="font-family:Lato Italic">You don't have any spots yet! Start hearting them tooday!</h2>
+	{% endif %}
+{% else %}
 <h1>Sign up<br> and start <b>hearting</b> your favourite spots today!</h1>
 </h1>
+{% endif %}
 {% endblock %}

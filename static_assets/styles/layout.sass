@@ -22,8 +22,56 @@
     .collapse.in
         display: block !important
 
+img.enablence-symbol
+    position: relative
+    top: 25px
+    z-index: 3
+
+// i.heart-symbol
+//     position: relative
+//     bottom: 50px
+//     z-index: 3
+
+.col2
+    display: inline-block
+    width: 20%
+    height: 100%
+    margin: 0
+    padding: 0
+
+    span.heart
+        font-size: 45px
+        color: #F46262
+        font-family: FontAwesome
+        text-decoration: none
+        &:before
+            content: '\f004'
+            opacity: 0.8
+        &:hover:before
+            color: #a1a1a1
+            content: '\f08a'
+            opacity: 1.0
+
+    span.no-heart
+        font-size: 45px
+        color: #a1a1a1
+        font-family: FontAwesome
+        text-decoration: none
+        &:before
+            content: '\f08a'
+            opacity: 0.2
+        &:hover:before
+            content: '\f004'
+            color: #F46262
+            opacity: 1.0
 
 
+.col1
+    display: inline-block
+    width: 80%
+    height: 100%
+    margin: 0
+    padding: 0
 
 
 #bs-example-navbar-collapse-1 > ul.nav.navbar-nav.navbar-right > li > a
@@ -84,6 +132,11 @@
     max-width: 350px
     margin: 10px auto
 
+div.caption
+    h4
+        a
+            font-family: Lato Italic
+            font-weight: 900
 
 .titles
     font-family: "Gloria Hallelujah"
@@ -168,6 +221,7 @@
 
 #spots_list span.list-group-item.active p.list-group-item-text span.spot_item_details a
     color: white!important
+
 
 
 #map_filters_button

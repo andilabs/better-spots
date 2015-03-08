@@ -4,7 +4,9 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from core.models import SpotUser, Spot, Raiting, Opinion, OpinionUsefulnessRating, UsersSpotsList
+
+from core.models import Spot, Raiting, Opinion, OpinionUsefulnessRating, UsersSpotsList
+from accounts.models import SpotUser
 from accounts.forms import UserCreationForm, UserChangeForm
 
 
@@ -35,17 +37,35 @@ class SpotUserAdmin(UserAdmin):
     filter_horizontal = ()
 
 
-class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
-    list_display = ['name', 'friendly_rate', 'address_city', 'is_enabled'] + [field['name'] for field in settings.HSTORE_SCHEMA]
-    list_filter = ('address_city', 'is_enabled')
-    search_fields = ['name', 'address_city', 'address_street']
-    exclude = ('location',)
-    readonly_fields = ['spot_slug'] + [field['name'] for field in settings.HSTORE_SCHEMA]
 
+
+class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
+    hstore_fields = [field['name'] for field in settings.HSTORE_SCHEMA]
+
+    list_display = ['name', 'friendly_rate', 'address_city', 'is_enabled'] + hstore_fields
+    list_filter = ('address_city', 'is_enabled', 'spot_type')
+    search_fields = ['name', 'address_city', 'address_street']
+    # exclude = ('location',)
+    readonly_fields = ['is_enabled', 'friendly_rate', 'spot_slug'] + hstore_fields
+
+    fieldsets = (
+        (None, {'fields': ('name', 'spot_type')}),
+        ('Address', {'fields': ('address_street','address_number', 'address_city','address_country')}),
+        ('Contact details', {'fields': ('phone_number', 'email', 'www', 'facebook')}),
+        ('Photo', {'fields': ('venue_photo', 'cropping_venue_photo')}),
+        ('Location', {'fields': ('location',)}),
+        ('Evaluations and facilities calculated based on raitings', {'fields': tuple(['friendly_rate', 'is_enabled']+hstore_fields)})
+    )
+
+
+
+
+class UsersSpotsListAdmin(admin.ModelAdmin):
+    list_filter = ('role', 'user',)
 
 admin.site.register(SpotUser, SpotUserAdmin)
 admin.site.register(Spot, SpotAdmin)
 admin.site.register(Raiting)
 admin.site.register(Opinion)
 admin.site.register(OpinionUsefulnessRating)
-admin.site.register(UsersSpotsList)
+admin.site.register(UsersSpotsList, UsersSpotsListAdmin)

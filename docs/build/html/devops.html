@@ -67,7 +67,17 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#aut">aut</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#authentication">authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#nearby-spots-list">nearby spots list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#spots-list">spots list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#add-new-spot">add new spot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#spot">spot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#delete-spot">delete spot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#update-spot">update spot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#image-upload">image upload</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#favourites-spots-list">favourites spots list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#add-spot-to-favourites">add spot to favourites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#delete-spot-from-favourites">delete spot from favourites</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="google_places_api.html">Google Places API</a><ul>
@@ -159,7 +169,7 @@ apachectl restart
 <h3>[create_db.sh] - create new instance postgres db with all extensions<a class="headerlink" href="#create-db-sh-create-new-instance-postgres-db-with-all-extensions" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">base_name</span><span class="o">=</span><span class="nv">$1</span>
 psql <span class="s">&lt;&lt; EOF</span>
-<span class="s">CREATE USER $base_name WITH PASSWORD &#39;c9c38a6dc8cdb66a0c416a9e1f8eac21&#39;;</span>
+<span class="s">CREATE USER $base_name WITH PASSWORD $DB_PASSWORD;</span>
 <span class="s">create database $base_name;</span>
 <span class="s">GRANT ALL PRIVILEGES ON DATABASE $base_name to $base_name;</span>
 <span class="s">\connect $base_name</span>

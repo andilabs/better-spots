@@ -19,22 +19,38 @@
 {% for spot in spots %}
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
+
+      {% if spot.is_enabled %}
+        <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png" class="enablence-symbol">
+      {% else %}
+        <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png" class="enablence-symbol">
+      {% endif %}
+
+
+
+
       {% if spot.thumbnail_venue_photo %}
-        <img src="{{spot.thumbnail_venue_photo}}">
+        <img src="{{spot.thumbnail_venue_photo}}" class="venue_photo" style="width: 350px; height: 150px;">
       {% else %}
         <img data-src="holder.js/350x150/text: no photo" alt="...">
       {% endif %}
       <div class="caption">
         <h4>
-          {% if spot.is_enabled %}
-            <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png" class="enablence_symbol">
-          {% else %}
-            <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png" class="enablence_symbol">
-          {% endif %}<a href="{% url 'spot' spot.pk spot.spot_slug %}">{{ spot.name|upper }}</a>
+          <a href="{% url 'spot' spot.pk spot.spot_slug %}">{{ spot.name|upper }}</a>
         </h4>
+
+    <div class="col1">
         <p>{{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}<br>
         {{spot.phone_number}}</p>
         <span data-score="{{spot.friendly_rate}}" class="rating"></span>
+    </div><div class="col2">
+      {% if spot in user.favourites %}
+        <span class="heart"></span>
+      {% else %}
+        <span class="no-heart"></span>
+      {% endif %}
+    </div>
+
       </div>
     </div>
   </div>
@@ -75,15 +91,31 @@
   <script language="javascript"> var STATIC_URL = "/static/"; var BASE_HOST = "//{{request.META.HTTP_HOST}}"</script>
   <script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
   <script>
-  $("img.enablence_symbol").css({marginTop: '-=50px'});
-  $('span.rating').raty({
-  score: function() {
-    return $(this).attr('data-score');
-  },
-  readOnly: function() {
-    return 'true becomes readOnly' == 'true becomes readOnly';
-  }
-});
+  var isAuthenticated = eval("{{user.is_authenticated|lower}}");
+    $('span.rating').raty({
+    score: function() {
+      return $(this).attr('data-score');
+    },
+    readOnly: function() {
+      return !isAuthenticated;
+    }
+  });
+    $(".venue_photo").fadeTo(0, 0.4); // initial opacity
+
+    $(".venue_photo").hover(function( e ) {
+       $(e.target).stop().fadeTo(300, e.type=="mouseenter"?1:0.2);
+    });
+
+    $(document).on("click", "span.heart", function(e) {
+      console.log("gonna delete from fav");
+      $(this).removeClass('heart').addClass('no-heart');
+    });
+
+    $(document).on("click", "span.no-heart", function(e) {
+      console.log("gonna ADD to fav");
+      $(this).removeClass('no-heart').addClass('heart');
+    });
+
   </script>
 </script>
 {% endblock scripts %}

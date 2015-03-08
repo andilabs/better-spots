@@ -4,9 +4,8 @@ from rest_framework import serializers
 from rest_framework.pagination import PaginationSerializer
 
 from core.models import (
-    Spot, Raiting, Opinion, OpinionUsefulnessRating,
-    SpotUser, UsersSpotsList)
-
+    Spot, Raiting, Opinion, OpinionUsefulnessRating, UsersSpotsList)
+from accounts.models import SpotUser
 
 class SpotUserSerializer(serializers.HyperlinkedModelSerializer):
 
