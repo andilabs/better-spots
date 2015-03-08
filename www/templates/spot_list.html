@@ -44,15 +44,12 @@
         {{spot.phone_number}}</p>
         <span data-score="{{spot.friendly_rate}}" class="rating"></span>
     </div><div class="col2">
-    <!-- {{user.favourites}} -->
-    <!-- {{user.spot_pk_to_fav_asset_pk}} -->
-    <!-- {{user.spot_pk_to_fav_asset_pk.items}} -->
-    <!-- {{user.spot_pk_to_fav_asset_pk|keyvalue:spot.pk}} -->
+
 
       {% if spot in user.favourites %}
         <span class="heart" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="{{user.spot_pk_to_fav_asset_pk|keyvalue:spot.pk}}"></span>
       {% else %}
-        <span class="no-heart" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk=""></span>
+        <span class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk=""></span>
       {% endif %}
     </div>
 
@@ -156,7 +153,7 @@
         });
     });
 
-    $(document).on("click", "span.no-heart", function(e) {
+    $(document).on("click", "span.no-heart:not(.disabled)", function(e) {
       heart = $(this);
       url = $(this).data('url');
       // console.log("POST:", url);
@@ -170,7 +167,9 @@
             }
         });
     });
-
+    $(document).on("click", "span.no-heart.disabled", function(e) {
+      alert("Login required to add spots to favourites!");
+    });
   </script>
 </script>
 {% endblock scripts %}

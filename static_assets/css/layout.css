@@ -61,6 +61,10 @@ img.enablence-symbol {
       content: "";
       color: #F46262;
       opacity: 1; }
+    .col2 span.no-heart.disabled:hover:before {
+      content: "";
+      color: #a1a1a1;
+      opacity: 1; }
 
 .col1 {
   display: inline-block;
