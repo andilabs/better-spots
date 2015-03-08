@@ -107,7 +107,9 @@ class UserFavouritesSpotsList(generics.ListCreateAPIView):
                 spot=spot,
                 role=role,
             )
-            return Response({'detail': ("Added %s to favourites" % o.spot.name)}, status=201)
+            return Response({
+                'detail': ("Added %s to favourites" % o.spot.name),
+                'pk': o.pk}, status=201)
         return Response({'detail': 'This spot is already in your favourites'}, status=200)
 
 

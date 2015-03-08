@@ -436,7 +436,7 @@ add spot to favourites
 
     .. sourcecode:: http
 
-        curl -X POST http://127.0.0.1:8000/api/favourites_spots/ -H 'Content-Type:application/json' -H 'Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a' -d '{"spot":5}'
+        curl -X POST http://127.0.0.1:8000/api/favourites_spots/ -H 'Content-Type:application/json' -H 'Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a' -d '{"spot_pk":5}'
 
     **Example response**:
 
