@@ -40,16 +40,16 @@ class OpinionSerializer(serializers.HyperlinkedModelSerializer):
 class RaitingSerializer(serializers.HyperlinkedModelSerializer):
 
     opinion = OpinionSerializer(read_only=True)
-    spot = serializers.HyperlinkedRelatedField(
-        read_only=True, view_name='spot-detail')
-    user = serializers.HyperlinkedRelatedField(
-        read_only=True, view_name='spotuser-detail')
+    spot = serializers.HyperlinkedRelatedField(read_only=True, view_name='spot-detail')
+    # user = serializers.HyperlinkedRelatedField(
+        # read_only=True, view_name='spotuser-detail')
+    spot_pk = serializers.PrimaryKeyRelatedField(queryset=Spot.objects.all())
     is_enabled = serializers.BooleanField()
 
     class Meta:
         model = Raiting
         fields = (
-            'url', 'is_enabled', 'friendly_rate', 'spot', 'user', 'opinion', 'facilities')
+            'url', 'is_enabled', 'friendly_rate', 'spot','spot_pk', 'opinion')#, 'facilities')
 
 
 class SpotListSerializer(serializers.HyperlinkedModelSerializer):

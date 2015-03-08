@@ -181,6 +181,10 @@ class Raiting(models.Model):
         else:
             return None
 
+    @property
+    def spot_pk(self):
+        return  self.spot.pk
+
     def __unicode__(self):
         return "%s %s by: %s rate: %2.f" % (
             self.spot.name,
@@ -281,20 +285,20 @@ def update_spot_ratings(instance, **kwags):
     # determine each FACILITY fullfilment
     stats = {}
 
-    for facility in [facility['name'] for facility in settings.HSTORE_SCHEMA]:
-        facilities_record = [r.facilities[facility] for r in all_raitings_of_spot]
-        stats[facility] = {
-            'positive': facilities_record.count(True),
-            'all': len(facilities_record)-facilities_record.count(None)
-        }
+    # for facility in [facility['name'] for facility in settings.HSTORE_SCHEMA]:
+    #     facilities_record = [r.facilities[facility] for r in all_raitings_of_spot]
+    #     stats[facility] = {
+    #         'positive': facilities_record.count(True),
+    #         'all': len(facilities_record)-facilities_record.count(None)
+    #     }
 
-    for facility, counts in stats.items():
-        if counts['all'] > 0:
-            positive_ratio = counts['positive'] / float(counts['all'])
-            if positive_ratio > 0.5:
-                spot.facilities[facility] = True
-            else:
-                spot.facilities[facility] = False
-        else:
-            spot.facilities[facility] = None
+    # for facility, counts in stats.items():
+    #     if counts['all'] > 0:
+    #         positive_ratio = counts['positive'] / float(counts['all'])
+    #         if positive_ratio > 0.5:
+    #             spot.facilities[facility] = True
+    #         else:
+    #             spot.facilities[facility] = False
+    #     else:
+    #         spot.facilities[facility] = None
     spot.save()

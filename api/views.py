@@ -181,6 +181,21 @@ class RaitingList(generics.ListCreateAPIView):
         queryset = Raiting.objects.all()
         return queryset
 
+    def post(self, request):
+        spot = get_object_or_404(Spot, pk=request.data.get('spot_pk'))
+        user = request.user
+        friendly_rate = request.data.get('friendly_rate')
+
+        if Raiting.objects.filter(spot=spot, user=user):
+            rat=Raiting.objects.get(spot=spot, user=user)
+            rat.friendly_rate=friendly_rate
+            rat.save()
+            return Response({'detail': 'Updated your Raiting'}, status=200)
+        else:
+            Raiting.objects.create(spot=spot, user=user, friendly_rate=friendly_rate)
+            return Response({'detail': 'Raiting added!'}, status=200)
+        # import ipdb; ipdb.set_trace()
+
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
 @permission_classes((IsAuthenticatedOrReadOnly,))
 class RaitingDetail(generics.RetrieveUpdateDestroyAPIView):

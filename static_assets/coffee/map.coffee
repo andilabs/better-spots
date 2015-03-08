@@ -272,7 +272,7 @@ loadMarkers = (lat, lng) ->
                 $("#map_canvas")
                     .gmap "openInfoWindow",
                         position: @getPosition()
-                        content: renderInfoWindow(allSpotsDict[@id].spot, userReadOnly=false)
+                        content: renderInfoWindow(allSpotsDict[@id].spot, userReadOnly=!READ_ONLY)
 
                 activateSpotTableViewCellFor(@id)
 
@@ -280,7 +280,7 @@ loadMarkers = (lat, lng) ->
         spinner.stop()
 
 $ ->
-
+    console.log(READ_ONLY)
     checkCookies()
 
 
@@ -408,6 +408,10 @@ $ ->
         $("#map_canvas")
             .gmap "openInfoWindow",
                 position: window.allSpotsDict[@id].marker.getPosition()
-                content: renderInfoWindow(allSpotsDict[@id].spot, userReadOnly=false)
+                content: renderInfoWindow(allSpotsDict[@id].spot, userReadOnly=!eval(READ_ONLY))
 
         $("#map_canvas").gmap("get", "map").panTo window.allSpotsDict[@id].marker.getPosition()
+
+    $("#map_canvas").on 'click', 'div.rate', (e) ->
+        #here should happen POST with rating for spot given by logged-in user.
+        console.log "spot: #{@.id} score: #{$(@).find('input[name="score"]').val()}"

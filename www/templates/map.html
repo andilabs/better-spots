@@ -38,7 +38,7 @@
 {% block scripts %}
   {{ block.super }}
   <script type="text/javascript" src="{{ STATIC_URL }}external/spin/spin.min.js"></script>
-  <script language="javascript">var ICON_URL = "/static/{% settings_value "SPOT_PROJECT_NAME" %}/"; var STATIC_URL = "/static/"; var BASE_HOST = "//{{request.META.HTTP_HOST}}"</script>
+  <script language="javascript">var ICON_URL = "/static/{% settings_value "SPOT_PROJECT_NAME" %}/"; var STATIC_URL = "/static/"; var BASE_HOST = "//{{request.META.HTTP_HOST}}"; var READ_ONLY={{user.is_authenticated|lower}}</script>
   <script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/map.js"></script>
 {% endblock scripts %}

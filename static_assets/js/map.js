@@ -289,7 +289,7 @@
           $("#map_canvas").gmap("get", "map").panTo(this.getPosition());
           $("#map_canvas").gmap("openInfoWindow", {
             position: this.getPosition(),
-            content: renderInfoWindow(allSpotsDict[this.id].spot, userReadOnly = false)
+            content: renderInfoWindow(allSpotsDict[this.id].spot, userReadOnly = !READ_ONLY)
           });
           return activateSpotTableViewCellFor(this.id);
         });
@@ -300,6 +300,7 @@
   };
 
   $(function() {
+    console.log(READ_ONLY);
     checkCookies();
     $('body').on('click', function(e) {
       if ($(e.target).parents("#map_filters").length === 0 && e.target.id !== "map_filters_button") {
@@ -397,14 +398,17 @@
         return clientPosition = new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng);
       }
     });
-    return $("#spots_list").on("click", "span.list-group-item:not(#memo_empty)", function(evt) {
+    $("#spots_list").on("click", "span.list-group-item:not(#memo_empty)", function(evt) {
       var userReadOnly;
       activateSpotTableViewCellFor(this.id);
       $("#map_canvas").gmap("openInfoWindow", {
         position: window.allSpotsDict[this.id].marker.getPosition(),
-        content: renderInfoWindow(allSpotsDict[this.id].spot, userReadOnly = false)
+        content: renderInfoWindow(allSpotsDict[this.id].spot, userReadOnly = !eval(READ_ONLY))
       });
       return $("#map_canvas").gmap("get", "map").panTo(window.allSpotsDict[this.id].marker.getPosition());
+    });
+    return $("#map_canvas").on('click', 'div.rate', function(e) {
+      return console.log("spot: " + this.id + " score: " + ($(this).find('input[name="score"]').val()));
     });
   });
 

@@ -30,9 +30,9 @@
 
 
       {% if spot.thumbnail_venue_photo %}
-        <img src="{{spot.thumbnail_venue_photo}}" class="venue_photo" style="width: 350px; height: 150px;">
+        <img src="{{spot.thumbnail_venue_photo}}" class="venue_photo{% if spot.is_enabled %} ok {% else %} bad{% endif %}" style="width: 350px; height: 150px;">
       {% else %}
-        <img data-src="holder.js/350x150/text: no photo" alt="...">
+        <img data-src="holder.js/350x150/text: no photo" alt="..." class="venue_photo{% if spot.is_enabled %} ok {% else %} bad{% endif %}">
       {% endif %}
       <div class="caption">
         <h4>
@@ -42,7 +42,7 @@
     <div class="col1">
         <p>{{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}<br>
         {{spot.phone_number}}</p>
-        <span data-score="{{spot.friendly_rate}}" class="rating"></span>
+        <span data-score="{{spot.friendly_rate}}" class="rating" id={{spot.pk}}></span>
     </div><div class="col2">
 
 
@@ -169,6 +169,24 @@
     });
     $(document).on("click", "span.no-heart.disabled", function(e) {
       alert("Login required to add spots to favourites!");
+    });
+
+    $(document).on('click', 'span.rating', function(e) {
+        //here should happen POST with rating for spot given by logged-in user.
+      console.log("spot:", $(this).attr('id'), "score:", $(this).find('input[name="score"]').val());
+
+
+      $.ajax({
+            url: '/api/raitings/',
+            data: {'spot_pk': $(this).attr('id'), 'friendly_rate': $(this).find('input[name="score"]').val()},
+            type: 'POST',
+            success: function(result) {
+              $(heart).data('fav-pk', result.pk)
+              $(heart).removeClass('no-heart').addClass('heart');
+            }
+        });
+
+
     });
   </script>
 </script>
