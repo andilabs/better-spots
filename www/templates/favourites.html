@@ -22,7 +22,17 @@ h1 {
 			<h2 style="font-family:Lato Italic">You don't have any spots yet! Start hearting them tooday!</h2>
 	{% endif %}
 {% else %}
-<h1>Sign up<br> and start <b>hearting</b> your favourite spots today!</h1>
-</h1>
+	<h1>Sign up<br> and start <b>hearting</b> your favourite spots today!</h1>
+	</h1>
+	 <div class="row">
+          <div class="col-xs-4">
+         	<a class="btn btn-success btn-lg" href="/user/login/" role="button">Login</a>
+          </div>
+          <div class="col-xs-4" style="text-align:left">
+          	<a class="btn btn-success btn-lg" href="/user/create/" role="button">Register</a>
+          </div>
+          <div class="col-xs-4" align="right">
+          </div>
+      </div>
 {% endif %}
 {% endblock %}

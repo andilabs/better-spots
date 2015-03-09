@@ -13,7 +13,11 @@ urlpatterns = patterns(
     url(r'^contact/$', ContactView.as_view(), name='contact'),
     url(r'^map/$', 'www.views.map', name='map'),
     url(r'^map_two/$', 'www.views.map_two', name='map_two'),
-    url(r'^certificate/(?P<pk>\d+)/$', 'www.views.certificate', name='certificate'),
+
+    url(r'^certificated/$', 'www.views.certificated_list', name='certificated-list'),
+
+    url(r'^certificated/(?P<pk>\d+)/$', 'www.views.certificated', name='certificated-detail'),
+
     url(r'^favourites/$', 'www.views.favourites', name='favourites'),
     url(r'^about/$', 'www.views.about', name='about'),
     url(r'^spots/$', 'www.views.spots', name='spots'),

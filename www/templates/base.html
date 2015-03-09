@@ -106,7 +106,7 @@
             </li>
 
             <li>
-              <a href="/certificate/6">
+              <a href="/certificated">
                 <i class="fa fa-certificate fa-2x" data-toggle="tooltip" data-placement="bottom" title="Certificate"></i>
               </a>
             </li>
@@ -159,10 +159,17 @@
 
     <footer>
       <div class="row">
-          <div class="col-xs-6">
+          <div class="col-xs-4">
             <span class="footer-text">{% settings_value "SPOT_PROJECT_SLOGAN" %}</span>
           </div>
-          <div class="col-xs-6" align="right">
+          <div class="col-xs-4" style="text-align:center">
+          <span style="font-family:Nobile; font-size:15px;">
+                                Powered by: <img src="{{STATIC_URL}}/{% settings_value "SPOT_PROJECT_NAME" %}/logo.png" height="50px"> </span>
+                                <span style="font-family:Lobster; font-size:25px;">
+                                        {% settings_value "SPOT_PROJECT_NAME" %}
+                                </span>
+          </div>
+          <div class="col-xs-4" align="right">
             <span class="footer-text">2014 &copy; by</span><a href="http://andilabs.com/"><div class="andilabs_logo"></div></a>
           </div>
       </div>

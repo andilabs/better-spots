@@ -49,7 +49,7 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
     readonly_fields = ['is_enabled', 'friendly_rate', 'spot_slug'] + hstore_fields
 
     fieldsets = (
-        (None, {'fields': ('name', 'spot_type')}),
+        (None, {'fields': ('name', 'spot_type', 'is_certificated')}),
         ('Address', {'fields': ('address_street','address_number', 'address_city','address_country')}),
         ('Contact details', {'fields': ('phone_number', 'email', 'www', 'facebook')}),
         ('Photo', {'fields': ('venue_photo', 'cropping_venue_photo')}),

@@ -50,6 +50,7 @@ class Spot(models.Model):
 
     is_enabled = models.NullBooleanField(default=None, null=True)
     friendly_rate = models.DecimalField(default=-1.00, max_digits=3, decimal_places=2, null=True)
+    is_certificated = models.BooleanField(default=False)
 
     venue_photo = ImageCropField(upload_to=get_image_path, blank=True, null=True)
     cropping_venue_photo = ImageRatioField(

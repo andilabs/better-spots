@@ -190,10 +190,14 @@ class RaitingList(generics.ListCreateAPIView):
             rat=Raiting.objects.get(spot=spot, user=user)
             rat.friendly_rate=friendly_rate
             rat.save()
-            return Response({'detail': 'Updated your Raiting'}, status=200)
+            spot_ratings = [r.friendly_rate for r in Raiting.objects.filter(spot=spot)]
+            return Response({
+                'detail': 'Updated your Raiting',
+                'new_score': sum(spot_ratings)/float(len(spot_ratings))
+                }, status=200)
         else:
             Raiting.objects.create(spot=spot, user=user, friendly_rate=friendly_rate)
-            return Response({'detail': 'Raiting added!'}, status=200)
+            return Response({'detail': 'Raiting added!', 'new_score': spot.friendly_rate}, status=200)
         # import ipdb; ipdb.set_trace()
 
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))

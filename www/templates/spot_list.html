@@ -11,7 +11,7 @@
 
 {% load instance_settings_via_tags %}
 <h2 class="titles">
-  <span class="fa fa-th-large fa-2x spot_project_color"></span> Spots!
+  <span class="fa fa-{{icon_type}} fa-2x spot_project_color"></span> {{site_title}}!
 </h2>
 
 
@@ -19,13 +19,15 @@
 {% for spot in spots %}
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
-
-      {% if spot.is_enabled %}
-        <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png" class="enablence-symbol">
+      {% if spot.is_certificated %}
+        <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/certificate_small.png" class="enablence-symbol">
       {% else %}
-        <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png" class="enablence-symbol">
+        {% if spot.is_enabled %}
+          <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png" class="enablence-symbol">
+        {% else %}
+          <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png" class="enablence-symbol">
+        {% endif %}
       {% endif %}
-
 
 
 
@@ -42,7 +44,7 @@
     <div class="col1">
         <p>{{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}<br>
         {{spot.phone_number}}</p>
-        <span data-score="{{spot.friendly_rate}}" class="rating" id={{spot.pk}}></span>
+        <span data-score="{{spot.friendly_rate}}" class="rating" id="{{spot.pk}}"></span>
     </div><div class="col2">
 
 
@@ -102,12 +104,12 @@
     },
     readOnly: function() {
       return !isAuthenticated;
-    }
+    },
   });
-    $(".venue_photo").fadeTo(0, 0.4); // initial opacity
+    $(".venue_photo").fadeTo(0, 0.5); // initial opacity
 
     $(".venue_photo").hover(function( e ) {
-       $(e.target).stop().fadeTo(300, e.type=="mouseenter"?1:0.2);
+       $(e.target).stop().fadeTo(300, e.type=="mouseenter"?1:0.5);
     });
     function getCookie(name) {
         var cookieValue = null;
@@ -122,7 +124,6 @@
                 }
             }
         }
-        // console.log(cookieValue);
         return cookieValue;
     }
 
@@ -139,16 +140,19 @@
     });
 
     $(document).on("click", "span.heart", function(e) {
-      // console.log("gonna delete from fav");
-      // console.log($(this).data('url'));
       heart = $(this);
       deleteFavUrl = $(this).data('url') + $(this).data('fav-pk') +'/';
-      // console.log("DELETE:", deleteFavUrl);
+      console.log("DELETE:", deleteFavUrl);
       $.ajax({
             url: deleteFavUrl,
             type: 'DELETE',
             success: function(result) {
-              $(heart).removeClass('heart').addClass('no-heart');
+              if (window.location.pathname.indexOf("favourites") >= 0){
+                $(heart).parents('div.thumbnail').remove();
+              }
+              else{
+                $(heart).removeClass('heart').addClass('no-heart');
+              }
             }
         });
     });
@@ -156,7 +160,6 @@
     $(document).on("click", "span.no-heart:not(.disabled)", function(e) {
       heart = $(this);
       url = $(this).data('url');
-      // console.log("POST:", url);
       $.ajax({
             url: url,
             data: {'spot_pk': $(this).data('spot-pk')},
@@ -172,20 +175,22 @@
     });
 
     $(document).on('click', 'span.rating', function(e) {
-        //here should happen POST with rating for spot given by logged-in user.
-      console.log("spot:", $(this).attr('id'), "score:", $(this).find('input[name="score"]').val());
+      rater = $(this);
 
-
+      if (rater.find('input[name="score"]').is('[readonly]') == false) {
       $.ajax({
             url: '/api/raitings/',
-            data: {'spot_pk': $(this).attr('id'), 'friendly_rate': $(this).find('input[name="score"]').val()},
+            data: {'spot_pk': rater.attr('id'), 'friendly_rate': rater.find('input[name="score"]').val()},
             type: 'POST',
             success: function(result) {
-              $(heart).data('fav-pk', result.pk)
-              $(heart).removeClass('no-heart').addClass('heart');
+              selector = 'span#'+$(rater).attr('id')
+              $(selector).raty({ score: result.new_score });
             }
         });
-
+      }
+      else {
+        alert("Login required to rate spots!");
+      }
 
     });
   </script>

@@ -44,23 +44,10 @@ def mobile(request):
         response = TemplateResponse(request, 'mobile.html', {})
         return response
 
-
-def favourites(request):
-    if request.method == 'GET':
-        response = TemplateResponse(request, 'favourites.html', {'my_debug': settings.PROJECT_ROOT_PATH})
-        return response
-
-
 def about(request):
     if request.method == 'GET':
         response = TemplateResponse(request, 'about.html', {})
         return response
-
-
-def certificate(request, pk):
-    spot = get_object_or_404(Spot, pk=pk)
-    link = '/qrcode/%d/2' % int(pk)
-    return render(request, 'certificate.html', {'spot': spot, 'qrcode_link': link})
 
 
 def render_to_pdf(template_src, context_dict):
@@ -98,9 +85,7 @@ def pdf_sticker(request, pk):
 
 
 def ajax_search(request):
-
     query = request.GET.get('q', '')
-
     result = [
         {
             'name': s.name,
@@ -144,8 +129,33 @@ def download_vcard(request, pk):
 
 
 def spots(request):
-    spots_list = Spot.objects.all()
-    paginator = Paginator(spots_list, 6)
+    spots = Spot.objects.order_by('name')
+    return spots_list(request, spots, site_title='browse spots')
+
+
+def favourites(request):
+
+    if request.user.is_authenticated():
+        spots = request.user.favourites
+        return spots_list(request, spots, site_title='your favourites spots', icon_type='heart')
+    else:
+        response = TemplateResponse(request, 'favourites.html')
+        return response
+
+
+def certificated_list(request):
+    spots = Spot.objects.filter(is_certificated=True).order_by('name')
+    return spots_list(request, spots, site_title='certificated spots', icon_type='certificate')
+
+
+def certificated(request, pk):
+    spot = get_object_or_404(Spot, pk=pk)
+    link = '/qrcode/%d/2' % int(pk)
+    return render(request, 'certificate.html', {'spot': spot, 'qrcode_link': link})
+
+
+def spots_list(request, spots, site_title='Spots', template='spot_list.html', icon_type='th'):
+    paginator = Paginator(spots, 6)
     page = request.GET.get('page')
     try:
         spots = paginator.page(page)
@@ -153,7 +163,12 @@ def spots(request):
         spots = paginator.page(1)
     except EmptyPage:
         spots = paginator.page(paginator.num_pages)
-    return render(request, 'spot_list.html', {'spots': spots})
+    return render(request, template, {
+        'spots': spots,
+        'site_title': site_title,
+        'icon_type': icon_type
+    })
+
 
 
 def spot(request, pk, slug):
