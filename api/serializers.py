@@ -3,9 +3,9 @@ from django.contrib.gis.geos import fromstr, Point
 from rest_framework import serializers
 from rest_framework.pagination import PaginationSerializer
 
-from core.models import (
-    Spot, Raiting, Opinion, OpinionUsefulnessRating, UsersSpotsList)
+from core.models import Spot, Rating, UsersSpotsList
 from accounts.models import SpotUser
+
 
 class SpotUserSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -14,42 +14,14 @@ class SpotUserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'mail_verified', 'email')
 
 
-class OpinionUsefulnessRatingSerializer(serializers.HyperlinkedModelSerializer):
-    opinion = serializers.HyperlinkedRelatedField(
-        read_only=True, view_name='opinion-detail')
-    user = serializers.HyperlinkedRelatedField(
-        read_only=True, view_name='spotuser-detail')
-
-    class Meta:
-        model = OpinionUsefulnessRating
-        fields = ('url', 'opinion', 'vote', 'user')
-
-
-class OpinionSerializer(serializers.HyperlinkedModelSerializer):
-    raiting = serializers.HyperlinkedRelatedField(
-        read_only=True, view_name='raiting-detail')
-    opinion_usefulnes_raitings = OpinionUsefulnessRatingSerializer(
-        read_only=True, many=True)
-
-    class Meta:
-        model = Opinion
-        fields = (
-            'opinion_text', 'url', 'raiting', 'opinion_usefulnes_raitings')
-
-
-class RaitingSerializer(serializers.HyperlinkedModelSerializer):
-
-    opinion = OpinionSerializer(read_only=True)
+class RatingSerializer(serializers.HyperlinkedModelSerializer):
     spot = serializers.HyperlinkedRelatedField(read_only=True, view_name='spot-detail')
-    # user = serializers.HyperlinkedRelatedField(
-        # read_only=True, view_name='spotuser-detail')
     spot_pk = serializers.PrimaryKeyRelatedField(queryset=Spot.objects.all())
     is_enabled = serializers.BooleanField()
 
     class Meta:
-        model = Raiting
-        fields = (
-            'url', 'is_enabled', 'friendly_rate', 'spot','spot_pk', 'opinion')#, 'facilities')
+        model = Rating
+        fields = ('url', 'is_enabled', 'friendly_rate', 'spot','spot_pk', 'facilities')
 
 
 class SpotListSerializer(serializers.HyperlinkedModelSerializer):
@@ -90,7 +62,7 @@ class SpotListSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class SpotDetailSerializer(SpotListSerializer):
-    raitings = RaitingSerializer(read_only=True, many=True)
+    ratings = RatingSerializer(read_only=True, many=True)
     friendly_rate = serializers.ReadOnlyField()
     is_enabled = serializers.ReadOnlyField()
 
@@ -116,7 +88,6 @@ class PaginetedSpotWithDistanceSerializer(PaginationSerializer):
 class FavouritesSpotsListSerializer(serializers.HyperlinkedModelSerializer):
     spot = SpotListSerializer(read_only=True)
     spot_pk = serializers.PrimaryKeyRelatedField(queryset=Spot.objects.all())
-    # spot = serializers.HyperlinkedRelatedField(read_only=False, view_name='spot-detail', queryset=Spot.objects.all())
 
     class Meta:
         model = UsersSpotsList

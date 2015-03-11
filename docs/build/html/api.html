@@ -78,6 +78,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#favourites-spots-list">favourites spots list</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#add-spot-to-favourites">add spot to favourites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#delete-spot-from-favourites">delete spot from favourites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ratings-list">ratings list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rate-spot">rate spot</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="google_places_api.html">Google Places API</a><ul>
@@ -142,7 +144,7 @@
 </table>
 </dd></dl>
 
-<p><strong>Example request</strong>:</p>
+<p><strong>Example CURL request</strong>:</p>
 <div class="highlight-http"><div class="highlight"><pre>curl -X POST http://127.0.0.1:8000/api/authentication -d &quot;email=andi@andilabs.com&amp;password=somepass&quot;
 </pre></div>
 </div>
@@ -181,7 +183,7 @@
 </table>
 </dd></dl>
 
-<p><strong>Example request</strong>:</p>
+<p><strong>Example CURL request</strong>:</p>
 <div class="highlight-http"><div class="highlight"><pre>curl -X GET http://127.0.0.1:8000/api/nearby/52.18654/21.01687/3500
 </pre></div>
 </div>
@@ -238,7 +240,7 @@
 <dd><p>Returns list of all spots.</p>
 </dd></dl>
 
-<p><strong>Example request</strong>:</p>
+<p><strong>Example CURL request</strong>:</p>
 <div class="highlight-http"><div class="highlight"><pre>curl -X GET http://127.0.0.1:8000/api/spots/
 </pre></div>
 </div>
@@ -349,7 +351,7 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Example request</strong>:</p>
+<p><strong>Example CURL request</strong>:</p>
 <div class="highlight-http"><div class="highlight"><pre>curl -X POST http://127.0.0.1:8000/api/spots/ -H &#39;Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a&#39; -H &#39;Content-Type:application/json&#39; -d &#39;{
   &quot;name&quot;: &quot;Some New Spot&quot;,
   &quot;location&quot;: {
@@ -382,8 +384,8 @@
 <dl class="get">
 <dt id="get--api-spots-(int-pk)-">
 <tt class="descname">GET </tt><tt class="descname">/api/spots/</tt><big>(</big><em class="property">int: </em><em>pk</em><big>)</big><tt class="descname">/</tt><a class="headerlink" href="#get--api-spots-(int-pk)-" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get single spot details. All nested raiting, comments and facilities evaluations.</p>
-<p><strong>Example request</strong>:</p>
+<dd><p>Get single spot details. All nested rating, comments and facilities evaluations.</p>
+<p><strong>Example CURL request</strong>:</p>
 <div class="highlight-http"><div class="highlight"><pre>curl -X GET http://127.0.0.1:8000/api/spots/2/
 </pre></div>
 </div>
@@ -397,9 +399,9 @@
         <span class="nt">&quot;latitude&quot;</span><span class="p">:</span> <span class="mf">50.04608</span><span class="p">,</span>
         <span class="nt">&quot;longitude&quot;</span><span class="p">:</span> <span class="mf">19.94929</span>
     <span class="p">},</span>
-    <span class="nt">&quot;raitings&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="nt">&quot;ratings&quot;</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span>
-            <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/raitings/2/&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/ratings/2/&quot;</span><span class="p">,</span>
             <span class="nt">&quot;is_enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
             <span class="nt">&quot;friendly_rate&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
             <span class="nt">&quot;spot&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/spots/8/&quot;</span><span class="p">,</span>
@@ -412,7 +414,7 @@
             <span class="p">}</span>
         <span class="p">},</span>
         <span class="p">{</span>
-            <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/raitings/4/&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/ratings/4/&quot;</span><span class="p">,</span>
             <span class="nt">&quot;is_enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
             <span class="nt">&quot;friendly_rate&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
             <span class="nt">&quot;spot&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/spots/8/&quot;</span><span class="p">,</span>
@@ -425,7 +427,7 @@
             <span class="p">}</span>
         <span class="p">},</span>
         <span class="p">{</span>
-            <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/raitings/7/&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/ratings/7/&quot;</span><span class="p">,</span>
             <span class="nt">&quot;is_enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
             <span class="nt">&quot;friendly_rate&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
             <span class="nt">&quot;spot&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/spots/8/&quot;</span><span class="p">,</span>
@@ -490,7 +492,8 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Example request</strong>:</p>
+<p>The user must be admin.</p>
+<p><strong>Example CURL request</strong>:</p>
 <div class="highlight-http"><div class="highlight"><pre>curl -X DELETE http://127.0.0.1:8000/api/spots/13/ -H &quot;Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a&quot;
 </pre></div>
 </div>
@@ -524,13 +527,14 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Example request</strong>:</p>
+<p>The user must be admin.</p>
+<p><strong>Example CURL request</strong>:</p>
 <div class="highlight-http"><div class="highlight"><pre> curl -X PUT http://127.0.0.1:8000/api/spots/2/ -H &#39;Content-Type:application/json&#39; -H &#39;Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a&#39; -d &#39;{
   &quot;url&quot;: &quot;http://127.0.0.1:8000/api/spots/2/ SOME UPDATE&quot;,
   &quot;www_url&quot;: &quot;http://127.0.0.1:8000/spots/2/kafka-cafe-warszawa-obozowa-3/&quot;,
   &quot;id&quot;: 2,
   &quot;thumbnail_venue_photo&quot;: null,
-  &quot;raitings&quot;: [],
+  &quot;ratings&quot;: [],
   &quot;name&quot;: &quot;Kafka SOME UPDATE&quot;,
   &quot;location&quot;: {
     &quot;latitude&quot;: 52.23959,
@@ -580,7 +584,7 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Example request</strong>:</p>
+<p><strong>Example CURL request</strong>:</p>
 <div class="highlight-http"><div class="highlight"><pre>curl -X POST -H &quot;Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a&quot; -F &quot;file=@/Users/andi/Desktop/dog.jpg;type=image/jpeg&quot; http://127.0.0.1:8000/api/image_upload/1/
 </pre></div>
 </div>
@@ -609,7 +613,7 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Example request</strong>:</p>
+<p><strong>Example CURL request</strong>:</p>
 <div class="highlight-http"><div class="highlight"><pre>curl -X GET -H &quot;Authorization: Token f5d7d38342a2c23c2205a660f4e3ff0464b9a882&quot; http://127.0.0.1:8000/api/favourites_spots/
 </pre></div>
 </div>
@@ -639,7 +643,7 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Example request</strong>:</p>
+<p><strong>Example CURL request</strong>:</p>
 <div class="highlight-http"><div class="highlight"><pre>curl -X POST http://127.0.0.1:8000/api/favourites_spots/ -H &#39;Content-Type:application/json&#39; -H &#39;Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a&#39; -d &#39;{&quot;spot_pk&quot;:5}&#39;
 </pre></div>
 </div>
@@ -695,10 +699,114 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Example request</strong>:</p>
+<p><strong>Example CURL request</strong>:</p>
 <div class="highlight-http"><div class="highlight"><pre>curl -X DELETE http://127.0.0.1:8000/api/favourites_spots/38/ -H &quot;Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a&quot;
 </pre></div>
 </div>
+</dd></dl>
+
+</div>
+<div class="section" id="ratings-list">
+<h2>ratings list<a class="headerlink" href="#ratings-list" title="Permalink to this headline">¶</a></h2>
+<dl class="get">
+<dt id="get--api-ratings-">
+<tt class="descname">GET </tt><tt class="descname">/api/ratings/</tt><a class="headerlink" href="#get--api-ratings-" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns all ratings</p>
+<p><strong>Example CURL request</strong>:</p>
+<div class="highlight-http"><div class="highlight"><pre>curl -X GET http://127.0.0.1:8000/api/ratings/
+</pre></div>
+</div>
+<p><strong>Example response</strong>:</p>
+<div class="highlight-json"><div class="highlight"><pre><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/ratings/34/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;is_enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;friendly_rate&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="nt">&quot;spot&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/spots/6/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;spot_pk&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="nt">&quot;facilities&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;snacks&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;dedicated_dogs_menu&quot;</span><span class="p">:</span> <span class="s2">&quot;False&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;fresh_water&quot;</span><span class="p">:</span> <span class="kc">null</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/ratings/35/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;is_enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="nt">&quot;friendly_rate&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nt">&quot;spot&quot;</span><span class="p">:</span> <span class="s2">&quot;http://127.0.0.1:8000/api/spots/6/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;spot_pk&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="nt">&quot;facilities&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;snacks&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nt">&quot;dedicated_dogs_menu&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;fresh_water&quot;</span><span class="p">:</span> <span class="s2">&quot;False&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="rate-spot">
+<h2>rate spot<a class="headerlink" href="#rate-spot" title="Permalink to this headline">¶</a></h2>
+<dl class="post">
+<dt id="post--api-ratings-">
+<tt class="descname">POST </tt><tt class="descname">/api/ratings/</tt><a class="headerlink" href="#post--api-ratings-" title="Permalink to this definition">¶</a></dt>
+<dd><p>User can rate each spot only once. If user&#8217;s rating for given spot already exists, we do not&#8217;t add next rating but update the exisitng one.</p>
+<p>We return the <cite>new_score</cite> which is calculated average rating from all ratings for  rated spot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>spot_pk</strong> &#8211; pk of spot to be rated</li>
+<li><strong>friendly_rate</strong> &#8211; integer 1-5</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Request Headers:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.8">Authorization</a> &#8211; must provide token to authenticate or be session authenticated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example CURL request</strong>:</p>
+<div class="highlight-http"><div class="highlight"><pre>curl -X POST http://127.0.0.1:8000/api/ratings/ -H &#39;Content-Type:application/json&#39; -H &#39;Authorization: Token 3a2d9ee2cfaefea6d073a11641c08152db2b9a04&#39; -d &#39;{
+  &quot;spot_pk&quot;: 6,
+  &quot;friendly_rate&quot;: 4,
+  &quot;is_enabled&quot;: true,
+  &quot;facilities&quot;: {
+    &quot;snacks&quot;: true,
+    &quot;dedicated_dogs_menu&quot;: false,
+    &quot;fresh_water&quot;: null
+  }
+}&#39;
+</pre></div>
+</div>
+<p><strong>Example response</strong>:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Status Codes:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5">404 Not Found</a> &#8211; <p>There is no spot with given id</p>
+<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span><span class="nt">&quot;detail&quot;</span><span class="p">:</span><span class="s2">&quot;Not found&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a> &#8211; <p>sucessfully added new rating or updated the exisitng one</p>
+<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span><span class="nt">&quot;new_score&quot;</span><span class="p">:</span><span class="mf">3.0</span><span class="p">,</span><span class="nt">&quot;detail&quot;</span><span class="p">:</span><span class="s2">&quot;Rating added!&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

@@ -5,8 +5,6 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from api import views
 
 
-# place app url patterns here
-
 urlpatterns = patterns(
     '',
     url(r'^image_upload/(?P<pk>[0-9]+)/$', views.FileUploadView.as_view(), name="image_upload"),
@@ -16,11 +14,8 @@ urlpatterns = patterns(
     url(r'^users/$', views.SpotUserList.as_view(), name="users-list"),
     url(r'^users/(?P<pk>\d+)/$', views.SpotUserDetail.as_view(), name="spotuser-detail"),
 
-    url(r'^opinionusefulnessrating/(?P<pk>\d+)/$', views.OpinionUsefulness.as_view(), name="opinionusefulnessrating-detail"),
-    url(r'^opinions/(?P<pk>\d+)/$', views.OpinionDetail.as_view(), name="opinion-detail"),
-
-    url(r'^raitings/$', views.RaitingList.as_view(), name="raiting-list"),
-    url(r'^raitings/(?P<pk>\d+)/$', views.RaitingDetail.as_view(), name="raiting-detail"),
+    url(r'^ratings/$', views.RatingList.as_view(), name="rating-list"),
+    url(r'^ratings/(?P<pk>\d+)/$', views.RatingDetail.as_view(), name="rating-detail"),
 
     url(r'^spots/$', views.SpotList.as_view(), name="spot-list"),
     url(r'^spots/(?P<pk>\d+)/$', views.SpotDetail.as_view(), name="spot-detail"),

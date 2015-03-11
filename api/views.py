@@ -23,15 +23,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
-from core.models import Spot, Raiting, Opinion, OpinionUsefulnessRating, UsersSpotsList
+from core.models import Spot, Rating, Opinion, OpinionUsefulnessRating, UsersSpotsList
 from accounts.models import SpotUser
 from .serializers import (
     SpotUserSerializer,
     SpotListSerializer, SpotDetailSerializer,
     PaginetedSpotWithDistanceSerializer,
-    RaitingSerializer,
-    OpinionSerializer,
-    OpinionUsefulnessRatingSerializer,
+    RatingSerializer,
     FavouritesSpotsListSerializer,
 )
 from accounts.authentication import ExpiringTokenAuthentication
@@ -57,8 +55,8 @@ class FileUploadView(APIView):
         return Response({'file_url': spot.thumbnail_venue_photo}, status=201)
 
 
-# @authentication_classes((ExpiringTokenAuthentication, ))
-# @permission_classes((IsAuthenticatedOrReadOnly,))
+@authentication_classes((ExpiringTokenAuthentication, ))
+@permission_classes((IsAuthenticatedOrReadOnly,))
 class SpotUserList(generics.ListCreateAPIView):
     serializer_class = SpotUserSerializer
 
@@ -67,8 +65,7 @@ class SpotUserList(generics.ListCreateAPIView):
         return queryset
 
 
-# @authentication_classes((ExpiringTokenAuthentication, ))
-# @api_view(http_method_names=['GET'])
+@authentication_classes((ExpiringTokenAuthentication, ))
 @permission_classes((IsAuthenticatedOrReadOnly,))
 class SpotUserDetail(generics.RetrieveUpdateDestroyAPIView):
     model = SpotUser
@@ -82,7 +79,6 @@ class SpotUserDetail(generics.RetrieveUpdateDestroyAPIView):
         queryset = self.get_queryset()
         obj = get_object_or_404(queryset, pk=self.kwargs['pk'])
         return obj
-
 
 
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
@@ -141,83 +137,59 @@ class SpotList(generics.ListCreateAPIView):
 
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
 @permission_classes((IsAuthenticatedOrReadOnly,))
-class OpinionUsefulness(generics.RetrieveUpdateDestroyAPIView):
-    model = OpinionUsefulnessRating
-    serializer = OpinionUsefulnessRatingSerializer
+class RatingList(generics.ListCreateAPIView):
+    model = Rating
+    serializer_class = RatingSerializer
 
     def get_queryset(self):
-        queryset = Opinion.objects.all()
-        return queryset
-
-    def get_object(self):
-        queryset = self.get_queryset()
-        obj = get_object_or_404(queryset, pk=self.kwargs['pk'])
-        return obj
-
-
-@authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
-@permission_classes((IsAuthenticatedOrReadOnly,))
-class OpinionDetail(generics.RetrieveUpdateDestroyAPIView):
-    model = Opinion
-    serializer_class = OpinionSerializer
-
-    def get_queryset(self):
-        queryset = Opinion.objects.all()
-        return queryset
-
-    def get_object(self):
-        queryset = self.get_queryset()
-        obj = get_object_or_404(queryset, pk=self.kwargs['pk'])
-        return obj
-
-
-@authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
-@permission_classes((IsAuthenticatedOrReadOnly,))
-class RaitingList(generics.ListCreateAPIView):
-    model = Raiting
-    serializer_class = RaitingSerializer
-
-    def get_queryset(self):
-        queryset = Raiting.objects.all()
+        user = self.request.user
+        queryset = Rating.objects.all()
         return queryset
 
     def post(self, request):
         spot = get_object_or_404(Spot, pk=request.data.get('spot_pk'))
         user = request.user
+        is_enabled = request.data.get('is_enabled', False)
         friendly_rate = request.data.get('friendly_rate')
+        facilities = request.data.get('facilities')
 
-        if Raiting.objects.filter(spot=spot, user=user):
-            rat=Raiting.objects.get(spot=spot, user=user)
-            rat.friendly_rate=friendly_rate
-            rat.save()
-            spot_ratings = [r.friendly_rate for r in Raiting.objects.filter(spot=spot)]
-            return Response({
-                'detail': 'Updated your Raiting',
-                'new_score': sum(spot_ratings)/float(len(spot_ratings))
-                }, status=200)
-        else:
-            Raiting.objects.create(spot=spot, user=user, friendly_rate=friendly_rate)
-            return Response({'detail': 'Raiting added!', 'new_score': spot.friendly_rate}, status=200)
-        # import ipdb; ipdb.set_trace()
+        obj, created = Rating.objects.get_or_create(spot=spot, user=user, defaults={
+            'friendly_rate': friendly_rate,
+            'is_enabled': is_enabled,
+            })
+
+        for k,v in facilities.items():
+            obj.facilities[k] = v
+        obj.save()
+
+        spot_ratings = [r.friendly_rate for r in Rating.objects.filter(spot=spot)]
+
+        return Response({
+            'detail': '%s Rating' % ('Created' if created else 'Updated'),
+            'new_score': sum(spot_ratings)/float(len(spot_ratings))
+            }, status=200)
+
 
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
-@permission_classes((IsAuthenticatedOrReadOnly,))
-class RaitingDetail(generics.RetrieveUpdateDestroyAPIView):
-    model = Raiting
-    serializer_class = RaitingSerializer
+@permission_classes((IsAuthenticatedOrReadOnly, IsAdminUser))
+class RatingDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Rating
+    serializer_class = RatingSerializer
 
     def get_queryset(self):
-        queryset = Raiting.objects.all()
+        user = self.request.user
+        queryset = Rating.objects.all()
         return queryset
 
     def get_object(self):
+        user = self.request.user
         queryset = self.get_queryset()
         obj = get_object_or_404(queryset, pk=self.kwargs['pk'])
         return obj
 
 
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
-@permission_classes((IsAuthenticatedOrReadOnly,))
+@permission_classes((IsAuthenticatedOrReadOnly, IsAdminUser))
 class SpotDetail(generics.RetrieveUpdateDestroyAPIView):
 
     """
@@ -234,7 +206,6 @@ class SpotDetail(generics.RetrieveUpdateDestroyAPIView):
 
     model = Spot
     serializer_class = SpotDetailSerializer
-    permission_classes = (IsAdminUser,)
 
     def get_queryset(self):
         queryset = Spot.objects.all()

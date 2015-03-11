@@ -70,7 +70,7 @@ def render_to_pdf(template_src, context_dict):
 def pdf_sticker(request, pk):
     spot = get_object_or_404(Spot, pk=pk)
 
-    if spot.friendly_rate >= 4.5:
+    if spot.is_certificated:
         return render_to_pdf(
             'mytemplatePDF.html',
             {
@@ -149,9 +149,9 @@ def certificated_list(request):
 
 
 def certificated(request, pk):
-    spot = get_object_or_404(Spot, pk=pk)
+    spot = get_object_or_404(Spot, pk=pk, is_certificated=True)
     link = '/qrcode/%d/2' % int(pk)
-    return render(request, 'certificate.html', {'spot': spot, 'qrcode_link': link})
+    return render(request, 'certificate.html', {'spot': spot, 'qrcode_link': link, 'HSTORE_SCHEMA': settings.HSTORE_SCHEMA})
 
 
 def spots_list(request, spots, site_title='Spots', template='spot_list.html', icon_type='th'):

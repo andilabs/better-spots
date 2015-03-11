@@ -7,7 +7,7 @@ from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageCropField, ImageRatioField
 
 
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.conf import settings
 from django.contrib.gis.db import models
 from django.core.urlresolvers import reverse
@@ -20,14 +20,6 @@ from utils.img_path import get_image_path
 SPOT_TYPE = (
     (1, 'cafe'),
     (2, 'restaurant'),
-    # (3, 'store'),
-    # (4, 'institution'),
-    # (5, 'pet store'),  # google type: pet_store
-    # (6, 'park'),
-    # (7, 'bar'),
-    # (8, 'art gallery or museum'),  # google types: art_gallery + museum
-    # (9, 'veterinary care'),  # google type: veterinary_care
-    # (10, 'hotel'),
 )
 
 
@@ -85,8 +77,8 @@ class Spot(models.Model):
         return facebook_url
 
     @property
-    def raitings(self):
-        return Raiting.objects.filter(spot_id=self.id)
+    def ratings(self):
+        return Rating.objects.filter(spot_id=self.id)
 
     @property
     def latitude(self):
@@ -164,7 +156,7 @@ DOGS_ALLOWED = (
 )
 
 
-class Raiting(models.Model):
+class Rating(models.Model):
     data_added = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey('accounts.SpotUser')
     spot = models.ForeignKey(Spot)
@@ -176,7 +168,7 @@ class Raiting(models.Model):
 
     @property
     def opinion(self):
-        opinion = Opinion.objects.filter(raiting=self)
+        opinion = Opinion.objects.filter(rating=self)
         if opinion:
             return opinion
         else:
@@ -192,21 +184,21 @@ class Raiting(models.Model):
             DOGS_ALLOWED[self.is_enabled][1],
             self.user.email,
             self.friendly_rate
-            )
+        )
 
     class Meta:
         unique_together = ("user", "spot")
 
 
 class Opinion(models.Model):
-    raiting = models.OneToOneField(Raiting, primary_key=True)
+    rating = models.OneToOneField(Rating, primary_key=True)
     opinion_text = models.CharField(max_length=500)
 
     def __unicode__(self):
         return self.opinion_text
 
     @property
-    def opinion_usefulnes_raitings(self):
+    def opinion_usefulnes_ratings(self):
         return OpinionUsefulnessRating.objects.filter(opinion=self)
 
 
@@ -244,9 +236,9 @@ class UsersSpotsList(models.Model):
     user = models.ForeignKey('accounts.SpotUser')
     role = models.IntegerField(max_length=1, choices=LIST_KIND)
 
-    objects = models.Manager() # The default manager.
-    favourites = UsersFavouritesSpotsListManager() # The user-favourites-spots
-    to_be_visited = UserToBeVisitedSpotsListManager() # The user-to-be-visited-spots
+    objects = models.Manager()
+    favourites = UsersFavouritesSpotsListManager()
+    to_be_visited = UserToBeVisitedSpotsListManager()
 
     def __unicode__(self):
         return "%s: %s %s %s"  % (
@@ -264,30 +256,36 @@ class UsersSpotsList(models.Model):
         return  self.spot.pk
 
 
-@receiver(post_save, sender=Raiting)
-def update_spot_ratings(instance, **kwags):
+@receiver(post_delete, sender=Rating)
+@receiver(post_save, sender=Rating)
+def update_spot_evaluations(instance, **kwags):
     spot = instance.spot
-    all_raitings_of_spot = Raiting.objects.filter(spot=spot)
+    all_ratings_of_spot = Rating.objects.filter(spot=spot)
 
-    # determine average sppot RATE
-    spot_rate = sum(
-        i.friendly_rate for i in all_raitings_of_spot) / float(
-        len(all_raitings_of_spot))
-    spot.friendly_rate = spot_rate
+    if all_ratings_of_spot:
+
+        # determine average sppot RATE
+        spot_rate = sum(
+            i.friendly_rate for i in all_ratings_of_spot) / float(
+            len(all_ratings_of_spot))
+        spot.friendly_rate = spot_rate
 
 
-    # determine either spot is ENABLED
-    spot_enabled = True if sum(
-        i.is_enabled for i in all_raitings_of_spot) > len(
-        all_raitings_of_spot) / 2 else False
-    spot.is_enabled = spot_enabled
+        # determine either spot is ENABLED
+        spot_enabled = True if sum(
+            i.is_enabled for i in all_ratings_of_spot) > len(
+            all_ratings_of_spot) / 2 else False
+        spot.is_enabled = spot_enabled
 
+    else:
+        spot.friendly_rate = -1.0
+        spot.is_enabled = None
 
     # determine each FACILITY fullfilment
     stats = {}
 
     # for facility in [facility['name'] for facility in settings.HSTORE_SCHEMA]:
-    #     facilities_record = [r.facilities[facility] for r in all_raitings_of_spot]
+    #     facilities_record = [r.facilities[facility] for r in all_ratings_of_spot]
     #     stats[facility] = {
     #         'positive': facilities_record.count(True),
     #         'all': len(facilities_record)-facilities_record.count(None)
@@ -303,3 +301,4 @@ def update_spot_ratings(instance, **kwags):
     #     else:
     #         spot.facilities[facility] = None
     spot.save()
+

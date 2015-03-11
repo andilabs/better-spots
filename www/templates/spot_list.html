@@ -179,7 +179,7 @@
 
       if (rater.find('input[name="score"]').is('[readonly]') == false) {
       $.ajax({
-            url: '/api/raitings/',
+            url: '/api/ratings/',
             data: {'spot_pk': rater.attr('id'), 'friendly_rate': rater.find('input[name="score"]').val()},
             type: 'POST',
             success: function(result) {

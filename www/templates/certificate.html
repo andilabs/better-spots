@@ -9,8 +9,63 @@
 {% block content %}
 {% load instance_settings_via_tags %}
 
-{% if spot.is_enabled and spot.friendly_rate > 4.5  %}
+
+<!-- Modal -->
+<div class="modal fade" id="rating-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h2 class="modal-title" id="myModalLabel">
+                <span class="glyphicon glyphicon-comment"></span> Rate it!
+            </h2>
+        </div>
+        <div class="modal-body">
+            <form id="rating-form">
+                <div class="form-group" id="allowance">
+                    <label class="control-label">Is enabled?</label><br>
+                    <label class="is_not_enabled" title="NOT allowed :-(" style="opacity: 0.2;" for="is_not_enabled">
+                    <input class="allowance" type="radio" value="false" id="is_not_enabled" name="is_enabled" required></label>
+                    <label class="is_enabled" title="allowed ;-)" style="opacity: 0.2;" for="is_enabled">
+                    <input class="allowance" type="radio" value="true" id="is_enabled" name="is_enabled" required></label>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="id_rating">Rate:</label>
+                    <div class='rate'>
+                        <span data-score="" class="rating" id="{{spot.pk}}"></span>
+                    </div>
+                </div>
+<!--                 <div class="form-group">
+                    <label class="control-label" for="id_comment">Comment:</label>
+                    <textarea class="form-control" id="id_comment" name="comment" placeholder="Comment" rows="5" title=""></textarea>
+                </div> -->
+                <div class="form-group">
+                    <label class="control-label" for="id_facilities">Facilities:</label>
+                        <table>
+                            {% for element in HSTORE_SCHEMA %}
+                                <tr>
+                                    <td>{{element|keyvalue:'kwargs'|keyvalue:'verbose_name'}}</td>
+                                    <td width="50px"></td>
+                                    <td>
+                                        <select name="facilities[{{element|keyvalue:'name'}}]">
+                                            <option value="null" selected="selected">Unknown</option>
+                                            <option value="true">Yes</option>
+                                            <option value="false">No</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                </div>
+                <input type="submit" value="Submit" class="btn btn-success">
+            </form>
+        </div>
+    </div>
+  </div>
+</div>
+
     <div class="row">
+
         <div class="col-md-9 col-md-push-3">
             <center>
             <br>
@@ -27,6 +82,11 @@
 
 
             <ul class="list-group">
+                <li class="list-group-item" style="text-align:center;">
+                    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#rating-modal">
+                      Rate this spot!
+                    </button>
+                </li>
                 <li class="list-group-item">
                     <div id="map_canvas_spot_detail" style="height:260px" ></div>
                 </li>
@@ -68,32 +128,60 @@
 
         </div>
     </div>
-{% else %}
-    <div class="row">
-        <div class="col-md-6 col-md-push-3">
-            <center>
-                <h1> This spot is not certificated.</h1>
-                <h1> {{spot.name}} </h1>
-                <h3> {{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}</h3>
-            </center>
-        </div>
-        <div class="col-md-3 col-md-pull-6">
-            <div id="map_canvas_spot_detail" style="height:260px" >
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="fa fa-certificate" style="font-size:272px;color: gray;opacity: 0.1;width: 233px!important;height: 272px!important;">
-            </div>
-        </div>
-    </div>
-{% endif %}
+
 
 {% endblock %}
 {% block scripts %}
   {{ block.super }}
+<script language="javascript"> var STATIC_URL = "/static/"; var BASE_HOST = "//{{request.META.HTTP_HOST}}"</script>
 
-<script language="javascript">var STATIC_URL = "/{% settings_value "SPOT_PROJECT_BRAND_LOGO_URL" %}";  var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";</script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/spot_detail.js"></script>
+<script language="javascript">  var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";</script>
 <script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
+
+<script type="text/javascript" src="{{ STATIC_URL }}js/spot_detail.js"></script>
+<script>
+  var isAuthenticated = eval("{{user.is_authenticated|lower}}");
+    $('span.rating').raty({
+    scoreName: 'friendly_rate',
+    score: function() {
+      return $(this).attr('data-score');
+    },
+    readOnly: function() {
+      return !isAuthenticated;
+    },
+  });
+$('span.rating input').attr('type','number').attr('required', true);
+
+window.check_it=function(foo){
+  if ($(foo).prop('checked') === false) {
+    $(foo).parent().css('opacity', '0.2');
+  } else {
+    $(foo).parent().css('opacity', '1');
+  }
+}
+function getFormData($form){
+    var unindexed_array = $form.serializeArray();
+    var indexed_array = {};
+
+    $.map(unindexed_array, function(n, i){
+        indexed_array[n['name']] = n['value'];
+    });
+
+    return indexed_array;
+}
+$("#rating-modal").on("click","#allowance", function(e) {
+   $(this).find('input.allowance').each(function(index, element) {
+        check_it(this);
+    });
+});
+
+$("#rating-modal").on("submit","#rating-form", function(e) {
+    e.preventDefault();
+    var data  = JSON.stringify($("#rating-form").serializeJSON({parseBooleans: true, parseNulls: true, parseNumbers: true}));
+    console.log(data);
+
+});
+</script>
+
 {% endblock scripts %}
 

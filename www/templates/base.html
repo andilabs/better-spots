@@ -53,7 +53,14 @@
         border: none;
         margin-right: 5px;
     }
-
+    input.allowance {
+      opacity: 0;
+    }
+    span.rating input{
+      opacity: 0;
+      height: 0px;
+      width: 5px;
+    }
   </style>
 </head>
 
@@ -187,6 +194,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/holder.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/common.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}external/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}external/jquery.serializejson.js"></script>
   {% endblock scripts %}
 
 </body>

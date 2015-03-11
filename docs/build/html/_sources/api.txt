@@ -12,7 +12,7 @@ authentication
   :param password: user plain text password
 
 
-**Example request**:
+**Example CURL request**:
 
 .. sourcecode:: http
 
@@ -38,7 +38,7 @@ nearby spots list
   :param lng: longitude in exact format: \d{2,3}.\d{5}
   :param radius: desired radius, if not provided default 5000m will be used
 
-**Example request**:
+**Example CURL request**:
 
 .. sourcecode:: http
 
@@ -94,7 +94,7 @@ spots list
 
     Returns list of all spots.
 
-**Example request**:
+**Example CURL request**:
 
 .. sourcecode:: http
 
@@ -192,7 +192,7 @@ add new spot
 
     :reqheader Authorization: must provide token to authenticate or be session authenticated
 
-    **Example request**:
+    **Example CURL request**:
 
     .. sourcecode:: http
 
@@ -224,9 +224,9 @@ spot
 
 .. http:get:: /api/spots/(int:pk)/
 
-    Get single spot details. All nested raiting, comments and facilities evaluations.
+    Get single spot details. All nested rating, comments and facilities evaluations.
 
-    **Example request**:
+    **Example CURL request**:
 
     .. sourcecode:: http
 
@@ -245,9 +245,9 @@ spot
                 "latitude": 50.04608,
                 "longitude": 19.94929
             },
-            "raitings": [
+            "ratings": [
                 {
-                    "url": "http://127.0.0.1:8000/api/raitings/2/",
+                    "url": "http://127.0.0.1:8000/api/ratings/2/",
                     "is_enabled": true,
                     "friendly_rate": 3,
                     "spot": "http://127.0.0.1:8000/api/spots/8/",
@@ -260,7 +260,7 @@ spot
                     }
                 },
                 {
-                    "url": "http://127.0.0.1:8000/api/raitings/4/",
+                    "url": "http://127.0.0.1:8000/api/ratings/4/",
                     "is_enabled": false,
                     "friendly_rate": 5,
                     "spot": "http://127.0.0.1:8000/api/spots/8/",
@@ -273,7 +273,7 @@ spot
                     }
                 },
                 {
-                    "url": "http://127.0.0.1:8000/api/raitings/7/",
+                    "url": "http://127.0.0.1:8000/api/ratings/7/",
                     "is_enabled": true,
                     "friendly_rate": 1,
                     "spot": "http://127.0.0.1:8000/api/spots/8/",
@@ -323,7 +323,9 @@ delete spot
 
     :reqheader Authorization: must provide token to authenticate or be session authenticated
 
-    **Example request**:
+    The user must be admin.
+
+    **Example CURL request**:
 
     .. sourcecode:: http
 
@@ -347,7 +349,9 @@ update spot
 
     :reqheader Authorization: must provide token to authenticate or be session authenticated
 
-    **Example request**:
+    The user must be admin.
+
+    **Example CURL request**:
 
     .. sourcecode:: http
 
@@ -356,7 +360,7 @@ update spot
           "www_url": "http://127.0.0.1:8000/spots/2/kafka-cafe-warszawa-obozowa-3/",
           "id": 2,
           "thumbnail_venue_photo": null,
-          "raitings": [],
+          "ratings": [],
           "name": "Kafka SOME UPDATE",
           "location": {
             "latitude": 52.23959,
@@ -392,7 +396,7 @@ image upload
 
     :reqheader Authorization: must provide token to authenticate or be session authenticated
 
-    **Example request**:
+    **Example CURL request**:
 
     .. sourcecode:: http
 
@@ -414,7 +418,7 @@ favourites spots list
 
     :reqheader Authorization: must provide token to authenticate or be session authenticated
 
-    **Example request**:
+    **Example CURL request**:
 
     .. sourcecode:: http
 
@@ -432,7 +436,7 @@ add spot to favourites
 
     :reqheader Authorization: must provide token to authenticate or be session authenticated
 
-    **Example request**:
+    **Example CURL request**:
 
     .. sourcecode:: http
 
@@ -470,8 +474,95 @@ delete spot from favourites
 
     :reqheader Authorization: must provide token to authenticate or be session authenticated
 
-    **Example request**:
+    **Example CURL request**:
 
     .. sourcecode:: http
 
         curl -X DELETE http://127.0.0.1:8000/api/favourites_spots/38/ -H "Authorization: Token 66445bc0e3a422f377129ddd79e8dd384e4d8a4a"
+
+ratings list
+-------------
+
+.. http:get:: /api/ratings/
+
+    returns all ratings
+
+    **Example CURL request**:
+
+    .. sourcecode:: http
+
+        curl -X GET http://127.0.0.1:8000/api/ratings/
+
+    **Example response**:
+
+    .. sourcecode:: json
+
+        [
+            {
+                "url": "http://127.0.0.1:8000/api/ratings/34/",
+                "is_enabled": true,
+                "friendly_rate": 4,
+                "spot": "http://127.0.0.1:8000/api/spots/6/",
+                "spot_pk": 6,
+                "facilities": {
+                    "snacks": "True",
+                    "dedicated_dogs_menu": "False",
+                    "fresh_water": null
+                }
+            },
+            {
+                "url": "http://127.0.0.1:8000/api/ratings/35/",
+                "is_enabled": false,
+                "friendly_rate": 1,
+                "spot": "http://127.0.0.1:8000/api/spots/6/",
+                "spot_pk": 6,
+                "facilities": {
+                    "snacks": null,
+                    "dedicated_dogs_menu": "True",
+                    "fresh_water": "False"
+                }
+            }
+        ]
+
+rate spot
+---------
+.. http:post:: /api/ratings/
+
+    User can rate each spot only once. If user's rating for given spot already exists, we do not't add next rating but update the exisitng one.
+
+    We return the `new_score` which is calculated average rating from all ratings for  rated spot.
+
+    :param spot_pk: pk of spot to be rated
+    :param friendly_rate: integer 1-5
+
+    :reqheader Authorization: must provide token to authenticate or be session authenticated
+
+    **Example CURL request**:
+
+    .. sourcecode:: http
+
+        curl -X POST http://127.0.0.1:8000/api/ratings/ -H 'Content-Type:application/json' -H 'Authorization: Token 3a2d9ee2cfaefea6d073a11641c08152db2b9a04' -d '{
+          "spot_pk": 6,
+          "friendly_rate": 4,
+          "is_enabled": true,
+          "facilities": {
+            "snacks": true,
+            "dedicated_dogs_menu": false,
+            "fresh_water": null
+          }
+        }'
+
+    **Example response**:
+
+    :statuscode 404: There is no spot with given id
+
+      .. sourcecode:: json
+
+          {"detail":"Not found"}
+
+
+    :statuscode 200: sucessfully added new rating or updated the exisitng one
+
+      .. sourcecode:: json
+
+          {"new_score":3.0,"detail":"Rating added!"}

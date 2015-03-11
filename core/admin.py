@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 
-from core.models import Spot, Raiting, Opinion, OpinionUsefulnessRating, UsersSpotsList
+from core.models import Spot, Rating, Opinion, OpinionUsefulnessRating, UsersSpotsList
 from accounts.models import SpotUser
 from accounts.forms import UserCreationForm, UserChangeForm
 
@@ -45,7 +45,7 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
     list_display = ['name', 'friendly_rate', 'address_city', 'is_enabled'] + hstore_fields
     list_filter = ('address_city', 'is_enabled', 'spot_type')
     search_fields = ['name', 'address_city', 'address_street']
-    # exclude = ('location',)
+    exclude = ('location',)
     readonly_fields = ['is_enabled', 'friendly_rate', 'spot_slug'] + hstore_fields
 
     fieldsets = (
@@ -53,8 +53,7 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         ('Address', {'fields': ('address_street','address_number', 'address_city','address_country')}),
         ('Contact details', {'fields': ('phone_number', 'email', 'www', 'facebook')}),
         ('Photo', {'fields': ('venue_photo', 'cropping_venue_photo')}),
-        ('Location', {'fields': ('location',)}),
-        ('Evaluations and facilities calculated based on raitings', {'fields': tuple(['friendly_rate', 'is_enabled']+hstore_fields)})
+        ('Evaluations and facilities calculated based on ratings', {'fields': tuple(['friendly_rate', 'is_enabled']+hstore_fields)})
     )
 
 
@@ -65,7 +64,7 @@ class UsersSpotsListAdmin(admin.ModelAdmin):
 
 admin.site.register(SpotUser, SpotUserAdmin)
 admin.site.register(Spot, SpotAdmin)
-admin.site.register(Raiting)
+admin.site.register(Rating)
 admin.site.register(Opinion)
 admin.site.register(OpinionUsefulnessRating)
 admin.site.register(UsersSpotsList, UsersSpotsListAdmin)

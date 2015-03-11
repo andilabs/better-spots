@@ -42,6 +42,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = '/Users/andi/pseudo_static_server_spots/'
 MEDIA_ROOT = '/Users/andi/pseudo_media_server_spots/'
 
+
+
 # SPOT_PROJECT_NAME = 'veganspot'
 # SPOT_PROJECT_SLOGAN = 'And, all the world is green!'
 # SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing vegans and vegetarians friendly spots'
@@ -100,70 +102,70 @@ MEDIA_ROOT = '/Users/andi/pseudo_media_server_spots/'
 #     }
 # ]
 
-SPOT_PROJECT_NAME = 'momspot'
-SPOT_PROJECT_SLOGAN = 'Mom\'s Revolution starts in cafes!'
-SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing moms and children friendly spots'
-SPOT_PROJECT_SUBJECT = 'Moms'
-SPOT_PROJECT_MAIN_COLOR = '#eb386f'
-
-HSTORE_SCHEMA = [
-  {
-      "name": "baby_changing",
-      "class": "NullBooleanField",
-      "kwargs": {
-          "default": None,
-          "verbose_name": "baby changing facilites"
-      }
-  },
-  {
-      "name": "playroom",
-      "class": "NullBooleanField",
-      "kwargs": {
-          "default": None,
-          "verbose_name": "playroom for kids"
-      }
-  },
-  {
-      "name": "kids_menu",
-      "class": "NullBooleanField",
-      "kwargs": {
-          "default": None,
-          "verbose_name": "kids menu"
-      }
-  }
-]
-
-# SPOT_PROJECT_NAME = 'dogspot'
-# SPOT_PROJECT_SLOGAN = 'Wow the World!'
-# SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing dog friendly spots'
-# SPOT_PROJECT_SUBJECT = 'Dog'
-# SPOT_PROJECT_MAIN_COLOR = '#fcbd41'
+# SPOT_PROJECT_NAME = 'momspot'
+# SPOT_PROJECT_SLOGAN = 'Mom\'s Revolution starts in cafes!'
+# SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing moms and children friendly spots'
+# SPOT_PROJECT_SUBJECT = 'Moms'
+# SPOT_PROJECT_MAIN_COLOR = '#eb386f'
 
 # HSTORE_SCHEMA = [
-#     {
-#         "name": "fresh_water",
-#         "class": "NullBooleanField",
-#         "kwargs": {
-#             "default": None,
-#             "verbose_name": "fresh water served"
-#         }
-#     },
-#     {
-#         "name": "dedicated_dogs_menusnacks",
-#         "class": "NullBooleanField",
-#         "kwargs": {
-#             "default": None,
-#             "verbose_name": "snacks"
-#         }
-#     },
-#     {
-#         "name": "dedicated_dogs_menu",
-#         "class": "NullBooleanField",
-#         "kwargs": {
-#             "default": None,
-#             "verbose_name": "special menu for dogs"
-#         }
-#     }
+#   {
+#       "name": "baby_changing",
+#       "class": "NullBooleanField",
+#       "kwargs": {
+#           "default": None,
+#           "verbose_name": "baby changing facilites"
+#       }
+#   },
+#   {
+#       "name": "playroom",
+#       "class": "NullBooleanField",
+#       "kwargs": {
+#           "default": None,
+#           "verbose_name": "playroom for kids"
+#       }
+#   },
+#   {
+#       "name": "kids_menu",
+#       "class": "NullBooleanField",
+#       "kwargs": {
+#           "default": None,
+#           "verbose_name": "kids menu"
+#       }
+#   }
 # ]
+
+SPOT_PROJECT_NAME = 'dogspot'
+SPOT_PROJECT_SLOGAN = 'Wow the World!'
+SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing dog friendly spots'
+SPOT_PROJECT_SUBJECT = 'Dog'
+SPOT_PROJECT_MAIN_COLOR = '#fcbd41'
+
+HSTORE_SCHEMA = [
+    {
+        "name": "fresh_water",
+        "class": "NullBooleanField",
+        "kwargs": {
+            "default": None,
+            "verbose_name": "fresh water served"
+        }
+    },
+    {
+        "name": "snacks",
+        "class": "NullBooleanField",
+        "kwargs": {
+            "default": None,
+            "verbose_name": "snacks"
+        }
+    },
+    {
+        "name": "dedicated_dogs_menu",
+        "class": "NullBooleanField",
+        "kwargs": {
+            "default": None,
+            "verbose_name": "special menu for dogs"
+        }
+    }
+]
 
 SPOT_PROJECT_FAVICON_URL = os.path.join('static', SPOT_PROJECT_NAME, 'favicon.ico')
