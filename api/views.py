@@ -157,6 +157,9 @@ class RatingList(generics.ListCreateAPIView):
             'friendly_rate': friendly_rate,
             'is_enabled': is_enabled,
             })
+        if not created:
+            obj.friendly_rate = friendly_rate
+            obj.is_enabled = is_enabled
 
         for k,v in facilities.items():
             obj.facilities[k] = v
