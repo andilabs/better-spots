@@ -57,9 +57,10 @@ $ ->
     $(document).on 'click', 'span.rating.via_modal', (e) ->
         rater = $(this)
         clickedSpot = rater.attr('id')
-        console.log clickedSpot
         clickedRate = rater.find('input[name="friendly_rate"]').val()
-        if rater.find('input[name="score"]').is('[readonly]') == false
+        console.log "spot:", clickedSpot
+        console.log "rate:", clickedRate
+        if rater.find('input[name="friendly_rate"]').is('[readonly]') == false
             $('#rating-modal').find('input[name=spot_pk]').val(clickedSpot)
             $('#rating-modal').find('#modal_rating').raty({score: clickedRate, scoreName: 'friendly_rate'})
             $('#rating-modal').find('input[name=friendly_rate]').val(clickedRate)

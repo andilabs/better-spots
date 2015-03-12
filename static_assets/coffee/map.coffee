@@ -179,8 +179,9 @@ switchColumsClasses = (left, right) ->
 
 
 renderInfoWindow = (spot, userReadOnly=true) ->
-    rating_stars = $("<div class='rate' id='#{spot.id}'></div>")
+    rating_stars = $("<br><span class='rating via_modal' id='#{spot.id}'></span>")
         .raty
+            scoreName: 'friendly_rate'
             readOnly: userReadOnly
             score: spot.friendly_rate
 
@@ -406,10 +407,10 @@ $ ->
         $("#map_canvas")
             .gmap "openInfoWindow",
                 position: window.allSpotsDict[@id].marker.getPosition()
-                content: renderInfoWindow(allSpotsDict[@id].spot, userReadOnly=!eval(READ_ONLY))
+                content: renderInfoWindow(allSpotsDict[@id].spot, userReadOnly=!window.isAuthenticated)
 
         $("#map_canvas").gmap("get", "map").panTo window.allSpotsDict[@id].marker.getPosition()
 
-    $("#map_canvas").on 'click', 'div.rate', (e) ->
-        #here should happen POST with rating for spot given by logged-in user.
-        console.log "spot: #{@.id} score: #{$(@).find('input[name="score"]').val()}"
+    # $("#map_canvas").on 'click', 'div.rating via_modal', (e) ->
+    #     #here should happen POST with rating for spot given by logged-in user.
+    #     console.log "spot: #{@.id} score: #{$(@).find('input[name="score"]').val()}"

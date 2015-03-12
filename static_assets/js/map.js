@@ -216,7 +216,8 @@
     if (userReadOnly == null) {
       userReadOnly = true;
     }
-    rating_stars = $("<div class='rate' id='" + spot.id + "'></div>").raty({
+    rating_stars = $("<br><span class='rating via_modal' id='" + spot.id + "'></span>").raty({
+      scoreName: 'friendly_rate',
       readOnly: userReadOnly,
       score: spot.friendly_rate
     });
@@ -397,17 +398,14 @@
         return clientPosition = new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng);
       }
     });
-    $("#spots_list").on("click", "span.list-group-item:not(#memo_empty)", function(evt) {
+    return $("#spots_list").on("click", "span.list-group-item:not(#memo_empty)", function(evt) {
       var userReadOnly;
       activateSpotTableViewCellFor(this.id);
       $("#map_canvas").gmap("openInfoWindow", {
         position: window.allSpotsDict[this.id].marker.getPosition(),
-        content: renderInfoWindow(allSpotsDict[this.id].spot, userReadOnly = !eval(READ_ONLY))
+        content: renderInfoWindow(allSpotsDict[this.id].spot, userReadOnly = !window.isAuthenticated)
       });
       return $("#map_canvas").gmap("get", "map").panTo(window.allSpotsDict[this.id].marker.getPosition());
-    });
-    return $("#map_canvas").on('click', 'div.rate', function(e) {
-      return console.log("spot: " + this.id + " score: " + ($(this).find('input[name="score"]').val()));
     });
   });
 
