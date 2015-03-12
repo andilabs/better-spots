@@ -64,7 +64,7 @@
 
                 <li class="list-group-item">
                     <center>
-                        <img src="{{qrcode_link}}"><br>
+                        <img src="{% url 'qrcode_scaled' pk=spot.pk size=2%}"><br>
                         <a href='{% url 'vcard' pk=spot.pk %}'>Download vCard</a>
                     </center>
                 </li>
@@ -77,7 +77,7 @@
 {% endblock %}
 {% block scripts %}
   {{ block.super }}
-<script language="javascript"> var STATIC_URL = "/static/"; var BASE_HOST = "//{{request.META.HTTP_HOST}}"</script>
+
 
 <script language="javascript">  var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";</script>
 

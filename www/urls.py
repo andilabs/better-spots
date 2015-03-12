@@ -16,7 +16,7 @@ urlpatterns = patterns(
 
     url(r'^certificated/$', 'www.views.certificated_list', name='certificated-list'),
 
-    url(r'^certificated/(?P<pk>\d+)/$', 'www.views.certificated', name='certificated-detail'),
+    url(r'^certificated/(?P<pk>\d+)(?:/(?P<slug>[\w\d-]+))?/$', 'www.views.certificated', name='certificated-detail'),
 
     url(r'^favourites/$', 'www.views.favourites', name='favourites'),
     url(r'^about/$', 'www.views.about', name='about'),

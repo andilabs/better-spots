@@ -8,31 +8,88 @@
 
 {% block content %}
 {% load custom_tags_and_filters %}
-<h2 style="font-family:Lato Italic">
-  {% if spot.is_enabled %}
-    <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png">
-  {% else %}
-    <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png">
-  {% endif %}
-  {{ spot.name|upper }}
-</h2>
+
+    <div class="row">
+
+        <div class="col-md-3 col-md-push-9">
+            <center>
+            {% if spot.is_enabled %}
+                      <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png">
+                    {% else %}
+                      <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png">
+                    {% endif %}
+                    <br>
+                    {% if spot in user.favourites %}
+                      <span class="heart" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="{{user.spot_pk_to_fav_asset_pk|keyvalue:spot.pk}}"></span>
+                    {% else %}
+                      <span class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk=""></span>
+                    {% endif %}
+                    <br>
+                    <span data-score="{{spot.friendly_rate}}" class="rating via_modal" id="{{spot.pk}}"></span>
+                    <br>
+                    {{HSTORE_SCHEMA}}
+                    <br><br>
+                    {{spot.facilities}}
+         </center>
+        </div>
+        <div class="col-md-9 col-md-pull-3">
+
+
+
+
+            <ul class="list-group">
+                <li class="list-group-item" style="text-align:center;">
+                  <h2 style="font-family:Lato Italic">
+                    {{ spot.name|upper }}
+                  </h2>
+                </li>
+                <li class="list-group-item">
+                    <div id="map_canvas_spot_detail" style="height:260px" ></div>
+                </li>
+                {% if spot.phone_number %}
+                <li class="list-group-item">
+                    <span class="badge invert fa fa-phone fa-2x"> </span>
+                     <a href='tel://{{spot.phone_number}}'>{{spot.phone_number}}</a>
+                </li>
+                {% endif %}
+
+                {% if spot.email %}
+                <li class="list-group-item">
+                    <span class="badge invert fa fa-envelope-o fa-2x"> </span>
+                    <a href='mailto:{{spot.email}}' target='_blank'>{{spot.email|truncatechars:100}}</a>
+                </li>
+                {% endif %}
+
+                {% if spot.www %}
+                <li class="list-group-item">
+                    <span class="badge invert fa fa-link fa-2x"> </span>
+                    <a href='{{spot.www}}' target='_blank'>{{spot.www|truncatechars:100}}</a>
+                </li>
+                {% endif %}
+
+                {% if spot.facebook %}
+                <li class="list-group-item">
+                    <span class="badge invert fa fa-facebook fa-2x"> </span>
+                    <a href='{{spot.facebook_url}}' target='_blank'>{{spot.facebook_url|truncatechars:100}}</a>
+                </li>
+                {% endif %}
+
+                <li class="list-group-item">
+                        <img src="{% url 'qrcode_scaled' pk=spot.pk size=2%}"><br>
+                        <a href='{% url 'vcard' pk=spot.pk %}'>Download vCard</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
 {% endblock %}
 
 
 {% block scripts %}
   {{ block.super }}
-  <script language="javascript"> var STATIC_URL = "/static/"; var BASE_HOST = "//{{request.META.HTTP_HOST}}"</script>
+<script language="javascript">  var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";</script>
 
-  <script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
-  <script>
-  $('span.rating').raty({
-  score: function() {
-    return $(this).attr('data-score');
-  },
-  readOnly: function() {
-    return 'true becomes readOnly' == 'true becomes readOnly';
-  }
-});
-  </script>
-</script>
+
+<script type="text/javascript" src="{{ STATIC_URL }}js/spot_detail.js"></script>
 {% endblock scripts %}

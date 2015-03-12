@@ -149,10 +149,9 @@ def certificated_list(request):
     return spots_list(request, spots, site_title='certificated spots', icon_type='certificate')
 
 
-def certificated(request, pk):
+def certificated(request, pk, slug=None):
     spot = get_object_or_404(Spot, pk=pk, is_certificated=True)
-    link = '/qrcode/%d/2' % int(pk)
-    return render(request, 'certificate.html', {'spot': spot, 'qrcode_link': link})
+    return render(request, 'certificate.html', {'spot': spot})
 
 
 def spots_list(request, spots, site_title='Spots', template='spot_list.html', icon_type='th'):

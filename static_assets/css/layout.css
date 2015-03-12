@@ -47,34 +47,6 @@ img.enablence-symbol {
   height: 100%;
   margin: 0;
   padding: 0; }
-  .col2 span.heart {
-    font-size: 45px;
-    color: #F46262;
-    font-family: FontAwesome;
-    text-decoration: none; }
-    .col2 span.heart:before {
-      content: "";
-      opacity: 0.8; }
-    .col2 span.heart:hover:before {
-      color: #a1a1a1;
-      content: "";
-      opacity: 1; }
-  .col2 span.no-heart {
-    font-size: 45px;
-    color: #a1a1a1;
-    font-family: FontAwesome;
-    text-decoration: none; }
-    .col2 span.no-heart:before {
-      content: "";
-      opacity: 0.2; }
-    .col2 span.no-heart:hover:before {
-      content: "";
-      color: #F46262;
-      opacity: 1; }
-    .col2 span.no-heart.disabled:hover:before {
-      content: "";
-      color: #a1a1a1;
-      opacity: 1; }
 
 .col1 {
   display: inline-block;
@@ -82,6 +54,36 @@ img.enablence-symbol {
   height: 100%;
   margin: 0;
   padding: 0; }
+
+span.heart {
+  font-size: 45px;
+  color: #F46262;
+  font-family: FontAwesome;
+  text-decoration: none; }
+  span.heart:before {
+    content: "";
+    opacity: 0.8; }
+  span.heart:hover:before {
+    color: #a1a1a1;
+    content: "";
+    opacity: 1; }
+
+span.no-heart {
+  font-size: 45px;
+  color: #a1a1a1;
+  font-family: FontAwesome;
+  text-decoration: none; }
+  span.no-heart:before {
+    content: "";
+    opacity: 0.2; }
+  span.no-heart:hover:before {
+    content: "";
+    color: #F46262;
+    opacity: 1; }
+  span.no-heart.disabled:hover:before {
+    content: "";
+    color: #a1a1a1;
+    opacity: 1; }
 
 #bs-example-navbar-collapse-1 > ul.nav.navbar-nav.navbar-right > li > a {
   font-family: Gloria Hallelujah; }

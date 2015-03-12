@@ -52,35 +52,7 @@ img.enablence-symbol
     margin: 0
     padding: 0
 
-    span.heart
-        font-size: 45px
-        color: #F46262
-        font-family: FontAwesome
-        text-decoration: none
-        &:before
-            content: '\f004'
-            opacity: 0.8
-        &:hover:before
-            color: #a1a1a1
-            content: '\f08a'
-            opacity: 1.0
 
-    span.no-heart
-        font-size: 45px
-        color: #a1a1a1
-        font-family: FontAwesome
-        text-decoration: none
-        &:before
-            content: '\f08a'
-            opacity: 0.2
-        &:hover:before
-            content: '\f004'
-            color: #F46262
-            opacity: 1.0
-        &.disabled:hover:before
-            content: '\f08a'
-            color: #a1a1a1
-            opacity: 1.0
 .col1
     display: inline-block
     width: 80%
@@ -88,6 +60,35 @@ img.enablence-symbol
     margin: 0
     padding: 0
 
+span.heart
+    font-size: 45px
+    color: #F46262
+    font-family: FontAwesome
+    text-decoration: none
+    &:before
+        content: '\f004'
+        opacity: 0.8
+    &:hover:before
+        color: #a1a1a1
+        content: '\f08a'
+        opacity: 1.0
+
+span.no-heart
+    font-size: 45px
+    color: #a1a1a1
+    font-family: FontAwesome
+    text-decoration: none
+    &:before
+        content: '\f08a'
+        opacity: 0.2
+    &:hover:before
+        content: '\f004'
+        color: #F46262
+        opacity: 1.0
+    &.disabled:hover:before
+        content: '\f08a'
+        color: #a1a1a1
+        opacity: 1.0
 
 #bs-example-navbar-collapse-1 > ul.nav.navbar-nav.navbar-right > li > a
     font-family: Gloria Hallelujah
