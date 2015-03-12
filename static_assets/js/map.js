@@ -289,7 +289,7 @@
           $("#map_canvas").gmap("get", "map").panTo(this.getPosition());
           $("#map_canvas").gmap("openInfoWindow", {
             position: this.getPosition(),
-            content: renderInfoWindow(allSpotsDict[this.id].spot, userReadOnly = !READ_ONLY)
+            content: renderInfoWindow(allSpotsDict[this.id].spot, userReadOnly = !window.isAuthenticated)
           });
           return activateSpotTableViewCellFor(this.id);
         });
@@ -300,7 +300,6 @@
   };
 
   $(function() {
-    console.log(READ_ONLY);
     checkCookies();
     $('body').on('click', function(e) {
       if ($(e.target).parents("#map_filters").length === 0 && e.target.id !== "map_filters_button") {

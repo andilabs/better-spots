@@ -9,7 +9,7 @@ from unipath import Path
 DEBUG = True
 TEMPLATE_DEBUG = True
 
-INSTANCE_DOMAIN = "127.0.0.1:8000"
+INSTANCE_DOMAIN = "127.0.0.1:4000"
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'

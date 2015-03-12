@@ -32,9 +32,9 @@
 
 
       {% if spot.thumbnail_venue_photo %}
-        <img src="{{spot.thumbnail_venue_photo}}" class="venue_photo{% if spot.is_enabled %} ok {% else %} bad{% endif %}" style="width: 350px; height: 150px;">
+        <img src="{{spot.thumbnail_venue_photo}}" class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok {% else %} bad{% endif %}{% endif %}" style="width: 350px; height: 150px;">
       {% else %}
-        <img data-src="holder.js/350x150/text: no photo" alt="..." class="venue_photo{% if spot.is_enabled %} ok {% else %} bad{% endif %}">
+        <img data-src="holder.js/350x150/text: no photo" alt="..." class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok {% else %} bad{% endif %}{% endif %}">
       {% endif %}
       <div class="caption">
         <h4>
@@ -94,105 +94,16 @@
 {% endblock %}
 {% block scripts %}
   {{ block.super }}
-  <script language="javascript"> var STATIC_URL = "/static/"; var BASE_HOST = "//{{request.META.HTTP_HOST}}"</script>
-  <script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
+
   <script>
-  var isAuthenticated = eval("{{user.is_authenticated|lower}}");
-    $('span.rating').raty({
-    score: function() {
-      return $(this).attr('data-score');
-    },
-    readOnly: function() {
-      return !isAuthenticated;
-    },
-  });
+
     $(".venue_photo").fadeTo(0, 0.5); // initial opacity
 
     $(".venue_photo").hover(function( e ) {
        $(e.target).stop().fadeTo(300, e.type=="mouseenter"?1:0.5);
     });
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
 
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-            }
-        }
-    });
 
-    $(document).on("click", "span.heart", function(e) {
-      heart = $(this);
-      deleteFavUrl = $(this).data('url') + $(this).data('fav-pk') +'/';
-      console.log("DELETE:", deleteFavUrl);
-      $.ajax({
-            url: deleteFavUrl,
-            type: 'DELETE',
-            success: function(result) {
-              if (window.location.pathname.indexOf("favourites") >= 0){
-                $(heart).parents('div.thumbnail').remove();
-              }
-              else{
-                $(heart).removeClass('heart').addClass('no-heart');
-              }
-            }
-        });
-    });
-
-    $(document).on("click", "span.no-heart:not(.disabled)", function(e) {
-      heart = $(this);
-      url = $(this).data('url');
-      $.ajax({
-            url: url,
-            data: {'spot_pk': $(this).data('spot-pk')},
-            type: 'POST',
-            success: function(result) {
-              $(heart).data('fav-pk', result.pk)
-              $(heart).removeClass('no-heart').addClass('heart');
-            }
-        });
-    });
-    $(document).on("click", "span.no-heart.disabled", function(e) {
-      alert("Login required to add spots to favourites!");
-    });
-
-    $(document).on('click', 'span.rating', function(e) {
-      rater = $(this);
-
-      if (rater.find('input[name="score"]').is('[readonly]') == false) {
-      $.ajax({
-            url: '/api/ratings/',
-            data: {'spot_pk': rater.attr('id'), 'friendly_rate': rater.find('input[name="score"]').val()},
-            type: 'POST',
-            success: function(result) {
-              selector = 'span#'+$(rater).attr('id')
-              $(selector).raty({ score: result.new_score });
-            }
-        });
-      }
-      else {
-        alert("Login required to rate spots!");
-      }
-
-    });
   </script>
 </script>
 {% endblock scripts %}

@@ -231,7 +231,6 @@ loadMarkers = (lat, lng) ->
     $('#map_canvas').gmap('clear', 'markers')
 
     url = BASE_HOST + "/api/nearby/#{lat.toFixed(5)}/#{lng.toFixed(5)}/#{getDesiredRadius()}"
-
     jqxhr = $.getJSON url, (data) ->
         $.each data.results, (i, spot) ->
 
@@ -272,7 +271,7 @@ loadMarkers = (lat, lng) ->
                 $("#map_canvas")
                     .gmap "openInfoWindow",
                         position: @getPosition()
-                        content: renderInfoWindow(allSpotsDict[@id].spot, userReadOnly=!READ_ONLY)
+                        content: renderInfoWindow(allSpotsDict[@id].spot, userReadOnly=!window.isAuthenticated)
 
                 activateSpotTableViewCellFor(@id)
 
@@ -280,9 +279,8 @@ loadMarkers = (lat, lng) ->
         spinner.stop()
 
 $ ->
-    console.log(READ_ONLY)
-    checkCookies()
 
+    checkCookies()
 
     $('body').on 'click', (e) ->
         if $(e.target).parents("#map_filters").length is 0 and e.target.id isnt "map_filters_button"

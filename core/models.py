@@ -279,7 +279,7 @@ def update_spot_evaluations(instance, **kwags):
 
     else:
         spot.friendly_rate = -1.0
-        spot.is_enabled = None
+        spot.is_enabled = False
 
     # determine each FACILITY fullfilment
     stats = {}
