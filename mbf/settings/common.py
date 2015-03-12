@@ -36,6 +36,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
 )
 
+TEMPLATE_CONTEXT_PROCESSORS += ("www.context_processors.spot_facilities", )
+
+
 INSTALLED_APPS = (
     'image_cropping',
     'easy_thumbnails',

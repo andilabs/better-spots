@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-{% load instance_settings_via_tags %}
+{% load custom_tags_and_filters %}
 <h2 style="font-family:Lato Italic">
   {% if spot.is_enabled %}
     <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png">

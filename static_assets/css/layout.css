@@ -26,6 +26,16 @@
 
   .collapse.in {
     display: block !important; } }
+img.search_thumb {
+  width: 150px;
+  height: 80px; }
+
+div.search_thumb_placeholder {
+  width: 150px;
+  height: 20px;
+  background-color: #f7f7f7;
+  float: left; }
+
 img.enablence-symbol {
   position: relative;
   top: 25px;

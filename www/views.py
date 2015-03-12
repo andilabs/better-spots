@@ -88,11 +88,12 @@ def ajax_search(request):
     query = request.GET.get('q', '')
     result = [
         {
-            'name': s.name,
-            'category': SPOT_TYPE[s.spot_type-1][1],
-            'url': '/spots/%s' % str(s.id)
+            'name': spot.name,
+            'category': SPOT_TYPE[spot.spot_type-1][1],
+            'url': '/spots/%s' % str(spot.id),
+            'thumb': spot.thumbnail_venue_photo,
         }
-        for s in Spot.objects.filter(
+        for spot in Spot.objects.filter(
             name__icontains=query).order_by('spot_type')
     ]
 
@@ -151,7 +152,7 @@ def certificated_list(request):
 def certificated(request, pk):
     spot = get_object_or_404(Spot, pk=pk, is_certificated=True)
     link = '/qrcode/%d/2' % int(pk)
-    return render(request, 'certificate.html', {'spot': spot, 'qrcode_link': link, 'HSTORE_SCHEMA': settings.HSTORE_SCHEMA})
+    return render(request, 'certificate.html', {'spot': spot, 'qrcode_link': link})
 
 
 def spots_list(request, spots, site_title='Spots', template='spot_list.html', icon_type='th'):

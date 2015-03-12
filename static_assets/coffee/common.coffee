@@ -54,20 +54,31 @@ $ ->
         alert 'Login required to add spots to favourites!'
 
 
-    $(document).on 'click', 'span.rating', (e) ->
+    $(document).on 'click', 'span.rating.via_modal', (e) ->
         rater = $(this)
+        clickedSpot = rater.attr('id')
+        console.log clickedSpot
+        clickedRate = rater.find('input[name="friendly_rate"]').val()
         if rater.find('input[name="score"]').is('[readonly]') == false
-            $.ajax
-                url: '/api/ratings/'
-                data:
-                    'spot_pk': rater.attr('id')
-                    'friendly_rate': rater.find('input[name="friendly_rate"]').val()
-                type: 'POST'
-                success: (result) ->
-                    selector = 'span#' + $(rater).attr('id')
-                    $(selector).raty score: result.new_score
+            $('#rating-modal').find('input[name=spot_pk]').val(clickedSpot)
+            $('#rating-modal').find('#modal_rating').raty({score: clickedRate, scoreName: 'friendly_rate'})
+            $('#rating-modal').find('input[name=friendly_rate]').val(clickedRate)
+            $('#rating-modal').modal('show')
         else
             alert 'Login required to rate spots!'
+
+    window.check_it = (foo) ->
+        if $(foo).prop('checked') == false
+            $(foo).parent().css 'opacity', '0.2'
+        else
+            $(foo).parent().css 'opacity', '1'
+
+
+    $('#rating-modal').on 'click', '#allowance', (e) ->
+        $(this).find('input.allowance').each (index, element) ->
+            check_it this
+
+
 
     $('#rating-modal').on 'submit', '#rating-form', (e) ->
         e.preventDefault()
@@ -83,14 +94,14 @@ $ ->
             dataType: "json"
             type: 'POST'
             success: (result) ->
-                # selector = 'span#' + $(rater).attr('id')
-                # $(selector).raty score: result.new_score
                 $('#rating-modal').modal('hide')
+                window.location.reload()
 
     $.widget "custom.autocomplete", $.ui.autocomplete,
         _create: () ->
             @_super()
             @widget().menu "option", "items", "> :not(.ui-autocomplete-category)"
+
 
         _renderMenu: (ul, items) ->
             currentCategory = ''
@@ -99,8 +110,11 @@ $ ->
                     currentCategory = item.category
                     ul.append "<li class='ui-autocomplete-category'>#{currentCategory}</li>"
                 li = @_renderItemData(ul, item)
-                console.log item.url, item.name
-                li.find("a").attr('href',item.url).html("#{item.name}") if item.category
+                if item.thumb
+                    li.find("a").attr('href',item.url).html("<img src=#{item.thumb} class='search_thumb'>#{item.name}") if item.category
+                else
+                    li.find("a").attr('href',item.url).html("<div class='search_thumb_placeholder'></div>#{item.name}") if item.category
+
 
 
     $("input#main_menu_search").autocomplete
@@ -114,7 +128,6 @@ $ ->
                 dataType: "json"
 
                 success: (data) ->
-                    console.log data
                     response data
 
         focus: (e, ui) ->

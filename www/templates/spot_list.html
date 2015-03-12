@@ -9,7 +9,7 @@
 {% block content %}
 
 
-{% load instance_settings_via_tags %}
+{% load custom_tags_and_filters %}
 <h2 class="titles">
   <span class="fa fa-{{icon_type}} fa-2x spot_project_color"></span> {{site_title}}!
 </h2>
@@ -44,7 +44,7 @@
     <div class="col1">
         <p>{{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}<br>
         {{spot.phone_number}}</p>
-        <span data-score="{{spot.friendly_rate}}" class="rating" id="{{spot.pk}}"></span>
+        <span data-score="{{spot.friendly_rate}}" class="rating via_modal" id="{{spot.pk}}"></span>
     </div><div class="col2">
 
 

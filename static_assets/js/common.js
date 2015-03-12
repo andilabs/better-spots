@@ -66,28 +66,35 @@
     $(document).on('click', 'span.no-heart.disabled', function(e) {
       return alert('Login required to add spots to favourites!');
     });
-    $(document).on('click', 'span.rating', function(e) {
-      var rater;
+    $(document).on('click', 'span.rating.via_modal', function(e) {
+      var clickedRate, clickedSpot, rater;
       rater = $(this);
+      clickedSpot = rater.attr('id');
+      console.log(clickedSpot);
+      clickedRate = rater.find('input[name="friendly_rate"]').val();
       if (rater.find('input[name="score"]').is('[readonly]') === false) {
-        return $.ajax({
-          url: '/api/ratings/',
-          data: {
-            'spot_pk': rater.attr('id'),
-            'friendly_rate': rater.find('input[name="friendly_rate"]').val()
-          },
-          type: 'POST',
-          success: function(result) {
-            var selector;
-            selector = 'span#' + $(rater).attr('id');
-            return $(selector).raty({
-              score: result.new_score
-            });
-          }
+        $('#rating-modal').find('input[name=spot_pk]').val(clickedSpot);
+        $('#rating-modal').find('#modal_rating').raty({
+          score: clickedRate,
+          scoreName: 'friendly_rate'
         });
+        $('#rating-modal').find('input[name=friendly_rate]').val(clickedRate);
+        return $('#rating-modal').modal('show');
       } else {
         return alert('Login required to rate spots!');
       }
+    });
+    window.check_it = function(foo) {
+      if ($(foo).prop('checked') === false) {
+        return $(foo).parent().css('opacity', '0.2');
+      } else {
+        return $(foo).parent().css('opacity', '1');
+      }
+    };
+    $('#rating-modal').on('click', '#allowance', function(e) {
+      return $(this).find('input.allowance').each(function(index, element) {
+        return check_it(this);
+      });
     });
     $('#rating-modal').on('submit', '#rating-form', function(e) {
       var data;
@@ -105,7 +112,8 @@
         dataType: "json",
         type: 'POST',
         success: function(result) {
-          return $('#rating-modal').modal('hide');
+          $('#rating-modal').modal('hide');
+          return window.location.reload();
         }
       });
     });
@@ -125,9 +133,14 @@
               ul.append("<li class='ui-autocomplete-category'>" + currentCategory + "</li>");
             }
             li = _this._renderItemData(ul, item);
-            console.log(item.url, item.name);
-            if (item.category) {
-              return li.find("a").attr('href', item.url).html("" + item.name);
+            if (item.thumb) {
+              if (item.category) {
+                return li.find("a").attr('href', item.url).html("<img src=" + item.thumb + " class='search_thumb'>" + item.name);
+              }
+            } else {
+              if (item.category) {
+                return li.find("a").attr('href', item.url).html("<div class='search_thumb_placeholder'></div>" + item.name);
+              }
             }
           };
         })(this));
@@ -145,7 +158,6 @@
           url: "/ajax_search/",
           dataType: "json",
           success: function(data) {
-            console.log(data);
             return response(data);
           }
         });
