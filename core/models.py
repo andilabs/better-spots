@@ -282,23 +282,23 @@ def update_spot_evaluations(instance, **kwags):
         spot.is_enabled = False
 
     # determine each FACILITY fullfilment
-    # stats = {}
+    stats = {}
 
-    # for facility in [facility['name'] for facility in settings.HSTORE_SCHEMA]:
-    #     facilities_record = [r.facilities[facility] for r in all_ratings_of_spot]
-    #     stats[facility] = {
-    #         'positive': facilities_record.count(True),
-    #         'all': len(facilities_record)-facilities_record.count(None)
-    #     }
+    for facility in [facility['name'] for facility in settings.HSTORE_SCHEMA]:
+        facilities_record = [r.facilities[facility] for r in all_ratings_of_spot]
+        stats[facility] = {
+            'positive': facilities_record.count(True),
+            'all': len(facilities_record)-facilities_record.count(None)
+        }
 
-    # for facility, counts in stats.items():
-    #     if counts['all'] > 0:
-    #         positive_ratio = counts['positive'] / float(counts['all'])
-    #         if positive_ratio > 0.5:
-    #             spot.facilities[facility] = True
-    #         else:
-    #             spot.facilities[facility] = False
-    #     else:
-    #         spot.facilities[facility] = {}
+    for facility, counts in stats.items():
+        if counts['all'] > 0:
+            positive_ratio = counts['positive'] / float(counts['all'])
+            if positive_ratio > 0.5:
+                spot.facilities[facility] = True
+            else:
+                spot.facilities[facility] = False
+        else:
+            spot.facilities[facility] = {}
     spot.save()
 
