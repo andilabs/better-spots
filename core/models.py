@@ -285,15 +285,19 @@ def update_spot_evaluations(instance, **kwags):
     stats = {}
 
     for facility in [facility['name'] for facility in settings.HSTORE_SCHEMA]:
-        facilities_record = [rating.facilities.get(facility) for rating in all_ratings_of_spot]
+        facilities_record = [rating.facilities[facility] for rating in all_ratings_of_spot]
         stats[facility] = {
             'positive': facilities_record.count(True),
             'all': len(facilities_record)-facilities_record.count(None)
         }
 
     for facility, counts in stats.items():
+
         if counts['all'] > 0:
             positive_ratio = counts['positive'] / float(counts['all'])
+            if not spot.facilities:
+                spot.facilities = {}
+
             if positive_ratio > 0.5:
                 spot.facilities[facility] = True
             else:
