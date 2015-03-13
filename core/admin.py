@@ -9,6 +9,7 @@ from core.models import Spot, Rating, Opinion, OpinionUsefulnessRating, UsersSpo
 from accounts.models import SpotUser
 from accounts.forms import UserCreationForm, UserChangeForm
 
+hstore_fields = [field['name'] for field in settings.HSTORE_SCHEMA]
 
 class SpotUserAdmin(UserAdmin):
     # The forms to add and change user instances
@@ -40,8 +41,6 @@ class SpotUserAdmin(UserAdmin):
 
 
 class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
-    hstore_fields = [field['name'] for field in settings.HSTORE_SCHEMA]
-
     list_display = ['name', 'friendly_rate', 'address_city', 'is_enabled', 'is_certificated'] #+ hstore_fields
     list_filter = ('address_city', 'is_enabled', 'spot_type')
     search_fields = ['name', 'address_city', 'address_street']
@@ -57,6 +56,8 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
     )
 
 
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ['spot', 'friendly_rate', 'is_enabled'] + hstore_fields
 
 
 class UsersSpotsListAdmin(admin.ModelAdmin):
@@ -64,7 +65,7 @@ class UsersSpotsListAdmin(admin.ModelAdmin):
 
 admin.site.register(SpotUser, SpotUserAdmin)
 admin.site.register(Spot, SpotAdmin)
-admin.site.register(Rating)
+admin.site.register(Rating, RatingAdmin)
 admin.site.register(Opinion)
 admin.site.register(OpinionUsefulnessRating)
 admin.site.register(UsersSpotsList, UsersSpotsListAdmin)
