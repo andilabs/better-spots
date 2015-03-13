@@ -147,6 +147,8 @@ class RatingList(generics.ListCreateAPIView):
         return queryset
 
     def post(self, request):
+
+
         spot = get_object_or_404(Spot, pk=request.data.get('spot_pk'))
         user = request.user
         is_enabled = request.data.get('is_enabled', False)
@@ -161,9 +163,10 @@ class RatingList(generics.ListCreateAPIView):
             obj.friendly_rate = friendly_rate
             obj.is_enabled = is_enabled
 
-        if facilities:
-            for k,v in facilities.items():
-                obj.facilities[k] = v
+        if not obj.facilities:
+            obj.facilities = {}
+        for k,v in facilities.items():
+            obj.facilities[k] = v
         obj.save()
 
         spot_ratings = [r.friendly_rate for r in Rating.objects.filter(spot=spot)]

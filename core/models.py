@@ -298,7 +298,6 @@ def update_spot_evaluations(instance, **kwags):
                 spot.facilities[facility] = True
             else:
                 spot.facilities[facility] = False
-        else:
-            spot.facilities[facility] = {}
+
     spot.save()
 
