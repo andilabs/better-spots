@@ -32,7 +32,7 @@ class SpotListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Spot
-        exclude = tuple(['spot_slug', 'cropping_venue_photo', 'venue_photo'] + [field['name'] for field in settings.HSTORE_SCHEMA])
+        exclude = tuple(['spot_slug', 'cropping_venue_photo', 'venue_photo', 'facilities'])# + [field['name'] for field in settings.HSTORE_SCHEMA])
 
     def to_internal_value(self, data):
         ret = super(SpotListSerializer, self).to_internal_value(data)
@@ -52,12 +52,12 @@ class SpotListSerializer(serializers.HyperlinkedModelSerializer):
             ret['location'] = {'longitude': pnt.coords[0], 'latitude': pnt.coords[1]}
         else:
             ret['location'] = None
-        if ret.get('facilities'):
-            ret['facilities'] = dict([
-                (i[0], eval('None' if not i[1] else i[1])) for i in ret['facilities'].iteritems()
-            ])
-        else:
-            ret['facilities'] = None
+        # if ret.get('facilities'):
+        #     ret['facilities'] = dict([
+        #         (i[0], eval('None' if not i[1] else i[1])) for i in ret['facilities'].iteritems()
+        #     ])
+        # else:
+        #     ret['facilities'] = None
 
         ret['www_url'] = instance.www_url
         ret['thumbnail_venue_photo'] = instance.thumbnail_venue_photo
