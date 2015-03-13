@@ -25,7 +25,7 @@ $ ->
     $('span.rating input').attr('type', 'number').attr 'required', true
 
 
-    $(document).on 'click', 'span.heart', (e) ->
+    $(document).on 'click', 'div.heart', (e) ->
         heart = $(this)
         deleteFavUrl = $(this).data('url') + $(this).data('fav-pk') + '/'
         $.ajax
@@ -38,7 +38,7 @@ $ ->
                     $(heart).removeClass('heart').addClass 'no-heart'
 
 
-    $(document).on 'click', 'span.no-heart:not(.disabled)', (e) ->
+    $(document).on 'click', 'div.no-heart:not(.disabled)', (e) ->
         heart = $(this)
         url = $(this).data('url')
         $.ajax
@@ -50,7 +50,7 @@ $ ->
                 $(heart).removeClass('no-heart').addClass 'heart'
 
 
-    $(document).on 'click', 'span.no-heart.disabled', (e) ->
+    $(document).on 'click', 'div.no-heart.disabled', (e) ->
         alert 'Login required to add spots to favourites!'
 
 
@@ -68,11 +68,11 @@ $ ->
         else
             alert 'Login required to rate spots!'
 
-    window.check_it = (foo) ->
-        if $(foo).prop('checked') == false
-            $(foo).parent().css 'opacity', '0.2'
+    check_it = (radio_allowance) ->
+        if $(radio_allowance).prop('checked') == false
+            $(radio_allowance).parent().css 'opacity', '0.2'
         else
-            $(foo).parent().css 'opacity', '1'
+            $(radio_allowance).parent().css 'opacity', '1'
 
 
     $('#rating-modal').on 'click', '#allowance', (e) ->

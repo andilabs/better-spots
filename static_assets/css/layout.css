@@ -55,32 +55,34 @@ img.enablence-symbol {
   margin: 0;
   padding: 0; }
 
-span.heart {
+div.heart {
   font-size: 45px;
   color: #F46262;
   font-family: FontAwesome;
+  cursor: pointer;
   text-decoration: none; }
-  span.heart:before {
+  div.heart:before {
     content: "";
     opacity: 0.8; }
-  span.heart:hover:before {
+  div.heart:hover:before {
     color: #a1a1a1;
     content: "";
     opacity: 1; }
 
-span.no-heart {
+div.no-heart {
   font-size: 45px;
   color: #a1a1a1;
   font-family: FontAwesome;
+  cursor: pointer;
   text-decoration: none; }
-  span.no-heart:before {
+  div.no-heart:before {
     content: "";
     opacity: 0.2; }
-  span.no-heart:hover:before {
+  div.no-heart:hover:before {
     content: "";
     color: #F46262;
     opacity: 1; }
-  span.no-heart.disabled:hover:before {
+  div.no-heart.disabled:hover:before {
     content: "";
     color: #a1a1a1;
     opacity: 1; }

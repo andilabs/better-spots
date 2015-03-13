@@ -21,6 +21,7 @@
   });
 
   $(function() {
+    var check_it;
     $('span.rating').raty({
       scoreName: 'friendly_rate',
       score: function() {
@@ -31,7 +32,7 @@
       }
     });
     $('span.rating input').attr('type', 'number').attr('required', true);
-    $(document).on('click', 'span.heart', function(e) {
+    $(document).on('click', 'div.heart', function(e) {
       var deleteFavUrl, heart;
       heart = $(this);
       deleteFavUrl = $(this).data('url') + $(this).data('fav-pk') + '/';
@@ -47,7 +48,7 @@
         }
       });
     });
-    $(document).on('click', 'span.no-heart:not(.disabled)', function(e) {
+    $(document).on('click', 'div.no-heart:not(.disabled)', function(e) {
       var heart, url;
       heart = $(this);
       url = $(this).data('url');
@@ -63,7 +64,7 @@
         }
       });
     });
-    $(document).on('click', 'span.no-heart.disabled', function(e) {
+    $(document).on('click', 'div.no-heart.disabled', function(e) {
       return alert('Login required to add spots to favourites!');
     });
     $(document).on('click', 'span.rating.via_modal', function(e) {
@@ -85,11 +86,11 @@
         return alert('Login required to rate spots!');
       }
     });
-    window.check_it = function(foo) {
-      if ($(foo).prop('checked') === false) {
-        return $(foo).parent().css('opacity', '0.2');
+    check_it = function(radio_allowance) {
+      if ($(radio_allowance).prop('checked') === false) {
+        return $(radio_allowance).parent().css('opacity', '0.2');
       } else {
-        return $(foo).parent().css('opacity', '1');
+        return $(radio_allowance).parent().css('opacity', '1');
       }
     };
     $('#rating-modal').on('click', '#allowance', function(e) {
