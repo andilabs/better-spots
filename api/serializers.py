@@ -52,7 +52,7 @@ class SpotListSerializer(serializers.HyperlinkedModelSerializer):
             ret['location'] = {'longitude': pnt.coords[0], 'latitude': pnt.coords[1]}
         else:
             ret['location'] = None
-        if re.get('facilities'):
+        if ret.get('facilities'):
             ret['facilities'] = dict([
                 (i[0], eval('None' if not i[1] else i[1])) for i in ret['facilities'].iteritems()
             ])
