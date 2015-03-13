@@ -57,7 +57,7 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
 
 
 class RatingAdmin(admin.ModelAdmin):
-    list_display = ['spot', 'friendly_rate', 'is_enabled'] + hstore_fields
+    list_display = ['spot', 'friendly_rate', 'is_enabled'] + hstore_fields + ['user']
 
 
 class UsersSpotsListAdmin(admin.ModelAdmin):
