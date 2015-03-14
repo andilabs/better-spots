@@ -8,7 +8,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'poczta.superhost.pl'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'no-reply@enabledspot.eu'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_PASSWORD = 'c9c38a6dc8cdb66a0c416a9e1f8eac21'
 
 RAVEN_CONFIG = {
     'dsn': 'https://e44acaed8e4c4940a28d46b1b0ad1819:67601b0d9cc34321b6a38b31e1b79e22@app.getsentry.com/37317',
@@ -24,7 +24,7 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'enabledspot',
         'USER': 'enabledspot',
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'PASSWORD': 'c9c38a6dc8cdb66a0c416a9e1f8eac21',
         'HOST': 'localhost',
         'PORT': '5432',
     }

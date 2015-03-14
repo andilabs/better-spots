@@ -61,7 +61,8 @@ class RatingAdmin(admin.ModelAdmin):
 
 
 class UsersSpotsListAdmin(admin.ModelAdmin):
-    list_filter = ('role', 'user',)
+    list_display = ['role', 'spot', 'user']
+    list_filter = ('role', 'user','spot')
 
 admin.site.register(SpotUser, SpotUserAdmin)
 admin.site.register(Spot, SpotAdmin)
