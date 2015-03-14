@@ -225,7 +225,7 @@
   };
 
   renderSpotsTableViewCell = function(spot) {
-    return $("<span class='list-group-item' id='" + spot.id + "'> <span class='badge' style='background-color:transparent'> <a href='" + spot.url + "' class='spot-details-link' style='display:none;'> <i class='fa fa-angle-double-right fa-2x' style='color:white'></i></a></span> <h4 class='list-group-item-heading'>" + spot.name + "</h4> <p class='list-group-item-text'>" + spot.address_street + " " + spot.address_number + " <span class='spot_item_details' id='" + spot.id + "'> <br><span class='glyphicon glyphicon-phone-alt'></span> " + spot.phone_number + " <a href='http://www.facebook.com/" + spot.facebook + "' target='_blank'> <i class='fa fa-facebook'></i></a> </span> </p></span>").data('spot', spot);
+    return $("<span class='list-group-item' id='" + spot.id + "'> <span class='badge' style='background-color:transparent'> <a href='" + spot.www_url + "' class='spot-details-link' style='display:none;'> <i class='fa fa-angle-double-right fa-2x' style='color:white'></i></a></span> <h4 class='list-group-item-heading'>" + spot.name + "</h4> <p class='list-group-item-text'>" + spot.address_street + " " + spot.address_number + " <span class='spot_item_details' id='" + spot.id + "'> <br><span class='glyphicon glyphicon-phone-alt'></span> " + spot.phone_number + " <a href='http://www.facebook.com/" + spot.facebook + "' target='_blank'> <i class='fa fa-facebook'></i></a> </span> </p></span>").data('spot', spot);
   };
 
   activateSpotTableViewCellFor = function(id) {
@@ -321,18 +321,6 @@
       $("#spots_list").show();
       $("#map_canvas").gmap("option", "zoom", 14);
       return $('#map_canvas').gmap('refresh');
-    });
-    $(document).on('click', 'a.spot-details-link', function(e) {
-      var link;
-      $("#map_filters_button").hide();
-      e.preventDefault();
-      link = $(this).attr('href');
-      return $("#spots_list").hide(function() {
-        $('#left_container').append("<div class='list-group'  id='spot_detail'> <a href='#' class='list-group-item disabled' id='spot_detail_icons'> <i class='fa fa-list fa-2x' id='back_to_list'></i></a> <span class='list-group-item disabled' id='spot_detail_content'> <h4 class='list-group-item-heading'>Spot name</h4> <p class='list-group-item-text'> " + link + "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> </p></span> </div>");
-        switchColumsClasses('#left_container', '#right_container');
-        $("#map_canvas").gmap("option", "zoom", 17);
-        return $('#map_canvas').gmap("refresh");
-      });
     });
     $(document).on('click', '#map_filters_button', function(e) {
       return $("#map_filters input.map_filter").each(function() {
