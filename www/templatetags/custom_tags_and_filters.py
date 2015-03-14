@@ -12,3 +12,8 @@ def settings_value(name):
 @register.filter
 def keyvalue(dict, key):
     return dict.get(key)
+
+
+@register.filter
+def get_verbose_name(self):
+    return self._meta.verbose_name

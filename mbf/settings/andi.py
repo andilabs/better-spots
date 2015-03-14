@@ -9,7 +9,7 @@ from unipath import Path
 DEBUG = True
 TEMPLATE_DEBUG = True
 
-INSTANCE_DOMAIN = "127.0.0.1:4000"
+INSTANCE_DOMAIN = "127.0.0.1:8000"
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
@@ -147,7 +147,7 @@ HSTORE_SCHEMA = [
         "class": "NullBooleanField",
         "kwargs": {
             "default": None,
-            "verbose_name": "fresh water served"
+            "verbose_name": 'Fresh water served'
         }
     },
     {
@@ -155,7 +155,7 @@ HSTORE_SCHEMA = [
         "class": "NullBooleanField",
         "kwargs": {
             "default": None,
-            "verbose_name": "snacks"
+            "verbose_name": "Snacks"
         }
     },
     {
@@ -163,7 +163,7 @@ HSTORE_SCHEMA = [
         "class": "NullBooleanField",
         "kwargs": {
             "default": None,
-            "verbose_name": "special menu for dogs"
+            "verbose_name": "Special menu for dogs"
         }
     }
 ]

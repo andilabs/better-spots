@@ -14,22 +14,37 @@
         <div class="col-md-3 col-md-push-9">
             <center>
             {% if spot.is_enabled %}
-                      <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png">
+                      <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok-kopia.png">
                     {% else %}
-                      <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png">
+                      <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad-kopia.png">
                     {% endif %}
                     <br>
-                    {% if spot in user.favourites %}
-                      <div class="heart" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="{{user.spot_pk_to_fav_asset_pk|keyvalue:spot.pk}}" style="font-size:72px"></div>
-                    {% else %}
-                      <div class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="" style="font-size:72px"></div>
-                    {% endif %}
+                    <br>
                     <br>
                     <span data-score="{{spot.friendly_rate}}" class="rating via_modal" id="{{spot.pk}}"></span>
                     <br>
-                    {{HSTORE_SCHEMA}}
-                    <br><br>
-                    {{spot.facilities}}
+
+                    <!-- {{spot.facilities}} -->
+                    <br>
+                    <table>
+                        {% for element in HSTORE_SCHEMA %}
+                                {% with element|keyvalue:'kwargs'|keyvalue:'verbose_name' as y %}
+                                    <h2 style="font-family:Lato Italic">{{y}}:</h2><br>
+                                {% endwith %}
+                                {% with element|keyvalue:'name' as x %}
+                                    {% if spot.facilities|keyvalue:x == True %}
+                                        <i class="fa fa-check fa-4x" style="color: #3fb350" title="Yes"></i>
+                                    {% elif spot.facilities|keyvalue:x == False %}
+                                        <i class="fa fa-times fa-4x" style="color: #a1a1a1" title="No"></i>
+                                    {% else %}
+                                        <i class="fa fa-question fa-4x" style="color: #a1a1a1" title="Undefined"></i>
+                                    {% endif %}
+                                {% endwith %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+
+
          </center>
         </div>
         <div class="col-md-9 col-md-pull-3">
@@ -42,6 +57,11 @@
                   <h2 style="font-family:Lato Italic">
                     {{ spot.name|upper }}
                   </h2>
+                                      {% if spot in user.favourites %}
+                      <div class="heart" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="{{user.spot_pk_to_fav_asset_pk|keyvalue:spot.pk}}" style="font-size:72px; "></div>
+                    {% else %}
+                      <div class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="" style="font-size:72px"></div>
+                    {% endif %}
                 </li>
                 <li class="list-group-item">
                     <div id="map_canvas_spot_detail" style="height:260px" ></div>
@@ -88,7 +108,7 @@
 
 {% block scripts %}
   {{ block.super }}
-<script language="javascript">  var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";</script>
+<script language="javascript"> var STATIC_URL = "/static/"; var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";</script>
 
 
 <script type="text/javascript" src="{{ STATIC_URL }}js/spot_detail.js"></script>
