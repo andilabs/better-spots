@@ -4,7 +4,7 @@ import os
 
 INSTANCE_DOMAIN = "dogspot.eu"
 
-
+EMAIL_HOST_USER = 'no-reply@dogspot.eu'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
 
