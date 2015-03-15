@@ -87,24 +87,9 @@
 
 {% endif %}
 
-
-
-
-
 {% endblock %}
+
 {% block scripts %}
   {{ block.super }}
-
-  <script>
-
-    $(".venue_photo").fadeTo(0, 0.5); // initial opacity
-
-    $(".venue_photo").hover(function( e ) {
-       $(e.target).stop().fadeTo(300, e.type=="mouseenter"?1:0.5);
-    });
-
-
-  </script>
-</script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/spots_list.js"></script>
 {% endblock scripts %}
-

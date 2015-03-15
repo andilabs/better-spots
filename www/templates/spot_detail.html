@@ -107,9 +107,7 @@
 
 
 {% block scripts %}
-  {{ block.super }}
-<script language="javascript"> var STATIC_URL = "/static/"; var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";</script>
-
-
-<script type="text/javascript" src="{{ STATIC_URL }}js/spot_detail.js"></script>
+    {{ block.super }}
+    <script language="javascript"> var STATIC_URL = "/static/"; var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";</script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/spot_detail.js"></script>
 {% endblock scripts %}

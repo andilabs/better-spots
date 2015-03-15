@@ -33,21 +33,55 @@ def map(request):
         return response
 
 
-def map_two(request):
-    if request.method == 'GET':
-        response = TemplateResponse(request, 'map_two.html', {})
-        return response
-
-
 def mobile(request):
     if request.method == 'GET':
         response = TemplateResponse(request, 'mobile.html', {})
         return response
 
-def about(request):
-    if request.method == 'GET':
-        response = TemplateResponse(request, 'about.html', {})
+
+def spots_list(request):
+    spots = Spot.objects.order_by('name')
+    return generic_spots_list(request, spots, site_title='browse spots')
+
+
+def spot(request, pk, slug):
+    spot = get_object_or_404(Spot, pk=pk)
+    return render(request, 'spot_detail.html', {'spot': spot})
+
+
+def favourites_list(request):
+    if request.user.is_authenticated():
+        spots = request.user.favourites
+        return generic_spots_list(request, spots, site_title='your favourites spots', icon_type='heart')
+    else:
+        response = TemplateResponse(request, 'favourites.html')
         return response
+
+
+def certificated_list(request):
+    spots = Spot.objects.filter(is_certificated=True).order_by('name')
+    return generic_spots_list(request, spots, site_title='certificated spots', icon_type='certificate')
+
+
+def certificated(request, pk, slug=None):
+    spot = get_object_or_404(Spot, pk=pk, is_certificated=True)
+    return render(request, 'certificate.html', {'spot': spot})
+
+
+def generic_spots_list(request, spots, site_title='Spots', template='spot_list.html', icon_type='th'):
+    paginator = Paginator(spots, 6)
+    page = request.GET.get('page')
+    try:
+        spots = paginator.page(page)
+    except PageNotAnInteger:
+        spots = paginator.page(1)
+    except EmptyPage:
+        spots = paginator.page(paginator.num_pages)
+    return render(request, template, {
+        'spots': spots,
+        'site_title': site_title,
+        'icon_type': icon_type
+    })
 
 
 def render_to_pdf(template_src, context_dict):
@@ -72,7 +106,7 @@ def pdf_sticker(request, pk):
 
     if spot.is_certificated:
         return render_to_pdf(
-            'mytemplatePDF.html',
+            'pdf_sticker.html',
             {
                 'BASE_HOST': settings.INSTANCE_DOMAIN,
                 'MEDIA_ROOT': settings.MEDIA_ROOT,
@@ -127,53 +161,6 @@ def download_vcard(request, pk):
     response['Content-Disposition'] = (
         'filename=vcard_from_%s.vcf' % settings.SPOT_PROJECT_NAME)
     return response
-
-
-def spots(request):
-    spots = Spot.objects.order_by('name')
-    return spots_list(request, spots, site_title='browse spots')
-
-
-def favourites(request):
-
-    if request.user.is_authenticated():
-        spots = request.user.favourites
-        return spots_list(request, spots, site_title='your favourites spots', icon_type='heart')
-    else:
-        response = TemplateResponse(request, 'favourites.html')
-        return response
-
-
-def certificated_list(request):
-    spots = Spot.objects.filter(is_certificated=True).order_by('name')
-    return spots_list(request, spots, site_title='certificated spots', icon_type='certificate')
-
-
-def certificated(request, pk, slug=None):
-    spot = get_object_or_404(Spot, pk=pk, is_certificated=True)
-    return render(request, 'certificate.html', {'spot': spot})
-
-
-def spots_list(request, spots, site_title='Spots', template='spot_list.html', icon_type='th'):
-    paginator = Paginator(spots, 6)
-    page = request.GET.get('page')
-    try:
-        spots = paginator.page(page)
-    except PageNotAnInteger:
-        spots = paginator.page(1)
-    except EmptyPage:
-        spots = paginator.page(paginator.num_pages)
-    return render(request, template, {
-        'spots': spots,
-        'site_title': site_title,
-        'icon_type': icon_type
-    })
-
-
-
-def spot(request, pk, slug):
-    spot = get_object_or_404(Spot, pk=pk)
-    return render(request, 'spot_detail.html', {'spot': spot})
 
 
 class SpotUserCreate(CreateView):

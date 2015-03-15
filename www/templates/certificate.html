@@ -26,11 +26,6 @@
 
 
             <ul class="list-group">
-                <li class="list-group-item" style="text-align:center;">
-                    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#rating-modal">
-                      Rate this spot!
-                    </button>
-                </li>
                 <li class="list-group-item">
                     <div id="map_canvas_spot_detail" style="height:260px" ></div>
                 </li>
@@ -76,34 +71,8 @@
 
 {% endblock %}
 {% block scripts %}
-  {{ block.super }}
-
-
-<script language="javascript">  var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";</script>
-
-
-<script type="text/javascript" src="{{ STATIC_URL }}js/spot_detail.js"></script>
-<script>
-
-window.check_it=function(foo){
-  if ($(foo).prop('checked') === false) {
-    $(foo).parent().css('opacity', '0.2');
-  } else {
-    $(foo).parent().css('opacity', '1');
-  }
-}
-
-$("#rating-modal").on("click","#allowance", function(e) {
-   $(this).find('input.allowance').each(function(index, element) {
-        check_it(this);
-    });
-});
-
-$("#rating-modal").on("click","span.rating", function(e) {
-    e.stopPropagation();
-});
-
-</script>
-
+    {{ block.super }}
+    <script language="javascript">  var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";</script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/spot_detail.js"></script>
 {% endblock scripts %}
 

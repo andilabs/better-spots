@@ -72,13 +72,15 @@
       rater = $(this);
       clickedSpot = rater.attr('id');
       clickedRate = rater.find('input[name="friendly_rate"]').val();
-      console.log("spot:", clickedSpot);
-      console.log("rate:", clickedRate);
       if (rater.find('input[name="friendly_rate"]').is('[readonly]') === false) {
         $('#rating-modal').find('input[name=spot_pk]').val(clickedSpot);
         $('#rating-modal').find('#modal_rating').raty({
           score: clickedRate,
-          scoreName: 'friendly_rate'
+          scoreName: 'friendly_rate',
+          size: 24,
+          starOff: STATIC_URL + 'star-off-big.png',
+          starHalf: STATIC_URL + 'star-half-big.png',
+          starOn: STATIC_URL + 'star-on-big.png'
         });
         $('#rating-modal').find('input[name=friendly_rate]').val(clickedRate);
         return $('#rating-modal').modal('show');
@@ -106,7 +108,6 @@
         parseNulls: true,
         parseNumbers: true
       }));
-      console.log(data);
       return $.ajax({
         url: '/api/ratings/',
         data: data,
