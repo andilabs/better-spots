@@ -1,0 +1,15 @@
+
+facebook graph API - nearby
+==================
+
+
+nearby search
+-------------
+
+
+
+login
+-----
+GET graph.facebook.com/debug_token?
+     input_token={token-to-inspect}
+     &access_token={app-token-or-admin-token}

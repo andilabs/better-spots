@@ -1,0 +1,82 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import os
+from easy_thumbnails.files import get_thumbnailer
+from image_cropping import ImageCropField, ImageRatioField
+
+from django.db import models
+from django.conf import settings
+from django.utils import timezone
+
+from core.models import Spot
+from utils.img_path import get_image_path
+
+
+class DraftsManager(models.Manager):
+    def get_queryset(self):
+        return super(DraftsManager, self).get_queryset().filter(published_date__isnull=True)
+
+
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super(PublishedManager, self).get_queryset().filter(published_date__isnull=False)
+
+
+class Post(models.Model):
+    user = models.ForeignKey('accounts.SpotUser')
+    title = models.CharField(max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(
+        default=timezone.now)
+    published_date = models.DateTimeField(
+        blank=True, null=True, help_text='Saving with empty values makes post unpublished')
+    spot = models.ForeignKey(Spot, null=True, blank=True)
+    blogpost_photo = ImageCropField(upload_to=get_image_path, blank=True, null=True)
+    cropping_blogpost_photo = ImageRatioField(
+        'blogpost_photo',
+        settings.BLOGPOST_PHOTO_SIZE['W']+"x"+settings.BLOGPOST_PHOTO_SIZE['H'],
+        size_warning=True)
+
+    objects = models.Manager()
+    drafts = DraftsManager()
+    published = PublishedManager()
+
+    @property
+    def blogpost_photo_thumb(self):
+        """
+            serves url of image with default resolution set in settings
+        """
+        return self._blogpost_photo_thumb()
+
+    def admin_blogpost_photo_thumb(self):
+        if self.blogpost_photo:
+            return '<img src="%s" />' % self._blogpost_photo_thumb(width=200, height=200)
+        else:
+            return '(No photo)'
+    admin_blogpost_photo_thumb.short_description = 'Admin blogpost photo thumb'
+    admin_blogpost_photo_thumb.allow_tags = True
+
+    def _blogpost_photo_thumb(self, width=int(settings.BLOGPOST_PHOTO_SIZE['W']), height=int(settings.BLOGPOST_PHOTO_SIZE['H'])):
+
+        if not self.blogpost_photo:
+            return None
+        if self.blogpost_photo and self.blogpost_photo.name == '':
+            return None
+        if not os.path.isfile(settings.MEDIA_ROOT + '/' + self.blogpost_photo.name):
+            return None
+        thumbnail_url = get_thumbnailer(self.blogpost_photo).get_thumbnail({
+            'size': (width, height),
+            'box': self.cropping_blogpost_photo,
+            'crop': True,
+            'detail': True, }).url
+        return thumbnail_url
+
+
+
+
+    def publish(self):
+        self.published_date = timezone.now()
+        self.save()
+
+    def __unicode__(self):
+        return self.title
