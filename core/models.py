@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import os
-
+from unidecode import unidecode
 from django_hstore import hstore
 from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageCropField, ImageRatioField
@@ -12,7 +12,7 @@ from django.conf import settings
 from django.contrib.gis.db import models
 from django.core.urlresolvers import reverse
 from django.dispatch import receiver
-from django.utils.text import slugify
+from django.template.defaultfilters import slugify
 
 from utils.img_path import get_image_path
 
@@ -131,13 +131,13 @@ class Spot(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.spot_slug = slugify(
+        self.spot_slug = slugify(unidecode(
             "%s %s %s %s %s" % (
                 self.name,
                 SPOT_TYPE[self.spot_type-1][1],
                 self.address_city,
                 self.address_street,
-                self.address_number,))
+                self.address_number,)))
 
         super(Spot, self).save(*args, **kwargs)
 

@@ -49,7 +49,7 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
     readonly_fields = ['is_enabled', 'friendly_rate', 'spot_slug'] + hstore_fields
 
     fieldsets = (
-        (None, {'fields': ('name', 'spot_type', 'is_certificated')}),
+        (None, {'fields': ('name', 'spot_slug', 'spot_type', 'is_certificated')}),
         ('Address', {'fields': ('address_street','address_number', 'address_city','address_country')}),
         ('Contact details', {'fields': ('phone_number', 'email', 'www', 'facebook')}),
         ('Photo', {'fields': ('venue_photo', 'cropping_venue_photo')}),
@@ -68,7 +68,7 @@ class UsersSpotsListAdmin(admin.ModelAdmin):
 
 class BlogPostAdmin(ImageCroppingMixin, admin.ModelAdmin):
     list_display = ('title', 'created_date', 'published_date','spot','admin_blogpost_photo_thumb','user')
-    readonly_fields = ('admin_blogpost_photo_thumb', )
+    readonly_fields = ('admin_blogpost_photo_thumb', 'post_slug')
 
 
 admin.site.register(SpotUser, SpotUserAdmin)

@@ -1,12 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import os
+from unidecode import unidecode
 from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageCropField, ImageRatioField
 
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.template.defaultfilters import slugify
 
 from core.models import Spot
 from utils.img_path import get_image_path
@@ -36,6 +38,7 @@ class Post(models.Model):
         'blogpost_photo',
         settings.BLOGPOST_PHOTO_SIZE['W']+"x"+settings.BLOGPOST_PHOTO_SIZE['H'],
         size_warning=True)
+    post_slug = models.SlugField(max_length=1000)
 
     objects = models.Manager()
     drafts = DraftsManager()
@@ -71,12 +74,13 @@ class Post(models.Model):
             'detail': True, }).url
         return thumbnail_url
 
-
-
-
     def publish(self):
         self.published_date = timezone.now()
         self.save()
 
     def __unicode__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.post_slug = slugify(unidecode(self.title))
+        super(Post, self).save(*args, **kwargs)
