@@ -8,6 +8,7 @@ from django.contrib.auth.admin import UserAdmin
 from core.models import Spot, Rating, Opinion, OpinionUsefulnessRating, UsersSpotsList
 from accounts.models import SpotUser
 from accounts.forms import UserCreationForm, UserChangeForm
+from blog.models import Post
 
 hstore_fields = [field['name'] for field in settings.HSTORE_SCHEMA]
 
@@ -64,9 +65,16 @@ class UsersSpotsListAdmin(admin.ModelAdmin):
     list_display = ['role', 'spot', 'user']
     list_filter = ('role', 'user','spot')
 
+
+class BlogPostAdmin(ImageCroppingMixin, admin.ModelAdmin):
+    list_display = ('title', 'created_date', 'published_date','spot','admin_blogpost_photo_thumb','user')
+    readonly_fields = ('admin_blogpost_photo_thumb', )
+
+
 admin.site.register(SpotUser, SpotUserAdmin)
 admin.site.register(Spot, SpotAdmin)
 admin.site.register(Rating, RatingAdmin)
 admin.site.register(Opinion)
+admin.site.register(Post, BlogPostAdmin)
 admin.site.register(OpinionUsefulnessRating)
 admin.site.register(UsersSpotsList, UsersSpotsListAdmin)

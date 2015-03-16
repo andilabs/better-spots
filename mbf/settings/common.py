@@ -63,6 +63,7 @@ INSTALLED_APPS = (
     'core',
     'api',
     'www',
+    'blog',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -94,6 +95,7 @@ TOKEN_EXPIRES_AFTER = 24
 EMAIL_VERIFY_KEY_EXPIREATION_PERIOD_HOURS = 48
 
 VENUE_PHOTO_SIZE = {'W': '350', 'H': '150'}
+BLOGPOST_PHOTO_SIZE = {'W': '2402', 'H': '2402'}
 
 SOUTH_MIGRATION_MODULES = {
     'easy_thumbnails': 'easy_thumbnails.south_migrations',
