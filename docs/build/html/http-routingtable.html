@@ -94,6 +94,22 @@
 <li class="toctree-l2"><a class="reference internal" href="google_places_api.html#place-photo">place photo</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="foursquare_api.html">foursquare API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="foursquare_api.html#venues-api-endpoint">venues API endpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="foursquare_api.html#categories">categories</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_graph_api_nearby.html">facebook graph API - nearby</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="facebook_graph_api_nearby.html#nearby-search">nearby search</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_graph_api_auth.html">facebook graph API - authentication</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="facebook_graph_api_auth.html#graph-api-endpoint">graph api endpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="facebook_graph_api_auth.html#get-oauth-token">get oAuth token</a></li>
+<li class="toctree-l2"><a class="reference internal" href="facebook_graph_api_auth.html#facebook-login-for-the-web-with-the-javascript-sdk">Facebook Login for the Web with the JavaScript SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="facebook_graph_api_auth.html#validate-token-and-userid">validate token and userID</a></li>
+</ul>
+</li>
 </ul>
 
         
@@ -132,7 +148,10 @@
    <div class="modindex-jumpbox">
    <a href="#cap-/api"><strong>/api</strong></a> | 
    <a href="#cap-/details"><strong>/details</strong></a> | 
+   <a href="#cap-/graph.facebook.com"><strong>/graph.facebook.com</strong></a> | 
+   <a href="#cap-/hhttps:"><strong>/hhttps:</strong></a> | 
    <a href="#cap-/https:"><strong>/https:</strong></a> | 
+   <a href="#cap-/oauth"><strong>/oauth</strong></a> | 
    <a href="#cap-/photo?maxwidth={MAX_WIDTH}&photoreference={GOOGLE_PHOTO_REFERENCE}&key={GOOGLE_API_KEY}"><strong>/photo?maxwidth={MAX_WIDTH}&photoreference={GOOGLE_PHOTO_REFERENCE}&key={GOOGLE_API_KEY}</strong></a> | 
    <a href="#cap-/search"><strong>/search</strong></a>
    </div>
@@ -220,12 +239,41 @@
        <a href="google_places_api.html#get--details-json?placeid=GOOGLE_PLACEID=GOOGLE_API_KEY"><tt class="xref">GET /details/json?placeid={GOOGLE_PLACEID}={GOOGLE_API_KEY}</tt></a></td><td>
        <em></em></td></tr>
      <tr class="pcap"><td></td><td>&nbsp;</td><td></td></tr>
+     <tr class="cap" id="cap-/graph.facebook.com"><td></td><td>
+       <strong>/graph.facebook.com</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="facebook_graph_api_auth.html#get-graph.facebook.com-debug_token?input_token=token-to-inspect&access_token=app-token-or-admin-token"><tt class="xref">GET graph.facebook.com/debug_token?input_token={token-to-inspect}&amp;access_token={app-token-or-admin-token}</tt></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&nbsp;</td><td></td></tr>
+     <tr class="cap" id="cap-/hhttps:"><td></td><td>
+       <strong>/hhttps:</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="facebook_graph_api_auth.html#get-hhttps---graph.facebook.com"><tt class="xref">GET hhttps://graph.facebook.com</tt></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&nbsp;</td><td></td></tr>
      <tr class="cap" id="cap-/https:"><td></td><td>
        <strong>/https:</strong></td><td></td></tr>
      <tr>
        <td></td>
        <td>
+       <a href="foursquare_api.html#get-https---api.foursquare.com-v2-venues-search?ll=lat,lng&client_id=CLEINT_ID&client_secret=CLIENT_SECRET&v=20150316"><tt class="xref">GET https://api.foursquare.com/v2/venues/search?ll={lat},{lng}&amp;client_id={CLEINT_ID}&amp;client_secret={CLIENT_SECRET}&amp;v=20150316</tt></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
        <a href="google_places_api.html#get-https---maps.googleapis.com-maps-api-place"><tt class="xref">GET https://maps.googleapis.com/maps/api/place</tt></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&nbsp;</td><td></td></tr>
+     <tr class="cap" id="cap-/oauth"><td></td><td>
+       <strong>/oauth</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="facebook_graph_api_auth.html#get--oauth-access_token?client_id=app-id&client_secret=app-secret&grant_type=client_credentials"><tt class="xref">GET /oauth/access_token?client_id={app-id}&amp;client_secret={app-secret}&amp;grant_type=client_credentials</tt></a></td><td>
        <em></em></td></tr>
      <tr class="pcap"><td></td><td>&nbsp;</td><td></td></tr>
      <tr class="cap" id="cap-/photo?maxwidth={MAX_WIDTH}&photoreference={GOOGLE_PHOTO_REFERENCE}&key={GOOGLE_API_KEY}"><td></td><td>

@@ -15,7 +15,9 @@ Contents:
    devops
    api
    google_places_api
-
+   foursquare_api
+   facebook_graph_api_nearby
+   facebook_graph_api_auth
 
 
 Indices and tables
