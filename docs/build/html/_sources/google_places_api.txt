@@ -8,6 +8,10 @@ places API endpoint
 
 	applies to all method below
 
+	you can find GOOGLE API KEY here:
+
+	https://console.developers.google.com/project/810329286327/apiui/credential?authuser=0
+
 	GOOGLE API KEY is mandatory for all below methods
 
 

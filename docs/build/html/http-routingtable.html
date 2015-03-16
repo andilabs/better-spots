@@ -100,6 +100,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_graph_api_nearby.html">facebook graph API - nearby</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="facebook_graph_api_nearby.html#graph-api-endpoint">graph api endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="facebook_graph_api_nearby.html#nearby-search">nearby search</a></li>
 </ul>
 </li>
@@ -153,7 +154,8 @@
    <a href="#cap-/https:"><strong>/https:</strong></a> | 
    <a href="#cap-/oauth"><strong>/oauth</strong></a> | 
    <a href="#cap-/photo?maxwidth={MAX_WIDTH}&photoreference={GOOGLE_PHOTO_REFERENCE}&key={GOOGLE_API_KEY}"><strong>/photo?maxwidth={MAX_WIDTH}&photoreference={GOOGLE_PHOTO_REFERENCE}&key={GOOGLE_API_KEY}</strong></a> | 
-   <a href="#cap-/search"><strong>/search</strong></a>
+   <a href="#cap-/search"><strong>/search</strong></a> | 
+   <a href="#cap-/v2.2"><strong>/v2.2</strong></a>
    </div>
 
    <table class="indextable modindextable" cellspacing="0" cellpadding="2">
@@ -290,6 +292,14 @@
        <td></td>
        <td>
        <a href="google_places_api.html#get--search-json?location=lat,lng&radius=radius_in_meters&types=type&sensor=false&key=GOOGLE_API_KEY&pagetoken=optional_next_page_token"><tt class="xref">GET /search/json?location={lat},{lng}&amp;radius={radius_in_meters}&amp;types={type}&amp;sensor=false&amp;key={GOOGLE_API_KEY}&amp;pagetoken={optional_next_page_token}</tt></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&nbsp;</td><td></td></tr>
+     <tr class="cap" id="cap-/v2.2"><td></td><td>
+       <strong>/v2.2</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="facebook_graph_api_nearby.html#get--v2.2-search?limit=5000&offset=0&type=place&center=LAT,LNG&distance=DISTANCE_IN_METERS&access_token=FB_OAUTH_TOKEN"><tt class="xref">GET /v2.2/search?limit=5000&amp;offset=0&amp;type=place&amp;center={LAT},{LNG}&amp;distance={DISTANCE_IN_METERS}&amp;access_token={FB_OAUTH_TOKEN}</tt></a></td><td>
        <em></em></td></tr>
    </table>
 
