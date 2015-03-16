@@ -181,7 +181,26 @@
             <span class="footer-text">2014 &copy; by</span><a href="http://andilabs.com/"><div class="andilabs_logo"></div></a>
           </div>
       </div>
-      <div class="row">
+    </footer>
+  </div>
+  <br>
+
+  {% block scripts %}
+    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}external/jquerycookie/jquery.cookie.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&sensor=true"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/jquery.ui.map.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/jquery.ui.map.extensions.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/jquery.ui.map.overlays.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/markerclusterer.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/holder.js"></script>
+    <script language="javascript"> var DJANGO_USER = "{{user.is_authenticated|lower}}";</script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/common.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}external/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}external/jquery.serializejson.js"></script>
+    <script language="javascript"> var STATIC_URL = "/static/"; var BASE_HOST = "//{{request.META.HTTP_HOST}}"</script>
+    <script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
+  {% endblock scripts %}
           <script>
           // This is called with the results from from FB.getLoginStatus().
           function statusChangeCallback(response) {
@@ -264,27 +283,6 @@
         </script>
         <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
         </fb:login-button>
-      </div>
-    </footer>
-  </div>
-  <br>
-
-  {% block scripts %}
-    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/jquerycookie/jquery.cookie.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&sensor=true"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/jquery.ui.map.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/jquery.ui.map.extensions.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/jquery.ui.map.overlays.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/markerclusterer.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/holder.js"></script>
-    <script language="javascript"> var DJANGO_USER = "{{user.is_authenticated|lower}}";</script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/common.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/jquery.serializejson.js"></script>
-    <script language="javascript"> var STATIC_URL = "/static/"; var BASE_HOST = "//{{request.META.HTTP_HOST}}"</script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
-  {% endblock scripts %}
-
 </body>
+
 </html>
