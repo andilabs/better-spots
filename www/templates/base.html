@@ -225,6 +225,10 @@
                     <li><a href="/user/logout">Log me out!</a></li>
                 {% else %}
                   <li><a href="/user/create">Register</a></li>
+                  <li>
+                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+                    </fb:login-button>
+                  </li>
                   <li><a href="/user/login">Login</a></li>
                 {% endif %}
               </ul>
