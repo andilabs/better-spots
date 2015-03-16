@@ -225,10 +225,6 @@
                     <li><a href="/user/logout">Log me out!</a></li>
                 {% else %}
                   <li><a href="/user/create">Register</a></li>
-                  <li>
-                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-                    </fb:login-button>
-                  </li>
                   <li><a href="/user/login">Login</a></li>
                 {% endif %}
               </ul>
@@ -264,6 +260,9 @@
           <div class="col-xs-4" align="right">
             <span class="footer-text">2014 &copy; by</span><a href="http://andilabs.com/"><div class="andilabs_logo"></div></a>
           </div>
+      </div>
+      <div class="row">
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
       </div>
     </footer>
   </div>
