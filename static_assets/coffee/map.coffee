@@ -21,9 +21,55 @@ spot_type_lookup =
 
 window.allSpotsDict = {}
 
-currentMapCenter =
+window.currentMapCenter =
     lat: null
     lng: null
+
+window.currentAddress = null
+# window.initialize = () ->
+#     reverseGeoCode(function(addr){alert(addr)})
+
+window.initialize = ->
+  reverseGeoCode  (d) ->
+    window.currentAddress = d
+    console.log d
+
+window.initialize2 = () ->
+    geoCode (e) ->
+        console.log e
+
+reverseGeoCode = (callback) ->
+    location = new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng)
+    geocoder = new google.maps.Geocoder()
+
+    if geocoder
+        geocoder.geocode { 'latLng': location }, (results, status) ->
+            if status == google.maps.GeocoderStatus.OK
+                if results[1]
+                    callback(results[1].formatted_address)
+                else
+                    console.log 'No results found'
+            else
+                console.log 'Geocoder failed due to: ' + status
+
+geoCode = (callback) ->
+    geocoder = new google.maps.Geocoder()
+    if geocoder
+        geocoder.geocode { 'address': window.currentAddress}, (results, status) ->
+            if status == google.maps.GeocoderStatus.OK
+                if results[0]
+                    callback(JSON.stringify(results[0].geometry.location))
+                else
+                    console.log 'No results found'
+            else
+                console.log 'Geocode was not successful for the following reason: ' + status
+
+
+
+setCurrenMapCenter = (lat, lng) ->
+    window.currentMapCenter.lat = lat#.toFixed(5)
+    window.currentMapCenter.lng = lng#.toFixed(5)
+    localStorage.setItem('currentMapCenter', JSON.stringify(currentMapCenter))
 
 currentZoomLevel = 14
 
@@ -87,25 +133,25 @@ zoomBasedIconScaleRatio = ->
         return 2.0
 
 
-calculateDistance = (current_lat, current_lng, new_position_lat, new_position_lng) ->
+calculateDistance = (currentLat, currentLng, newPositionLat, newPositionLng) ->
     # returns distance in KM between two geoLocations represented by pair (lat, lng)
     R = 6371
-    dLat = (new_position_lat-current_lat).toRad()
-    dLon = (new_position_lng-current_lng).toRad()
-    current_lat = current_lat.toRad()
-    new_position_lat = new_position_lat.toRad()
+    dLat = (newPositionLat-currentLat).toRad()
+    dLon = (newPositionLng-currentLng).toRad()
+    currentLat = currentLat.toRad()
+    newPositionLat = newPositionLat.toRad()
 
     a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(current_lat) * Math.cos(new_position_lat)
+                    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(currentLat) * Math.cos(newPositionLat)
     c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
     d = R * c
 
 
-checkIfNewSpotsShouldBeLoaded = (new_position_lat, new_position_lng, user_zoom_level) ->
-    [current_lat, current_lng] = [currentMapCenter.lat, currentMapCenter.lng]
-    distance = calculateDistance(current_lat, current_lng, new_position_lat, new_position_lng)
+checkIfNewSpotsShouldBeLoaded = (newPositionLat, newPositionLng, userZoomLevel) ->
+    [currentLat, currentLng] = [currentMapCenter.lat, currentMapCenter.lng]
+    distance = calculateDistance(currentLat, currentLng, newPositionLat, newPositionLng)
 
-    if distance > desiredRadius/1000 or currentZoomLevel != user_zoom_level
+    if distance > desiredRadius/1000 or currentZoomLevel != userZoomLevel
         true
     else
         false
@@ -222,8 +268,8 @@ loadMarkers = (lat, lng) ->
     if lat == undefined or lng == undefined  or lat == null or lng ==null
         [lat, lng] = getIPbasedLocation().split(',')
         [lat, lng] = [Number(lat), Number(lng)]
-    currentMapCenter.lat = lat
-    currentMapCenter.lng = lng
+
+    setCurrenMapCenter(lat, lng)
 
     #on each load of markers clean allSpotsDict setting it to empty arr
     window.allSpotsDict = {}
@@ -362,9 +408,10 @@ $ ->
         # here the map is initialized
         # https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
         options =
+            timeout: 5000 #  in milliseconds (default: no limit)
+            maximumAge: 600000 #  in milliseconds (default: 0)
             enableHighAccuracy: true # boolean (default: false)
-            timeout: 10000 #  in milliseconds (default: no limit)
-            maximumAge: 10000000 #  in milliseconds (default: 0)
+
 
         # here we get current geo-position of user
         $("#map_canvas").gmap "getCurrentPosition", (position, status, options) ->
@@ -389,15 +436,14 @@ $ ->
 
 
     $("#map_canvas").on 'click', (e) ->
-        new_position =  $('#map_canvas').gmap('get','map').getCenter()
-        user_zoom_level = $('#map_canvas').gmap('get','map').getZoom()
+        newPosition =  $('#map_canvas').gmap('get','map').getCenter()
+        userZoomLevel = $('#map_canvas').gmap('get','map').getZoom()
 
-        if checkIfNewSpotsShouldBeLoaded(new_position.lat(), new_position.lng(), user_zoom_level)
-            currentMapCenter.lat = new_position.lat()
-            currentMapCenter.lng = new_position.lng()
+        if checkIfNewSpotsShouldBeLoaded(newPosition.lat(), newPosition.lng(), userZoomLevel)
+            setCurrenMapCenter(newPosition.lat(), newPosition.lng())
             currentZoomLevel = $('#map_canvas').gmap('get','map').getZoom()
             desiredRadius =  Math.floor(currentZoomLevel.getRatioForZoom()/10/2)
-            loadMarkers(new_position.lat(), new_position.lng())
+            loadMarkers(newPosition.lat(), newPosition.lng())
             clientPosition = new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng)
 
 
@@ -410,7 +456,3 @@ $ ->
                 content: renderInfoWindow(allSpotsDict[@id].spot, userReadOnly=!window.isAuthenticated)
 
         $("#map_canvas").gmap("get", "map").panTo window.allSpotsDict[@id].marker.getPosition()
-
-    # $("#map_canvas").on 'click', 'div.rating via_modal', (e) ->
-    #     #here should happen POST with rating for spot given by logged-in user.
-    #     console.log "spot: #{@.id} score: #{$(@).find('input[name="score"]').val()}"
