@@ -38,7 +38,7 @@ class Post(models.Model):
         'blogpost_photo',
         settings.BLOGPOST_PHOTO_SIZE['W']+"x"+settings.BLOGPOST_PHOTO_SIZE['H'],
         size_warning=True)
-    post_slug = models.SlugField(max_length=1000)
+    post_slug = models.SlugField(max_length=1200)
 
     objects = models.Manager()
     drafts = DraftsManager()
@@ -82,5 +82,10 @@ class Post(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.post_slug = slugify(unidecode(self.title))
+        self.post_slug = "%i/%i/%i/%s" % (
+            self.created_date.year,
+            self.created_date.month,
+            self.created_date.day,
+            slugify(unidecode(self.title))
+        )
         super(Post, self).save(*args, **kwargs)
