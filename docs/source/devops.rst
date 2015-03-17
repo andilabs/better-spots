@@ -16,7 +16,7 @@ Scripts
 	do
 	   cd "/home/ubuntu/$instance/mbf"
 	   git checkout "$branch_name"
-	   git pull origin "$branch_name"
+	   git pull origin "$branch_name" --no-edit
 	   python manage.py collectstatic --noinput
 	   python manage.py migrate
 	   sudo apachectl restart
