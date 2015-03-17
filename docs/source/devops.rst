@@ -4,19 +4,21 @@ DevOps
 Scripts
 ^^^^^^^
 
-[pull_and_restart.sh] - Pull repo, collectstatic, restart apache
+[pull_migrate_and_restart.sh] - Pull repo, collectstatic, restart apache
 ----------------------------------------------------------------
 
 .. sourcecode:: bash
 
+	branch_name=$1
 	declare -a instances=("dogspot.eu" "momspot.eu" "enabledspot.eu" "veganspot.org")
 
 	for instance in "${instances[@]}"
 	do
 	   cd "/home/ubuntu/$instance/mbf"
-	   git checkout production
-	   git pull origin production
+	   git checkout "$branch_name"
+	   git pull origin "$branch_name"
 	   python manage.py collectstatic --noinput
+	   python manage.py migrate
 	   sudo apachectl restart
 	done
 
