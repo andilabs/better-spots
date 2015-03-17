@@ -1,0 +1,8 @@
+{% for post in object_list %}
+
+	<img src="{{post.blogpost_photo_thumb}}" width="200px">
+	<h1>{{post.title}}</h1>
+	<h2>{{post.text}}</h2>
+	<hr>
+
+{% endfor %}
