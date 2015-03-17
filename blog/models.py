@@ -27,7 +27,7 @@ class PublishedManager(models.Manager):
 class Post(models.Model):
     user = models.ForeignKey('accounts.SpotUser')
     title = models.CharField(max_length=200)
-    text = models.TextField()
+    text = models.TextField(help_text='blog note text')
     created_date = models.DateTimeField(
         default=timezone.now)
     published_date = models.DateTimeField(
