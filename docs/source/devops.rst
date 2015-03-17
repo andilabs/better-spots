@@ -15,8 +15,9 @@ Scripts
 	for instance in "${instances[@]}"
 	do
 	   cd "/home/ubuntu/$instance/mbf"
+	   git fetch
 	   git checkout "$branch_name"
-	   git pull origin "$branch_name" --no-edit
+	   git merge "$branch_name" --no-edit
 	   python manage.py collectstatic --noinput
 	   python manage.py migrate
 	   sudo apachectl restart
