@@ -83,9 +83,9 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         self.post_slug = "%i/%i/%i/%s" % (
-            self.published_date.year,
-            self.published_date.month,
-            self.published_date.day,
+            self.created_date.year,
+            self.created_date.month,
+            self.created_date.day,
             slugify(unidecode(self.title))
         )
         super(Post, self).save(*args, **kwargs)
