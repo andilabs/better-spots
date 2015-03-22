@@ -23,9 +23,9 @@ class BlogPostDetailView(DetailView):
 
 
 class LastBlogPostEntries(Feed):
-    title = "My Blog"
+    title = "Dogspot blog."
     link = "/blog/"
-    description = "The latest news about stuff."
+    description = "The latest posts about dog friednly spots in Warsaw"
 
     def items(self):
         return Post.objects.order_by('-published_date')[:15]
