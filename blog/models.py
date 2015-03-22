@@ -53,7 +53,7 @@ class Post(models.Model):
 
     def admin_blogpost_photo_thumb(self):
         if self.blogpost_photo:
-            return '<img src="%s" />' % self._blogpost_photo_thumb(width=200, height=200)
+            return '<img src="%s" />' % self._blogpost_photo_thumb(width=500, height=500)
         else:
             return '(No photo)'
     admin_blogpost_photo_thumb.short_description = 'Admin blogpost photo thumb'
@@ -83,9 +83,9 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         self.post_slug = "%i/%i/%i/%s" % (
-            self.created_date.year,
-            self.created_date.month,
-            self.created_date.day,
+            self.published_date.year,
+            self.published_date.month,
+            self.published_date.day,
             slugify(unidecode(self.title))
         )
         super(Post, self).save(*args, **kwargs)

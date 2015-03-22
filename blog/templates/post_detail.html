@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block extra_head %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+
+<style>
+a {
+	text-decoration:none;
+	font-weight:600;
+}
+</style>
+
+<div class="row">
+    <div class="col-md-12 no-col-padding">
+        <h1 style="font-family:Lato">
+        	<a href="{% url 'blogpost_list' %}">BLOG</a> >
+            <a href="{% url 'blogpost_detail' pk=post.pk post_slug=post.post_slug %}">{{post.title}}</a></h1>
+        <h2 style="font-family:Lato Italic">{{post.text}}</h2>
+    </div>
+    <div class="col-md-12">
+        <a href="{{post.blogpost_photo_thumb}}" target="_blank">
+        <img src="{{post.blogpost_photo_thumb|safe}}" width="100%"></a>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+{% endblock scripts %}
