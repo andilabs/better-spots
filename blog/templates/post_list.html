@@ -8,12 +8,18 @@
 
 {% block content %}
 
+<h2 class="titles">
+  <span class="fa fa-rss fa-2x spot_project_color"></span> Blog!
+</h2>
+
+
 {% for post in object_list %}
 
 <div class="row">
     <div class="col-md-6 no-col-padding">
         <h1 style="font-family:Lato">
-            <a href="{% url 'blogpost_detail' pk=post.pk post_slug=post.post_slug %}" style="text-decoration:none; font-weight:600">{{post.title}}</a></h1>
+            <a href="{% url 'blogpost_detail' pk=post.pk post_slug=post.post_slug %}" style="text-decoration:none; font-weight:600">{{post.title}}</a>
+        </h1>
         <h2 style="font-family:Lato Italic">{{post.text}}</h2>
     </div>
     <div class="col-md-6">

@@ -41,7 +41,7 @@ def mobile(request):
 
 def spots_list(request):
     spots = Spot.objects.order_by('name')
-    return generic_spots_list(request, spots, site_title='browse spots')
+    return generic_spots_list(request, spots, site_title='browse spots', icon_type='th-large')
 
 
 def spot(request, pk, slug):
