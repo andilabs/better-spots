@@ -6,9 +6,7 @@ from django.views.generic import RedirectView
 from django.contrib import admin
 from django.conf.urls.static import static
 
-
 admin.autodiscover()
-
 
 urlpatterns = patterns(
     '',
