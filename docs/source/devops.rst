@@ -1,5 +1,5 @@
-DevOps
-======
+My little DevOps
+================
 
 Scripts
 ^^^^^^^
@@ -10,6 +10,7 @@ Scripts
 .. sourcecode:: bash
 
 	branch_name=$1
+	echo "Using branch" + "$branch_name"
 	declare -a instances=("dogspot.eu" "momspot.eu" "enabledspot.eu" "veganspot.org")
 
 	for instance in "${instances[@]}"
@@ -22,6 +23,7 @@ Scripts
 	   python manage.py migrate
 	   sudo apachectl restart
 	done
+
 
 
 [create_instance.sh] - create new instance

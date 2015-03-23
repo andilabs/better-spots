@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>DevOps &mdash; betterSpots 1.0 documentation</title>
+  <title>My little DevOps &mdash; betterSpots 1.0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
         
             <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">DevOps</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">My little DevOps</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#scripts">Scripts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#apache">Apache</a></li>
 </ul>
@@ -95,6 +95,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_graph_api_nearby.html">facebook graph API - nearby</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="facebook_graph_api_nearby.html#graph-api-endpoint">graph api endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="facebook_graph_api_nearby.html#nearby-search">nearby search</a></li>
 </ul>
 </li>
@@ -102,7 +103,8 @@
 <li class="toctree-l2"><a class="reference internal" href="facebook_graph_api_auth.html#graph-api-endpoint">graph api endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="facebook_graph_api_auth.html#get-oauth-token">get oAuth token</a></li>
 <li class="toctree-l2"><a class="reference internal" href="facebook_graph_api_auth.html#facebook-login-for-the-web-with-the-javascript-sdk">Facebook Login for the Web with the JavaScript SDK</a></li>
-<li class="toctree-l2"><a class="reference internal" href="facebook_graph_api_auth.html#validate-token">validate token</a></li>
+<li class="toctree-l2"><a class="reference internal" href="facebook_graph_api_auth.html#validate-token-and-userid">validate token and userID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="facebook_graph_api_auth.html#html-js">HTML + JS</a></li>
 </ul>
 </li>
 </ul>
@@ -128,7 +130,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>DevOps</li>
+    <li>My little DevOps</li>
       <li class="wy-breadcrumbs-aside">
         
           <a href="_sources/devops.txt" rel="nofollow"> View page source</a>
@@ -139,20 +141,24 @@
 </div>
           <div role="main">
             
-  <div class="section" id="devops">
-<h1>DevOps<a class="headerlink" href="#devops" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="my-little-devops">
+<h1>My little DevOps<a class="headerlink" href="#my-little-devops" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="scripts">
 <h2>Scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="pull-and-restart-sh-pull-repo-collectstatic-restart-apache">
-<h3>[pull_and_restart.sh] - Pull repo, collectstatic, restart apache<a class="headerlink" href="#pull-and-restart-sh-pull-repo-collectstatic-restart-apache" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">declare</span> -a <span class="nv">instances</span><span class="o">=(</span><span class="s2">&quot;dogspot.eu&quot;</span> <span class="s2">&quot;momspot.eu&quot;</span> <span class="s2">&quot;enabledspot.eu&quot;</span> <span class="s2">&quot;veganspot.org&quot;</span><span class="o">)</span>
+<div class="section" id="pull-migrate-and-restart-sh-pull-repo-collectstatic-restart-apache">
+<h3>[pull_migrate_and_restart.sh] - Pull repo, collectstatic, restart apache<a class="headerlink" href="#pull-migrate-and-restart-sh-pull-repo-collectstatic-restart-apache" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">branch_name</span><span class="o">=</span><span class="nv">$1</span>
+<span class="nb">echo</span> <span class="s2">&quot;Using branch&quot;</span> + <span class="s2">&quot;</span><span class="nv">$branch_name</span><span class="s2">&quot;</span>
+<span class="nb">declare</span> -a <span class="nv">instances</span><span class="o">=(</span><span class="s2">&quot;dogspot.eu&quot;</span> <span class="s2">&quot;momspot.eu&quot;</span> <span class="s2">&quot;enabledspot.eu&quot;</span> <span class="s2">&quot;veganspot.org&quot;</span><span class="o">)</span>
 
 <span class="k">for</span> instance in <span class="s2">&quot;</span><span class="si">${</span><span class="nv">instances</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="k">do</span>
    <span class="nb">cd</span> <span class="s2">&quot;/home/ubuntu/</span><span class="nv">$instance</span><span class="s2">/mbf&quot;</span>
-   git checkout production
-   git pull origin production
+   git fetch
+   git checkout <span class="s2">&quot;</span><span class="nv">$branch_name</span><span class="s2">&quot;</span>
+   git pull --no-edit origin <span class="s2">&quot;</span><span class="nv">$branch_name</span><span class="s2">&quot;</span>
    python manage.py collectstatic --noinput
+   python manage.py migrate
    sudo apachectl restart
 <span class="k">done</span>
 </pre></div>

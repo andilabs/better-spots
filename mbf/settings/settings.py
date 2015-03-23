@@ -3,8 +3,8 @@ import os
 
 from unipath import Path
 
-DEBUG = False
-TEMPLATE_DEBUG = False
+DEBUG = True
+TEMPLATE_DEBUG = True
 
 # /home/ubuntu/<INSTANCE>/mbf/demo
 # PROJECT_ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
