@@ -18,12 +18,16 @@
 <div class="row">
     <div class="col-md-6 no-col-padding">
         <h1 style="font-family:Lato">
-            <a href="{% url 'blogpost_detail' pk=post.pk post_slug=post.post_slug %}" style="text-decoration:none; font-weight:600">{{post.title}}</a>
+            <a href="{% url 'blogpost_detail' pk=post.pk post_slug=post.post_slug %}" style="text-decoration:none; font-weight:600">
+                {{post.title}}
+            </a>
         </h1>
         <h2 style="font-family:Lato Italic">{{post.text}}</h2>
     </div>
     <div class="col-md-6">
-        <a href="{% url 'blogpost_detail' pk=post.pk post_slug=post.post_slug %}"> {{post.admin_blogpost_photo_thumb|safe}}</a>
+        <a href="{% url 'blogpost_detail' pk=post.pk post_slug=post.post_slug %}">
+            {{post.admin_blogpost_photo_thumb|safe}}
+        </a>
     </div>
 </div>
 

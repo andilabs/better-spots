@@ -3,8 +3,8 @@ import os
 
 from unipath import Path
 
-DEBUG = True
-TEMPLATE_DEBUG = True
+DEBUG = False
+TEMPLATE_DEBUG = False
 
 # /home/ubuntu/<INSTANCE>/mbf/demo
 # PROJECT_ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -40,12 +40,9 @@ elif 'enabledspot.eu' in PROJECT_ROOT_PATH.split('/'):
     SPOT_PROJECT_NAME = 'enabledspot'
 
 
-elif 'gayfriendlyspots.com' in PROJECT_ROOT_PATH.split('/'):
-    from .gayfriendlyspots import *
-    SPOT_PROJECT_NAME = 'gayfriendlyspots'
-
 elif 'veganspot.org' in PROJECT_ROOT_PATH.split('/'):
     from .veganspot import *
     SPOT_PROJECT_NAME = 'veganspot'
+
 
 SPOT_PROJECT_FAVICON_URL = os.path.join('media', SPOT_PROJECT_NAME, SPOT_PROJECT_NAME + '_favicon.ico')
