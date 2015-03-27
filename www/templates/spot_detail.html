@@ -13,101 +13,94 @@
 
         <div class="col-md-3 col-md-push-9">
             <center>
-            {% if spot.is_enabled %}
+
+                <div class='allowance-icon'>
+                {% if spot.is_enabled %}
                       <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok-kopia.png">
-                    {% else %}
+                {% else %}
                       <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad-kopia.png">
-                    {% endif %}
-                    <br>
-                    <br>
-                    <br>
-                    <span data-score="{{spot.friendly_rate}}" class="rating via_modal" id="{{spot.pk}}"></span>
-                    <br>
+                {% endif %}
+                </div>
 
-                    <!-- {{spot.facilities}} -->
-                    <br>
-                    <table>
-                        {% for element in HSTORE_SCHEMA %}
-                                {% with element|keyvalue:'kwargs'|keyvalue:'verbose_name' as y %}
-                                    <h2 style="font-family:Lato Italic">{{y}}:</h2><br>
-                                {% endwith %}
-                                {% with element|keyvalue:'name' as x %}
-                                    {% if spot.facilities|keyvalue:x == True %}
-                                        <i class="fa fa-check fa-4x" style="color: #3fb350" title="Yes"></i>
-                                    {% elif spot.facilities|keyvalue:x == False %}
-                                        <i class="fa fa-times fa-4x" style="color: #a1a1a1" title="No"></i>
-                                    {% else %}
-                                        <i class="fa fa-question fa-4x" style="color: #a1a1a1" title="Undefined"></i>
-                                    {% endif %}
-                                {% endwith %}
-                            </tr>
-                        {% endfor %}
-                    </table>
+                <span data-score="{{spot.friendly_rate}}" class="rating via_modal" id="{{spot.pk}}"></span>
 
+                {% for element in HSTORE_SCHEMA %}
+                    {% with element|keyvalue:'kwargs'|keyvalue:'verbose_name' as FACILITY %}
+                        <h2 class="facility">
+                            {{FACILITY}}:
+                        </h2>
+                    {% endwith %}
+                    {% with element|keyvalue:'name' as FACILITY_FULLFILMENT %}
+                        {% if spot.facilities|keyvalue:FACILITY_FULLFILMENT == True %}
+                            <i class="fa fa-check fa-4x" style="color: #3fb350" title="Yes"></i>
+                        {% elif spot.facilities|keyvalue:FACILITY_FULLFILMENT == False %}
+                            <i class="fa fa-times fa-4x" style="color: #a1a1a1" title="No"></i>
+                        {% else %}
+                            <i class="fa fa-question fa-4x" style="color: #a1a1a1" title="Undefined"></i>
+                        {% endif %}
+                    {% endwith %}
+                {% endfor %}
 
-         </center>
+            </center>
         </div>
+
         <div class="col-md-9 col-md-pull-3">
-
-
-
-
             <ul class="list-group">
                 <li class="list-group-item" style="text-align:center;">
-                  <h2 style="font-family:Lato Italic">
-                    {{ spot.name|upper }}
-                  </h2>
-                                      {% if spot in user.favourites %}
-                      <div class="heart" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="{{user.spot_pk_to_fav_asset_pk|keyvalue:spot.pk}}" style="font-size:72px; "></div>
+                    <h2 style="font-family:Lato Italic">
+                        {{ spot.name|upper }}
+                    </h2>
+                    {% if spot in user.favourites %}
+                        <div class="heart" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="{{user.spot_pk_to_fav_asset_pk|keyvalue:spot.pk}}" style="font-size:72px; "></div>
                     {% else %}
-                      <div class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="" style="font-size:72px"></div>
+                        <div class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="" style="font-size:72px"></div>
                     {% endif %}
                 </li>
                 <li class="list-group-item">
                     <div id="map_canvas_spot_detail" style="height:260px" ></div>
                 </li>
                 {% if spot.phone_number %}
-                <li class="list-group-item">
-                    <span class="badge invert fa fa-phone fa-2x"> </span>
-                     <a href='tel://{{spot.phone_number}}'>{{spot.phone_number}}</a>
-                </li>
+                    <li class="list-group-item">
+                        <span class="badge invert fa fa-phone fa-2x"> </span>
+                         <a href='tel://{{spot.phone_number}}'>{{spot.phone_number}}</a>
+                    </li>
                 {% endif %}
 
                 {% if spot.email %}
-                <li class="list-group-item">
-                    <span class="badge invert fa fa-envelope-o fa-2x"> </span>
-                    <a href='mailto:{{spot.email}}' target='_blank'>{{spot.email|truncatechars:100}}</a>
-                </li>
+                    <li class="list-group-item">
+                        <span class="badge invert fa fa-envelope-o fa-2x"> </span>
+                        <a href='mailto:{{spot.email}}' target='_blank'>{{spot.email|truncatechars:100}}</a>
+                    </li>
                 {% endif %}
 
                 {% if spot.www %}
-                <li class="list-group-item">
-                    <span class="badge invert fa fa-link fa-2x"> </span>
-                    <a href='{{spot.www}}' target='_blank'>{{spot.www|truncatechars:100}}</a>
-                </li>
+                    <li class="list-group-item">
+                        <span class="badge invert fa fa-link fa-2x"> </span>
+                        <a href='{{spot.www}}' target='_blank'>{{spot.www|truncatechars:100}}</a>
+                    </li>
                 {% endif %}
 
                 {% if spot.facebook %}
-                <li class="list-group-item">
-                    <span class="badge invert fa fa-facebook fa-2x"> </span>
-                    <a href='{{spot.facebook_url}}' target='_blank'>{{spot.facebook_url|truncatechars:100}}</a>
-                </li>
+                    <li class="list-group-item">
+                        <span class="badge invert fa fa-facebook fa-2x"> </span>
+                        <a href='{{spot.facebook_url}}' target='_blank'>{{spot.facebook_url|truncatechars:100}}</a>
+                    </li>
                 {% endif %}
 
                 <li class="list-group-item">
-                        <img src="{% url 'qrcode_scaled' pk=spot.pk size=2%}"><br>
-                        <a href='{% url 'vcard' pk=spot.pk %}'>Download vCard</a>
+                    <img src="{% url 'qrcode_scaled' pk=spot.pk size=2%}"><br>
+                    <a href='{% url 'vcard' pk=spot.pk %}'>Download vCard</a>
                 </li>
             </ul>
-
         </div>
     </div>
 
 {% endblock %}
 
-
 {% block scripts %}
     {{ block.super }}
-    <script language="javascript"> var STATIC_URL = "/static/"; var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";</script>
+    <script language="javascript">
+        var STATIC_URL = "/static/"; var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";
+    </script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/spot_detail.js"></script>
 {% endblock scripts %}

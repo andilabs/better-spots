@@ -26,6 +26,32 @@
 
   .collapse.in {
     display: block !important; } }
+.thin_lato {
+  font-family: "Lato";
+  font-weight: 100; }
+
+.rating {
+  margin-bottom: 35px; }
+
+.titles {
+  font-family: "Gloria Hallelujah"; }
+
+.facility {
+  font-family: "Lato Italic";
+  margin-bottom: 35px; }
+
+.blog_title_link {
+  font-family: "Lato";
+  font-weight: 600; }
+  .blog_title_link:hover {
+    color: darkorange; }
+
+.blog_content {
+  font-family: "Lato Italic"; }
+
+.allowance-icon {
+  margin-bottom: 35px; }
+
 h2.title {
   font-weight: 600;
   font-family: "Lato"; }
@@ -58,7 +84,7 @@ img.enablence-symbol {
 
 .col1 {
   display: inline-block;
-  width: 80%;
+  width: 78%;
   height: 100%;
   margin: 0;
   padding: 0; }
@@ -174,9 +200,6 @@ img.venue_photo.certificated {
 div.caption h4 a {
   font-family: Lato Italic;
   font-weight: 900; }
-
-.titles {
-  font-family: "Gloria Hallelujah"; }
 
 .project_description {
   font-family: "Lato", serif;

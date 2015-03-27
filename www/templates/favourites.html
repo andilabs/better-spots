@@ -1,38 +1,22 @@
 {% extends "base.html" %}
 
-
 {% block content %}
-<style>
-h1 {
-	font-family: 'Lato', serif;
-	font-style:thin;
-	font-weight: 100;
-}
-</style>
-{% load custom_tags_and_filters %}
-	<h2 class="titles">
-		<i class="fa fa-heart fa-2x spot_project_color"></i> Your favourites spots!
-	</h2>
-{% if user.is_authenticated %}
-	{% if user.favourites %}
-		{% for spot in user.favourites %}
-			<h2 style="font-family:Lato Italic">{{spot.name}}</h2>
-		{% endfor %}
-	{% else %}
-			<h2 style="font-family:Lato Italic">You don't have any spots yet! Start hearting them tooday!</h2>
-	{% endif %}
-{% else %}
-	<h1>Sign up<br> and start <b>hearting</b> your favourite spots today!</h1>
-	</h1>
-	 <div class="row">
-          <div class="col-xs-4">
-         	<a class="btn btn-default btn-lg" href="/user/login/" role="button">Login</a>
-          </div>
-          <div class="col-xs-4" style="text-align:left">
-          	<a class="btn btn-default btn-lg" href="/user/create/" role="button">Register</a>
-          </div>
-          <div class="col-xs-4" align="right">
-          </div>
+
+
+    <h2 class="titles">
+        <i class="fa fa-heart fa-2x spot_project_color"></i> Your favourites spots!
+    </h2>
+
+
+    <h1 class="thin_lato">
+        Sign up<br> and start <b>hearting</b> your favourite spots today!<br><br>
+    </h1>
+
+    <div class="row">
+      <div class="col-xs-4">
+        <a class="btn btn-default btn-lg" href="/user/login/" role="button">Login</a>
       </div>
-{% endif %}
+    </div>
+
+
 {% endblock %}

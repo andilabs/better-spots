@@ -16,75 +16,92 @@
 
 
 <div class="row">
-{% for spot in spots %}
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      {% if spot.is_certificated %}
-        <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/certificate_small.png" class="enablence-symbol">
-      {% else %}
-        {% if spot.is_enabled %}
-          <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png" class="enablence-symbol">
+  {% for spot in spots %}
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+
+        {% if spot.is_certificated %}
+          <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/certificate_small.png" class="enablence-symbol">
         {% else %}
-          <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png" class="enablence-symbol">
+          {% if spot.is_enabled %}
+            <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png" class="enablence-symbol">
+          {% else %}
+            <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png" class="enablence-symbol">
+          {% endif %}
         {% endif %}
-      {% endif %}
 
+        {% if spot.thumbnail_venue_photo %}
+          <img src="{{spot.thumbnail_venue_photo}}" class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok {% else %} bad{% endif %}{% endif %}" style="width: 350px; height: 150px;">
+        {% else %}
+          <img data-src="holder.js/350x150/text: no photo" alt="..." class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok {% else %} bad{% endif %}{% endif %}">
+        {% endif %}
 
+        <div class="caption">
+            <h4>
+              <a href="{% url 'spot' spot.pk spot.spot_slug %}">{{ spot.name|upper }}</a>
+            </h4>
 
-      {% if spot.thumbnail_venue_photo %}
-        <img src="{{spot.thumbnail_venue_photo}}" class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok {% else %} bad{% endif %}{% endif %}" style="width: 350px; height: 150px;">
-      {% else %}
-        <img data-src="holder.js/350x150/text: no photo" alt="..." class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok {% else %} bad{% endif %}{% endif %}">
-      {% endif %}
-      <div class="caption">
-        <h4>
-          <a href="{% url 'spot' spot.pk spot.spot_slug %}">{{ spot.name|upper }}</a>
-        </h4>
+            <div>
+              <div class="col1">
+                <p>{{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}<br>
+                {{spot.phone_number}}</p>
+                <span data-score="{{spot.friendly_rate}}" class="rating via_modal" id="{{spot.pk}}"></span>
+              </div>
 
-    <div class="col1">
-        <p>{{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}<br>
-        {{spot.phone_number}}</p>
-        <span data-score="{{spot.friendly_rate}}" class="rating via_modal" id="{{spot.pk}}"></span>
-    </div><div class="col2">
+              <div class="col2">
+                {% if spot in user.favourites %}
+                  <div class="heart" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="{{user.spot_pk_to_fav_asset_pk|keyvalue:spot.pk}}"></div>
+                {% else %}
+                  <div class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk=""></div>
+                {% endif %}
+              </div>
+            </div>
 
-
-      {% if spot in user.favourites %}
-        <div class="heart" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="{{user.spot_pk_to_fav_asset_pk|keyvalue:spot.pk}}"></div>
-      {% else %}
-        <div class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk=""></div>
-      {% endif %}
-    </div>
+        </div>
 
       </div>
     </div>
-  </div>
-{% endfor %}
-</div>
-<div style="display:none">
-    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+  {% endfor %}
 </div>
 
 
 {% if spots.paginator.num_pages > 1 %}
+  <ul class="pagination pagination-centered">
+    {% if spots.has_previous %}
+        <li>
+          <a href="?page=1">
+            <<
+          </a>
+        </li>
+        <li>
+          <a href="?page={{ spots.previous_page_number }}">
+            <
+          </a>
+        </li>
+    {% endif %}
 
-    <ul class="pagination pagination-centered">
+    {% for i in spots.paginator.page_range %}
+        <li {% if spots.number == i %} class="active" {% endif %}>
+          <a href="?page={{i}}">
+            {{i}}
+          </a>
+        </li>
+    {% endfor %}
 
-        {% if spots.has_previous %}
-            <li><a href="?page=1"><<</a></li>
-            <li><a href="?page={{ spots.previous_page_number }}"><</a></li>
-        {% endif %}
+    {% if spots.has_next %}
+        <li>
+          <a href="?page={{ spots.next_page_number }}">
+            >
+          </a>
+        </li>
 
-        {% for i in spots.paginator.page_range %}
-            <li {% if spots.number == i %} class="active" {% endif %}><a href="?page={{i}}">{{i}}</a></li>
-        {% endfor %}
-
-        {% if spots.has_next %}
-            <li><a href="?page={{ spots.next_page_number }}">></a></li>
-            <li><a href="?page={{ spots.paginator.num_pages }}">>></a></li>
-        {% endif %}
-
-    </ul>
-
+        <li>
+          <a href="?page={{ spots.paginator.num_pages }}">
+            >>
+          </a>
+        </li>
+    {% endif %}
+  </ul>
 {% endif %}
 
 {% endblock %}

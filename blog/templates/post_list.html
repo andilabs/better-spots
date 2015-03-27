@@ -17,12 +17,14 @@
 
 <div class="row">
     <div class="col-md-6 no-col-padding">
-        <h1 style="font-family:Lato">
-            <a href="{% url 'blogpost_detail' pk=post.pk post_slug=post.post_slug %}" style="text-decoration:none; font-weight:600">
+        <h1>
+            <a href="{% url 'blogpost_detail' pk=post.pk post_slug=post.post_slug %}" class='blog_title_link'>
                 {{post.title}}
             </a>
         </h1>
-        <h2 style="font-family:Lato Italic">{{post.text}}</h2>
+        <h2 class="blog_content">
+            {{post.text}}
+        </h2>
     </div>
     <div class="col-md-6">
         <a href="{% url 'blogpost_detail' pk=post.pk post_slug=post.post_slug %}">

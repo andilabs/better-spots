@@ -7,17 +7,16 @@
 {% endblock %}
 
 {% block content %}
+
     <h2 class="title">
         <span class="glyphicon glyphicon-log-in"></span> Login!
     </h2>
     <form class="form-vertical" action="/user/login/" method="post">
-
         {% csrf_token %}
         <div class="form-group" >
             <label class="control-label" for="id_email">Email address</label>
             <input class="form-control" id="id_email" maxlength="255" name="email" placeholder="Email address" required="required" title="" type="email" />
         </div>
-
         <div class="form-group">
             <label class="control-label" for="id_password1">Password</label>
             <input class="form-control" id="id_password" name="password" placeholder="Password" required="required" title="" type="password" />
@@ -25,6 +24,7 @@
         <div class="form-group">
             <button type="submit" class="btn btn-default">Submit</button>
         </div>
+        Have no account? <a href="{% url 'user_create' %}">Register</a>
     </form>
 
 {% endblock %}
