@@ -11,10 +11,17 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
     url(r'', include('accounts.urls')),
-    url(r'api/', include('api.urls')),
-    url(r'blog/', include('blog.urls')),
+
     url(r'', include('www.urls')),
+
+    url(r'api/', include('api.urls')),
+
+    url(r'blog/', include('blog.urls')),
+
     url(r'^admin/', include(admin.site.urls)),
+
     url(r'^favicon\.ico$', RedirectView.as_view(
         url=settings.SPOT_PROJECT_FAVICON_URL)),
-) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
+  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

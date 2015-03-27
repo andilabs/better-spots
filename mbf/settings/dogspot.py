@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import os
 
 INSTANCE_DOMAIN = "dogspot.eu"
 
@@ -10,7 +9,7 @@ EMAIL_PORT = 25
 
 
 STATIC_ROOT = '/home/ubuntu/dogspot.eu/static_assets/'
-MEDIA_ROOT= '/home/ubuntu/dogspot.eu/media_assets/'
+MEDIA_ROOT = '/home/ubuntu/dogspot.eu/media_assets/'
 
 POSTGIS_VERSION = (2, 1, 2)
 DATABASES = {
@@ -39,28 +38,28 @@ SPOT_PROJECT_SUBJECT = 'Dog'
 SPOT_PROJECT_MAIN_COLOR = '#fcbd41'
 
 HSTORE_SCHEMA = [
-	{
-		"name": "fresh_water",
-		"class": "NullBooleanField",
-		"kwargs": {
-			"default": None,
-			"verbose_name": "fresh water served"
-		}
-	},
-	{
-		"name": "dog_snacks",
-		"class": "NullBooleanField",
-		"kwargs": {
-			"default": None,
-			"verbose_name": "snacks"
-		}
-	},
-	{
-		"name": "dedicated_dogs_menu",
-		"class": "NullBooleanField",
-		"kwargs": {
-			"default": None,
-			"verbose_name": "special menu for dogs"
-		}
-	}
+    {
+        "name": "fresh_water",
+        "class": "NullBooleanField",
+        "kwargs": {
+            "default": None,
+            "verbose_name": "fresh water served"
+        }
+    },
+    {
+        "name": "dog_snacks",
+        "class": "NullBooleanField",
+        "kwargs": {
+            "default": None,
+            "verbose_name": "snacks"
+        }
+    },
+    {
+        "name": "dedicated_dogs_menu",
+        "class": "NullBooleanField",
+        "kwargs": {
+            "default": None,
+            "verbose_name": "special menu for dogs"
+        }
+    }
 ]

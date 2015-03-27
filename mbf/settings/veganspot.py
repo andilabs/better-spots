@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import os
 
 INSTANCE_DOMAIN = "veganspot.org"
 
@@ -15,7 +14,7 @@ RAVEN_CONFIG = {
 }
 
 STATIC_ROOT = '/home/ubuntu/veganspot.org/static_assets/'
-MEDIA_ROOT= '/home/ubuntu/veganspot.org/media_assets/'
+MEDIA_ROOT = '/home/ubuntu/veganspot.org/media_assets/'
 
 POSTGIS_VERSION = (2, 1, 2)
 
@@ -41,20 +40,20 @@ SPOT_PROJECT_SUBJECT = 'Vege'
 SPOT_PROJECT_MAIN_COLOR = '#59b84d'
 
 HSTORE_SCHEMA = [
-	{
-		"name": "vegetarian_menu",
-		"class": "NullBooleanField",
-		"kwargs": {
-			"default": None,
-			"verbose_name": "vegetarian menu"
-		}
-	},
-	{
-		"name": "vegan_menu",
-		"class": "NullBooleanField",
-		"kwargs": {
-			"default": None,
-			"verbose_name": "vegan menu"
-		}
-	}
+    {
+        "name": "vegetarian_menu",
+        "class": "NullBooleanField",
+        "kwargs": {
+            "default": None,
+            "verbose_name": "vegetarian menu"
+        }
+    },
+    {
+        "name": "vegan_menu",
+        "class": "NullBooleanField",
+        "kwargs": {
+            "default": None,
+            "verbose_name": "vegan menu"
+        }
+    }
 ]

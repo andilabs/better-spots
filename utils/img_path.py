@@ -3,5 +3,5 @@
 import os
 import uuid
 
-def get_image_path(instance=None, filename=None):
+def get_image_path():
     return os.path.join('img', uuid.uuid4().hex)

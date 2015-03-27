@@ -13,10 +13,22 @@ class PostResource(resources.ModelResource):
         model = Post
 
 
-class BlogPostAdmin(ImportExportModelAdmin, ImageCroppingMixin, admin.ModelAdmin):
+class BlogPostAdmin(
+        ImportExportModelAdmin, ImageCroppingMixin, admin.ModelAdmin):
+
     resource_class = PostResource
-    list_display = ('title', 'created_date', 'published_date','spot','admin_blogpost_photo_thumb','user')
-    readonly_fields = ('admin_blogpost_photo_thumb', 'post_slug')
+
+    list_display = (
+        'title',
+        'created_date',
+        'published_date',
+        'spot',
+        'admin_blogpost_photo_thumb',
+        'user')
+
+    readonly_fields = (
+        'admin_blogpost_photo_thumb',
+        'post_slug')
 
 
 admin.site.register(Post, BlogPostAdmin)

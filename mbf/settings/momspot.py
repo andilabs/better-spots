@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import os
 
 INSTANCE_DOMAIN = "momspot.eu"
 
@@ -41,28 +40,28 @@ SPOT_PROJECT_SUBJECT = 'Mom'
 SPOT_PROJECT_MAIN_COLOR = '#eb386f'
 
 HSTORE_SCHEMA = [
-	{
-		"name": "baby_changing",
-		"class": "NullBooleanField",
-		"kwargs": {
-			"default": None,
-			"verbose_name": "baby changing facilites"
-		}
-	},
-	{
-		"name": "playroom",
-		"class": "NullBooleanField",
-		"kwargs": {
-			"default": None,
-			"verbose_name": "playroom for kids"
-		}
-	},
-	{
-		"name": "kids_menu",
-		"class": "NullBooleanField",
-		"kwargs": {
-			"default": None,
-			"verbose_name": "kids menu"
-		}
-	}
+    {
+        "name": "baby_changing",
+        "class": "NullBooleanField",
+        "kwargs": {
+            "default": None,
+            "verbose_name": "baby changing facilites"
+        }
+    },
+    {
+        "name": "playroom",
+        "class": "NullBooleanField",
+        "kwargs": {
+            "default": None,
+            "verbose_name": "playroom for kids"
+        }
+    },
+    {
+        "name": "kids_menu",
+        "class": "NullBooleanField",
+        "kwargs": {
+            "default": None,
+            "verbose_name": "kids menu"
+        }
+    }
 ]

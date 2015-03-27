@@ -1,5 +1,5 @@
 {% load custom_tags_and_filters %}
-<!-- Modal -->
+<!-- Modal rate spot-->
 <div class="modal fade" id="rating-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -60,3 +60,42 @@
     </div>
   </div>
 </div>
+
+
+
+<!-- Modal add Spot-->
+<div class="modal fade" id="add-spot-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h2 class="title" id="myModalLabel">
+                Add Spot
+            </h2>
+        </div>
+        <div class="modal-body">
+            <div role="tabpanel">
+
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#standard-form" aria-controls="standard-form" role="tab" data-toggle="tab">Form</a></li>
+                <li role="presentation"><a href="#nearby" aria-controls="nearby" role="tab" data-toggle="tab">Nearby search</a></li>
+                <li role="presentation"><a href="#pick-from-map" aria-controls="pick-from-map" role="tab" data-toggle="tab">Pick on map</a></li>
+              </ul>
+
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="standard-form">...</div>
+                <div role="tabpanel" class="tab-pane" id="nearby">...</div>
+                <div role="tabpanel" class="tab-pane" id="pick-from-map">...</div>
+              </div>
+
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+
+

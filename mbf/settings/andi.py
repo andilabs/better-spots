@@ -168,4 +168,8 @@ HSTORE_SCHEMA = [
     }
 ]
 
-SPOT_PROJECT_FAVICON_URL = os.path.join('static', SPOT_PROJECT_NAME, 'favicon.ico')
+SPOT_PROJECT_FAVICON_URL = os.path.join(
+    'static',
+    SPOT_PROJECT_NAME,
+    'favicon.ico'
+)

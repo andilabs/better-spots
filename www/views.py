@@ -41,7 +41,11 @@ def mobile(request):
 
 def spots_list(request):
     spots = Spot.objects.order_by('name')
-    return generic_spots_list(request, spots, site_title='browse spots', icon_type='th-large')
+    return generic_spots_list(
+        request,
+        spots,
+        site_title='browse spots',
+        icon_type='th-large')
 
 
 def spot(request, pk, slug):
@@ -52,7 +56,11 @@ def spot(request, pk, slug):
 def favourites_list(request):
     if request.user.is_authenticated():
         spots = request.user.favourites
-        return generic_spots_list(request, spots, site_title='your favourites spots', icon_type='heart')
+        return generic_spots_list(
+            request,
+            spots,
+            site_title='your favourites spots',
+            icon_type='heart')
     else:
         response = TemplateResponse(request, 'favourites.html')
         return response
@@ -60,7 +68,11 @@ def favourites_list(request):
 
 def certificated_list(request):
     spots = Spot.objects.filter(is_certificated=True).order_by('name')
-    return generic_spots_list(request, spots, site_title='certificated spots', icon_type='certificate')
+    return generic_spots_list(
+        request,
+        spots,
+        site_title='certificated spots',
+        icon_type='certificate')
 
 
 def certificated(request, pk, slug=None):
@@ -68,7 +80,9 @@ def certificated(request, pk, slug=None):
     return render(request, 'certificate.html', {'spot': spot})
 
 
-def generic_spots_list(request, spots, site_title='Spots', template='spot_list.html', icon_type='th'):
+def generic_spots_list(request, spots, site_title='Spots',
+                       template='spot_list.html', icon_type='th'):
+
     paginator = Paginator(spots, 6)
     page = request.GET.get('page')
     try:

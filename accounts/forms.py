@@ -6,7 +6,9 @@ from .models import SpotUser
 class UserCreationForm(forms.ModelForm):
 
     """A form for creating new users. Includes all the required
-    fields, plus a repeated password."""
+    fields, plus a repeated password.
+    """
+
     password1 = forms.CharField(
         label='Password',
         widget=forms.PasswordInput)
@@ -43,7 +45,8 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = SpotUser
-        fields = ('email', 'password', 'mail_verified', 'is_active', 'is_admin')
+        fields = (
+            'email', 'password', 'mail_verified', 'is_active', 'is_admin')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.

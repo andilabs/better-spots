@@ -12,7 +12,56 @@ $.ajaxSetup beforeSend: (xhr, settings) ->
         xhr.setRequestHeader 'X-CSRFToken', getCookie('csrftoken')
     return
 
+window.getIPbasedLocation = () ->
+    console.log "exec IP based geolocation estimation"
+    loc = null
+    $.ajax
+        type: 'GET'
+        dataType: 'json'
+        url: 'http://ipinfo.io/json'
+        success: (result) ->
+            loc = result.loc
+        async: false
+    return loc
+
+window.getGeoLocation = () ->
+    if localStorage.getItem("currentMapCenter")
+        return JSON.parse(localStorage.getItem("currentMapCenter"))
+    else if navigator.geolocation
+        console.log "fetching geo"
+        return navigator.geolocation.getCurrentPosition showPosition, showError
+
+
+showPosition = (position) ->
+    position.coords
+    currentMapCenter = {'lat':position.coords.latitude, 'lng': position.coords.longitude}
+    localStorage.setItem('currentMapCenter', JSON.stringify(currentMapCenter))
+    return JSON.parse(localStorage.getItem("currentMapCenter"))
+
+
+showError = (error) ->
+    switch error.code
+        when error.PERMISSION_DENIED
+            console.log 'User denied the request for Geolocation.'
+        when error.POSITION_UNAVAILABLE
+            console.log 'Location information is unavailable.'
+        when error.TIMEOUT
+            console.log 'The request to get user location timed out.'
+        when error.UNKNOWN_ERROR
+            console.log 'An unknown error occurred.'
+    if error
+        [lat, lng] = getIPbasedLocation().split(',')
+        alert 'Geolocation is not supported by this browser. We aproximate your locaiton by IP'
+        currentMapCenter = {'lat':Number(lat), 'lng': Number(lng)}
+        localStorage.setItem('currentMapCenter', JSON.stringify(currentMapCenter))
+        return JSON.parse(localStorage.getItem("currentMapCenter"))
+
 $ ->
+
+    $('a[data-toggle="tab"]').on 'shown.bs.tab',  (e) ->
+      console.log $(e.target).attr('href')# newly activated tab
+      console.log e.relatedTarget# previous active tab
+
 
     $('span.rating').raty
         scoreName: 'friendly_rate'

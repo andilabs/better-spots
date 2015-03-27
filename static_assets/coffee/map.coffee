@@ -85,18 +85,6 @@ minimumDesiredRadius = 100 #in meters
 desiredRadius = 2000  #in meters
 
 
-getIPbasedLocation = () ->
-    loc = null
-    $.ajax
-        type: 'GET'
-        dataType: 'json'
-        url: 'http://ipinfo.io/json'
-        success: (result) ->
-            loc = result.loc
-        async: false
-    return loc
-
-
 getDesiredRadius = () ->
     if desiredRadius < minimumDesiredRadius
         minimumDesiredRadius
@@ -266,7 +254,7 @@ loadMarkers = (lat, lng) ->
     spinner = new Spinner(opts).spin(target)
 
     if lat == undefined or lng == undefined  or lat == null or lng ==null
-        [lat, lng] = getIPbasedLocation().split(',')
+        [lat, lng] = window.getIPbasedLocation().split(',')
         [lat, lng] = [Number(lat), Number(lng)]
 
     setCurrenMapCenter(lat, lng)

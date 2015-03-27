@@ -9,8 +9,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 AUTH_USER_MODEL = 'accounts.SpotUser'
 
-SECRET_KEY = 'kq$$wn#ff0qt)j7mm!d$6cee22e7hw9z#i11-@g1qaya^o!gnj'
-# SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY',
+    'kq$$wn#ff0qt)j7mm!d$6cee22e7hw9z#i11-@g1qaya^o!gnj')
 
 GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
 

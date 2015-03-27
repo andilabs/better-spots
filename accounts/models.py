@@ -57,7 +57,6 @@ class SpotUser(AbstractBaseUser, PermissionsMixin):
     objects = SpotUserManager()
 
     USERNAME_FIELD = 'email'
-    #REQUIRED_FIELDS = ['mail_verified', ]
 
     def get_full_name(self):
         # The user is identified by their email address
@@ -88,7 +87,9 @@ class SpotUser(AbstractBaseUser, PermissionsMixin):
 
     @property
     def favourites(self):
-        return [u_s_l.spot for u_s_l in UsersSpotsList.favourites.filter(user=self)]
+        return [u_s_l.spot
+                for u_s_l
+                in UsersSpotsList.favourites.filter(user=self)]
 
     @property
     def spot_pk_to_fav_asset_pk(self):
@@ -98,12 +99,12 @@ class SpotUser(AbstractBaseUser, PermissionsMixin):
             and returns their representation in form of dictionary
             {spot_pk: list_itme_pk}
         """
-        return {u_s_l.spot.pk: '%s'%u_s_l.pk for u_s_l in UsersSpotsList.favourites.filter(user=self)}
+        return {u_s_l.spot.pk: '%s' % u_s_l.pk
+                for u_s_l in UsersSpotsList.favourites.filter(user=self)}
 
     @property
     def to_be_visited(self):
         return UsersSpotsList.to_be_visited.filter(user=self)
-
 
 
 class EmailVerification(models.Model):
