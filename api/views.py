@@ -18,6 +18,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
     ListCreateAPIView,
+    ListAPIView,
 )
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.authtoken.models import Token
@@ -44,7 +45,6 @@ from .serializers import (
     RatingSerializer,
     FavouritesSpotsListSerializer,
 )
-
 from utils.img_path import get_image_path
 
 
@@ -143,6 +143,14 @@ class SpotList(ListCreateAPIView):
 
     def get_queryset(self):
         queryset = Spot.objects.all()
+        return queryset
+
+
+class CertificatedSpotList(ListAPIView):
+    serializer_class = SpotListSerializer
+
+    def get_queryset(self):
+        queryset = Spot.objects.filter(is_certificated=True)
         return queryset
 
 

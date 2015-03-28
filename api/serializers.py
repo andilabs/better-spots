@@ -30,12 +30,12 @@ class RatingSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Rating
         fields = (
-            'url'
-            'is_enabled'
-            'friendly_rate'
+            'url',
+            'is_enabled',
+            'friendly_rate',
             'spot',
-            'spot_pk'
-            'facilities'
+            'spot_pk',
+            'facilities',
         )
 
 
@@ -47,11 +47,29 @@ class SpotListSerializer(HyperlinkedModelSerializer):
 
     class Meta:
         model = Spot
-        exclude = (
-            'spot_slug',
-            'cropping_venue_photo',
-            'venue_photo',
-            'facilities'
+        fields = (
+            'url',
+            'id',
+            'www_url',
+            'thumbnail_venue_photo',
+            'location',
+            'name',
+            'address_street',
+            'address_number',
+            'address_city',
+            'address_country',
+            'spot_type',
+            'is_accepted',
+            'phone_number',
+            'email',
+            'www',
+            'facebook',
+            'is_enabled',
+            'friendly_rate',
+            'is_certificated',
+            'fresh_water',
+            'snacks',
+            'dedicated_dogs_menu',
         )
 
     def to_internal_value(self, data):
@@ -88,7 +106,10 @@ class SpotListSerializer(HyperlinkedModelSerializer):
             ret['location'] = None
 
         ret['www_url'] = instance.www_url
-        ret['thumbnail_venue_photo'] = instance.thumbnail_venue_photo
+        ret['thumbnail_venue_photo'] = "http://%s%s" % (
+            settings.INSTANCE_DOMAIN,
+            instance.thumbnail_venue_photo
+        ) if instance.thumbnail_venue_photo else None
 
         return ret
 
