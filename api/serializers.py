@@ -98,11 +98,11 @@ class SpotListSerializer(HyperlinkedModelSerializer):
                 'longitude': pnt.coords[0],
                 'latitude': pnt.coords[1]
             }
-
         else:
             ret['location'] = None
 
         ret['www_url'] = instance.www_url
+
         ret['thumbnail_venue_photo'] = "http://%s%s" % (
             settings.INSTANCE_DOMAIN,
             instance.thumbnail_venue_photo
@@ -118,13 +118,9 @@ class SpotDetailSerializer(SpotListSerializer):
 
     class Meta:
         model = Spot
-        exclude = tuple(
-            ['spot_slug']+[field['name'] for field in settings.HSTORE_SCHEMA]
-        )
 
 
 class SpotWithDistanceSerializer(SpotListSerializer):
-    distance = ReadOnlyField()
 
     def to_representation(self, instance):
         ret = super(

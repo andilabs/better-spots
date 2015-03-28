@@ -211,12 +211,7 @@ add new spot
           "phone_number": "22 000 00 00",
           "email": "foo@bar.com",
           "www": "http://www.foo.bar/",
-          "facebook": "FooBarFacebook",
-          "facilities": {
-            "kids_menu": null,
-            "playroom": null,
-            "baby_changing": true
-          }
+          "facebook": "FooBarFacebook"
         }'
 
 spot
