@@ -67,9 +67,6 @@ class SpotListSerializer(HyperlinkedModelSerializer):
             'is_enabled',
             'friendly_rate',
             'is_certificated',
-            'fresh_water',
-            'snacks',
-            'dedicated_dogs_menu',
         )
 
     def to_internal_value(self, data):
