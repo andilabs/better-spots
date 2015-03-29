@@ -40,7 +40,9 @@ from accounts.models import SpotUser
 from accounts.authentication import ExpiringTokenAuthentication
 from .serializers import (
     SpotUserSerializer,
-    SpotListSerializer, SpotDetailSerializer,
+    SpotListSerializer,
+    SpotDetailSerializer,
+    SpotWithDistanceSerializer,
     PaginetedSpotWithDistanceSerializer,
     RatingSerializer,
     FavouritesSpotsListSerializer,
@@ -235,10 +237,6 @@ class SpotDetail(RetrieveUpdateDestroyAPIView):
 @api_view(http_method_names=['GET'])
 def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
 
-    if not lat and not lng:
-        return HttpResponseRedirect(
-            reverse('nearby_spots', kwargs={'lat': 52.22805, 'lng': 21.00208}))
-
     user_location = fromstr("POINT(%s %s)" % (lng, lat))
     desired_radius = {'m': radius}
     nearby_spots = Spot.objects.filter(
@@ -248,19 +246,22 @@ def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
         )
     ).distance(user_location).order_by('distance')[:limit]
 
-    paginator = Paginator(nearby_spots, settings.MAX_SPOTS_PER_PAGE)
+    paginated = request.QUERY_PARAMS.get('paginated')
 
-    page = request.QUERY_PARAMS.get('page')
-
-    try:
-        result = paginator.page(page)
-    except PageNotAnInteger:
-        result = paginator.page(1)
-    except EmptyPage:
-        result = paginator.page(paginator.num_pages)
-
-    serializer = PaginetedSpotWithDistanceSerializer(
-        result, context={'request': request})
+    if paginated:
+        paginator = Paginator(nearby_spots, settings.MAX_SPOTS_PER_PAGE)
+        page = request.QUERY_PARAMS.get('page')
+        try:
+            result = paginator.page(page)
+        except PageNotAnInteger:
+            result = paginator.page(1)
+        except EmptyPage:
+            result = paginator.page(paginator.num_pages)
+        serializer = PaginetedSpotWithDistanceSerializer(
+            result, context={'request': request})
+    else:
+        serializer = SpotWithDistanceSerializer(
+            nearby_spots, many=True, context={'request': request})
 
     return Response(serializer.data)
 

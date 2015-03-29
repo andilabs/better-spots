@@ -48,6 +48,7 @@ class SpotListSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Spot
         fields = (
+            'pk',
             'url',
             'id',
             'www_url',
