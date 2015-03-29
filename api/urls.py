@@ -8,8 +8,11 @@ from api import views
 urlpatterns = patterns(
     '',
 
+    url(r'^$', views.api_root, name='api-root'),
+
+
     url(r'^authentication',
-        'api.views.authentication',
+        views.authentication,
         name="authentication"),
 
     url(r'^image_upload/(?P<pk>[0-9]+)/$',
@@ -54,7 +57,7 @@ urlpatterns = patterns(
         name="nearby_spots"),
     url(r'^nearby/(?P<lat>-?\d{2,3}.\d{5})/(?P<lng>-?\d{2,3}.\d{5})/(?P<radius>\d*)$',
         views.nearby_spots,
-        name="nearby_spots"),
+        name="nearby_spots_with_radius"),
 )
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])

@@ -11,7 +11,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
@@ -31,7 +31,7 @@ from rest_framework.permissions import (
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from rest_framework.reverse import reverse
 
 from core.models import (
     Spot, Rating, UsersSpotsList
@@ -47,7 +47,60 @@ from .serializers import (
     RatingSerializer,
     FavouritesSpotsListSerializer,
 )
+from .permissions import IsOwnerOrReadOnly
 from utils.img_path import get_image_path
+
+
+@api_view(('GET',))
+def api_root(request, format=None):
+    return Response({
+        'SPOTS': {
+            'Spots': reverse(
+                'spot-list', request=request),
+
+            'Certificated Spots': reverse(
+                'certificated-spot-list', request=request),
+
+            'User favourites Spots': reverse(
+                'user-favourites-spot-list', request=request),
+        },
+        'NEARBY': {
+            'with default radius': reverse(
+                'nearby_spots', request=request, kwargs={
+                    'lat': 52.22642,
+                    'lng': 20.98283}),
+
+            'with default radius and paginated by {5}':
+            "%s?paginated=5" % reverse(
+                'nearby_spots', request=request, kwargs={
+                    'lat': 52.22642,
+                    'lng': 20.98283}),
+
+
+            'with specified radius': reverse(
+                'nearby_spots_with_radius', request=request, kwargs={
+                    'lat': 52.22642,
+                    'lng': 20.98283,
+                    'radius': 8000}),
+
+            'with specified radius and paginated by {5}':
+            "%s?paginated=5" % reverse(
+                'nearby_spots_with_radius', request=request, kwargs={
+                    'lat': 52.22642,
+                    'lng': 20.98283,
+                    'radius': 8000}),
+            },
+        'Ratings': reverse(
+            'rating-list', request=request),
+
+        'Image upload to spot POST': reverse(
+            'image_upload', request=request, kwargs={'pk': 2}
+        ),
+
+        'Authentication POST': reverse(
+            'authentication', request=request,
+        )
+    })
 
 
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
@@ -93,14 +146,15 @@ class SpotUserDetail(RetrieveUpdateDestroyAPIView):
 
 
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsAuthenticated, ))
 class UserFavouritesSpotsList(ListCreateAPIView):
     model = UsersSpotsList
     serializer_class = FavouritesSpotsListSerializer
 
     def get_queryset(self):
         queryset = UsersSpotsList.objects.filter(
-            user=self.request.user, role=1)
+            user=self.request.user,
+            role=1)
         return queryset
 
     def post(self, request):
@@ -123,18 +177,22 @@ class UserFavouritesSpotsList(ListCreateAPIView):
 
 
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsOwnerOrReadOnly, ))
 class UserFavouritesSpotDetail(RetrieveUpdateDestroyAPIView):
     model = UsersSpotsList
     serializer_class = FavouritesSpotsListSerializer
 
     def get_queryset(self):
-        queryset = UsersSpotsList.objects.all()
+        queryset = UsersSpotsList.objects.filter(
+            role=1)
         return queryset
 
     def get_object(self):
         queryset = self.get_queryset()
-        obj = get_object_or_404(queryset, pk=self.kwargs['pk'])
+        obj = get_object_or_404(
+            queryset,
+            pk=self.kwargs['pk'],
+            role=1)
         return obj
 
 
@@ -249,7 +307,13 @@ def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
     paginated = request.QUERY_PARAMS.get('paginated')
 
     if paginated:
-        paginator = Paginator(nearby_spots, settings.MAX_SPOTS_PER_PAGE)
+
+        try:
+            paginated = int(paginated)
+        except:
+            paginated = settings.MAX_SPOTS_PER_PAGE_API
+
+        paginator = Paginator(nearby_spots, paginated)
         page = request.QUERY_PARAMS.get('page')
         try:
             result = paginator.page(page)
