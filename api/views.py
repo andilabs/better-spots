@@ -51,56 +51,56 @@ from .permissions import IsOwnerOrReadOnly
 from utils.img_path import get_image_path
 
 
-@api_view(('GET',))
-def api_root(request, format=None):
-    return Response({
-        'SPOTS': {
-            'Spots': reverse(
-                'spot-list', request=request),
+# @api_view(('GET',))
+# def api_root(request, format=None):
+#     return Response({
+#         'SPOTS': {
+#             'Spots': reverse(
+#                 'spot-list', request=request),
 
-            'Certificated Spots': reverse(
-                'certificated-spot-list', request=request),
+#             'Certificated Spots': reverse(
+#                 'certificated-spot-list', request=request),
 
-            'User favourites Spots': reverse(
-                'user-favourites-spot-list', request=request),
-        },
-        'NEARBY': {
-            'with default radius': reverse(
-                'nearby_spots', request=request, kwargs={
-                    'lat': 52.22642,
-                    'lng': 20.98283}),
+#             'User favourites Spots': reverse(
+#                 'user-favourites-spot-list', request=request),
+#         },
+#         'NEARBY': {
+#             'with default radius': reverse(
+#                 'nearby_spots', request=request, kwargs={
+#                     'lat': 52.22642,
+#                     'lng': 20.98283}),
 
-            'with default radius and paginated by {5}':
-            "%s?paginated=5" % reverse(
-                'nearby_spots', request=request, kwargs={
-                    'lat': 52.22642,
-                    'lng': 20.98283}),
+#             'with default radius and paginated by {5}':
+#             "%s?paginated=5" % reverse(
+#                 'nearby_spots', request=request, kwargs={
+#                     'lat': 52.22642,
+#                     'lng': 20.98283}),
 
 
-            'with specified radius': reverse(
-                'nearby_spots_with_radius', request=request, kwargs={
-                    'lat': 52.22642,
-                    'lng': 20.98283,
-                    'radius': 8000}),
+#             'with specified radius': reverse(
+#                 'nearby_spots_with_radius', request=request, kwargs={
+#                     'lat': 52.22642,
+#                     'lng': 20.98283,
+#                     'radius': 8000}),
 
-            'with specified radius and paginated by {5}':
-            "%s?paginated=5" % reverse(
-                'nearby_spots_with_radius', request=request, kwargs={
-                    'lat': 52.22642,
-                    'lng': 20.98283,
-                    'radius': 8000}),
-            },
-        'Ratings': reverse(
-            'rating-list', request=request),
+#             'with specified radius and paginated by {5}':
+#             "%s?paginated=5" % reverse(
+#                 'nearby_spots_with_radius', request=request, kwargs={
+#                     'lat': 52.22642,
+#                     'lng': 20.98283,
+#                     'radius': 8000}),
+#             },
+#         'Ratings': reverse(
+#             'rating-list', request=request),
 
-        'Image upload to spot POST': reverse(
-            'image_upload', request=request, kwargs={'pk': 2}
-        ),
+#         'Image upload to spot POST': reverse(
+#             'image_upload', request=request, kwargs={'pk': 2}
+#         ),
 
-        'Authentication POST': reverse(
-            'authentication', request=request,
-        )
-    })
+#         'Authentication POST': reverse(
+#             'authentication', request=request,
+#         )
+#     })
 
 
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))

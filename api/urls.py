@@ -8,7 +8,7 @@ from api import views
 urlpatterns = patterns(
     '',
 
-    url(r'^$', views.api_root, name='api-root'),
+    # url(r'^$', views.api_root, name='api-root'),
 
 
     url(r'^authentication',
