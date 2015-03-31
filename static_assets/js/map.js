@@ -297,7 +297,7 @@
     url = BASE_HOST + ("/api/nearby/" + (lat.toFixed(5)) + "/" + (lng.toFixed(5)) + "/" + (getDesiredRadius()));
     return jqxhr = $.getJSON(url, function(data) {
       var k, spot, _ref2;
-      $.each(data.results, function(i, spot) {
+      $.each(data, function(i, spot) {
         var SpotIcon, SpotMarker, icony_allowed;
         icony_allowed = {
           "true": ICON_URL + "marker-ok.png",

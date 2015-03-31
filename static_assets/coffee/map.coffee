@@ -266,9 +266,10 @@ loadMarkers = (lat, lng) ->
     $('#map_canvas').gmap('clear', 'markers')
 
     url = BASE_HOST + "/api/nearby/#{lat.toFixed(5)}/#{lng.toFixed(5)}/#{getDesiredRadius()}"
-    jqxhr = $.getJSON url, (data) ->
-        $.each data.results, (i, spot) ->
 
+    jqxhr = $.getJSON url, (data) ->
+
+        $.each data, (i, spot) ->
             icony_allowed =
                 true: ICON_URL + "marker-ok.png"
                 false: ICON_URL + "marker-bad.png"
@@ -346,29 +347,6 @@ $ ->
         $("#spots_list").show()
         $("#map_canvas").gmap "option", "zoom", 14
         $('#map_canvas').gmap 'refresh'
-
-
-    # $(document).on 'click', 'a.spot-details-link', (e) ->
-    #     $("#map_filters_button").hide()
-    #     e.preventDefault()
-    #     link = $(@).attr('href')
-
-    #     $("#spots_list").hide ->
-    #         $('#left_container')
-    #             .append "<div class='list-group'  id='spot_detail'>
-    #                 <a href='#' class='list-group-item disabled' id='spot_detail_icons'>
-    #                 <i class='fa fa-list fa-2x' id='back_to_list'></i></a>
-    #                 <span class='list-group-item disabled' id='spot_detail_content'>
-    #                 <h4 class='list-group-item-heading'>Spot name</h4>
-    #                 <p class='list-group-item-text'>
-    #                 #{link}<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    #                 </p></span>
-    #                 </div>"
-
-    #         switchColumsClasses('#left_container', '#right_container')
-
-            # $("#map_canvas").gmap "option", "zoom", 17
-            # $('#map_canvas').gmap "refresh"
 
 
     $(document).on 'click', '#map_filters_button', (e) ->
