@@ -1,5 +1,8 @@
 {% extends "base.html" %}
-
+{% load custom_tags_and_filters %}
+{% block title %}
+    {{ spot.name }} - {% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}
+{% endblock %}
 {% load bootstrap3 %}
 
 {% block extra_head %}
@@ -7,7 +10,6 @@
 {% endblock %}
 
 {% block content %}
-{% load custom_tags_and_filters %}
 
     <div class="row">
 

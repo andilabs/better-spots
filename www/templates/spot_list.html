@@ -1,5 +1,8 @@
 {% extends "base.html" %}
-
+{% load custom_tags_and_filters %}
+{% block title %}
+    {{site_title}} - {% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}
+{% endblock %}
 {% load bootstrap3 %}
 
 {% block extra_head %}
@@ -8,8 +11,6 @@
 
 {% block content %}
 
-
-{% load custom_tags_and_filters %}
 <h2 class="titles">
   <span class="fa fa-{{icon_type}} fa-2x spot_project_color"></span> {{site_title}}!
 </h2>
