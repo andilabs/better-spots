@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import os
 
 INSTANCE_DOMAIN = "dogspot.eu"
 
@@ -64,5 +63,3 @@ HSTORE_SCHEMA = [
         }
     }
 ]
-
-SPOT_PROJECT_BLOGERS = os.path.join(STATIC_URL, SPOT_PROJECT_NAME, 'andi_rubi.jpg')

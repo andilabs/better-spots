@@ -57,5 +57,3 @@ HSTORE_SCHEMA = [
         }
     }
 ]
-
-SPOT_PROJECT_BLOGERS = ""

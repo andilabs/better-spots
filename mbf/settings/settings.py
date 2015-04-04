@@ -42,3 +42,5 @@ SPOT_PROJECT_FAVICON_URL = os.path.join(
     SPOT_PROJECT_NAME,
     SPOT_PROJECT_NAME + '_favicon.ico'
 )
+
+SPOT_PROJECT_BLOGERS = os.path.join(STATIC_URL, SPOT_PROJECT_NAME, 'bloger_photo.jpg')
