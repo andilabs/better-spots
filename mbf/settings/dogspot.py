@@ -63,3 +63,5 @@ HSTORE_SCHEMA = [
         }
     }
 ]
+
+SPOT_PROJECT_BLOGERS = os.path.join(STATIC_URL, SPOT_PROJECT_NAME, 'andi_rubi.jpg')

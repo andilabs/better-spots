@@ -143,4 +143,9 @@ class FavouritesSpotsListSerializer(HyperlinkedModelSerializer):
 
     class Meta:
         model = UsersSpotsList
-        fields = ('url', 'spot', 'data_added', 'spot_pk')
+        fields = (
+            'url',
+            'spot',
+            'data_added',
+            'spot_pk'
+        )

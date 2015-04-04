@@ -47,7 +47,10 @@ from .serializers import (
     RatingSerializer,
     FavouritesSpotsListSerializer,
 )
-from .permissions import IsOwnerOrReadOnly
+from .permissions import (
+    IsOwnerOrReadOnly,
+    IsAdmin
+)
 from utils.img_path import get_image_path
 
 
@@ -99,6 +102,10 @@ def api_root(request, format=None):
 
         'Authentication POST': reverse(
             'authentication', request=request,
+        ),
+
+        'Users (admin only)': reverse(
+            'users-list', request=request,
         )
     })
 
@@ -119,9 +126,9 @@ class FileUploadView(APIView):
         return Response({'file_url': spot.thumbnail_venue_photo}, status=201)
 
 
-@authentication_classes((ExpiringTokenAuthentication, ))
-@permission_classes((IsAuthenticatedOrReadOnly,))
-class SpotUserList(APIView):
+@authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
+@permission_classes((IsAdmin, ))
+class SpotUserList(ListCreateAPIView):
     serializer_class = SpotUserSerializer
 
     def get_queryset(self):
@@ -129,8 +136,8 @@ class SpotUserList(APIView):
         return queryset
 
 
-@authentication_classes((ExpiringTokenAuthentication, ))
-@permission_classes((IsAuthenticatedOrReadOnly,))
+@authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
+@permission_classes((IsAdmin, ))
 class SpotUserDetail(RetrieveUpdateDestroyAPIView):
     model = SpotUser
     serializer_class = SpotUserSerializer
@@ -193,6 +200,7 @@ class UserFavouritesSpotDetail(RetrieveUpdateDestroyAPIView):
             queryset,
             pk=self.kwargs['pk'],
             role=1)
+        self.check_object_permissions(self.request, obj)
         return obj
 
 

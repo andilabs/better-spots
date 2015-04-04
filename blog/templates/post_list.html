@@ -15,6 +15,10 @@
   <span class="fa fa-rss fa-2x spot_project_color"></span> Blog!
 </h2>
 
+<div>
+<img src="{% settings_value "SPOT_PROJECT_BLOGERS" %}" width="100%">
+</div>
+
 
 {% for post in object_list %}
 
@@ -31,7 +35,7 @@
     </div>
     <div class="col-md-6">
         <a href="{% url 'blogpost_detail' pk=post.pk post_slug=post.post_slug %}">
-            {{post.admin_blogpost_photo_thumb|safe}}
+            <img src="{{post.blogpost_photo_thumb|safe}}" width="100%">
         </a>
     </div>
 </div>

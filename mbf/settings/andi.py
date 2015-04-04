@@ -173,3 +173,5 @@ SPOT_PROJECT_FAVICON_URL = os.path.join(
     SPOT_PROJECT_NAME,
     'favicon.ico'
 )
+
+SPOT_PROJECT_BLOGERS = os.path.join(STATIC_URL, SPOT_PROJECT_NAME, 'andi_rubi.jpg')
