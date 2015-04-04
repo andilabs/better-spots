@@ -14,7 +14,7 @@ RAVEN_CONFIG = {
 }
 
 STATIC_ROOT = '/home/ubuntu/momspot.eu/static_assets/'
-MEDIA_ROOT= '/home/ubuntu/momspot.eu/media_assets/'
+MEDIA_ROOT = '/home/ubuntu/momspot.eu/media_assets/'
 
 POSTGIS_VERSION = (2, 1, 2)
 
