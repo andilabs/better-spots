@@ -9,7 +9,7 @@ from django.core.mail import EmailMessage
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.template import Context
 from django.template.loader import get_template
 from django.template.response import TemplateResponse
@@ -18,7 +18,7 @@ from django.views.generic import FormView, CreateView
 from core.models import Spot, SPOT_TYPE
 from utils.qrcodes import make_qrcode
 from accounts.forms import UserCreationForm
-from .forms import ContactForm
+from .forms import ContactForm, AddSpotForm
 
 
 def main(request):
@@ -51,6 +51,38 @@ def spots_list(request):
 def spot(request, pk, slug):
     spot = get_object_or_404(Spot, pk=pk)
     return render(request, 'spot_detail.html', {'spot': spot})
+
+
+def add_spot(request):
+    if request.method == 'GET':
+        form = AddSpotForm()
+        return render(
+            request,
+            'add_spot.html',
+            {'form': form}
+        )
+    if request.method == 'POST':
+        form = AddSpotForm(request.POST)
+        if form.is_valid():
+            spot = form.save()
+            messages.add_message(
+                request,
+                messages.SUCCESS, 'Spot added!'
+            )
+            return redirect(
+                reverse(
+                    'spot',
+                    kwargs={
+                        "pk": spot.pk
+                    }
+                )
+            )
+        else:
+            return render(
+                request,
+                'add_spot.html',
+                {'form': form}
+            )
 
 
 def favourites_list(request):

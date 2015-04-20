@@ -22,8 +22,8 @@ spot_type_lookup =
 window.allSpotsDict = {}
 
 window.currentMapCenter =
-    lat: null
-    lng: null
+    latitude: null
+    longitude: null
 
 window.currentAddress = null
 # window.initialize = () ->
@@ -39,7 +39,7 @@ window.initialize2 = () ->
         console.log e
 
 reverseGeoCode = (callback) ->
-    location = new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng)
+    location = new google.maps.LatLng(currentMapCenter.latitude, currentMapCenter.longitude)
     geocoder = new google.maps.Geocoder()
 
     if geocoder
@@ -67,8 +67,8 @@ geoCode = (callback) ->
 
 
 setCurrenMapCenter = (lat, lng) ->
-    window.currentMapCenter.lat = lat#.toFixed(5)
-    window.currentMapCenter.lng = lng#.toFixed(5)
+    window.currentMapCenter.latitude = lat#.toFixed(5)
+    window.currentMapCenter.longitude = lng#.toFixed(5)
     localStorage.setItem('currentMapCenter', JSON.stringify(currentMapCenter))
 
 currentZoomLevel = 14
@@ -136,7 +136,7 @@ calculateDistance = (currentLat, currentLng, newPositionLat, newPositionLng) ->
 
 
 checkIfNewSpotsShouldBeLoaded = (newPositionLat, newPositionLng, userZoomLevel) ->
-    [currentLat, currentLng] = [currentMapCenter.lat, currentMapCenter.lng]
+    [currentLat, currentLng] = [currentMapCenter.latitude, currentMapCenter.longitude]
     distance = calculateDistance(currentLat, currentLng, newPositionLat, newPositionLng)
 
     if distance > desiredRadius/1000 or currentZoomLevel != userZoomLevel
@@ -393,7 +393,7 @@ $ ->
             # here we set icon showing user current location
             $("#map_canvas")
                 .gmap "addMarker",
-                    position: new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng)
+                    position: new google.maps.LatLng(currentMapCenter.latitude, currentMapCenter.longitude)
                     bounds: true
                     is_enabled: ['current_location']
                     spot_type: ['current_location']
@@ -410,7 +410,7 @@ $ ->
             currentZoomLevel = $('#map_canvas').gmap('get','map').getZoom()
             desiredRadius =  Math.floor(currentZoomLevel.getRatioForZoom()/10/2)
             loadMarkers(newPosition.lat(), newPosition.lng())
-            clientPosition = new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng)
+            clientPosition = new google.maps.LatLng(currentMapCenter.latitude, currentMapCenter.longitude)
 
 
     $("#spots_list").on "click", "span.list-group-item:not(#memo_empty)", (evt) ->

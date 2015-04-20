@@ -29,8 +29,8 @@
   window.allSpotsDict = {};
 
   window.currentMapCenter = {
-    lat: null,
-    lng: null
+    latitude: null,
+    longitude: null
   };
 
   window.currentAddress = null;
@@ -50,7 +50,7 @@
 
   reverseGeoCode = function(callback) {
     var geocoder, location;
-    location = new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng);
+    location = new google.maps.LatLng(currentMapCenter.latitude, currentMapCenter.longitude);
     geocoder = new google.maps.Geocoder();
     if (geocoder) {
       return geocoder.geocode({
@@ -90,8 +90,8 @@
   };
 
   setCurrenMapCenter = function(lat, lng) {
-    window.currentMapCenter.lat = lat;
-    window.currentMapCenter.lng = lng;
+    window.currentMapCenter.latitude = lat;
+    window.currentMapCenter.longitude = lng;
     return localStorage.setItem('currentMapCenter', JSON.stringify(currentMapCenter));
   };
 
@@ -172,7 +172,7 @@
 
   checkIfNewSpotsShouldBeLoaded = function(newPositionLat, newPositionLng, userZoomLevel) {
     var currentLat, currentLng, distance, _ref;
-    _ref = [currentMapCenter.lat, currentMapCenter.lng], currentLat = _ref[0], currentLng = _ref[1];
+    _ref = [currentMapCenter.latitude, currentMapCenter.longitude], currentLat = _ref[0], currentLng = _ref[1];
     distance = calculateDistance(currentLat, currentLng, newPositionLat, newPositionLng);
     if (distance > desiredRadius / 1000 || currentZoomLevel !== userZoomLevel) {
       return true;
@@ -411,7 +411,7 @@
           loadMarkers(null, null);
         }
         $("#map_canvas").gmap("addMarker", {
-          position: new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng),
+          position: new google.maps.LatLng(currentMapCenter.latitude, currentMapCenter.longitude),
           bounds: true,
           is_enabled: ['current_location'],
           spot_type: ['current_location']
@@ -428,7 +428,7 @@
         currentZoomLevel = $('#map_canvas').gmap('get', 'map').getZoom();
         desiredRadius = Math.floor(currentZoomLevel.getRatioForZoom() / 10 / 2);
         loadMarkers(newPosition.lat(), newPosition.lng());
-        return clientPosition = new google.maps.LatLng(currentMapCenter.lat, currentMapCenter.lng);
+        return clientPosition = new google.maps.LatLng(currentMapCenter.latitude, currentMapCenter.longitude);
       }
     });
     return $("#spots_list").on("click", "span.list-group-item:not(#memo_empty)", function(evt) {

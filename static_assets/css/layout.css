@@ -26,6 +26,9 @@
 
   .collapse.in {
     display: block !important; } }
+ul.errorlist > li {
+  color: red; }
+
 .thin_lato {
   font-family: "Lato";
   font-weight: 100; }

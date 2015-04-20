@@ -31,6 +31,11 @@ window.getGeoLocation = () ->
         console.log "fetching geo"
         return navigator.geolocation.getCurrentPosition showPosition, showError
 
+window.getCurrentPosition = () ->
+    if localStorage.getItem("currentMapCenter")
+        return JSON.parse(localStorage.getItem("currentMapCenter"))
+    else
+        return null
 
 showPosition = (position) ->
     position.coords

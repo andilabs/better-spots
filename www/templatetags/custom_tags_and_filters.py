@@ -17,3 +17,10 @@ def keyvalue(dict, key):
 @register.filter
 def get_verbose_name(self):
     return self._meta.verbose_name
+
+
+@register.filter(name='add_css')
+def addcss(value, arg):
+    if value.field.widget.attrs.get('class'):
+        arg = value.field.widget.attrs.get('class') + ' ' + arg
+    return value.as_widget(attrs={'class': arg})

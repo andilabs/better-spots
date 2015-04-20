@@ -45,7 +45,12 @@
             <div>
               <div class="col1">
                 <p>{{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}<br>
-                {{spot.phone_number}}</p>
+                {% if spot.phone_number %}
+                {{spot.phone_number}}
+                {% else %}
+                <br>
+                {% endif %}
+                </p>
                 <span data-score="{{spot.friendly_rate}}" class="rating via_modal" id="{{spot.pk}}"></span>
               </div>
 

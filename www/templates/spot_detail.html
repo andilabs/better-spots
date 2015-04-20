@@ -10,7 +10,6 @@
 {% endblock %}
 
 {% block content %}
-
     <div class="row">
 
         <div class="col-md-3 col-md-push-9">
@@ -67,7 +66,10 @@
                          <a href='tel://{{spot.phone_number}}'>{{spot.phone_number}}</a>
                     </li>
                 {% endif %}
-
+                    <li class="list-group-item">
+                        <span class="badge invert fa fa-location-arrow fa-2x"> </span>
+                         {{spot.address_city}}, {{spot.address_street}} {{spot.address_number}}
+                    </li>
                 {% if spot.email %}
                     <li class="list-group-item">
                         <span class="badge invert fa fa-envelope-o fa-2x"> </span>

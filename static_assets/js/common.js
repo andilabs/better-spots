@@ -45,6 +45,14 @@
     }
   };
 
+  window.getCurrentPosition = function() {
+    if (localStorage.getItem("currentMapCenter")) {
+      return JSON.parse(localStorage.getItem("currentMapCenter"));
+    } else {
+      return null;
+    }
+  };
+
   showPosition = function(position) {
     var currentMapCenter;
     position.coords;

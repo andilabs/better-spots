@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load custom_tags_and_filters %}
+{% block title %}
+    {{site_title}} - {% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}
+{% endblock %}
+{% load bootstrap3 %}
+
+{% block extra_head %}
+    {{ form.media }}
+{% endblock %}
+
+{% load custom_tags_and_filters %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="form-horizontal" style="width: 750px">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Search:</label>
+        <div class="col-sm-10"><input type="text" class="form-control" id="us3-address"/></div>
+    </div>
+   <p>You can drag and drop the marker below.</p>
+  <div id="us3" style="width: 750px; height: 400px;"></div>
+<form method="post" action="{% url 'add_spot' %}">
+{% csrf_token %}
+	{% for field in form %}
+		{% if field.name != 'location' %}
+			{% if field.field.required %}
+			 *<b>{{field.label}}</b>
+			 {% else %}
+			 {{field.label}}
+			 {% endif %}
+		{% endif %}
+	    {{field|add_css:'form-control'}}
+		<p class="error">{{field.errors}}</p>
+	{% endfor %}
+<input type="submit" value="Zapisz zmiany" class="btn btn-default btn-lg">
+
+</form>
+</div>
+{% else %}
+  <h2 class="titles">
+        <i class="fa fa-plus fa-2x spot_project_color"></i> Add new spots!
+    </h2>
+
+
+    <h1 class="thin_lato">
+        Sign up<br> and start <b>adding new spots</b> today!<br><br>
+    </h1>
+
+    <div class="row">
+      <div class="col-xs-4">
+        <a class="btn btn-default btn-lg" href="/user/login/" role="button">Login</a>
+      </div>
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script type="text/javascript" src="{{ STATIC_URL }}external/jquery-locationpicker-plugin/dist/locationpicker.jquery.min.js"></script>
+
+ <script>
+	 var strIPLocation = window.getIPbasedLocation();
+    	latitude = parseFloat(strIPLocation.split(',')[0]);
+    	longitude = parseFloat(strIPLocation.split(',')[1]);
+
+    	currentLocation = window.getCurrentPosition();
+
+
+	if (currentLocation != null){
+		console.log('yay we have geo!');
+		console.log(currentLocation.latitude);
+		console.log(currentLocation.longitude);
+		latitude = currentLocation.latitude;
+		longitude = currentLocation.longitude;
+	}
+
+    function updateControls(addressComponents) {
+        $('#address_street').val(addressComponents.streetName);
+        $('#address_number').val(addressComponents.streetNumber);
+        $('#address_city').val(addressComponents.city);
+        $('#address_country').val(addressComponents.country);
+    }
+    function updateLocation(lat, lng){
+    	djangoPoint='Point('+lng+' '+lat+')';
+    	$('#location').val(djangoPoint);
+    }
+
+    $('#us3').locationpicker({
+
+        location: {latitude: latitude, longitude: longitude},
+        radius: 0,
+        inputBinding: {
+            latitudeInput: $('#us3-lat'),
+            longitudeInput: $('#us3-lon'),
+            locationNameInput: $('#us3-address')
+        },
+        enableAutocomplete: true,
+        onchanged: function (currentLocation, radius, isMarkerDropped) {
+        	// console.log(currentLocation);
+        	updateLocation(currentLocation.latitude, currentLocation.longitude);
+            var addressComponents = $(this).locationpicker('map').location.addressComponents;
+            updateControls(addressComponents);
+        },
+        oninitialized: function(component) {
+        	var location = $(component).locationpicker('map').location;
+            var addressComponents = location.addressComponents;
+            updateLocation(location.latitude, location.longitude);
+            updateControls(addressComponents);
+        }
+    });</script>
+{% endblock scripts %}
