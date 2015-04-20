@@ -68,7 +68,7 @@
     	currentLocation = window.getCurrentPosition();
 
 
-	if (currentLocation.latitude != null and currentLocation.longitude){
+	if (currentLocation && currentLocation.latitude != null && currentLocation.longitude != null){
 		console.log('yay we have geo!');
 		console.log(currentLocation.latitude);
 		console.log(currentLocation.longitude);
