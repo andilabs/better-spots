@@ -36,7 +36,11 @@ class Post(models.Model):
         blank=True,
         null=True,
         help_text='Saving with empty values makes post unpublished')
-    spot = models.ForeignKey(Spot, null=True, blank=True)
+    spot = models.ForeignKey(
+        Spot,
+        null=True,
+        blank=True,
+        related_name='blog_posts')
     blogpost_photo = ImageCropField(
         upload_to=get_image_path,
         blank=True,

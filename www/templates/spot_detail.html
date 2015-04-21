@@ -91,9 +91,31 @@
                     </li>
                 {% endif %}
 
-                <li class="list-group-item">
-                    <img src="{% url 'qrcode_scaled' pk=spot.pk size=2%}"><br>
-                    <a href='{% url 'vcard' pk=spot.pk %}'>Download vCard</a>
+                <li class="list-group-item" style="height:100%">
+                 <div style="width:100%; padding:0px; min-height: 170px; overflow: hidden">
+                      <div class="col-md-3">
+                          <img src="{% url 'qrcode_scaled' pk=spot.pk size=2%}"><br>
+                          <a href='{% url 'vcard' pk=spot.pk %}'>Download vCard</a>
+                      </div>
+                      <div class="col-md-9">
+                        {% if spot.blog_posts.all %}
+                            <h2>Blog posts about this spot:</h2>
+                            {% for post in spot.blog_posts.all %}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="imgAbt">
+                                        <img src="{{post.blogpost_photo_thumb|safe}}" width="100%">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <a href="{% url 'blogpost_detail' pk=post.pk post_slug=post.post_slug %}"><h3 style="margin-top:5px">{{post.title}}</h3></a>
+                                    <p>{{post.text|truncatechars:200}}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                      </div>
+                  </div>
                 </li>
             </ul>
         </div>
