@@ -35,7 +35,7 @@ SPOT_PROJECT_SLOGAN = 'And, all the world is green!'
 
 SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing vegans and vegetarians friendly spots'
 
-SPOT_PROJECT_SUBJECT = 'Vege'
+SPOT_PROJECT_SUBJECT = 'Vegan'
 
 SPOT_PROJECT_MAIN_COLOR = '#59b84d'
 
