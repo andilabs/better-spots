@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.views.generic.list import ListView
 from django.views.generic import DetailView
 
+from django.conf import settings
 from .models import Post
 
 
@@ -25,7 +26,8 @@ class BlogPostDetailView(DetailView):
 class LastBlogPostEntries(Feed):
     title = "Dogspot blog."
     link = "/blog/"
-    description = "The latest posts about dog friednly spots in Warsaw"
+    description = "The latest posts about %s friednly spots in Warsaw" % (
+        settings.SPOT_PROJECT_SUBJECT.lower())
 
     def items(self):
         return Post.objects.order_by('-published_date')[:15]
