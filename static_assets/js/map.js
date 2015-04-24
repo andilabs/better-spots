@@ -268,7 +268,7 @@
       readOnly: userReadOnly,
       score: spot.friendly_rate
     });
-    return $("<div class='spot_info no_copy' id='" + spot.id + "'> <h4>" + spot.name + "</h4><br> " + spot.address_street + " " + spot.address_number + "</div>").append(rating_stars)[0];
+    return $("<div class='spot_info no_copy' id='" + spot.id + "'> <h4><a href='" + spot.www_url + "'>" + spot.name + "</a></h4><br> " + spot.address_street + " " + spot.address_number + "</div>").append(rating_stars)[0];
   };
 
   renderSpotsTableViewCell = function(spot) {
