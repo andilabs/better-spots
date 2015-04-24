@@ -17,9 +17,11 @@
 
                 <div class='allowance-icon'>
                 {% if spot.is_enabled %}
-                      <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok-kopia.png">
+                    <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok-kopia.png" alt="spot is enabled">
+                {% elif spot.is_enabled == False %}
+                    <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad-kopia.png" alt="spot is not enabled">
                 {% else %}
-                      <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad-kopia.png">
+                    <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-undefined-kopia.png" alt="spot enablence is undefined">
                 {% endif %}
                 </div>
 

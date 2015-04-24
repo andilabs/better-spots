@@ -26,15 +26,17 @@
         {% else %}
           {% if spot.is_enabled %}
             <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png" class="enablence-symbol">
-          {% else %}
+          {% elif spot.is_enabled == False %}
             <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png" class="enablence-symbol">
+          {% else %}
+            <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-undefined.png" class="enablence-symbol">
           {% endif %}
         {% endif %}
 
         {% if spot.thumbnail_venue_photo %}
           <img src="{{spot.thumbnail_venue_photo}}" class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok {% else %} bad{% endif %}{% endif %}" style="width: 350px; height: 150px;">
         {% else %}
-          <img data-src="holder.js/350x150/text: no photo" alt="..." class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok {% else %} bad{% endif %}{% endif %}">
+          <img data-src="holder.js/350x150/text: no photo" alt="..." class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok  {% elif spot.is_enabled == False %} bad {% else %} undefined {% endif %}{% endif %}">
         {% endif %}
 
         <div class="caption">

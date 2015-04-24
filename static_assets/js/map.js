@@ -299,29 +299,31 @@
       var k, spot, _ref2;
       $.each(data, function(i, spot) {
         var SpotIcon, SpotMarker, icony_allowed;
-        icony_allowed = {
-          "true": ICON_URL + "marker-ok.png",
-          "false": ICON_URL + "marker-bad.png"
-        };
-        SpotIcon = {
-          url: icony_allowed[spot.is_enabled],
-          size: null,
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(10, 0),
-          scaledSize: new google.maps.Size(30 / zoomBasedIconScaleRatio(), 30 / zoomBasedIconScaleRatio())
-        };
-        SpotMarker = new google.maps.Marker({
-          position: new google.maps.LatLng(spot.location.latitude, spot.location.longitude),
-          bounds: false,
-          id: spot.id,
-          is_enabled: [spot.is_enabled],
-          spot_type: [spot_type_lookup[spot.spot_type]],
-          icon: SpotIcon
-        });
-        return window.allSpotsDict[spot.id] = {
-          spot: spot,
-          marker: SpotMarker
-        };
+        if (spot.is_enabled !== null) {
+          icony_allowed = {
+            "true": ICON_URL + "marker-ok.png",
+            "false": ICON_URL + "marker-bad.png"
+          };
+          SpotIcon = {
+            url: icony_allowed[spot.is_enabled],
+            size: null,
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(10, 0),
+            scaledSize: new google.maps.Size(30 / zoomBasedIconScaleRatio(), 30 / zoomBasedIconScaleRatio())
+          };
+          SpotMarker = new google.maps.Marker({
+            position: new google.maps.LatLng(spot.location.latitude, spot.location.longitude),
+            bounds: false,
+            id: spot.id,
+            is_enabled: [spot.is_enabled],
+            spot_type: [spot_type_lookup[spot.spot_type]],
+            icon: SpotIcon
+          });
+          return window.allSpotsDict[spot.id] = {
+            spot: spot,
+            marker: SpotMarker
+          };
+        }
       });
       $("#map_canvas, #map_filters_button").animate({
         "opacity": "1.0"

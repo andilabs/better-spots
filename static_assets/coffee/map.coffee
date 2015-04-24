@@ -174,7 +174,7 @@ hideAllInfoWindows = ->
 
 
 filterSpots = ->
-    filtered_allowance = ['current_location']
+    filtered_allowance = ['current_location', ]
 
     if filters_allowance["is_not_enabled"] is true
         filtered_allowance.push false
@@ -270,29 +270,32 @@ loadMarkers = (lat, lng) ->
     jqxhr = $.getJSON url, (data) ->
 
         $.each data, (i, spot) ->
-            icony_allowed =
-                true: ICON_URL + "marker-ok.png"
-                false: ICON_URL + "marker-bad.png"
+            # spots with undefined enablence are not displayed
+            if spot.is_enabled isnt null
 
-            SpotIcon =
-                url: icony_allowed[spot.is_enabled]
-                size: null
-                origin: new google.maps.Point(0, 0)
-                anchor: new google.maps.Point(10, 0)
-                scaledSize: new google.maps.Size(30/zoomBasedIconScaleRatio(), 30/zoomBasedIconScaleRatio())
+                icony_allowed =
+                    true: ICON_URL + "marker-ok.png"
+                    false: ICON_URL + "marker-bad.png"
 
-            SpotMarker = new google.maps.Marker
-                position: new google.maps.LatLng(spot.location.latitude, spot.location.longitude)
-                bounds: false
-                id: spot.id
-                is_enabled: [spot.is_enabled]
-                spot_type: [spot_type_lookup[spot.spot_type]]
-                icon: SpotIcon
+                SpotIcon =
+                    url: icony_allowed[spot.is_enabled]
+                    size: null
+                    origin: new google.maps.Point(0, 0)
+                    anchor: new google.maps.Point(10, 0)
+                    scaledSize: new google.maps.Size(30/zoomBasedIconScaleRatio(), 30/zoomBasedIconScaleRatio())
 
-            #important id is exact id from django API
-            window.allSpotsDict[spot.id] =
-                spot: spot
-                marker: SpotMarker
+                SpotMarker = new google.maps.Marker
+                    position: new google.maps.LatLng(spot.location.latitude, spot.location.longitude)
+                    bounds: false
+                    id: spot.id
+                    is_enabled: [spot.is_enabled]
+                    spot_type: [spot_type_lookup[spot.spot_type]]
+                    icon: SpotIcon
+
+                #important id is exact id from django API
+                window.allSpotsDict[spot.id] =
+                    spot: spot
+                    marker: SpotMarker
 
         $("#map_canvas, #map_filters_button").animate({"opacity": "1.0"}, "slow")
         $("#spots_list").empty()
