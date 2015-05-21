@@ -28,6 +28,7 @@ RAVEN_CONFIG = {
 }
 
 SPOT_PROJECT_NAME = 'dogspot'
+GRAPPELLI_ADMIN_TITLE = SPOT_PROJECT_NAME.capitalize()
 
 SPOT_PROJECT_SLOGAN = 'Wow the World!'
 

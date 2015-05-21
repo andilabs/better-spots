@@ -30,6 +30,8 @@ DATABASES = {
 }
 
 SPOT_PROJECT_NAME = 'momspot'
+GRAPPELLI_ADMIN_TITLE = SPOT_PROJECT_NAME.capitalize()
+
 
 SPOT_PROJECT_SLOGAN = 'Mom\'s Revolution starts in cafes!'
 
