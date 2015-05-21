@@ -5,7 +5,7 @@ from unidecode import unidecode
 from django_hstore import hstore
 from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageCropField, ImageRatioField
-
+from solo.models import SingletonModel
 
 from django.db.models.signals import post_save, post_delete
 from django.conf import settings
@@ -13,8 +13,30 @@ from django.contrib.gis.db import models
 from django.core.urlresolvers import reverse
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
+from django.utils.safestring import mark_safe
 
 from utils.img_path import get_image_path
+
+
+class Instance(SingletonModel):
+    name = models.CharField(
+        max_length=254, default='', blank=True, null=True)
+    slogan = models.CharField(
+        max_length=254, default='', blank=True, null=True)
+    description = models.CharField(
+        max_length=254, default='', blank=True, null=True)
+    subject = models.CharField(
+        max_length=254, default='', blank=True, null=True)
+    main_color = models.CharField(
+        max_length=254, default='', blank=True, null=True)
+    description = models.TextField()
+
+    windows_phone_store_url = models.URLField(
+        max_length=1023, blank=True, null=True)
+    google_store_url = models.URLField(
+        max_length=1023, blank=True, null=True)
+    apple_store_url = models.URLField(
+        max_length=1023, blank=True, null=True)
 
 
 SPOT_TYPE = (
@@ -140,6 +162,10 @@ class Spot(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def google_maps_admin_widget(self):
+        return mark_safe("""<input type="text" style="width:100%" id="us3-address"/>
+                  <div id="us3" style="width: 750px; height: 400px;"></div>""")
 
     def save(self, *args, **kwargs):
         self.spot_slug = slugify(unidecode(

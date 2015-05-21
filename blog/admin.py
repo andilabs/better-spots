@@ -24,7 +24,23 @@ class BlogPostAdmin(
         'published_date',
         'spot',
         'admin_blogpost_photo_thumb',
-        'user')
+        'user'
+    )
+
+    fieldsets = [
+        ('Post',
+            {
+                'fields':
+                [
+                    'title',
+                    'created_date',
+                    'published_date',
+                    'spot',
+                    'admin_blogpost_photo_thumb',
+                    'user'
+                ]
+            }),
+    ]
 
     readonly_fields = (
         'admin_blogpost_photo_thumb',

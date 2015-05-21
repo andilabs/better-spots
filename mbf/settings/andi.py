@@ -9,7 +9,7 @@ from unipath import Path
 DEBUG = True
 TEMPLATE_DEBUG = True
 
-INSTANCE_DOMAIN = "127.0.0.1:8000"
+INSTANCE_DOMAIN = "127.0.0.1:4000"
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
@@ -42,7 +42,9 @@ STATIC_URL = '/static/'
 STATIC_ROOT = '/Users/andi/pseudo_static_server_spots/'
 MEDIA_ROOT = '/Users/andi/pseudo_media_server_spots/'
 
-
+TEMPLATE_DIRS = (
+     os.path.join(PROJECT_ROOT_PATH, 'templates/'),
+)
 
 # SPOT_PROJECT_NAME = 'veganspot'
 # SPOT_PROJECT_SLOGAN = 'And, all the world is green!'

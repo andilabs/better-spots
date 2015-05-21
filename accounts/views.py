@@ -66,7 +66,7 @@ def mail_verification(request, verification_key):
 
 
 class SpotUserCreate(CreateView):
-    template_name = 'spotuser_form.html'
+    template_name = 'www/spotuser_form.html'
     form_class = UserCreationForm
     success_url = '/'
 
@@ -83,7 +83,7 @@ class SpotUserCreate(CreateView):
 def mylogin(request):
 
     if request.method == 'GET':
-        response = TemplateResponse(request, 'login.html', {})
+        response = TemplateResponse(request, 'www/login.html', {})
         return response
 
     elif request.method == 'POST':
@@ -127,5 +127,5 @@ def mylogout(request):
             'You sucessfully log out!')
 
         return render_to_response(
-            'login.html',
+            'www/login.html',
             context_instance=RequestContext(request))

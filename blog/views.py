@@ -10,7 +10,7 @@ from .models import Post
 class BlogPostsListView(ListView):
 
     model = Post
-    template_name = 'post_list.html'
+    template_name = 'blog/post_list.html'
     paginate_by = 2
 
     def get_queryset(self):
@@ -20,7 +20,7 @@ class BlogPostsListView(ListView):
 class BlogPostDetailView(DetailView):
 
     model = Post
-    template_name = 'post_detail.html'
+    template_name = 'blog/post_detail.html'
 
 
 class LastBlogPostEntries(Feed):

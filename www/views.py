@@ -23,19 +23,19 @@ from .forms import ContactForm, AddSpotForm
 
 def main(request):
     if request.method == 'GET':
-        response = TemplateResponse(request, 'mission.html', {})
+        response = TemplateResponse(request, 'www/mission.html', {})
         return response
 
 
 def map(request):
     if request.method == 'GET':
-        response = TemplateResponse(request, 'map.html', {})
+        response = TemplateResponse(request, 'www/map.html', {})
         return response
 
 
 def mobile(request):
     if request.method == 'GET':
-        response = TemplateResponse(request, 'mobile.html', {})
+        response = TemplateResponse(request, 'www/mobile.html', {})
         return response
 
 
@@ -50,7 +50,7 @@ def spots_list(request):
 
 def spot(request, pk, slug):
     spot = get_object_or_404(Spot, pk=pk)
-    return render(request, 'spot_detail.html', {'spot': spot})
+    return render(request, 'www/spot_detail.html', {'spot': spot})
 
 
 def add_spot(request):
@@ -58,7 +58,7 @@ def add_spot(request):
         form = AddSpotForm()
         return render(
             request,
-            'add_spot.html',
+            'www/add_spot.html',
             {'form': form}
         )
     if request.method == 'POST':
@@ -80,7 +80,7 @@ def add_spot(request):
         else:
             return render(
                 request,
-                'add_spot.html',
+                'www/add_spot.html',
                 {'form': form}
             )
 
@@ -109,11 +109,11 @@ def certificated_list(request):
 
 def certificated(request, pk, slug=None):
     spot = get_object_or_404(Spot, pk=pk, is_certificated=True)
-    return render(request, 'certificate.html', {'spot': spot})
+    return render(request, 'wwww/certificate.html', {'spot': spot})
 
 
 def generic_spots_list(request, spots, site_title='Spots',
-                       template='spot_list.html', icon_type='th'):
+                       template='www/spot_list.html', icon_type='th'):
 
     paginator = Paginator(spots, 6)
     page = request.GET.get('page')
@@ -152,7 +152,7 @@ def pdf_sticker(request, pk):
 
     if spot.is_certificated:
         return render_to_pdf(
-            'pdf_sticker.html',
+            'www/pdf_sticker.html',
             {
                 'BASE_HOST': settings.INSTANCE_DOMAIN,
                 'MEDIA_ROOT': settings.MEDIA_ROOT,

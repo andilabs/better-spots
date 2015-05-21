@@ -1,3 +1,4 @@
+from solo.admin import SingletonModelAdmin
 from image_cropping import ImageCroppingMixin
 
 from django.conf import settings
@@ -5,13 +6,36 @@ from django.contrib import admin
 
 
 from core.models import (
-    Spot, Rating, Opinion, OpinionUsefulnessRating, UsersSpotsList)
+    Spot,
+    Rating,
+    Opinion,
+    OpinionUsefulnessRating,
+    UsersSpotsList,
+    Instance
+)
 
 
 hstore_fields = [field['name'] for field in settings.HSTORE_SCHEMA]
 
 
-class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
+# from django.contrib.gis import admin
+# from django.contrib.gis import forms
+# from django.contrib.gis.db import models
+
+# class YourClassAdminForm(forms.ModelForm):
+#     location = forms.PointField(widget=forms.OSMWidget(attrs={
+#             'display_raw': True}))
+
+
+class SpotAdmin(
+    ImageCroppingMixin,
+    # admin.GeoModelAdmin,
+    admin.ModelAdmin):
+    # form = YourClassAdminForm
+
+    add_form_template = "admin/spots/add_form.html"
+    change_form_template = "admin/spots/change_form.html"
+
     list_display = (
         'name',
         'friendly_rate',
@@ -25,9 +49,6 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
 
     exclude = ('location',)
 
-    readonly_fields = [
-        'is_enabled', 'friendly_rate', 'spot_slug'] + hstore_fields
-
     fieldsets = (
         (None,
             {'fields': (
@@ -38,6 +59,9 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
 
         ('Address',
             {'fields': (
+                # 'google_maps_admin_widget',
+                # 'latitude',
+                # 'location',
                 'address_street',
                 'address_number',
                 'address_city',
@@ -59,6 +83,14 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
             {'fields': tuple(['friendly_rate', 'is_enabled']+hstore_fields)})
     )
 
+    readonly_fields = tuple([
+        # 'google_maps_admin_widget',
+        # 'latitude',
+        # 'longitude',
+        'is_enabled',
+        'friendly_rate',
+        'spot_slug'] + hstore_fields)
+
 
 class RatingAdmin(admin.ModelAdmin):
     list_display = [
@@ -78,5 +110,6 @@ class UsersSpotsListAdmin(admin.ModelAdmin):
 admin.site.register(Spot, SpotAdmin)
 admin.site.register(Rating, RatingAdmin)
 admin.site.register(Opinion)
+admin.site.register(Instance, SingletonModelAdmin)
 admin.site.register(OpinionUsefulnessRating)
 admin.site.register(UsersSpotsList, UsersSpotsListAdmin)

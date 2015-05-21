@@ -36,16 +36,21 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
+    "django.core.context_processors.request",
 )
 
 TEMPLATE_CONTEXT_PROCESSORS += ("www.context_processors.spot_facilities", )
 
 
 INSTALLED_APPS = (
+    'solo',
     'image_cropping',
     'easy_thumbnails',
     'south',
     'django_hstore',
+    # 'grappelli.dashboard',
+    # 'grappelli_nested',
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
