@@ -94,7 +94,7 @@ def favourites_list(request):
             site_title='your favourites spots',
             icon_type='heart')
     else:
-        response = TemplateResponse(request, 'favourites.html')
+        response = TemplateResponse(request, 'www/favourites.html')
         return response
 
 
@@ -210,7 +210,7 @@ def download_vcard(request, pk):
 
 
 class SpotUserCreate(CreateView):
-    template_name = 'spotuser_form.html'
+    template_name = 'www/spotuser_form.html'
     form_class = UserCreationForm
     success_url = '/'
 
@@ -225,7 +225,7 @@ class SpotUserCreate(CreateView):
 
 
 class ContactView(FormView):
-    template_name = 'contact.html'
+    template_name = 'www/contact.html'
     form_class = ContactForm
     success_url = '/'
 
