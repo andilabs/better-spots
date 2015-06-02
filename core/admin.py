@@ -46,6 +46,8 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'is_enabled',
         'is_certificated',
         'number_of_ratings',
+        'admin_thumbnail_venue_photo',
+        'google_maps_static_image',
         'facilities'] + hstore_fields
     )
 

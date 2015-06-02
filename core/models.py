@@ -101,6 +101,30 @@ class Spot(models.Model):
             'detail': True, }).url
         return thumbnail_url
 
+    def admin_thumbnail_venue_photo(self):
+        if self.thumbnail_venue_photo:
+            return mark_safe('<img src="%s" />' % self.thumbnail_venue_photo)
+        else:
+            return '(No photo)'
+
+    def google_maps_static_image(self, zoom=16, width=400, height=200):
+        if self.location:
+            return mark_safe(
+                '<img src="https://maps.googleapis.com/maps/api/staticmap?'
+                'center=%s,%s&zoom=%s&size=%sx%s&'
+                'markers=%s,%s" /><br><h2>Location: %s, %s' % (
+                    self.location.coords[1],
+                    self.location.coords[0],
+                    zoom,
+                    width,
+                    height,
+                    self.location.coords[1],
+                    self.location.coords[0],
+                    self.location.coords[1],
+                    self.location.coords[0],
+                )
+            )
+
     @property
     def facebook_url(self):
         facebook_url = "http://www.facebook.com/%s" % (
