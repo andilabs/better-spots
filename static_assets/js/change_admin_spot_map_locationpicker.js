@@ -1,34 +1,40 @@
 
 	function updateControls(addressComponents) {
-	    $('#id_address_street_name').val(addressComponents.streetName);
-	    $('#id_address_street_number').val(addressComponents.streetNumber);
-	    $('#id_address_town').val(addressComponents.city);
+	    $('#id_address_street').val(addressComponents.streetName);
+	    $('#id_address_number').val(addressComponents.streetNumber);
+	    $('#id_address_city').val(addressComponents.city);
 	    $('#id_address_postal_code').val(addressComponents.postalCode);
 	    $('#id_address_country').val(addressComponents.country);
 	}
 
 	function updateLocation(lat, lng){
-		// djangoPoint='Point('+lng+' '+lat+')';
-		// $('#location').val(djangoPoint);
-		console.log("executed");
+
 		lat=lat.toFixed(5);
 		lng=lng.toFixed(5);
-		console.log(lat);
-		console.log(lng);
-		$('#id_latitude').val(lat);
-		$('#id_longitude').val(lng);
+
+		djangoPoint='Point('+lng+' '+lat+')';
+
+		$('div.longitude .c-2 .grp-readonly').html(lng);
+		$('div.latitude .c-2 .grp-readonly').html(lat);
+
+		$('#id_location').val(djangoPoint)
 	}
 
 
 
 		$(document).ready(function() {
+			latitude = Number.parseFloat($('div.latitude .c-2 .grp-readonly').text());
+			longitude = Number.parseFloat($('div.longitude .c-2 .grp-readonly').text());
+			if ( isNaN(latitude) || isNaN(longitude)) {
+				latitude = 52.228378;
+				longitude = 21.000447;
+			}
+
 
 			$('#us3').locationpicker({
-		        location: {latitude: $('#id_latitude').val(), longitude: $('#id_longitude').val()},
+		        location: {latitude: latitude, longitude: longitude},
 		        radius: 0,
 		        inputBinding: {
-		            // latitudeInput: $('#id_latitude'),
-		            // longitudeInput: $('#id_longitude'),
 		            locationNameInput: $('#us3-address')
 		        },
 		        enableAutocomplete: true,

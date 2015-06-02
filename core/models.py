@@ -196,7 +196,7 @@ DOGS_ALLOWED = (
 class Rating(models.Model):
     data_added = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey('accounts.SpotUser')
-    spot = models.ForeignKey(Spot)
+    spot = models.ForeignKey(Spot, related_name='ratings')
     is_enabled = models.BooleanField(choices=DOGS_ALLOWED, default=False)
     friendly_rate = models.PositiveIntegerField(choices=LIKERT)
     facilities = hstore.DictionaryField(schema=settings.HSTORE_SCHEMA)
