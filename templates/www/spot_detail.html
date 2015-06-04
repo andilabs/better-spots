@@ -1,7 +1,17 @@
 {% extends "www/base.html" %}
 {% load custom_tags_and_filters %}
 {% block title %}
-    {{ spot.name }} - {% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}
+    {{ spot.name }}
+
+    {% if spot.is_enabled == True %} is {% settings_value "SPOT_PROJECT_SUBJECT" %} friendly spot :)
+    {% elif spot.is_enabled == False %} isn't {% settings_value "SPOT_PROJECT_SUBJECT" %} friendly spot :(
+    {% endif %}
+
+    {% if spot.friendly_rate %}
+        (Rating: {{spot.friendly_rate}}/5.00)
+    {% endif %}
+
+    - by {% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}
 {% endblock %}
 {% load bootstrap3 %}
 
