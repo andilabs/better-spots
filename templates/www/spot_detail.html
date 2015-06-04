@@ -26,13 +26,9 @@
                 </div>
 
                 <span data-score="{{spot.friendly_rate}}" class="rating via_modal" id="{{spot.pk}}"></span>
-
+                <br><br>
                 {% for element in HSTORE_SCHEMA %}
-                    {% with element|keyvalue:'kwargs'|keyvalue:'verbose_name' as FACILITY %}
-                        <h2 class="facility">
-                            {{FACILITY}}:
-                        </h2>
-                    {% endwith %}
+
                     {% with element|keyvalue:'name' as FACILITY_FULLFILMENT %}
                         {% if spot.facilities|keyvalue:FACILITY_FULLFILMENT == True %}
                             <i class="fa fa-check fa-4x" style="color: #3fb350" title="Yes"></i>
@@ -42,8 +38,20 @@
                             <i class="fa fa-question fa-4x" style="color: #a1a1a1" title="Undefined"></i>
                         {% endif %}
                     {% endwith %}
+
+                    {% with element|keyvalue:'kwargs'|keyvalue:'verbose_name' as FACILITY %}
+                        <h2 class="facility">
+                            {{FACILITY}}:
+                        </h2>
+                    {% endwith %}
+
                 {% endfor %}
 
+                    {% if spot in user.favourites %}
+                        <div class="heart" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="{{user.spot_pk_to_fav_asset_pk|keyvalue:spot.pk}}" style="font-size:72px; "></div>
+                    {% else %}
+                        <div class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="" style="font-size:72px"></div>
+                    {% endif %}
             </center>
         </div>
 
@@ -51,13 +59,14 @@
             <ul class="list-group">
                 <li class="list-group-item" style="text-align:center;">
                     <h2 style="font-family:Lato Italic">
-                        {{ spot.name|upper }}
+                        {{ spot.name|upper }}<br>
+                        {% if spot.thumbnail_venue_photo %}
+                        <center>
+                            <div class="circular-thumbnail" style="background-image:url('{{spot.thumbnail_venue_photo}}')">
+                            </div>
+                        </center>
+                        {% endif %}
                     </h2>
-                    {% if spot in user.favourites %}
-                        <div class="heart" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="{{user.spot_pk_to_fav_asset_pk|keyvalue:spot.pk}}" style="font-size:72px; "></div>
-                    {% else %}
-                        <div class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="" style="font-size:72px"></div>
-                    {% endif %}
                 </li>
                 <li class="list-group-item">
                     <div id="map_canvas_spot_detail" style="height:260px" ></div>
