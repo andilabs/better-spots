@@ -236,7 +236,7 @@ renderSpotsTableViewCell = (spot) ->
         #{spot.address_number}
         <span class='spot_item_details' id='#{spot.id}'>
 
-            #{["<br><span class='glyphicon glyphicon-phone-alt'></span> #{spot.phone_number}" if spot.phone_number]}
+        #{["<br><span class='glyphicon glyphicon-phone-alt'></span> #{spot.phone_number}" if spot.phone_number]}
         #{["<br><a href='http://www.facebook.com/#{spot.facebook}' target='_blank'>
         <i class='fa fa-facebook'></i> #{spot.facebook}</a>" if spot.facebook]}
 

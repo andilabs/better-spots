@@ -35,16 +35,19 @@ class BlogPostAdmin(
                     'title',
                     'created_date',
                     'published_date',
+                    'text',
+                    'blogpost_photo',
                     'spot',
                     'admin_blogpost_photo_thumb',
-                    'user'
+                    'user',
                 ]
             }),
     ]
 
     readonly_fields = (
         'admin_blogpost_photo_thumb',
-        'post_slug')
+        'post_slug',
+    )
 
 
 admin.site.register(Post, BlogPostAdmin)
