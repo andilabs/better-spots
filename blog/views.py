@@ -5,6 +5,7 @@ from django.views.generic import DetailView
 
 from django.conf import settings
 from .models import Post
+from core.models import Instance
 
 
 class BlogPostsListView(ListView):
@@ -13,7 +14,14 @@ class BlogPostsListView(ListView):
     template_name = 'blog/post_list.html'
     paginate_by = 4
 
-    def get_queryset(self):
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(BlogPostsListView, self).get_context_data(**kwargs)
+        # Add in the publisher
+        context['instance'] = Instance.objects.get()
+        return context
+
+    def get_queryset(self, **kwargs):
         return Post.published.all().order_by('-published_date')
 
 

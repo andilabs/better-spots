@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import os
+import uuid
+
 from unidecode import unidecode
 from django_hstore import hstore
 from easy_thumbnails.files import get_thumbnailer
@@ -15,7 +17,18 @@ from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
 
-from utils.img_path import get_image_path
+# from utils.img_path import get_image_path
+
+
+def get_image_path(instance, filename):
+    try:
+        extension = filename.split('.')[-1]
+    except IndexError:
+        extension = ''
+    return os.path.join(
+        'img',
+        '%s.%s' % (uuid.uuid4().hex, extension)
+    )
 
 
 class Instance(SingletonModel):
@@ -38,6 +51,8 @@ class Instance(SingletonModel):
     apple_store_url = models.URLField(
         max_length=1023, blank=True, null=True)
 
+    bloger_photo = models.ImageField(
+        upload_to=get_image_path, null=True, blank=True)
 
 SPOT_TYPE = (
     (1, 'cafe'),
