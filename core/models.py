@@ -127,8 +127,11 @@ class Spot(models.Model):
 
     @property
     def facebook_url(self):
-        facebook_url = "http://www.facebook.com/%s" % (
-            self.facebook if self.facebook else None)
+        if self.facebook:
+            facebook_url = "http://www.facebook.com/%s" % self.facebook
+        else:
+            facebook_url = None
+
         return facebook_url
 
     @property

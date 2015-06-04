@@ -272,7 +272,7 @@
   };
 
   renderSpotsTableViewCell = function(spot) {
-    return $("<span class='list-group-item' id='" + spot.id + "'> <span class='badge' style='background-color:transparent'> <a href='" + spot.www_url + "' class='spot-details-link' style='display:none;'> <i class='fa fa-angle-double-right fa-2x' style='color:white'></i></a></span> <h4 class='list-group-item-heading'>" + spot.name + "</h4> <p class='list-group-item-text'>" + spot.address_street + " " + spot.address_number + " <span class='spot_item_details' id='" + spot.id + "'> <br><span class='glyphicon glyphicon-phone-alt'></span> " + spot.phone_number + " <a href='http://www.facebook.com/" + spot.facebook + "' target='_blank'> <i class='fa fa-facebook'></i></a> </span> </p></span>").data('spot', spot);
+    return $("<span class='list-group-item' id='" + spot.id + "'> <span class='badge' style='background-color:transparent'> <a href='" + spot.www_url + "' class='spot-details-link' style='display:none;'> <i class='fa fa-angle-double-right fa-2x' style='color:white'></i></a></span> <h4 class='list-group-item-heading'>" + spot.name + "</h4> <p class='list-group-item-text'>" + spot.address_street + " " + spot.address_number + " <span class='spot_item_details' id='" + spot.id + "'> " + [spot.phone_number ? "<br><span class='glyphicon glyphicon-phone-alt'></span> " + spot.phone_number : void 0] + " " + [spot.facebook ? "<br><a href='http://www.facebook.com/" + spot.facebook + "' target='_blank'> <i class='fa fa-facebook'></i> " + spot.facebook + "</a>" : void 0] + " </span> </p></span>").data('spot', spot);
   };
 
   activateSpotTableViewCellFor = function(id) {

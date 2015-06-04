@@ -226,6 +226,7 @@ renderInfoWindow = (spot, userReadOnly=true) ->
 
 
 renderSpotsTableViewCell = (spot) ->
+
     $("<span class='list-group-item' id='#{spot.id}'>
         <span class='badge' style='background-color:transparent'>
         <a href='#{spot.www_url}' class='spot-details-link' style='display:none;'>
@@ -234,9 +235,11 @@ renderSpotsTableViewCell = (spot) ->
         <p class='list-group-item-text'>#{spot.address_street}
         #{spot.address_number}
         <span class='spot_item_details' id='#{spot.id}'>
-        <br><span class='glyphicon glyphicon-phone-alt'></span>
-        #{spot.phone_number} <a href='http://www.facebook.com/#{spot.facebook}' target='_blank'>
-        <i class='fa fa-facebook'></i></a>
+
+            #{["<br><span class='glyphicon glyphicon-phone-alt'></span> #{spot.phone_number}" if spot.phone_number]}
+        #{["<br><a href='http://www.facebook.com/#{spot.facebook}' target='_blank'>
+        <i class='fa fa-facebook'></i> #{spot.facebook}</a>" if spot.facebook]}
+
         </span>
         </p></span>").data('spot', spot)
 
