@@ -1,7 +1,7 @@
 {% extends "www/base.html" %}
 {% load custom_tags_and_filters %}
 {% block title %}
-    {{ spot.name }}
+    {{ spot.name }} {{spot.address_city}}, {{spot.address_street}} {{spot.address_number}}
 
     {% if spot.is_enabled == True %} is {% settings_value "SPOT_PROJECT_SUBJECT" %} friendly spot :)
     {% elif spot.is_enabled == False %} isn't {% settings_value "SPOT_PROJECT_SUBJECT" %} friendly spot :(
