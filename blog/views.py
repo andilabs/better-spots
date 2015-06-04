@@ -11,7 +11,7 @@ class BlogPostsListView(ListView):
 
     model = Post
     template_name = 'blog/post_list.html'
-    paginate_by = 2
+    paginate_by = 4
 
     def get_queryset(self):
         return Post.published.all().order_by('-published_date')
