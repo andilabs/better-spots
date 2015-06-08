@@ -49,12 +49,24 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'number_of_ratings',
         'admin_thumbnail_venue_photo',
         'google_maps_static_image',
+        'creator',
+        'anonymous_creator_cookie',
         'facilities'] + hstore_fields
     )
 
-    list_filter = ('address_city', 'is_enabled', 'spot_type')
+    list_filter = (
+        'address_city',
+        'is_enabled',
+        'spot_type',
+        'is_certificated',
+        'is_accepted',
+    )
 
-    search_fields = ('name', 'address_city', 'address_street')
+    search_fields = (
+        'name',
+        'address_city',
+        'address_street'
+    )
 
     fieldsets = (
         (None,
