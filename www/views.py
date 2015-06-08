@@ -18,7 +18,7 @@ from django.views.generic import FormView, CreateView
 from core.models import Spot, SPOT_TYPE
 from utils.qrcodes import make_qrcode
 from accounts.forms import UserCreationForm
-from .forms import ContactForm, AddSpotForm
+from .forms import ContactForm, AddSpotForm, EditSpotPhotoForm
 
 
 def main(request):
@@ -40,7 +40,7 @@ def mobile(request):
 
 
 def spots_list(request):
-    spots = Spot.objects.order_by('name')
+    spots = Spot.objects.filter(is_accepted=True).order_by('name')
     return generic_spots_list(
         request,
         spots,
@@ -56,18 +56,50 @@ def spot(request, pk, slug):
 def add_spot(request):
     if request.method == 'GET':
         form = AddSpotForm()
+        if not request.user.is_authenticated():
+            messages.add_message(
+                request,
+                messages.WARNING,
+                (
+                    'The spots added by not-registred users'
+                    ' are not visible until being peer-reviewed'
+                    ' <br> If you wish to register go <a href="%s">HERE</a> it takes just few seconds.'
+                ) % reverse('user_create')
+            )
         return render(
             request,
             'www/add_spot.html',
             {'form': form}
         )
     if request.method == 'POST':
-        form = AddSpotForm(request.POST)
+        form = AddSpotForm(request.POST, request.FILES)
         if form.is_valid():
             spot = form.save()
+            # spot.venue_photo = request.FILES.get('venue_photo')
+            # spot.save()
+            if request.user.is_authenticated():
+                spot.creator = request.user
+                spot.is_accepted = True
+                spot.save()
+                memo = ''
+            else:
+                spot.anonymous_creator_cookie = request._cookies['csrftoken']
+                spot.save()
+                memo = (' The spot will be visible when'
+                        ' it is reviewed by our moderators')
+
+            if spot.venue_photo:
+                return redirect(
+                    reverse(
+                        'edit_photo',
+                        kwargs={
+                            "pk": spot.pk
+                        }
+                    )
+                )
             messages.add_message(
                 request,
-                messages.SUCCESS, 'Spot added!'
+                messages.SUCCESS, 'Spot added!' + memo
             )
             return redirect(
                 reverse(
@@ -82,6 +114,45 @@ def add_spot(request):
                 request,
                 'www/add_spot.html',
                 {'form': form}
+            )
+
+
+def edit_photo(request, pk):
+    spot = get_object_or_404(Spot, pk=pk)
+
+    if request.method == 'GET':
+        identify = request._cookies['csrftoken']
+        if (identify == spot.anonymous_creator_cookie or request.user == spot.creator):
+            form = EditSpotPhotoForm(instance=spot)
+            return render(
+                request,
+                'www/edit_spot_photo.html',
+                {'form': form, 'spot': spot}
+            )
+        else:
+            return HttpResponse(
+                'You have not acces to this resource',
+                status=403)
+
+    if request.method == 'POST':
+        form = EditSpotPhotoForm(instance=spot)
+        form = EditSpotPhotoForm(request.POST, request.FILES, instance=spot)
+        if form.is_valid():
+            spot = form.save()
+            memo = (' The spot will be visible when'
+                    ' it is reviewed by our moderators'
+                    ) if not request.user.is_authenticated() else ''
+            messages.add_message(
+                request,
+                messages.SUCCESS, 'Spot added!' + memo
+            )
+            return redirect(
+                reverse(
+                    'spot',
+                    kwargs={
+                        "pk": spot.pk
+                    }
+                )
             )
 
 
@@ -174,7 +245,8 @@ def ajax_search(request):
             'thumb': spot.thumbnail_venue_photo,
         }
         for spot in Spot.objects.filter(
-            name__icontains=query).order_by('spot_type')
+            name__icontains=query,
+            is_accepted=True).order_by('spot_type')
     ]
 
     return HttpResponse(

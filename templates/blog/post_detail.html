@@ -34,6 +34,11 @@ a {
         <img src="{{post.blogpost_photo_thumb|safe}}" width="100%"></a>
     </div>
 </div>
+
+{% if post.spot %}
+    <h2><a href="{{post.spot.www_url}}">{{post.spot.name}}</a></h2>
+
+{% endif %}
 {% endblock %}
 
 {% block scripts %}

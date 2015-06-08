@@ -41,6 +41,7 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
 
     list_display = tuple([
         'name',
+        'is_accepted',
         'friendly_rate',
         'address_city',
         'is_enabled',
@@ -60,6 +61,8 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
             {'fields': (
                 'name',
                 'spot_slug',
+                'date_created',
+                'date_updated',
                 'spot_type',
                 'is_certificated')}),
 
@@ -93,6 +96,8 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
     actions = [
         'make_certificated',
         'revoke_certificated',
+        'make_accepted',
+        'revoke_accepted',
     ]
 
     readonly_fields = tuple([
@@ -101,6 +106,8 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'longitude',
         'is_enabled',
         'friendly_rate',
+        'date_updated',
+        'date_created',
         'spot_slug'] + hstore_fields)
 
     def number_of_ratings(self, obj):
@@ -115,6 +122,16 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
     def revoke_certificated(self, request, queryset):
         for spot in queryset:
             spot.is_certificated = False
+            spot.save()
+
+    def make_accepted(self, request, queryset):
+        for spot in queryset:
+            spot.is_accepted = True
+            spot.save()
+
+    def revoke_accepted(self, request, queryset):
+        for spot in queryset:
+            spot.is_accepted = False
             spot.save()
 
 

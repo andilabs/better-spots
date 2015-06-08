@@ -51,6 +51,10 @@ class Instance(SingletonModel):
     apple_store_url = models.URLField(
         max_length=1023, blank=True, null=True)
 
+    instagram = models.CharField(max_length=254, blank=True, null=True)
+    facebook = models.CharField(max_length=254, blank=True, null=True)
+    twitter = models.CharField(max_length=254, blank=True, null=True)
+
     bloger_photo = models.ImageField(
         upload_to=get_image_path, null=True, blank=True)
 
@@ -61,6 +65,8 @@ SPOT_TYPE = (
 
 
 class Spot(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+    date_updated = models.DateTimeField(auto_now=True, null=True)
     name = models.CharField(max_length=250)
     location = models.PointField(max_length=40)
     address_street = models.CharField(
@@ -83,16 +89,31 @@ class Spot(models.Model):
     friendly_rate = models.DecimalField(
         default=-1.00, max_digits=3, decimal_places=2, null=True)
     is_certificated = models.BooleanField(default=False)
+
     venue_photo = ImageCropField(
         upload_to=get_image_path, blank=True, null=True)
     cropping_venue_photo = ImageRatioField(
         'venue_photo',
         settings.VENUE_PHOTO_SIZE['W']+"x"+settings.VENUE_PHOTO_SIZE['H'],
         size_warning=True)
+
     spot_slug = models.SlugField(max_length=1000)
     facilities = hstore.DictionaryField(schema=settings.HSTORE_SCHEMA)
 
+    creator = models.ForeignKey('accounts.SpotUser', null=True, blank=True)
+    anonymous_creator_cookie = models.CharField(
+        max_length=1024, blank=True, null=True)
+
     objects = hstore.HStoreGeoManager()
+
+    class Meta:
+        unique_together = (
+            "name",
+            "address_street",
+            "address_number",
+            "address_city",
+            "address_country",
+        )
 
     @property
     def thumbnail_venue_photo(self):

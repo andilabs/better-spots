@@ -40,7 +40,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS += ("www.context_processors.spot_facilities", )
-
+TEMPLATE_CONTEXT_PROCESSORS += ("www.context_processors.instance", )
 
 INSTALLED_APPS = (
     'solo',

@@ -116,13 +116,13 @@
 
             <li>
               <a href="/favourites">
-                <i class="fa fa-heart fa-2x" data-toggle="tooltip" data-placement="bottom" title="Favorites"></i>
+                <i class="fa fa-heart fa-2x" data-toggle="tooltip" data-placement="bottom" title="Favourites"></i>
               </a>
             </li>
 
             <li>
               <a href="/certificated">
-                <i class="fa fa-certificate fa-2x" data-toggle="tooltip" data-placement="bottom" title="Certificate"></i>
+                <i class="fa fa-certificate fa-2x" data-toggle="tooltip" data-placement="bottom" title="Certificated"></i>
               </a>
             </li>
 
@@ -130,6 +130,12 @@
               <a href="/mobile">
 		            <i class="fa fa-mobile fa-2x" data-toggle="tooltip" data-placement="bottom" title="Mobile"></i>
 	            </a>
+            </li>
+
+            <li>
+              <a href="/spots/add">
+                <i class="fa fa-plus fa-2x" data-toggle="tooltip" data-placement="bottom" title="Add new spot"></i>
+              </a>
             </li>
 
           </ul>
@@ -187,6 +193,36 @@
             <span class="footer-text">2014 &copy; by</span><a href="http://andilabs.com/"><div class="andilabs_logo"></div></a>
           </div>
       </div>
+      <div class="row">
+          <div class="col-xs-4">
+          <p>SITEMAP:</p>
+            <a href="{% url 'spots_list' %}">Browse all the spots</a>, 
+            <a href="{% url 'map' %}">Visualize spots on map</a>, 
+            <a href="{% url 'add_spot' %}">Add new spots</a>, 
+            <a href="{% url 'favourites_list' %}">Collect your favourites spots</a>, 
+            <a href="{% url 'certificated_list' %}">Discover best spots, which were awarded the certificate</a>
+          </div>
+          <div class="col-xs-4" style="text-align:center">
+
+          </div>
+          <div class="col-xs-4" align="right">
+          {% if INSTANCE.facebook or INSTANCE.twitter or INSTANCE.instagram %}
+            <p>SOCIAL MEDIA:</p>
+            <ul>
+              {% if INSTANCE.facebook %}
+              <i class="fa fa-facebook">/<a href="https://facebook.com/{{INSTANCE.facebook}}" target="_blank">{{INSTANCE.facebook}}</a></i><br>
+              {% endif %}
+              {% if INSTANCE.twitter %}
+              <i class="fa fa-twitter">/<a href="https://twitter.com/{{INSTANCE.twitter}}" target="_blank">{{INSTANCE.twitter}}</a></i><br>
+              {% endif %}
+              {% if INSTANCE.instagram %}
+              <i class="fa fa-instagram">/<a href="https://instagram.com/{{INSTANCE.instagram}}" target="_blank">{{INSTANCE.instagram}}</a></i><br>
+              {% endif %}
+            </ul>
+          {% endif %}
+          </div>
+      </div>
+
     </footer>
   </div>
   <br>

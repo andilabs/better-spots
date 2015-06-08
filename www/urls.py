@@ -70,6 +70,11 @@ urlpatterns = patterns(
         views.spot,
         name='spot'),
 
+    url(r'^edit_photo/(?P<pk>\d+)/$',
+        views.edit_photo,
+        name='edit_photo'),
+
+
     url(r'^user/create/$',
         SpotUserCreate.as_view(),
         name='user_create'),
