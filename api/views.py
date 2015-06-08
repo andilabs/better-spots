@@ -210,7 +210,7 @@ class SpotList(ListCreateAPIView):
     serializer_class = SpotListSerializer
 
     def get_queryset(self):
-        queryset = Spot.objects.all()
+        queryset = Spot.objects.filter(is_accepted=True)
         return queryset
 
 
@@ -291,7 +291,7 @@ class SpotDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = SpotDetailSerializer
 
     def get_queryset(self):
-        queryset = Spot.objects.all()
+        queryset = Spot.objects.filter(is_accepted=True)
         return queryset
 
     def get_object(self):
@@ -306,6 +306,7 @@ def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
     user_location = fromstr("POINT(%s %s)" % (lng, lat))
     desired_radius = {'m': radius}
     nearby_spots = Spot.objects.filter(
+        is_accepted=True,
         location__distance_lte=(
             user_location,
             D(**desired_radius)
