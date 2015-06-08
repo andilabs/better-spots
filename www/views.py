@@ -50,6 +50,15 @@ def spots_list(request):
 
 def spot(request, pk, slug):
     spot = get_object_or_404(Spot, pk=pk)
+    if not spot.is_accepted:
+        messages.add_message(
+            request,
+            messages.WARNING,
+            (
+                'The spots was added by not-registred user'
+                ' and it is awaiting moderation.'
+            )
+        )
     return render(request, 'www/spot_detail.html', {'spot': spot})
 
 
