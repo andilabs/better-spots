@@ -27,9 +27,16 @@ class PublishedManager(models.Manager):
 
 
 class Post(models.Model):
-    user = models.ForeignKey('accounts.SpotUser')
-    title = models.CharField(max_length=200)
-    text = models.TextField(help_text='blog note text')
+    user = models.ForeignKey(
+        'accounts.SpotUser',
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+    title = models.CharField(
+        max_length=200)
+    text = models.TextField(
+        help_text='blog note text')
     created_date = models.DateTimeField(
         default=timezone.now)
     published_date = models.DateTimeField(
@@ -51,8 +58,8 @@ class Post(models.Model):
             settings.BLOGPOST_PHOTO_SIZE['W'],
             settings.BLOGPOST_PHOTO_SIZE['H']),
         size_warning=True)
-    post_slug = models.SlugField(max_length=1200)
-
+    post_slug = models.SlugField(
+        max_length=1200)
     objects = models.Manager()
     drafts = DraftsManager()
     published = PublishedManager()

@@ -89,7 +89,8 @@
                 {% endif %}
                     <li class="list-group-item">
                         <span class="badge invert fa fa-location-arrow fa-2x"> </span>
-                         {{spot.address_city}}, {{spot.address_street}} {{spot.address_number}}
+                         {{spot.address_city}}, {{spot.address_street}} {{spot.address_number}} 
+                         [ <a href="http://maps.google.com/maps?daddr={{spot.latitude}},{{spot.longitude}}&amp;ll=" target="_blank">find route</a> ]
                     </li>
                 {% if spot.email %}
                     <li class="list-group-item">
@@ -116,7 +117,7 @@
                  <div style="width:100%; padding:0px; min-height: 170px; overflow: hidden">
                       <div class="col-md-3">
                           <img src="{% url 'qrcode_scaled' pk=spot.pk size=2%}"><br>
-                          <a href='{% url 'vcard' pk=spot.pk %}'>Download vCard</a>
+                          [ <a href='{% url 'vcard' pk=spot.pk %}'>Download vCard</a> ]
                       </div>
                       <div class="col-md-9">
                         {% if spot.blog_posts.all %}

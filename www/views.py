@@ -41,6 +41,11 @@ def mobile(request):
 
 def spots_list(request):
     spots = Spot.objects.filter(is_accepted=True).order_by('name')
+    # import ipdb; ipdb.set_trace()
+    # filters = ["%s__in=%s" % (k, request.GET.getlist(k)) for k in request.GET.keys()]
+    # spot_type = request.GET.get('spot_type')
+    # if spot_type:
+    #     spots = spots.filter(spot_type__exact=spot_type)
     return generic_spots_list(
         request,
         spots,
@@ -72,7 +77,8 @@ def add_spot(request):
                 (
                     'The spots added by not-registred users'
                     ' are not visible until being peer-reviewed'
-                    ' <br> If you wish to register go <a href="%s">HERE</a> it takes just few seconds.'
+                    ' <br> If you wish to register go '
+                    '<a href="%s">HERE</a> it takes just few seconds.'
                 ) % reverse('user_create')
             )
         return render(
@@ -84,8 +90,7 @@ def add_spot(request):
         form = AddSpotForm(request.POST, request.FILES)
         if form.is_valid():
             spot = form.save()
-            # spot.venue_photo = request.FILES.get('venue_photo')
-            # spot.save()
+
             if request.user.is_authenticated():
                 spot.creator = request.user
                 spot.is_accepted = True
