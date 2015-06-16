@@ -109,7 +109,7 @@
 
   minimumDesiredRadius = 100;
 
-  desiredRadius = 2000;
+  desiredRadius = 5000;
 
   getDesiredRadius = function() {
     if (desiredRadius < minimumDesiredRadius) {

@@ -82,7 +82,7 @@ window.filters_types =
     "restaurant": true
 
 minimumDesiredRadius = 100 #in meters
-desiredRadius = 2000  #in meters
+desiredRadius = 5000  #in meters
 
 
 getDesiredRadius = () ->
