@@ -95,7 +95,7 @@
     return localStorage.setItem('currentMapCenter', JSON.stringify(currentMapCenter));
   };
 
-  currentZoomLevel = 14;
+  currentZoomLevel = 12;
 
   window.filters_allowance = {
     "is_enabled": true,
