@@ -255,7 +255,7 @@ def ajax_search(request):
         {
             'name': spot.name,
             'category': SPOT_TYPE[spot.spot_type-1][1],
-            'url': '/spots/%s' % str(spot.id),
+            'url': spot.www_url,
             'thumb': spot.thumbnail_venue_photo,
         }
         for spot in Spot.objects.filter(
