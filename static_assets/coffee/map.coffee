@@ -264,6 +264,7 @@ loadMarkers = (lat, lng) ->
 
     #on each load of markers clean allSpotsDict setting it to empty arr
     window.allSpotsDict = {}
+    window.allSpotsArray = []
 
     #on each reload clean all markers on map
     $('#map_canvas').gmap('clear', 'markers')
@@ -296,15 +297,18 @@ loadMarkers = (lat, lng) ->
                     icon: SpotIcon
 
                 #important id is exact id from django API
+                window.allSpotsArray.push spot
+
                 window.allSpotsDict[spot.id] =
                     spot: spot
                     marker: SpotMarker
 
         $("#map_canvas, #map_filters_button").animate({"opacity": "1.0"}, "slow")
         $("#spots_list").empty()
+        for spot in window.allSpotsArray
+            $("#spots_list").append renderSpotsTableViewCell(spot)
 
         for k, spot of window.allSpotsDict
-            $("#spots_list").append renderSpotsTableViewCell(spot.spot)
 
             $("#map_canvas").gmap("addMarker", spot.marker).click ->
                 # @ is marker, marker has id attr which is id of spot

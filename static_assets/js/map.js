@@ -293,10 +293,11 @@
     }
     setCurrenMapCenter(lat, lng);
     window.allSpotsDict = {};
+    window.allSpotsArray = [];
     $('#map_canvas').gmap('clear', 'markers');
     url = BASE_HOST + ("/api/nearby/" + (lat.toFixed(5)) + "/" + (lng.toFixed(5)) + "/" + (getDesiredRadius()));
     return jqxhr = $.getJSON(url, function(data) {
-      var k, spot, _ref2;
+      var k, spot, _i, _len, _ref2, _ref3;
       $.each(data, function(i, spot) {
         var SpotIcon, SpotMarker, icony_allowed;
         if (spot.is_enabled !== null) {
@@ -319,6 +320,7 @@
             spot_type: [spot_type_lookup[spot.spot_type]],
             icon: SpotIcon
           });
+          window.allSpotsArray.push(spot);
           return window.allSpotsDict[spot.id] = {
             spot: spot,
             marker: SpotMarker
@@ -329,10 +331,14 @@
         "opacity": "1.0"
       }, "slow");
       $("#spots_list").empty();
-      _ref2 = window.allSpotsDict;
-      for (k in _ref2) {
-        spot = _ref2[k];
-        $("#spots_list").append(renderSpotsTableViewCell(spot.spot));
+      _ref2 = window.allSpotsArray;
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        spot = _ref2[_i];
+        $("#spots_list").append(renderSpotsTableViewCell(spot));
+      }
+      _ref3 = window.allSpotsDict;
+      for (k in _ref3) {
+        spot = _ref3[k];
         $("#map_canvas").gmap("addMarker", spot.marker).click(function() {
           var userReadOnly;
           $("#map_canvas").gmap("get", "map").panTo(this.getPosition());
