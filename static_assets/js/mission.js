@@ -4,11 +4,15 @@
     if (window.chrome) {
       $('.banner li').css('background-size', '100% 100%');
     }
-    return $('.banner').unslider({
+    $('.banner').unslider({
       speed: 1500,
       arrows: false,
       fluid: true,
       dots: true
+    });
+    return $('a.show-menu').on('click', function(e) {
+      e.preventDefault();
+      return $('.initialy-invisible').show(900);
     });
   });
 

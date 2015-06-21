@@ -25,6 +25,9 @@
 ul.errorlist > li
     color: red
 
+.initialy-invisible
+    display: none
+
 .circular-thumbnail
     margin-top: 20px
     background-position: center
@@ -313,7 +316,10 @@ div.caption
 #spots_list span.list-group-item.active p.list-group-item-text span.spot_item_details a
     color: white!important
 
-
+a.link-logo-menu
+    &:hover
+        text-decoration: none
+        color: darken(#a1a1a1, 20)
 
 #map_filters_button
     position: absolute
@@ -415,4 +421,7 @@ div.caption
                 background: #fff
                 opacity: 1
 
+    a
+        &:hover
+            text-decoration: none
 

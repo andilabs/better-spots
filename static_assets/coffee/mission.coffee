@@ -8,3 +8,6 @@ $ ->
         fluid: true
         dots: true
 
+    $('a.show-menu').on 'click', (e) ->
+    	e.preventDefault()
+    	$('.initialy-invisible').show(900)

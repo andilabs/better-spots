@@ -5,7 +5,47 @@
 
 
 <center>
-    <img src="{{STATIC_URL}}{% settings_value "SPOT_PROJECT_NAME" %}/logo.png" alt="{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}" style="max-height:200px">
+<div class="row" style="width:55%; min-width: 320px">
+    <div class="col-xs-3">
+    </div>
+    <div class="col-xs-6" >
+        <a href="/spots" class="link-logo-menu initialy-invisible">
+            <i class="fa fa-th-large 0 fa-4x "  data-toggle="tooltip" data-placement="bottom" title="Spots"></i><br>
+            Spots
+        </a>
+    </div>
+    <div class="col-xs-3">
+    </div>
+</div>
+
+<div class="row" style="width:55%; min-width: 320px">
+    <div class="col-xs-3" style="vertical-align:middle; padding-top:15%">
+        <a href="/favourites" class="link-logo-menu initialy-invisible">
+            <i class="fa fa-heart fa-4x" data-toggle="tooltip" data-placement="bottom" title="Favourites"></i><br>
+        Favourites
+        </a>
+    </div>
+    <div class="col-xs-6">
+        <a href="#" class="show-menu"><img src="{{STATIC_URL}}{% settings_value "SPOT_PROJECT_NAME" %}/logo.png" alt="{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}" style="min-height:80px; min-width:80px; width: 100%; max-width:200px;"></a>
+    </div>
+    <div class="col-xs-3" style="vertical-align:middle; padding-top:15%">
+        <a href="/certificated" class="link-logo-menu initialy-invisible">
+            <i class="fa fa-certificate fa-4x" data-toggle="tooltip" data-placement="bottom" title="Certificated"></i><br>
+            Certificated
+        </a>
+    </div>
+</div>
+
+<div class="row" style="width:55%; min-width: 320px">
+  <div class="col-xs-3"></div>
+  <div class="col-xs-6" style="text-align:center">
+    <a href="/map" class="link-logo-menu initialy-invisible">
+        <i class="fa fa-map-marker fa-4x "  data-toggle="tooltip" data-placement="bottom" title="Map"></i><br>
+        Map
+    </a>
+  </div>
+  <div class="col-xs-3"></div>
+</div>
 
     <h1 style="font-family: 'Lobster'">
         {% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}<br>
@@ -21,42 +61,42 @@
                     <div class="inner">
                         <h1>DISCOVER</h1>
                         <p class='banner_function_description'>{% settings_value "SPOT_PROJECT_SUBJECT" %} friendly spots</p>
-                        <i class="fa fa-coffee fa-4x" style="color:#ffffff"></i> &nbsp; <i class="fa fa-plus fa-2x" style="color:#ffffff"></i> &nbsp;<i class="fa fa-cutlery fa-4x" style="color:#ffffff">&nbsp; </i> <i class="fa fa-plus fa-2x" style="color:#ffffff"></i> &nbsp; <i class="fa fa-glass fa-4x" style="color:#ffffff"></i>
+                        <i class="fa fa-coffee fa-4x" style="color:#ffffff"></i> &nbsp; <i class="fa fa-plus fa-4x" style="color:#ffffff"></i> &nbsp;<i class="fa fa-cutlery fa-4x" style="color:#ffffff">&nbsp; </i> <i class="fa fa-plus fa-2x" style="color:#ffffff"></i> &nbsp; <i class="fa fa-glass fa-4x" style="color:#ffffff"></i>
                     </div>
                 </li>
 
                 <li style="">
                     <div class="inner">
-                        <h1>MAP</h1>
+                        <a href="{% url 'map' %}" ><h1>MAP</h1>
                         <p class='banner_function_description'>Visualize nearby spots on the map</p>
-                        <i class="fa fa-map-marker fa-5x" style="color:#ffffff"></i>
+                        <i class="fa fa-map-marker fa-5x" style="color:#ffffff"></i></a>
 
                     </div>
                 </li>
 
                 <li>
                     <div class="inner">
-                        <h1>HEART IT</h1>
+                        <a href="{% url 'favourites_list' %}"><h1>HEART IT</h1>
                         <p class='banner_function_description'>Remeber your beloved spots by hearting it</p>
-                        <i class="fa fa-heart fa-5x" style="color:#ffffff"></i>
+                        <i class="fa fa-heart fa-5x" style="color:#ffffff"></i></a>
 
                     </div>
                 </li>
 
                 <li>
                     <div class="inner">
-                        <h1>CERTIFICATED</h1>
+                        <a href="{% url 'certificated_list' %}"><h1>CERTIFICATED</h1>
                         <p class='banner_function_description'>Find the best spots</p>
-                        <i class="fa fa-certificate fa-5x" style="color:#ffffff"></i>
+                        <i class="fa fa-certificate fa-5x" style="color:#ffffff"></i></a>
 
                     </div>
                 </li>
 
                 <li style="">
                     <div class="inner">
-                        <h1>MOBILE</h1>
+                        <a href="{% url 'mobile' %}"><h1>MOBILE</h1>
                         <p class='banner_function_description'>Use mobile version on the go</p>
-                        <i class="fa fa-mobile fa-5x" style="color:#ffffff"></i>
+                        <i class="fa fa-mobile fa-5x" style="color:#ffffff"></i></a>
 
                     </div>
                 </li>

@@ -29,6 +29,9 @@
 ul.errorlist > li {
   color: red; }
 
+.initialy-invisible {
+  display: none; }
+
 .circular-thumbnail {
   margin-top: 20px;
   background-position: center;
@@ -288,6 +291,10 @@ div.caption h4 a {
 #spots_list span.list-group-item.active p.list-group-item-text span.spot_item_details a {
   color: white !important; }
 
+a.link-logo-menu:hover {
+  text-decoration: none;
+  color: #6e6e6e; }
+
 #map_filters_button {
   position: absolute;
   left: 100px;
@@ -387,5 +394,7 @@ div.caption h4 a {
       .banner .dots li.active {
         background: #fff;
         opacity: 1; }
+  .banner a:hover {
+    text-decoration: none; }
 
 /*# sourceMappingURL=layout.css.map */
