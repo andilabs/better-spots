@@ -74,7 +74,8 @@ $ ->
         if $("#mobile-menu:hidden").length == 0
             $('#smart-menu').show()
         else
-            $('#smart-menu').hide()
+            if window.location.pathname != '/'
+                $('#smart-menu').hide()
 
     $(document).on 'click', '#mobile-menu, .show-menu', (e) ->
         e.preventDefault()

@@ -108,7 +108,9 @@
       if ($("#mobile-menu:hidden").length === 0) {
         return $('#smart-menu').show();
       } else {
-        return $('#smart-menu').hide();
+        if (window.location.pathname !== '/') {
+          return $('#smart-menu').hide();
+        }
       }
     });
     $(document).on('click', '#mobile-menu, .show-menu', function(e) {
