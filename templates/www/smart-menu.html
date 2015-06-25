@@ -47,17 +47,13 @@
     </a>
   </div>
   <div class="col-xs-3">
-
-
-        <a href="{% if not user.is_authenticated %}{% url 'login' %}{% else %}{% url 'logout' %}{% endif %}"class="link-logo-menu initialy-invisible">
-            <i class="fa fa-user fa-4x" data-placement="bottom" title=""></i><br>
-            {% if not user.is_authenticated %}
-                Login
-            {% else %}
-                Logout
-            {% endif %}
-        </a>
-
-    </div>
-  </div>
+    <a href="{% if not user.is_authenticated %}{% url 'login' %}{% else %}{% url 'logout' %}{% endif %}"class="link-logo-menu initialy-invisible">
+        <i class="fa fa-user fa-4x" data-placement="bottom" title=""></i><br>
+        {% if not user.is_authenticated %}
+            Login
+        {% else %}
+            Logout
+        {% endif %}
+    </a>
+   </div>
 </div>
