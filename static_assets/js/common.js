@@ -104,7 +104,6 @@
       }
     });
     $(document).on('click', '#mobile-menu, .show-menu', function(e) {
-      console.log("wtf?");
       e.preventDefault();
       return $('.initialy-invisible').toggle(900);
     });

@@ -72,7 +72,6 @@ $ ->
             $('#smart-menu').hide()
 
     $(document).on 'click', '#mobile-menu, .show-menu', (e) ->
-        console.log "wtf?"
         e.preventDefault()
         $('.initialy-invisible').toggle(900)
 
