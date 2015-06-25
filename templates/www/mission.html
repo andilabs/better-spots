@@ -53,24 +53,24 @@
     </a>
   </div>
   <div class="col-xs-3">
-<div class="dropdown" id="switch-boards">
-<a id="board-title" class="brand dropdown-toggle link-logo-menu initialy-invisible" data-toggle="dropdown" data-target="#switch-boards"><i class="fa fa-user fa-4x"   data-placement="bottom" title=""></i><br>
-{% if not user.is_authenticated %}
-Register / Login
-{% endif %}
-    <span class="caret"></span></a>
-<ul class="dropdown-menu" role="menu">
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'logout' %}">Log me out!</a></li>
-                {% else %}
-                  <li><a href="{% url 'user_create' %}">Register</a></li>
-                  <li><a href="{% url 'login' %}">Login</a></li>
-                {% endif %}
-              </ul>
-</div>
 
-
-
+    <div class="dropdown" id="switch-boards">
+        <a class="brand dropdown-toggle link-logo-menu initialy-invisible" data-toggle="dropdown" data-target="#switch-boards">
+            <i class="fa fa-user fa-4x" data-placement="bottom" title=""></i><br>
+            {% if not user.is_authenticated %}
+                Register / Login
+            {% endif %}
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}">Log me out!</a></li>
+        {% else %}
+          <li><a href="{% url 'user_create' %}">Register</a></li>
+          <li><a href="{% url 'login' %}">Login</a></li>
+        {% endif %}
+        </ul>
+    </div>
   </div>
 </div>
 
