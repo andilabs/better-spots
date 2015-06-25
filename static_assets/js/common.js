@@ -123,7 +123,7 @@
     $(document).on('click', '#go-top', function(e) {
       e.preventDefault();
       $('#smart-menu').show();
-      $('#smart-menu').scrollTop();
+      window.scrollTo(0, 0);
       return $('.initialy-invisible').toggle(900);
     });
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {

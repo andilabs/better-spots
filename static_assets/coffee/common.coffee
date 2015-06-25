@@ -88,7 +88,7 @@ $ ->
     $(document).on 'click', '#go-top', (e) ->
         e.preventDefault()
         $('#smart-menu').show()
-        $('#smart-menu').scrollTop()
+        window.scrollTo(0,0)
         $('.initialy-invisible').toggle(900)
 
 
