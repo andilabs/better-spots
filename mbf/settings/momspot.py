@@ -35,7 +35,7 @@ GRAPPELLI_ADMIN_TITLE = SPOT_PROJECT_NAME.capitalize()
 
 SPOT_PROJECT_SLOGAN = 'Mom\'s Revolution starts in cafes!'
 
-SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing moms and children friendly spots'
+SPOT_PROJECT_DESCRIPTION = 'find moms and children friendly cafes, restaurants and more'
 
 SPOT_PROJECT_SUBJECT = 'Mom'
 

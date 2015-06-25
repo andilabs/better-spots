@@ -35,7 +35,7 @@ GRAPPELLI_ADMIN_TITLE = SPOT_PROJECT_NAME.capitalize()
 
 SPOT_PROJECT_SLOGAN = 'And, all the world is green!'
 
-SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing vegans and vegetarians friendly spots'
+SPOT_PROJECT_DESCRIPTION = 'find vegans and vegetarians friendly cafes, restaurants and more'
 
 SPOT_PROJECT_SUBJECT = 'Vegan'
 

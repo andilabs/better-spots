@@ -34,7 +34,7 @@ GRAPPELLI_ADMIN_TITLE = SPOT_PROJECT_NAME.capitalize()
 
 SPOT_PROJECT_SLOGAN = 'The Brave New Enabled World!'
 
-SPOT_PROJECT_DESCRIPTION = 'Is an app for reviewing the disabled people accessible spots'
+SPOT_PROJECT_DESCRIPTION = 'find the disabled people accessible cafes, restaurants and more'
 
 SPOT_PROJECT_SUBJECT = 'Disabled People'
 
