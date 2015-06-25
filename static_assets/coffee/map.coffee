@@ -394,7 +394,6 @@ $ ->
 
             if status is "OK"
                 clientPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-
             if clientPosition
                 loadMarkers(clientPosition.lat(), clientPosition.lng())
             else
