@@ -78,6 +78,7 @@ $ ->
     $(document).on 'click', '#search-icon', (e) ->
         e.preventDefault()
         $('#search-row').toggle()
+        $('#smart_menu_search').focus()
 
 
     $('a[data-toggle="tab"]').on 'shown.bs.tab',  (e) ->
@@ -193,7 +194,7 @@ $ ->
 
 
 
-    $("input#main_menu_search").autocomplete
+    $("input#main_menu_search, input#smart_menu_search").autocomplete
         minLength: 1
         delay: 300
         autoFocus: false

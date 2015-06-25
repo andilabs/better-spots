@@ -109,7 +109,8 @@
     });
     $(document).on('click', '#search-icon', function(e) {
       e.preventDefault();
-      return $('#search-row').toggle();
+      $('#search-row').toggle();
+      return $('#smart_menu_search').focus();
     });
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
       console.log($(e.target).attr('href'));
@@ -242,7 +243,7 @@
         })(this));
       }
     });
-    return $("input#main_menu_search").autocomplete({
+    return $("input#main_menu_search, input#smart_menu_search").autocomplete({
       minLength: 1,
       delay: 300,
       autoFocus: false,
