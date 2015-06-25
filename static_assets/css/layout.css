@@ -29,7 +29,10 @@
 
   #left_container, #right_container {
     padding-left: 40px;
-    padding-right: 40px; } }
+    padding-right: 40px; }
+
+  #spots_list {
+    overflow-y: visible !important; } }
 ul.errorlist > li {
   color: red; }
 
