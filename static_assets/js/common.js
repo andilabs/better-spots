@@ -120,6 +120,12 @@
       $('#search-row').toggle();
       return $('#smart_menu_search').focus();
     });
+    $(document).on('click', '#go-top', function(e) {
+      e.preventDefault();
+      $('#smart-menu').show();
+      $('#smart-menu').scrollTop();
+      return $('.initialy-invisible').toggle(900);
+    });
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
       console.log($(e.target).attr('href'));
       return console.log(e.relatedTarget);

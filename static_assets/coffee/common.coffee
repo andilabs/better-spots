@@ -85,6 +85,12 @@ $ ->
         $('#search-row').toggle()
         $('#smart_menu_search').focus()
 
+    $(document).on 'click', '#go-top', (e) ->
+        e.preventDefault()
+        $('#smart-menu').show()
+        $('#smart-menu').scrollTop()
+        $('.initialy-invisible').toggle(900)
+
 
     $('a[data-toggle="tab"]').on 'shown.bs.tab',  (e) ->
       console.log $(e.target).attr('href')# newly activated tab
