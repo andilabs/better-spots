@@ -61,6 +61,11 @@ showError = (error) ->
         localStorage.setItem('currentMapCenter', JSON.stringify(currentMapCenter))
         return JSON.parse(localStorage.getItem("currentMapCenter"))
 
+confirm_login_redirect = (msg) ->
+    confirmation = confirm("#{msg} Would you like to login now?")
+    if confirmation
+        location.href = '/user/login/'
+
 $ ->
     if $("#mobile-menu:hidden").length == 0
         $('#smart-menu').show()
@@ -122,8 +127,11 @@ $ ->
                 $(heart).removeClass('no-heart').addClass 'heart'
 
 
+
+
     $(document).on 'click', 'div.no-heart.disabled', (e) ->
-        alert 'Login required to add spots to favourites!'
+        msg = 'Login required to add spots to favourites!'
+        return confirm_login_redirect(msg)
 
 
     $(document).on 'click', 'span.rating.via_modal', (e) ->
@@ -142,7 +150,8 @@ $ ->
             $('#rating-modal').find('input[name=friendly_rate]').val(clickedRate)
             $('#rating-modal').modal('show')
         else
-            alert 'Login required to rate spots!'
+            msg = 'Login required to rate spots!'
+            return confirm_login_redirect(msg)
 
     check_it = (radio_allowance) ->
         if $(radio_allowance).prop('checked') == false
