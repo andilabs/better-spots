@@ -25,7 +25,11 @@
       padding-bottom: 10px; }
 
   .collapse.in {
-    display: block !important; } }
+    display: block !important; }
+
+  #left_container, #right_container {
+    padding-left: 40px;
+    padding-right: 40px; } }
 ul.errorlist > li {
   color: red; }
 
