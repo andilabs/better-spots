@@ -62,6 +62,19 @@ showError = (error) ->
         return JSON.parse(localStorage.getItem("currentMapCenter"))
 
 $ ->
+    if $("#mobile-menu:hidden").length == 0
+        $('#smart-menu').show()
+
+    $(window).on 'resize', (e) ->
+        if $("#mobile-menu:hidden").length == 0
+            $('#smart-menu').show()
+        else
+            $('#smart-menu').hide()
+
+    $(document).on 'click', '#mobile-menu, .show-menu', (e) ->
+        console.log "wtf?"
+        e.preventDefault()
+        $('.initialy-invisible').toggle(900)
 
     $('a[data-toggle="tab"]').on 'shown.bs.tab',  (e) ->
       console.log $(e.target).attr('href')# newly activated tab

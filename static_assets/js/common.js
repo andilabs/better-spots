@@ -93,6 +93,21 @@
 
   $(function() {
     var check_it;
+    if ($("#mobile-menu:hidden").length === 0) {
+      $('#smart-menu').show();
+    }
+    $(window).on('resize', function(e) {
+      if ($("#mobile-menu:hidden").length === 0) {
+        return $('#smart-menu').show();
+      } else {
+        return $('#smart-menu').hide();
+      }
+    });
+    $(document).on('click', '#mobile-menu, .show-menu', function(e) {
+      console.log("wtf?");
+      e.preventDefault();
+      return $('.initialy-invisible').toggle(900);
+    });
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
       console.log($(e.target).attr('href'));
       return console.log(e.relatedTarget);

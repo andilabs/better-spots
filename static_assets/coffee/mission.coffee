@@ -10,6 +10,6 @@ $ ->
         fluid: true
         dots: true
 
-    $('a.show-menu').on 'click', (e) ->
-        e.preventDefault()
-        $('.initialy-invisible').show(900)
+    # $('a.show-menu').on 'click', (e) ->
+    #     e.preventDefault()
+    #     $('.initialy-invisible').toggle(900)
