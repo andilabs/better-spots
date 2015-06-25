@@ -194,7 +194,7 @@ def certificated_list(request):
 
 def certificated(request, pk, slug=None):
     spot = get_object_or_404(Spot, pk=pk, is_certificated=True)
-    return render(request, 'www/certificate.html', {'spot': spot})
+    return render(request, 'www/spot_detail.html', {'spot': spot})
 
 
 def generic_spots_list(request, spots, site_title='Spots',
