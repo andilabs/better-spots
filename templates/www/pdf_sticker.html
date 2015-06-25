@@ -45,31 +45,22 @@
                 <br>
                 <table>
                     <tr>
-                        <td>
-                            <img src="http://{{BASE_HOST}}{% url 'qrencode_link' pk=spot.pk size=4 for_view='certificated_detail' %}"><br>
+                        <td colspan=2>
+                             <img src="http://{{BASE_HOST}}{% url 'qrencode_link' pk=spot.pk size=4 for_view='certificated_detail' %}">
                         </td>
-                        <td>
-                            <span style="font-family:Lato; font-size:24px; vertical-align:top">
-                                <big>{{spot.name|safe}}</big>
-                            </style><br>
-                            <span style="font-family:Lato; font-size:20px; vertical-align:bottom">
-                                {{spot.address|safe}}
-                            </style>
+                    </tr>
+                    <tr>
+                        <td colspan=2 height=5></td>
+                    </tr>
+                    <tr>
+                        <td colspan=2>
+                            <span style="font-family:Nobile; font-size:15px;">
+                            Powered by: <img src="{% settings_value "STATIC_ROOT" %}/{% settings_value "SPOT_PROJECT_NAME" %}/logo.png" height="50px"> </span>
+                            <span style="font-family:Lobster; font-size:25px;">
+                                    {% settings_value "INSTANCE_DOMAIN" %}
                             </span>
                         </td>
-                        </tr>
-                        <tr>
-                            <td colspan=2 height=5></td>
-                        </tr>
-                        <tr>
-                            <td colspan=2>
-                                <span style="font-family:Nobile; font-size:15px;">
-                                Powered by: <img src="{% settings_value "STATIC_ROOT" %}/{% settings_value "SPOT_PROJECT_NAME" %}/logo.png" height="50px"> </span>
-                                <span style="font-family:Lobster; font-size:25px;">
-                                        {% settings_value "INSTANCE_DOMAIN" %}
-                                </span>
-                            </td>
-                        </tr>
+                    </tr>
                 </table>
             </p>
         </center>
