@@ -107,6 +107,10 @@
       e.preventDefault();
       return $('.initialy-invisible').toggle(900);
     });
+    $(document).on('click', '#search-icon', function(e) {
+      e.preventDefault();
+      return $('#search-row').toggle();
+    });
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
       console.log($(e.target).attr('href'));
       return console.log(e.relatedTarget);

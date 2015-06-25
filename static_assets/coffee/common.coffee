@@ -75,6 +75,11 @@ $ ->
         e.preventDefault()
         $('.initialy-invisible').toggle(900)
 
+    $(document).on 'click', '#search-icon', (e) ->
+        e.preventDefault()
+        $('#search-row').toggle()
+
+
     $('a[data-toggle="tab"]').on 'shown.bs.tab',  (e) ->
       console.log $(e.target).attr('href')# newly activated tab
       console.log e.relatedTarget# previous active tab

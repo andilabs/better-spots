@@ -38,8 +38,22 @@
     </div>
 </div>
 
+<div class="row" style="width:55%; min-width: 320px; display:none" id="search-row">
+    <div class="col-xs-12">
+    <form class="navbar-form navbar-left" role="navbar-search" style="width:100%">
+                    <div class="right-inner-addon">
+                      <i class="glyphicon glyphicon-search"></i>
+                      <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input type="search" class="form-control ui-autocomplete-input" id="main_menu_search" placeholder="Search" autocomplete="off" style="width:100%">
+                    </div>
+                  </form>
+    </div>
+</div>
 <div class="row" style="width:55%; min-width: 320px; padding-top:25px; padding-bottom:25px">
-  <div class="col-xs-3"></div>
+  <div class="col-xs-3">
+    <a href="#" class="link-logo-menu initialy-invisible" id="search-icon">
+        <i class="fa fa-search fa-4x "  data-toggle="tooltip" data-placement="bottom" title="Map"></i><br>
+        Search
+  </div>
   <div class="col-xs-6" style="text-align:center">
     <a href="{% url 'map' %}" class="link-logo-menu initialy-invisible">
         <i class="fa fa-map-marker fa-4x "  data-toggle="tooltip" data-placement="bottom" title="Map"></i><br>
