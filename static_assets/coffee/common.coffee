@@ -90,7 +90,7 @@ $ ->
         e.preventDefault()
         $('#smart-menu').show()
         window.scrollTo(0,0)
-        $('.initialy-invisible').toggle(900)
+        $('.initialy-invisible').show(900)
 
 
     $('a[data-toggle="tab"]').on 'shown.bs.tab',  (e) ->

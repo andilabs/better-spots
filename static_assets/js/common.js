@@ -126,7 +126,7 @@
       e.preventDefault();
       $('#smart-menu').show();
       window.scrollTo(0, 0);
-      return $('.initialy-invisible').toggle(900);
+      return $('.initialy-invisible').show(900);
     });
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
       console.log($(e.target).attr('href'));

@@ -41,11 +41,7 @@ def mobile(request):
 
 def spots_list(request):
     spots = Spot.objects.filter(is_accepted=True).order_by('name')
-    # import ipdb; ipdb.set_trace()
-    # filters = ["%s__in=%s" % (k, request.GET.getlist(k)) for k in request.GET.keys()]
-    # spot_type = request.GET.get('spot_type')
-    # if spot_type:
-    #     spots = spots.filter(spot_type__exact=spot_type)
+
     return generic_spots_list(
         request,
         spots,
