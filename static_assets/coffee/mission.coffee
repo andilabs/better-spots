@@ -1,4 +1,6 @@
+
 $ ->
+
     if window.chrome
         $('.banner li').css 'background-size', '100% 100%'
 
@@ -9,5 +11,5 @@ $ ->
         dots: true
 
     $('a.show-menu').on 'click', (e) ->
-    	e.preventDefault()
-    	$('.initialy-invisible').show(900)
+        e.preventDefault()
+        $('.initialy-invisible').show(900)
