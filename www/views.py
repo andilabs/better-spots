@@ -16,7 +16,7 @@ from django.template.response import TemplateResponse
 from django.views.generic import FormView, CreateView
 
 from core.models import Spot, SPOT_TYPE
-from utils.qrcodes import make_qrcode
+from utils.qrcodes import make_qrcode, make_svg_qrcode
 from accounts.forms import UserCreationForm
 from .forms import ContactForm, AddSpotForm, EditSpotPhotoForm
 

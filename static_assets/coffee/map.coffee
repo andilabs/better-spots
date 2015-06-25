@@ -71,7 +71,7 @@ setCurrenMapCenter = (lat, lng) ->
     window.currentMapCenter.longitude = lng#.toFixed(5)
     localStorage.setItem('currentMapCenter', JSON.stringify(currentMapCenter))
 
-currentZoomLevel = 12
+currentZoomLevel = 14
 
 window.filters_allowance =
     "is_enabled": true
@@ -138,7 +138,6 @@ calculateDistance = (currentLat, currentLng, newPositionLat, newPositionLng) ->
 checkIfNewSpotsShouldBeLoaded = (newPositionLat, newPositionLng, userZoomLevel) ->
     [currentLat, currentLng] = [currentMapCenter.latitude, currentMapCenter.longitude]
     distance = calculateDistance(currentLat, currentLng, newPositionLat, newPositionLng)
-
     if distance > desiredRadius/1000 or currentZoomLevel != userZoomLevel
         true
     else
