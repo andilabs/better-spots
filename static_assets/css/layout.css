@@ -417,4 +417,7 @@ a.link-logo-menu:hover {
   .banner a:hover {
     text-decoration: none; }
 
+.right-inner-addon i {
+  pointer-events: all !important; }
+
 /*# sourceMappingURL=layout.css.map */

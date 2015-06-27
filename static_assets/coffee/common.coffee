@@ -70,6 +70,20 @@ $ ->
     if $("#mobile-menu:hidden").length == 0
         $('#smart-menu').show()
 
+    $(document).on 'keyup', 'input#smart_menu_search', (e) ->
+        console.log $(e.target).val().length
+        if $(e.target).val().length != 0
+            $("#search-remover").removeClass('glyphicon glyphicon-search')
+            $("#search-remover").addClass('glyphicon glyphicon-remove')
+        else
+            $("#search-remover").removeClass('glyphicon glyphicon-remove')
+            $("#search-remover").addClass('glyphicon glyphicon-search')
+
+    $(document).on 'click', 'i.glyphicon glyphicon-remove', (e) ->
+        # $('input#smart_menu_search').val('')
+        $("#search-remover").removeClass('glyphicon glyphicon-remove')
+        $("#search-remover").addClass('glyphicon glyphicon-search')
+
     $(window).on 'resize', (e) ->
         if $("#mobile-menu:hidden").length == 0
             $('#smart-menu').show()

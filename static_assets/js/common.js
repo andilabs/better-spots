@@ -104,6 +104,20 @@
     if ($("#mobile-menu:hidden").length === 0) {
       $('#smart-menu').show();
     }
+    $(document).on('keyup', 'input#smart_menu_search', function(e) {
+      console.log($(e.target).val().length);
+      if ($(e.target).val().length !== 0) {
+        $("#search-remover").removeClass('glyphicon glyphicon-search');
+        return $("#search-remover").addClass('glyphicon glyphicon-remove');
+      } else {
+        $("#search-remover").removeClass('glyphicon glyphicon-remove');
+        return $("#search-remover").addClass('glyphicon glyphicon-search');
+      }
+    });
+    $(document).on('click', 'i.glyphicon glyphicon-remove', function(e) {
+      $("#search-remover").removeClass('glyphicon glyphicon-remove');
+      return $("#search-remover").addClass('glyphicon glyphicon-search');
+    });
     $(window).on('resize', function(e) {
       if ($("#mobile-menu:hidden").length === 0) {
         return $('#smart-menu').show();
