@@ -3,6 +3,7 @@ import cStringIO as StringIO
 import ho.pisa as pisa
 from cgi import escape
 
+from django.db.models import Q
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMessage
@@ -16,7 +17,7 @@ from django.template.response import TemplateResponse
 from django.views.generic import FormView, CreateView
 
 from core.models import Spot, SPOT_TYPE
-from utils.qrcodes import make_qrcode, make_svg_qrcode
+from utils.qrcodes import make_qrcode
 from accounts.forms import UserCreationForm
 from .forms import ContactForm, AddSpotForm, EditSpotPhotoForm
 
@@ -253,9 +254,10 @@ def ajax_search(request):
             'category': SPOT_TYPE[spot.spot_type-1][1],
             'url': spot.www_url,
             'thumb': spot.thumbnail_venue_photo,
+            'address': spot.address,
         }
         for spot in Spot.objects.filter(
-            name__icontains=query,
+            Q(name__icontains=query) | Q(address_city__icontains=query),
             is_accepted=True).order_by('spot_type')
     ]
 

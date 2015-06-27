@@ -251,7 +251,7 @@
             li = _this._renderItemData(ul, item);
             if (item.thumb) {
               if (item.category) {
-                return li.find("a").attr('href', item.url).html("<img src=" + item.thumb + " class='search_thumb'>" + item.name);
+                return li.find("a").attr('href', item.url).html("<img src=" + item.thumb + " class='search_thumb'> <span class='search-spot-name'>" + item.name + "</span> <span class='search-spot-address'>" + item.address + "</span>");
               }
             } else {
               if (item.category) {
