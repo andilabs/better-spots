@@ -64,6 +64,7 @@ class Instance(SingletonModel):
 SPOT_TYPE = (
     (1, 'cafe'),
     (2, 'restaurant'),
+    (3, 'hotel'),
 )
 
 
