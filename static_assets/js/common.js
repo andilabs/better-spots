@@ -114,7 +114,8 @@
         return $("#search-remover").addClass('glyphicon glyphicon-search');
       }
     });
-    $(document).on('click', 'i.glyphicon glyphicon-remove', function(e) {
+    $(document).on('click', 'i.glyphicon-remove', function(e) {
+      $('input#smart_menu_search').val('');
       $("#search-remover").removeClass('glyphicon glyphicon-remove');
       return $("#search-remover").addClass('glyphicon glyphicon-search');
     });

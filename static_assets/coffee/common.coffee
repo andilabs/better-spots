@@ -79,8 +79,8 @@ $ ->
             $("#search-remover").removeClass('glyphicon glyphicon-remove')
             $("#search-remover").addClass('glyphicon glyphicon-search')
 
-    $(document).on 'click', 'i.glyphicon glyphicon-remove', (e) ->
-        # $('input#smart_menu_search').val('')
+    $(document).on 'click', 'i.glyphicon-remove', (e) ->
+        $('input#smart_menu_search').val('')
         $("#search-remover").removeClass('glyphicon glyphicon-remove')
         $("#search-remover").addClass('glyphicon glyphicon-search')
 
