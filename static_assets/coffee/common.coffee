@@ -83,6 +83,7 @@ $ ->
         $('input#smart_menu_search').val('')
         $("#search-remover").removeClass('glyphicon glyphicon-remove')
         $("#search-remover").addClass('glyphicon glyphicon-search')
+        $('#smart_menu_search').focus()
 
     $(window).on 'resize', (e) ->
         if $("#mobile-menu:hidden").length == 0

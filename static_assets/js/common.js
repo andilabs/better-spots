@@ -117,7 +117,8 @@
     $(document).on('click', 'a#search-remove-helper i.glyphicon-remove', function(e) {
       $('input#smart_menu_search').val('');
       $("#search-remover").removeClass('glyphicon glyphicon-remove');
-      return $("#search-remover").addClass('glyphicon glyphicon-search');
+      $("#search-remover").addClass('glyphicon glyphicon-search');
+      return $('#smart_menu_search').focus();
     });
     $(window).on('resize', function(e) {
       if ($("#mobile-menu:hidden").length === 0) {
