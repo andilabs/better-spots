@@ -38,7 +38,7 @@ elif 'veganspot.org' in PROJECT_ROOT_PATH.split('/'):
 
 
 SPOT_PROJECT_FAVICON_URL = os.path.join(
-    'media',
+    'static_assets',
     SPOT_PROJECT_NAME,
     SPOT_PROJECT_NAME + '_favicon.ico'
 )
