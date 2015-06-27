@@ -23,7 +23,9 @@
   spot_type_lookup = {
     1: "caffe",
     2: "restaurant",
-    3: "store"
+    3: "hotel",
+    4: "shop - no food",
+    5: "shop - with food"
   };
 
   window.allSpotsDict = {};
@@ -104,7 +106,10 @@
 
   window.filters_types = {
     "caffe": true,
-    "restaurant": true
+    "restaurant": true,
+    "hotel": true,
+    "shop - no food": true,
+    "shop - with food": true
   };
 
   minimumDesiredRadius = 100;
@@ -366,7 +371,7 @@
       placement: "right",
       html: true,
       title: "Setup your filters:",
-      content: "<div id='map_filters' class='no_copy'>\n<label class='is_enabled' title='enabled ;-)'>\n<input class='map_filter' type='checkbox' name='is_enabled' hidden></label>\n<label class='is_not_enabled' title='NOT enabled :-('>\n<input class='map_filter' type='checkbox' name='is_not_enabled' hidden></label><br><br>\n<label class='fa fa-coffee fa-2x mar-r-5' title='Coffee'>\n<input class='map_filter' type='checkbox' name='caffe' hidden></label>\n<label class='fa fa-cutlery fa-2x mar-r-5' title='Food'>\n<input class='map_filter' type='checkbox' name='restaurant' hidden></label></div>"
+      content: "<div id='map_filters' class='no_copy'>\n\n<label class='is_enabled' title='enabled ;-)'>\n<input class='map_filter' type='checkbox' name='is_enabled' hidden></label>\n\n<label class='is_not_enabled' title='NOT enabled :-('>\n<input class='map_filter' type='checkbox' name='is_not_enabled' hidden></label><br><br>\n\n<label class='fa fa-coffee fa-2x mar-r-5' title='Caffee'>\n<input class='map_filter' type='checkbox' name='caffe' hidden></label>\n\n<label class='fa fa-cutlery fa-2x mar-r-5' title='Restaurant'>\n<input class='map_filter' type='checkbox' name='restaurant' hidden></label>\n\n\n<label class='fa fa-bed fa-2x mar-r-5' title='Hotel'>\n<input class='map_filter' type='checkbox' name='hotel' hidden></label>\n\n<label class='fa fa-shopping-cart fa-2x mar-r-5' title='Shop no food'>\n<input class='map_filter' type='checkbox' name='shop - no food' hidden></label>\n\n<label class='fa fa-cart-plus fa-2x mar-r-5' title='Shop with food'>\n<input class='map_filter' type='checkbox' name='shop - with food' hidden></label></div>"
     });
     $(document).on('click', '#back_to_list', function(e) {
       $("#spot_detail").remove();
