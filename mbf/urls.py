@@ -25,5 +25,8 @@ urlpatterns = patterns(
     url(r'^favicon\.ico$', RedirectView.as_view(
         url=settings.SPOT_PROJECT_FAVICON_URL)),
 
+    url(r'^apple-touch-icon-120x120\.png$', RedirectView.as_view(
+        url='static/dogspot/apple-touch-icon-120x120.png')),
+
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
   + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
