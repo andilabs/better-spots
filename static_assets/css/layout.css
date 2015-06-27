@@ -215,6 +215,7 @@ img.venue_photo.certificated {
   font-style: normal; }
 .thumbnail {
   max-width: 350px;
+  max-height: 350px;
   margin: 10px auto; }
 
 div.caption h4 a {
