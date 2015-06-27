@@ -89,7 +89,7 @@ class SpotUser(AbstractBaseUser, PermissionsMixin):
     def favourites(self):
         return [u_s_l.spot
                 for u_s_l
-                in UsersSpotsList.favourites.filter(user=self)]
+                in UsersSpotsList.favourites.filter(user=self).order_by('-pk')]
 
     @property
     def spot_pk_to_fav_asset_pk(self):
