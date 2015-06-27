@@ -115,6 +115,7 @@
       }
     });
     $(document).on('click', 'a#search-remove-helper i.glyphicon-remove', function(e) {
+      e.preventDefault();
       $('input#smart_menu_search').val('');
       $("#search-remover").removeClass('glyphicon glyphicon-remove');
       $("#search-remover").addClass('glyphicon glyphicon-search');
