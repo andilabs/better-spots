@@ -242,7 +242,7 @@ renderSpotsTableViewCell = (spot) ->
 
         #{["<br><span class='glyphicon glyphicon-phone-alt'></span> #{spot.phone_number}" if spot.phone_number]}
         #{["<br><a href='http://www.facebook.com/#{spot.facebook}' target='_blank'>
-        <i class='fa fa-facebook'></i> #{spot.facebook}</a>" if spot.facebook]}
+        <i class='fa fa-facebook'></i> #{spot.facebook.substring(0,15)}</a>" if spot.facebook]}
 
         </span>
         </p></span>").data('spot', spot)

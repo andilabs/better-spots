@@ -33,6 +33,9 @@
 
   #spots_list {
     overflow-y: visible !important; } }
+div.spot_info {
+  max-width: 150px; }
+
 ul.errorlist > li {
   color: red; }
 
