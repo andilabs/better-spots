@@ -258,7 +258,7 @@ def ajax_search(request):
         }
         for spot in Spot.objects.filter(
             Q(name__icontains=query) | Q(address_city__icontains=query),
-            is_accepted=True).order_by('spot_type')
+            is_accepted=True).order_by('spot_type')[:7]
     ]
 
     return HttpResponse(
