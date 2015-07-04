@@ -257,8 +257,7 @@ activateSpotTableViewCellFor = (id) ->
 
 
 loadMarkers = (lat, lng) ->
-    target = document.getElementById("right_container")
-    spinner = new Spinner(opts).spin(target)
+
 
     if lat == undefined or lng == undefined  or lat == null or lng ==null
         [lat, lng] = window.getIPbasedLocation().split(',')
@@ -326,7 +325,7 @@ loadMarkers = (lat, lng) ->
                 activateSpotTableViewCellFor(@id)
 
         filterSpots()
-        spinner.stop()
+
 
 $ ->
 
@@ -400,6 +399,8 @@ $ ->
         filterSpots()
 
     $("#map_canvas").gmap({'scrollwheel':false}).bind "init", (evt, map) ->
+        target = document.getElementById("right_container")
+        spinner = new Spinner(opts).spin(target)
         # here the map is initialized
         # https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
         options =
@@ -427,7 +428,7 @@ $ ->
                     spot_type: ['current_location']
 
             $("#map_canvas").gmap "option", "zoom", 14
-
+        spinner.stop()
 
     $("#map_canvas").on 'click', (e) ->
         newPosition =  $('#map_canvas').gmap('get','map').getCenter()

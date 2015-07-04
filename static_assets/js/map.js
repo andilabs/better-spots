@@ -289,9 +289,7 @@
   };
 
   loadMarkers = function(lat, lng) {
-    var jqxhr, spinner, target, url, _ref, _ref1;
-    target = document.getElementById("right_container");
-    spinner = new Spinner(opts).spin(target);
+    var jqxhr, url, _ref, _ref1;
     if (lat === void 0 || lng === void 0 || lat === null || lng === null) {
       _ref = window.getIPbasedLocation().split(','), lat = _ref[0], lng = _ref[1];
       _ref1 = [Number(lat), Number(lng)], lat = _ref1[0], lng = _ref1[1];
@@ -354,8 +352,7 @@
           return activateSpotTableViewCellFor(this.id);
         });
       }
-      filterSpots();
-      return spinner.stop();
+      return filterSpots();
     });
   };
 
@@ -407,13 +404,15 @@
     $("#map_canvas").gmap({
       'scrollwheel': false
     }).bind("init", function(evt, map) {
-      var options;
+      var options, spinner, target;
+      target = document.getElementById("right_container");
+      spinner = new Spinner(opts).spin(target);
       options = {
         timeout: 5000,
         maximumAge: 600000,
         enableHighAccuracy: true
       };
-      return $("#map_canvas").gmap("getCurrentPosition", function(position, status, options) {
+      $("#map_canvas").gmap("getCurrentPosition", function(position, status, options) {
         var clientPosition;
         if (status === "OK") {
           clientPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -431,6 +430,7 @@
         });
         return $("#map_canvas").gmap("option", "zoom", 14);
       });
+      return spinner.stop();
     });
     $("#map_canvas").on('click', function(e) {
       var clientPosition, newPosition, userZoomLevel;
