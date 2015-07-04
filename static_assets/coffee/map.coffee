@@ -1,13 +1,10 @@
 opts =
-    lines: 13
-    length: 29
-    width: 10
-    radius: 26
+    radius: 30
     corners: 0.7
     rotate: 0
     direction: 1
     color: "#000"
-    speed: 1.6
+    speed: 2.6
     trail: 72
     shadow: false
     hwaccel: false
@@ -428,7 +425,8 @@ $ ->
                     spot_type: ['current_location']
 
             $("#map_canvas").gmap "option", "zoom", 14
-        spinner.stop()
+            spinner.stop()
+
 
     $("#map_canvas").on 'click', (e) ->
         newPosition =  $('#map_canvas').gmap('get','map').getCenter()

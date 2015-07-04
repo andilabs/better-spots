@@ -4,15 +4,12 @@
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   opts = {
-    lines: 13,
-    length: 29,
-    width: 10,
-    radius: 26,
+    radius: 30,
     corners: 0.7,
     rotate: 0,
     direction: 1,
     color: "#000",
-    speed: 1.6,
+    speed: 2.6,
     trail: 72,
     shadow: false,
     hwaccel: false,
@@ -413,7 +410,7 @@
         maximumAge: 600000,
         enableHighAccuracy: true
       };
-      $("#map_canvas").gmap("getCurrentPosition", function(position, status, options) {
+      return $("#map_canvas").gmap("getCurrentPosition", function(position, status, options) {
         var clientPosition;
         if (status === "OK") {
           clientPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -429,9 +426,9 @@
           is_enabled: ['current_location'],
           spot_type: ['current_location']
         });
-        return $("#map_canvas").gmap("option", "zoom", 14);
+        $("#map_canvas").gmap("option", "zoom", 14);
+        return spinner.stop();
       });
-      return spinner.stop();
     });
     $("#map_canvas").on('click', function(e) {
       var clientPosition, newPosition, userZoomLevel;
