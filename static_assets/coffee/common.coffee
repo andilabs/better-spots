@@ -225,7 +225,8 @@ $ ->
                         <span class='search-spot-name'>#{item.name}</span>
                         <span class='search-spot-address'>#{item.address}</span>") if item.category
                 else
-                    li.find("a").attr('href',item.url).html("<div class='search_thumb_placeholder'></div>#{item.name}") if item.category
+                    li.find("a").attr('href',item.url).html("<div class='search_thumb_placeholder'></div><span class='search-spot-name'>#{item.name}</span>
+                        <span class='search-spot-address'>#{item.address}</span>") if item.category
 
 
 

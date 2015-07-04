@@ -272,7 +272,7 @@
               }
             } else {
               if (item.category) {
-                return li.find("a").attr('href', item.url).html("<div class='search_thumb_placeholder'></div>" + item.name);
+                return li.find("a").attr('href', item.url).html("<div class='search_thumb_placeholder'></div><span class='search-spot-name'>" + item.name + "</span> <span class='search-spot-address'>" + item.address + "</span>");
               }
             }
           };
