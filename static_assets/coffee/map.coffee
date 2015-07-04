@@ -328,7 +328,8 @@ loadMarkers = (lat, lng) ->
 
 
 $ ->
-
+    target = document.getElementById("map_container")
+    spinner = new Spinner(opts).spin(target)
     checkCookies()
 
     $('body').on 'click', (e) ->
@@ -399,8 +400,7 @@ $ ->
         filterSpots()
 
     $("#map_canvas").gmap({'scrollwheel':false}).bind "init", (evt, map) ->
-        target = document.getElementById("right_container")
-        spinner = new Spinner(opts).spin(target)
+
         # here the map is initialized
         # https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
         options =

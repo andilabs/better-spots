@@ -357,6 +357,9 @@
   };
 
   $(function() {
+    var spinner, target;
+    target = document.getElementById("map_container");
+    spinner = new Spinner(opts).spin(target);
     checkCookies();
     $('body').on('click', function(e) {
       if ($(e.target).parents("#map_filters").length === 0 && e.target.id !== "map_filters_button") {
@@ -404,9 +407,7 @@
     $("#map_canvas").gmap({
       'scrollwheel': false
     }).bind("init", function(evt, map) {
-      var options, spinner, target;
-      target = document.getElementById("right_container");
-      spinner = new Spinner(opts).spin(target);
+      var options;
       options = {
         timeout: 5000,
         maximumAge: 600000,
