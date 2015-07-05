@@ -207,7 +207,7 @@ def certificated(request, pk, slug=None):
 def generic_spots_list(request, spots, site_title='Spots',
                        template='www/spot_list.html', icon_type='th'):
 
-    paginator = Paginator(spots, 6)
+    paginator = Paginator(spots, 12)
     page = request.GET.get('page')
     try:
         spots = paginator.page(page)
