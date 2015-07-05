@@ -49,7 +49,7 @@
 
         <div class="caption">
             <h4>
-              <a href="{% url 'spot' spot.pk spot.spot_slug %}">{{ spot.name|upper }}</a>
+              <a href="{% url 'spot' spot.pk spot.spot_slug %}" title="{{ spot.name }}">{{ spot.name|upper|truncatechars:27 }}</a>
             </h4>
 
             <div>
