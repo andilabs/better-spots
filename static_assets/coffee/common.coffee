@@ -18,9 +18,10 @@ window.getIPbasedLocation = () ->
     $.ajax
         type: 'GET'
         dataType: 'json'
-        url: 'http://ipinfo.io/json'
+        url: 'https://freegeoip.net/json/'
         success: (result) ->
-            loc = result.loc
+            loc = [result.latitude, result.longitude]
+            return loc
         async: false
     return loc
 
@@ -55,7 +56,7 @@ showError = (error) ->
         when error.UNKNOWN_ERROR
             console.log 'An unknown error occurred.'
     if error
-        [lat, lng] = getIPbasedLocation().split(',')
+        [lat, lng] = getIPbasedLocation()
         alert 'Geolocation is not supported by this browser. We aproximate your locaiton by IP'
         currentMapCenter = {'lat':Number(lat), 'lng': Number(lng)}
         localStorage.setItem('currentMapCenter', JSON.stringify(currentMapCenter))

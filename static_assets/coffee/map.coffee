@@ -257,7 +257,7 @@ loadMarkers = (lat, lng) ->
 
 
     if lat == undefined or lng == undefined  or lat == null or lng ==null
-        [lat, lng] = window.getIPbasedLocation().split(',')
+        [lat, lng] = window.getIPbasedLocation()
         [lat, lng] = [Number(lat), Number(lng)]
 
     setCurrenMapCenter(lat, lng)

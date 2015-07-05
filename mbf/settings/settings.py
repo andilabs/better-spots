@@ -48,3 +48,5 @@ SPOT_PROJECT_BLOGERS = os.path.join(STATIC_URL, SPOT_PROJECT_NAME, 'bloger_photo
 TEMPLATE_DIRS = (
      os.path.join(PROJECT_ROOT_PATH, 'templates/'),
 )
+
+SPOT_FACILITIES = [d['name'] for d in HSTORE_SCHEMA]

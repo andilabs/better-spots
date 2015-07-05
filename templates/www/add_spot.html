@@ -71,13 +71,13 @@
 
 {% block scripts %}
   {{ block.super }}
-  <script type="text/javascript" src="{{ STATIC_URL }}external/jquery-locationpicker-plugin/dist/locationpicker.jquery.min.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}external/jquery-locationpicker-plugin/src/locationpicker.jquery.js"></script>
 
  <script>
 	 var strIPLocation = window.getIPbasedLocation();
         if (strIPLocation != null) {
-                latitude = parseFloat(strIPLocation.split(',')[0]);
-                longitude = parseFloat(strIPLocation.split(',')[1]);
+                latitude = parseFloat(strIPLocation[0]);
+                longitude = parseFloat(strIPLocation[1]);
         }
         else {
                 latitude = 52.228378;
@@ -97,6 +97,7 @@
 	}
 
     function updateControls(addressComponents) {
+        console.log(addressComponents);
         $('#address_street').val(addressComponents.streetName);
         $('#address_number').val(addressComponents.streetNumber);
         $('#address_city').val(addressComponents.city);

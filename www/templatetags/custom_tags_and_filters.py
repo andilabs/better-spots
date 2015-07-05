@@ -9,6 +9,16 @@ def settings_value(name):
     return str(getattr(settings, name, ""))
 
 
+@register.simple_tag
+def url_replace(request, field, value):
+
+    dict_ = request.GET.copy()
+
+    dict_[field] = value
+
+    return dict_.urlencode()
+
+
 @register.filter
 def keyvalue(dict, key):
     return dict.get(key)
@@ -24,3 +34,4 @@ def addcss(value, arg):
     if value.field.widget.attrs.get('class'):
         arg = value.field.widget.attrs.get('class') + ' ' + arg
     return value.as_widget(attrs={'class': arg})
+

@@ -205,3 +205,5 @@ LOGGING = {
         },
     },
 }
+
+SPOT_FACILITIES = [d['name'] for d in HSTORE_SCHEMA]

@@ -288,7 +288,7 @@
   loadMarkers = function(lat, lng) {
     var jqxhr, url, _ref, _ref1;
     if (lat === void 0 || lng === void 0 || lat === null || lng === null) {
-      _ref = window.getIPbasedLocation().split(','), lat = _ref[0], lng = _ref[1];
+      _ref = window.getIPbasedLocation(), lat = _ref[0], lng = _ref[1];
       _ref1 = [Number(lat), Number(lng)], lat = _ref1[0], lng = _ref1[1];
     }
     setCurrenMapCenter(lat, lng);

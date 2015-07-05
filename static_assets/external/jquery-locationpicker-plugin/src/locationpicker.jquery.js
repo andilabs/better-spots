@@ -82,6 +82,7 @@
             if (gMapContext.settings.enableReverseGeocode) {
                 gMapContext.geodecoder.geocode({latLng: gMapContext.location}, function(results, status){
                     if (status == google.maps.GeocoderStatus.OK && results.length > 0){
+                        console.log(results);
                         gMapContext.locationName = results[0].formatted_address;
                         gMapContext.addressComponents =
                             GmUtility.address_component_from_google_geocode(results[0].address_components);

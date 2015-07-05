@@ -27,9 +27,10 @@
     $.ajax({
       type: 'GET',
       dataType: 'json',
-      url: 'http://ipinfo.io/json',
+      url: 'https://freegeoip.net/json/',
       success: function(result) {
-        return loc = result.loc;
+        loc = [result.latitude, result.longitude];
+        return loc;
       },
       async: false
     });
@@ -80,7 +81,7 @@
         console.log('An unknown error occurred.');
     }
     if (error) {
-      _ref = getIPbasedLocation().split(','), lat = _ref[0], lng = _ref[1];
+      _ref = getIPbasedLocation(), lat = _ref[0], lng = _ref[1];
       alert('Geolocation is not supported by this browser. We aproximate your locaiton by IP');
       currentMapCenter = {
         'lat': Number(lat),

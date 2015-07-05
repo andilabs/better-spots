@@ -71,6 +71,7 @@ INSTALLED_APPS = (
     'api',
     'www',
     'blog',
+    'cities',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -33,11 +33,13 @@
           {% endif %}
         {% endif %}
 
+        <a href="{% url 'spot' spot.pk spot.spot_slug %}">
         {% if spot.thumbnail_venue_photo %}
           <img src="{{spot.thumbnail_venue_photo}}" class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok {% else %} bad{% endif %}{% endif %}" style="width: 350px; height: 150px;">
         {% else %}
           <img data-src="holder.js/350x150/text: no photo" alt="..." class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok  {% elif spot.is_enabled == False %} bad {% else %} undefined {% endif %}{% endif %}">
         {% endif %}
+        </a>
 
         <div class="caption">
             <h4>
@@ -72,17 +74,16 @@
   {% endfor %}
 </div>
 
-
-{% if spots.paginator.num_pages > 1 %}
+    {% if spots.paginator.num_pages > 1 %}
   <ul class="pagination pagination-centered">
     {% if spots.has_previous %}
         <li>
-          <a href="?page=1">
+          <a href="?{% url_replace request 'page' 1 %}">
             <<
           </a>
         </li>
         <li>
-          <a href="?page={{ spots.previous_page_number }}">
+          <a href="?{% url_replace request 'page' spots.previous_page_number %}">
             <
           </a>
         </li>
@@ -90,7 +91,7 @@
 
     {% for i in spots.paginator.page_range %}
         <li {% if spots.number == i %} class="active" {% endif %}>
-          <a href="?page={{i}}">
+          <a href="?{% url_replace request 'page' i %}">
             {{i}}
           </a>
         </li>
@@ -98,13 +99,13 @@
 
     {% if spots.has_next %}
         <li>
-          <a href="?page={{ spots.next_page_number }}">
+          <a href="?{% url_replace request 'page' spots.next_page_number %}">
             >
           </a>
         </li>
 
         <li>
-          <a href="?page={{ spots.paginator.num_pages }}">
+          <a href="?{% url_replace request 'page' spots.paginator.num_pages %}">
             >>
           </a>
         </li>

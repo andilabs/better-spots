@@ -39,9 +39,19 @@ def mobile(request):
         response = TemplateResponse(request, 'www/mobile.html', {})
         return response
 
+def construct_facilities_filter(raw_get_data):
+    return {facility:raw_get_data[facility] for facility in raw_get_data if facility in settings.SPOT_FACILITIES}
 
 def spots_list(request):
     spots = Spot.objects.filter(is_accepted=True).order_by('name')
+
+    spots = spots.filter(
+        facilities__contains=construct_facilities_filter(request.GET),
+    )
+    if request.GET.getlist('city'):
+        spots = spots.filter(
+            address_city__in=request.GET.getlist('city')
+        )
 
     return generic_spots_list(
         request,
@@ -197,7 +207,7 @@ def certificated(request, pk, slug=None):
 def generic_spots_list(request, spots, site_title='Spots',
                        template='www/spot_list.html', icon_type='th'):
 
-    paginator = Paginator(spots, 12)
+    paginator = Paginator(spots, 6)
     page = request.GET.get('page')
     try:
         spots = paginator.page(page)
