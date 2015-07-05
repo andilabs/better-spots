@@ -232,7 +232,7 @@
             <a href="{% url 'blog_rss' %}">RSS our blog</a><br>
             CITIES:
               {% for city in ALL_CITIES %}
-               <a href="{% url 'spots_list' %}?city={{ city }}">{{ city }}</a>,
+               <a href="{% url 'spots_list' %}?city={{ city }}" title="{% settings_value "SPOT_PROJECT_SUBJECT" %} friendly spots in {{ city }}">{{ city }}</a>,
               {% endfor %}
             <br>
             FACILITIES:
