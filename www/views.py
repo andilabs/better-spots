@@ -43,6 +43,7 @@ def construct_facilities_filter(raw_get_data):
     return {facility:raw_get_data[facility] for facility in raw_get_data if facility in settings.SPOT_FACILITIES}
 
 def spots_list(request):
+
     spots = Spot.objects.filter(is_accepted=True).order_by('name')
 
     spots = spots.filter(
@@ -51,6 +52,12 @@ def spots_list(request):
     if request.GET.getlist('city'):
         spots = spots.filter(
             address_city__in=request.GET.getlist('city')
+        )
+
+    if request.GET.getlist('is_enabled'):
+        enable_status = [int(i) for i in request.GET.getlist('is_enabled')]
+        spots = spots.filter(
+            is_enabled__in=enable_status
         )
 
     return generic_spots_list(
@@ -218,7 +225,8 @@ def generic_spots_list(request, spots, site_title='Spots',
     return render(request, template, {
         'spots': spots,
         'site_title': site_title,
-        'icon_type': icon_type
+        'icon_type': icon_type,
+        'all_cities': Spot.objects.order_by().values_list('address_city', flat=True).distinct(),
     })
 
 

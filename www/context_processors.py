@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from core.models import Instance
+from core.models import Instance, Spot
 
 
 def spot_facilities(request):
@@ -9,4 +9,5 @@ def spot_facilities(request):
 
 def instance(request):
     instance = Instance.objects.get()
-    return {'INSTANCE': instance}
+    all_cities = Spot.objects.order_by().values_list('address_city', flat=True).distinct()
+    return {'INSTANCE': instance, 'ALL_CITIES': all_cities, 'SPOT_FACILITIES_VERBOSE_NAMES': settings.SPOT_FACILITIES_VERBOSE_NAMES}

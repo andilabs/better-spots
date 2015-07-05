@@ -207,3 +207,5 @@ LOGGING = {
 }
 
 SPOT_FACILITIES = [d['name'] for d in HSTORE_SCHEMA]
+
+SPOT_FACILITIES_VERBOSE_NAMES = [(d['kwargs']['verbose_name'],d['name']) for d in HSTORE_SCHEMA]

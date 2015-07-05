@@ -229,7 +229,16 @@
             <a href="{% url 'favourites_list' %}">Collect your favourites spots</a>, 
             <a href="{% url 'certificated_list' %}">Discover best spots, which were awarded the certificate</a>, 
             <a href="{% url 'blogpost_list' %}">Read newest entries on our blog</a>, 
-            <a href="{% url 'blog_rss' %}">RSS our blog</a>
+            <a href="{% url 'blog_rss' %}">RSS our blog</a><br>
+            CITIES:
+              {% for city in ALL_CITIES %}
+               <a href="{% url 'spots_list' %}?city={{ city }}">{{ city }}</a>,
+              {% endfor %}
+            <br>
+            FACILITIES:
+              {% for facility in SPOT_FACILITIES_VERBOSE_NAMES %}
+              <a href="{% url 'spots_list' %}?{{ facility.1 }}=True">{{ facility.0 }}</a>,
+              {% endfor %}
           </div>
           <div class="col-xs-4" style="text-align:center">
 
