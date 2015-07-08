@@ -43,7 +43,8 @@ SPOT_PROJECT_FAVICON_URL = os.path.join(
     'favicon.ico'
 )
 
-SPOT_PROJECT_BLOGERS = os.path.join(STATIC_URL, SPOT_PROJECT_NAME, 'bloger_photo.jpg')
+SPOT_PROJECT_BLOGERS = os.path.join(
+    STATIC_URL, SPOT_PROJECT_NAME, 'bloger_photo.jpg')
 
 TEMPLATE_DIRS = (
      os.path.join(PROJECT_ROOT_PATH, 'templates/'),
@@ -51,4 +52,5 @@ TEMPLATE_DIRS = (
 
 SPOT_FACILITIES = [d['name'] for d in HSTORE_SCHEMA]
 
-SPOT_FACILITIES_VERBOSE_NAMES = [(d['kwargs']['verbose_name'],d['name']) for d in HSTORE_SCHEMA]
+SPOT_FACILITIES_VERBOSE_NAMES = [
+    (d['kwargs']['verbose_name'], d['name']) for d in HSTORE_SCHEMA]

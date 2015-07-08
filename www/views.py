@@ -39,19 +39,26 @@ def mobile(request):
         response = TemplateResponse(request, 'www/mobile.html', {})
         return response
 
+
 def construct_facilities_filter(raw_get_data):
-    return {facility:raw_get_data[facility] for facility in raw_get_data if facility in settings.SPOT_FACILITIES}
+    return {
+        facility: raw_get_data[facility]
+        for facility in raw_get_data if facility in settings.SPOT_FACILITIES}
+
 
 def spots_list(request):
 
     spots = Spot.objects.filter(is_accepted=True).order_by('name')
 
+    facilities = construct_facilities_filter(request.GET)
     spots = spots.filter(
-        facilities__contains=construct_facilities_filter(request.GET),
+        facilities__contains=facilities,
     )
+    cities = None
     if request.GET.getlist('city'):
+        cities = request.GET.getlist('city')
         spots = spots.filter(
-            address_city__in=request.GET.getlist('city')
+            address_city__in=cities
         )
 
     if request.GET.getlist('is_enabled'):
@@ -63,7 +70,10 @@ def spots_list(request):
     return generic_spots_list(
         request,
         spots,
-        site_title='browse spots',
+        site_title='browse spots %s %s' % (
+            'in %s' % ' '.join(cities) if cities else '',
+            'having facilities: %s' % (' '.join(facilities.keys()).replace('_', ' ')) if facilities.keys() else '',
+        ),
         icon_type='th-large')
 
 
