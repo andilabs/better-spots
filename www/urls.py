@@ -1,3 +1,6 @@
+from unidecode import unidecode
+from django.template.defaultfilters import slugify
+
 from django.conf.urls import *
 from www import views
 from www.views import ContactView, SpotUserCreate
@@ -62,6 +65,10 @@ urlpatterns = patterns(
         views.spots_list,
         name='spots_list'),
 
+    url(r'^spots/(?P<spot_type>[\w-]+)/$',
+        views.spots_list,
+        name='spots_list'),
+
     url(r'^spots/add/$',
         views.add_spot,
         name='add_spot'),
@@ -73,7 +80,6 @@ urlpatterns = patterns(
     url(r'^edit_photo/(?P<pk>\d+)/$',
         views.edit_photo,
         name='edit_photo'),
-
 
     url(r'^user/create/$',
         SpotUserCreate.as_view(),

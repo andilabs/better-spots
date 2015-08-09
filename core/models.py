@@ -65,8 +65,8 @@ SPOT_TYPE = (
     (1, 'cafe'),
     (2, 'restaurant'),
     (3, 'hotel'),
-    (4, 'shop - no food'),
-    (5, 'shop - with food'),
+    (4, 'shop-no-food'),
+    (5, 'shop-with-food'),
 )
 
 

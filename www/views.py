@@ -46,7 +46,7 @@ def construct_facilities_filter(raw_get_data):
         for facility in raw_get_data if facility in settings.SPOT_FACILITIES}
 
 
-def spots_list(request):
+def spots_list(request, spot_type=None):
 
     spots = Spot.objects.filter(is_accepted=True).order_by('name')
 
@@ -54,6 +54,11 @@ def spots_list(request):
     spots = spots.filter(
         facilities__contains=facilities,
     )
+    spot_types_dict = dict(SPOT_TYPE)
+    if spot_type and spot_type in spot_types_dict.values():
+        spot_type_index = spot_types_dict.keys()[spot_types_dict.values().index(spot_type)]
+        spots = spots.filter(spot_type=spot_type_index)
+
     cities = None
     if request.GET.getlist('city'):
         cities = request.GET.getlist('city')
@@ -70,7 +75,8 @@ def spots_list(request):
     return generic_spots_list(
         request,
         spots,
-        site_title='browse spots %s %s' % (
+        site_title='browse %s %s %s' % (
+            '%ss ' % spot_type if spot_type else 'spots ',
             'in %s' % ' '.join(cities) if cities else '',
             'having facilities: %s' % (' '.join(facilities.keys()).replace('_', ' ')) if facilities.keys() else '',
         ),

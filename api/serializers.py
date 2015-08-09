@@ -44,6 +44,7 @@ class SpotListSerializer(HyperlinkedModelSerializer):
     id = ReadOnlyField()
     thumbnail_venue_photo = ReadOnlyField()
     location = CharField(required=True)
+    friendly_rate_stars = ReadOnlyField()
 
     class Meta:
         model = Spot
@@ -68,6 +69,7 @@ class SpotListSerializer(HyperlinkedModelSerializer):
             'is_enabled',
             'friendly_rate',
             'is_certificated',
+            'friendly_rate_stars',
         )
 
     def to_internal_value(self, data):
@@ -109,6 +111,7 @@ class SpotListSerializer(HyperlinkedModelSerializer):
             instance.thumbnail_venue_photo
         ) if instance.thumbnail_venue_photo else None
 
+        ret['friendly_rate_stars'] = '*'*int(round(instance.friendly_rate))
         return ret
 
 
