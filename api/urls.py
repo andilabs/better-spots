@@ -56,7 +56,7 @@ urlpatterns = patterns(
     url(r'^nearby/(?P<lat>-?\d{2,3}.\d{5})/(?P<lng>-?\d{2,3}.\d{5})?/$',
         views.nearby_spots,
         name="nearby_spots"),
-    url(r'^nearby/(?P<lat>-?\d{2,3}.\d{5})/(?P<lng>-?\d{2,3}.\d{5})/(?P<radius>\d*)$',
+    url(r'^nearby/(?P<lat>-?\d{1,3}.\d{5})/(?P<lng>-?\d{1,3}.\d{5})/(?P<radius>\d*)$',
         views.nearby_spots,
         name="nearby_spots_with_radius"),
 )
