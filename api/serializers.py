@@ -70,6 +70,7 @@ class SpotListSerializer(HyperlinkedModelSerializer):
             'friendly_rate',
             'is_certificated',
             'friendly_rate_stars',
+            'facilities',
         )
 
     def to_internal_value(self, data):
@@ -111,6 +112,7 @@ class SpotListSerializer(HyperlinkedModelSerializer):
             instance.thumbnail_venue_photo
         ) if instance.thumbnail_venue_photo else None
 
+        ret['facilities'] = {k: bool(v) for k, v in instance.facilities.items()}
         ret['friendly_rate_stars'] = '*'*int(round(instance.friendly_rate))
         return ret
 
