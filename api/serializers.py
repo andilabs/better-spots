@@ -112,6 +112,9 @@ class SpotListSerializer(HyperlinkedModelSerializer):
             instance.thumbnail_venue_photo
         ) if instance.thumbnail_venue_photo else None
 
+        if not instance.email:
+            ret['email'] = ""
+
         ret['facilities'] = {k: bool(eval(v)) for k, v in instance.facilities.items()}
         ret['friendly_rate_stars'] = '*'*int(round(instance.friendly_rate))
         return ret
