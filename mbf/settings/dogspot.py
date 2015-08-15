@@ -42,7 +42,7 @@ FRESH_WATER_CODE = "fresh_water"
 FRESH_WATER_VERBOSE = "fresh water served"
 
 SNACKS_CODE = "dog_snacks"
-SNCACKS_VERBOSE = "snakcs"
+SNCACKS_VERBOSE = "dog treats and snakcs"
 
 SPECIAL_MENU_CODE = "dedicated_dogs_menu"
 SPECIAL_MENU_VERBOSE = "special menu for dogs"
