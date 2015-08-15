@@ -8,6 +8,7 @@ from rest_framework.serializers import (
     HyperlinkedRelatedField,
     PrimaryKeyRelatedField,
     ReadOnlyField,
+    DecimalField,
 )
 from rest_framework.pagination import PaginationSerializer
 
@@ -45,6 +46,7 @@ class SpotListSerializer(HyperlinkedModelSerializer):
     thumbnail_venue_photo = ReadOnlyField()
     location = CharField(required=True)
     friendly_rate_stars = ReadOnlyField()
+    friendly_rate = DecimalField(max_digits=2, decimal_places=1, coerce_to_string=False)
 
     class Meta:
         model = Spot
@@ -115,7 +117,7 @@ class SpotListSerializer(HyperlinkedModelSerializer):
         if not instance.email:
             ret['email'] = ""
 
-        ret['facilities'] = {k: bool(eval(v)) for k, v in instance.facilities.items()}
+        ret['facilities'] = {k: bool(eval(str(v))) for k, v in instance.facilities.items()}
         ret['friendly_rate_stars'] = '*'*int(round(instance.friendly_rate))
         return ret
 
