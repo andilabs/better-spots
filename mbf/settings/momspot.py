@@ -41,29 +41,44 @@ SPOT_PROJECT_SUBJECT = 'Mom'
 
 SPOT_PROJECT_MAIN_COLOR = '#eb386f'
 
+BABY_CHANGING_CODE = "baby_changing"
+BABY_CHANGING_VERBOSE = "baby changing facilites"
+
+PLAYROOM_CODE = "playroom"
+PLAYROOM_VERBOSE = "playroom for kids"
+
+KIDS_MENU_CODE = "kids_menu"
+KIDS_MENU_VERBOSE = "kids menu"
+
+FACILITIES_CODE_VERBOSE_MAP = {
+    BABY_CHANGING_CODE: BABY_CHANGING_VERBOSE,
+    PLAYROOM_CODE: PLAYROOM_VERBOSE,
+    KIDS_MENU_CODE: KIDS_MENU_VERBOSE,
+}
+
 HSTORE_SCHEMA = [
     {
-        "name": "baby_changing",
+        "name": BABY_CHANGING_CODE,
         "class": "NullBooleanField",
         "kwargs": {
             "default": None,
-            "verbose_name": "baby changing facilites"
+            "verbose_name": BABY_CHANGING_VERBOSE
         }
     },
     {
-        "name": "playroom",
+        "name": PLAYROOM_CODE,
         "class": "NullBooleanField",
         "kwargs": {
             "default": None,
-            "verbose_name": "playroom for kids"
+            "verbose_name": PLAYROOM_VERBOSE
         }
     },
     {
-        "name": "kids_menu",
+        "name": KIDS_MENU_CODE,
         "class": "NullBooleanField",
         "kwargs": {
             "default": None,
-            "verbose_name": "kids menu"
+            "verbose_name": KIDS_MENU_VERBOSE
         }
     }
 ]

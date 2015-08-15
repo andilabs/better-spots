@@ -117,7 +117,7 @@ class SpotListSerializer(HyperlinkedModelSerializer):
         if not instance.email:
             ret['email'] = ""
 
-        ret['facilities'] = {k: bool(eval(str(v))) for k, v in instance.facilities.items()}
+        ret['facilities'] = {settings.FACILITIES_CODE_VERBOSE_MAP[k]: bool(eval(str(v))) for k, v in instance.facilities.items()}
         ret['friendly_rate_stars'] = '*'*int(round(instance.friendly_rate))
         return ret
 

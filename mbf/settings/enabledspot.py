@@ -40,29 +40,44 @@ SPOT_PROJECT_SUBJECT = 'Disabled People'
 
 SPOT_PROJECT_MAIN_COLOR = '#4f5fa7'
 
+ENABLED_TOILET_CODE = "toilet_enabled"
+ENABLED_TOILET_VERBOSE = "enabled toilet"
+
+ENABLED_ENTRANCE_CODE = "entrance_enabled"
+ENABLED_ENTRANCE_VERBOSE = "enabled entrance"
+
+ENABLED_TABLES_CODE = "tables_enabled"
+ENABLED_TABLES_VERBOSE = "enabled tables"
+
+FACILITIES_CODE_VERBOSE_MAP = {
+    ENABLED_TOILET_CODE: ENABLED_TOILET_VERBOSE,
+    ENABLED_ENTRANCE_CODE: ENABLED_ENTRANCE_VERBOSE,
+    ENABLED_TABLES_CODE: ENABLED_TABLES_VERBOSE,
+}
+
 HSTORE_SCHEMA = [
     {
-        "name": "toilet_enabled",
+        "name": ENABLED_TOILET_CODE,
         "class": "NullBooleanField",
         "kwargs": {
             "default": None,
-            "verbose_name": "enabled toilet"
+            "verbose_name": ENABLED_TOILET_VERBOSE
         }
     },
     {
-        "name": "entrance_enabled",
+        "name": ENABLED_ENTRANCE_CODE,
         "class": "NullBooleanField",
         "kwargs": {
             "default": None,
-            "verbose_name": "enabled entrance"
+            "verbose_name": ENABLED_ENTRANCE_VERBOSE
         }
     },
     {
-        "name": "tables_enabled",
+        "name": ENABLED_TABLES_CODE,
         "class": "NullBooleanField",
         "kwargs": {
             "default": None,
-            "verbose_name": "enabled tables"
+            "verbose_name": ENABLED_TABLES_VERBOSE
         }
     }
 ]

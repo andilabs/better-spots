@@ -41,21 +41,33 @@ SPOT_PROJECT_SUBJECT = 'Vegan'
 
 SPOT_PROJECT_MAIN_COLOR = '#59b84d'
 
+VEGETARIAN_MENU_CODE = "vegetarian_menu"
+VEGETARIAN_MENU_VERBOSE = "vegetarian menu"
+
+VEGAN_MENU_CODE = "vegan_menu"
+VEGAN_MENU_VERBOSE = "vegan menu"
+
+FACILITIES_CODE_VERBOSE_MAP = {
+    VEGETARIAN_MENU_CODE: VEGETARIAN_MENU_VERBOSE,
+    VEGAN_MENU_CODE: VEGAN_MENU_VERBOSE,
+}
+
+
 HSTORE_SCHEMA = [
     {
-        "name": "vegetarian_menu",
+        "name": VEGETARIAN_MENU_CODE,
         "class": "NullBooleanField",
         "kwargs": {
             "default": None,
-            "verbose_name": "vegetarian menu"
+            "verbose_name": VEGETARIAN_MENU_VERBOSE
         }
     },
     {
-        "name": "vegan_menu",
+        "name": VEGAN_MENU_CODE,
         "class": "NullBooleanField",
         "kwargs": {
             "default": None,
-            "verbose_name": "vegan menu"
+            "verbose_name": VEGAN_MENU_VERBOSE
         }
     }
 ]

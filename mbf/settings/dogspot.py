@@ -38,29 +38,46 @@ SPOT_PROJECT_SUBJECT = 'Dog'
 
 SPOT_PROJECT_MAIN_COLOR = '#fcbd41'
 
+FRESH_WATER_CODE = "fresh_water"
+FRESH_WATER_VERBOSE = "fresh water served"
+
+SNACKS_CODE = "dog_snacks"
+SNCACKS_VERBOSE = "snakcs"
+
+SPECIAL_MENU_CODE = "dedicated_dogs_menu"
+SPECIAL_MENU_VERBOSE = "special menu for dogs"
+
+FACILITIES_CODE_VERBOSE_MAP = {
+    FRESH_WATER_CODE: FRESH_WATER_VERBOSE,
+    SNACKS_CODE: SNCACKS_VERBOSE,
+    SPECIAL_MENU_CODE: SPECIAL_MENU_VERBOSE
+}
+
 HSTORE_SCHEMA = [
     {
-        "name": "fresh_water",
+        "name": FRESH_WATER_CODE,
         "class": "NullBooleanField",
         "kwargs": {
             "default": None,
-            "verbose_name": "fresh water served"
+            "verbose_name": FRESH_WATER_VERBOSE
         }
     },
     {
-        "name": "dog_snacks",
+        "name": SNACKS_CODE,
         "class": "NullBooleanField",
         "kwargs": {
             "default": None,
-            "verbose_name": "snacks"
+            "verbose_name": SNCACKS_VERBOSE
         }
     },
     {
-        "name": "dedicated_dogs_menu",
+        "name": SPECIAL_MENU_CODE,
         "class": "NullBooleanField",
         "kwargs": {
             "default": None,
-            "verbose_name": "special menu for dogs"
+            "verbose_name": SPECIAL_MENU_VERBOSE
         }
     }
 ]
+
+
