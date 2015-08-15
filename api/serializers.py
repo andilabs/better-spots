@@ -119,7 +119,6 @@ class SpotListSerializer(HyperlinkedModelSerializer):
 
         ret['facilities'] = {k: bool(eval(str(v))) for k, v in instance.facilities.items()}
         ret['friendly_rate_stars'] = '*'*int(round(instance.friendly_rate))
-        ret['friendly_rate'] = 1.5;
         return ret
 
 
