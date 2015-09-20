@@ -65,10 +65,6 @@ urlpatterns = patterns(
         views.spots_list,
         name='spots_list'),
 
-    url(r'^spots/(?P<spot_type>[\w-]+)/$',
-        views.spots_list,
-        name='spots_list'),
-
     url(r'^spots/add/$',
         views.add_spot,
         name='add_spot'),
