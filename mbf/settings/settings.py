@@ -32,7 +32,7 @@ elif 'enabledspot.eu' in PROJECT_ROOT_PATH.split('/'):
     SPOT_PROJECT_NAME = 'enabledspot'
 
 
-elif 'veganspot.org' in PROJECT_ROOT_PATH.split('/'):
+elif 'veganspot.eu' in PROJECT_ROOT_PATH.split('/'):
     from .veganspot import *
     SPOT_PROJECT_NAME = 'veganspot'
 
