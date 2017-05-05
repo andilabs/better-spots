@@ -1,0 +1,37 @@
+---
+
+- hosts: all
+  vars:
+    packages:
+      - python
+      - python3
+      - python-pip
+      - python-virtualenv
+      - vim
+      - binutils
+      - tree
+      - language-pack-pl
+      - postgresql-client
+
+    web_base_dir: '/home/ubuntu/mbf'
+
+  gather_facts: no
+  pre_tasks:
+    - name: 'install python2'
+      raw: sudo apt-get -y install python-simplejson
+
+  tasks:
+  - name: Install packages
+    sudo: yes
+    apt: pkg={{ item }} state=present update_cache=yes
+    with_items: "{{ packages }}"
+
+  - name: create virtualenv for python 3.5
+    sudo: yes
+    command: creates={{ web_base_dir }}/venv virtualenv -p python3.5 {{ web_base_dir }}/venv
+
+  - name: install pip packages
+    sudo: yes
+    pip: virtualenv={{ web_base_dir }}/venv
+         requirements=/mbf/requirements.txt
+

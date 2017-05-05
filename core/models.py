@@ -12,6 +12,7 @@ from solo.models import SingletonModel
 from django.db.models.signals import post_save, post_delete
 from django.conf import settings
 from django.contrib.gis.db import models
+from django.contrib.postgres.fields import HStoreField
 from django.core.urlresolvers import reverse
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
@@ -35,8 +36,6 @@ class Instance(SingletonModel):
     name = models.CharField(
         max_length=254, default='', blank=True, null=True)
     slogan = models.CharField(
-        max_length=254, default='', blank=True, null=True)
-    description = models.CharField(
         max_length=254, default='', blank=True, null=True)
     subject = models.CharField(
         max_length=254, default='', blank=True, null=True)
@@ -113,7 +112,7 @@ class Spot(models.Model):
         size_warning=True)
     spot_slug = models.SlugField(
         max_length=1000)
-    facilities = hstore.DictionaryField(
+    facilities = HStoreField(
         schema=settings.HSTORE_SCHEMA)
     creator = models.ForeignKey(
         'accounts.SpotUser',
@@ -123,8 +122,6 @@ class Spot(models.Model):
     )
     anonymous_creator_cookie = models.CharField(
         max_length=1024, blank=True, null=True)
-
-    objects = hstore.HStoreGeoManager()
 
     class Meta:
         unique_together = (
@@ -287,7 +284,7 @@ class Rating(models.Model):
         choices=DOGS_ALLOWED, default=False)
     friendly_rate = models.PositiveIntegerField(
         choices=LIKERT)
-    facilities = hstore.DictionaryField(
+    facilities = HStoreField(
         schema=settings.HSTORE_SCHEMA)
 
     objects = hstore.HStoreGeoManager()

@@ -46,18 +46,12 @@ INSTALLED_APPS = (
     'solo',
     'image_cropping',
     'easy_thumbnails',
-    'south',
-    'django_hstore',
-    # 'grappelli.dashboard',
-    # 'grappelli_nested',
-    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework.authtoken',
     'django.contrib.gis',
     'bootstrap3_datetime',
     'django_extensions',
@@ -71,7 +65,6 @@ INSTALLED_APPS = (
     'api',
     'www',
     'blog',
-    'cities',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -105,9 +98,6 @@ EMAIL_VERIFY_KEY_EXPIREATION_PERIOD_HOURS = 48
 VENUE_PHOTO_SIZE = {'W': '350', 'H': '150'}
 BLOGPOST_PHOTO_SIZE = {'W': '2402', 'H': '2402'}
 
-SOUTH_MIGRATION_MODULES = {
-    'easy_thumbnails': 'easy_thumbnails.south_migrations',
-}
 
 THUMBNAIL_PROCESSORS = (
     'image_cropping.thumbnail_processors.crop_corners',
