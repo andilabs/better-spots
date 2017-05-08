@@ -17,7 +17,7 @@ from core.models import (
 )
 
 
-hstore_fields = [field['name'] for field in settings.HSTORE_SCHEMA]
+# hstore_fields = [field['name'] for field in settings.HSTORE_SCHEMA]
 
 
 class SpotLocationForm(forms.ModelForm):
@@ -51,7 +51,7 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'google_maps_static_image',
         'creator',
         'anonymous_creator_cookie',
-        'facilities'] + hstore_fields
+        'facilities']
     )
 
     list_filter = (
@@ -102,7 +102,7 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
                 'cropping_venue_photo')}),
 
         ('Evaluations and facilities calculated based on ratings',
-            {'fields': tuple(['friendly_rate', 'is_enabled']+hstore_fields)})
+            {'fields': tuple(['friendly_rate', 'is_enabled'])})
     )
 
     actions = [
@@ -120,7 +120,7 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'friendly_rate',
         'date_updated',
         'date_created',
-        'spot_slug'] + hstore_fields)
+        'spot_slug'])
 
     def number_of_ratings(self, obj):
         return obj.ratings__count
@@ -153,7 +153,7 @@ class RatingAdmin(admin.ModelAdmin):
             'friendly_rate',
             'is_enabled',
             'user',
-        ] + hstore_fields
+        ]
 
 
 class UsersSpotsListAdmin(admin.ModelAdmin):

@@ -1,11 +1,10 @@
-from django.conf.urls import *
+from django.conf.urls import url
 from blog.views import (
     BlogPostsListView, BlogPostDetailView, LastBlogPostEntries
 )
 
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
 
     url(r'^$',
         BlogPostsListView.as_view(),
@@ -22,4 +21,4 @@ urlpatterns = patterns(
     url(r'^latest/feed/$',
         LastBlogPostEntries(),
         name='blog_rss'),
-)
+]

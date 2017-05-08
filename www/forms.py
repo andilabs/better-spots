@@ -1,5 +1,5 @@
 import datetime
-from bootstrap3_datetime.widgets import DateTimePicker
+
 from image_cropping import ImageCropWidget
 
 from django import forms
@@ -13,12 +13,12 @@ class ContactForm(forms.Form):
 
     date = forms.DateField(
         initial=datetime.date.today,
-        widget=DateTimePicker(
-            options={
-                "format": "DD-MM-YYYY",
-                "pickTime": False,
-                "showToday": True,
-                })
+        # widget=DateTimePicker(
+        #     options={
+        #         "format": "DD-MM-YYYY",
+        #         "pickTime": False,
+        #         "showToday": True,
+        #         })
         )
 
     message = forms.CharField(widget=forms.Textarea)

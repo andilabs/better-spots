@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import os
-from unidecode import unidecode
 from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageCropField, ImageRatioField
 
@@ -116,6 +115,6 @@ class Post(models.Model):
             self.created_date.year,
             self.created_date.month,
             self.created_date.day,
-            slugify(unidecode(self.title))
+            slugify(self.title)
         )
         super(Post, self).save(*args, **kwargs)

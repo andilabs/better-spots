@@ -53,11 +53,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    'bootstrap3_datetime',
-    'django_extensions',
+    # 'django_extensions',
     'raven.contrib.django.raven_compat',
-    'bootstrap3',
-    'import_export',
     'rest_framework',
     'rest_framework.authtoken',
     'accounts',
@@ -108,4 +105,3 @@ IMAGE_CROPPING_SIZE_WARNING = True
 SERIALIZATION_MODULES = {
     "geojson": "django.contrib.gis.serializers.geojson", 
  }
- 

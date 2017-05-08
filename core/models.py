@@ -3,8 +3,6 @@
 import os
 import uuid
 
-from unidecode import unidecode
-from django_hstore import hstore
 from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageCropField, ImageRatioField
 from solo.models import SingletonModel
@@ -112,8 +110,7 @@ class Spot(models.Model):
         size_warning=True)
     spot_slug = models.SlugField(
         max_length=1000)
-    facilities = HStoreField(
-        schema=settings.HSTORE_SCHEMA)
+    facilities = HStoreField(null=True)
     creator = models.ForeignKey(
         'accounts.SpotUser',
         null=True,
@@ -248,13 +245,14 @@ class Spot(models.Model):
                   <div id="us3" style="width: 750px; height: 400px;"></div>""")
 
     def save(self, *args, **kwargs):
-        self.spot_slug = slugify(unidecode(
+        self.spot_slug = slugify(
             "%s %s %s %s %s" % (
                 self.name,
                 SPOT_TYPE[self.spot_type-1][1],
                 self.address_city,
                 self.address_street,
-                self.address_number,)))
+                self.address_number,)
+        )
 
         super(Spot, self).save(*args, **kwargs)
 
@@ -284,10 +282,7 @@ class Rating(models.Model):
         choices=DOGS_ALLOWED, default=False)
     friendly_rate = models.PositiveIntegerField(
         choices=LIKERT)
-    facilities = HStoreField(
-        schema=settings.HSTORE_SCHEMA)
-
-    objects = hstore.HStoreGeoManager()
+    facilities = HStoreField(null=True)
 
     @property
     def opinion(self):
@@ -390,54 +385,3 @@ class UsersSpotsList(models.Model):
     @property
     def spot_pk(self):
         return self.spot.pk
-
-
-@receiver(post_delete, sender=Rating)
-@receiver(post_save, sender=Rating)
-def update_spot_evaluations(instance, **kwags):
-    spot = instance.spot
-    all_ratings_of_spot = Rating.objects.filter(spot=spot)
-
-    if all_ratings_of_spot:
-
-        # determine average sppot RATE
-        spot_rate = sum(
-            i.friendly_rate for i in all_ratings_of_spot) / float(
-            len(all_ratings_of_spot))
-        spot.friendly_rate = spot_rate
-
-        # determine either spot is ENABLED
-        spot_enabled = True if sum(
-            i.is_enabled for i in all_ratings_of_spot) > len(
-            all_ratings_of_spot) / 2 else False
-        spot.is_enabled = spot_enabled
-
-    else:
-        spot.friendly_rate = -1.0
-        spot.is_enabled = False
-
-    # determine each FACILITY fullfilment
-    stats = {}
-
-    for facility in [facility['name'] for facility in settings.HSTORE_SCHEMA]:
-        facilities_record = [rating.facilities.get(facility)
-                             for rating
-                             in all_ratings_of_spot]
-        stats[facility] = {
-            'positive': facilities_record.count(True),
-            'all': len(facilities_record)-facilities_record.count(None)
-        }
-
-    for facility, counts in stats.items():
-
-        if counts['all'] > 0:
-            positive_ratio = counts['positive'] / float(counts['all'])
-            if not spot.facilities:
-                spot.facilities = {}
-
-            if positive_ratio > 0.5:
-                spot.facilities[facility] = True
-            else:
-                spot.facilities[facility] = False
-
-    spot.save()

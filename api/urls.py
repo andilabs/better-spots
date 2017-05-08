@@ -1,12 +1,11 @@
-from django.conf.urls import url, patterns
+from django.conf.urls import url
 
-from rest_framework.urlpatterns import format_suffix_patterns
+
 
 from api import views
 
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
 
     url(r'^$',
         views.api_root,
@@ -59,6 +58,6 @@ urlpatterns = patterns(
     url(r'^nearby/(?P<lat>-?\d{1,3}.\d{5})/(?P<lng>-?\d{1,3}.\d{5})/(?P<radius>\d*)$',
         views.nearby_spots,
         name="nearby_spots_with_radius"),
-)
+]
 
-urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])
+# urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])

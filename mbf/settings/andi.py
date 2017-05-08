@@ -22,10 +22,11 @@ POSTGIS_VERSION = (2, 1, 3)
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'andispot',
-        'USER': 'andi',
+        'NAME': 'mbf',
+        'USER': 'mbf',
         'HOST': 'localhost',
         'PORT': '5432',
+        'PASSWORD': '1234',
     }
 }
 

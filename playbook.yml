@@ -51,6 +51,7 @@
     with_items:
       - postgresql
       - postgresql-contrib
+      - postgresql-9.6-postgis-scripts #TODO make it postgres version parametrized
       - python-psycopg2
     tags: packages
 
@@ -92,4 +93,7 @@
     sudo: yes
     pip: virtualenv={{ web_base_dir }}/venv
          requirements=/mbf/requirements.txt
+
+  # TODO POSTGRES CREATE EXTENSION IF NOT EXISTS hstore;.
+  # TODO CREATE EXTENSION postgis;
 

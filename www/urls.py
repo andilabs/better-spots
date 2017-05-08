@@ -1,13 +1,11 @@
-from unidecode import unidecode
-from django.template.defaultfilters import slugify
+
 
 from django.conf.urls import *
 from www import views
 from www.views import ContactView, SpotUserCreate
 
 # place app url patterns here
-urlpatterns = patterns(
-    '',
+urlpatterns = [
 
     url(r'^$',
         views.main,
@@ -84,4 +82,4 @@ urlpatterns = patterns(
     url(r'^vcard/(?P<pk>\d+)/$',
         views.download_vcard,
         name='vcard'),
-)
+]

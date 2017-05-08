@@ -1,7 +1,4 @@
 import json
-import cStringIO as StringIO
-import ho.pisa as pisa
-from cgi import escape
 
 from django.db.models import Q
 from django.conf import settings
@@ -11,8 +8,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
-from django.template import Context
-from django.template.loader import get_template
+
 from django.template.response import TemplateResponse
 from django.views.generic import FormView, CreateView
 
@@ -247,20 +243,20 @@ def generic_spots_list(request, spots, site_title='Spots',
 
 
 def render_to_pdf(template_src, context_dict):
-    template = get_template(template_src)
-    context = Context(context_dict)
-    html = template.render(context)
-    result = StringIO.StringIO()
+    # template = get_template(template_src)
+    # context = Context(context_dict)
+    # html = template.render(context)
+    # result = StringIO.StringIO()
+    #
+    # pdf = pisa.pisaDocument(
+    #     StringIO.StringIO(html.encode('utf-8')),
+    #     result,
+    #     encoding='UTF-8')
+    #
+    # if not pdf.err:
+    #     return HttpResponse(result.getvalue(), mimetype='application/pdf')
 
-    pdf = pisa.pisaDocument(
-        StringIO.StringIO(html.encode('utf-8')),
-        result,
-        encoding='UTF-8')
-
-    if not pdf.err:
-        return HttpResponse(result.getvalue(), mimetype='application/pdf')
-
-    return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
+    return HttpResponse('We had some errors')#<pre>%s</pre>' % escape(html))
 
 
 def pdf_sticker(request, pk):
