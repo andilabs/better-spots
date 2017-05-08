@@ -196,7 +196,7 @@ SPOT_PROJECT_FAVICON_URL = os.path.join(
 
 SPOT_PROJECT_BLOGERS = os.path.join(STATIC_URL, SPOT_PROJECT_NAME, 'bloger_photo.jpg')
 
-MIDDLEWARE_CLASSES = ('utils.performance.db_queries.QueryCountDebugMiddleware',) + MIDDLEWARE_CLASSES
+# MIDDLEWARE_CLASSES = ('utils.performance.db_queries.QueryCountDebugMiddleware',) + MIDDLEWARE_CLASSES
 
 LOGGING = {
     'disable_existing_loggers': False,
