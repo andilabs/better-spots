@@ -17,14 +17,69 @@
 
   gather_facts: no
   pre_tasks:
+
     - name: 'install python2'
-      raw: sudo apt-get -y install python-simplejson
+      raw: sudo apt-get -y install python
 
   tasks:
+
   - name: Install packages
     sudo: yes
     apt: pkg={{ item }} state=present update_cache=yes
     with_items: "{{ packages }}"
+
+  - name: Add the PostgreSQL public GPG key to the apt repo
+    sudo: yes
+    apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc
+             state=present
+
+  - name: Add PostgreSQL to the sources list
+    sudo: yes
+    apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main'
+                    update_cache=yes
+                    state=present
+
+#  - name: Install PostgreSQL
+#    sudo: yes
+#    apt:
+#      name: postgresql-server-dev-9.6
+#      cache_valid_time: 600  # 10 minutes
+#      force: yes
+  - name: Install PostgreSQL
+    sudo: yes
+    apt: name={{ item }} update_cache=yes state=installed
+    with_items:
+      - postgresql
+      - postgresql-contrib
+      - python-psycopg2
+    tags: packages
+
+  - name: Ensure the PostgreSQL service is running
+    service: name=postgresql state=started enabled=yes
+
+  - name: Ensure database is created
+    become_user: postgres
+    postgresql_db: name='mbf'
+                   encoding='UTF-8'
+                   lc_collate='en_US.UTF-8'
+                   lc_ctype='en_US.UTF-8'
+                   template='template0'
+                   state=present
+
+  - name: Ensure user has access to the database
+    become_user: postgres
+    postgresql_user: db='mbf'
+                     name='mbf'
+                     password='1234'
+                     priv=ALL
+                     state=present
+
+  - name: Ensure user does not have unnecessary privileges
+    become_user: postgres
+    postgresql_user: name='mb'
+                     role_attr_flags=NOSUPERUSER,NOCREATEDB
+                     state=present
+
 
   - name: create virtualenv for python 3.5
     sudo: yes
