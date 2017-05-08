@@ -10,13 +10,13 @@ admin.autodiscover()
 
 urlpatterns = [
 
-    url(r'', include('accounts.urls')),
+    url(r'', include('accounts.urls', namespace='accounts')),
 
-    url(r'', include('www.urls')),
+    url(r'', include('www.urls', namespace='www')),
 
-    # url(r'api/', include('api.urls')),
+    url(r'api/', include('api.urls', namespace='api')),
 
-    url(r'blog/', include('blog.urls')),
+    url(r'blog/', include('blog.urls', namespace='blog')),
 
     url(r'^admin/', include(admin.site.urls)),
 

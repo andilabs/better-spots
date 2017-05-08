@@ -40,8 +40,8 @@ STATICFILES_DIRS = (
 MEDIA_ROOT = os.path.join(PROJECT_ROOT_PATH, 'media/')
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
-STATIC_ROOT = '/Users/andi/pseudo_static_server_spots/'
-MEDIA_ROOT = '/Users/andi/pseudo_media_server_spots/'
+STATIC_ROOT = '/pseudo_static_server_spots/'
+MEDIA_ROOT = '/pseudo_media_server_spots/'
 
 TEMPLATE_DIRS = (
      os.path.join(PROJECT_ROOT_PATH, 'templates/'),

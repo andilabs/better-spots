@@ -235,7 +235,7 @@ class Spot(models.Model):
     @property
     def www_url(self):
         return "http://%s%s" % (settings.INSTANCE_DOMAIN, reverse(
-            'www.views.spot', args=[self.pk, self.spot_slug]))
+            'www:spot', args=[self.pk, self.spot_slug]))
 
     def __unicode__(self):
         return self.name

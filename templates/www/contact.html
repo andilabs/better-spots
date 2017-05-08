@@ -1,7 +1,7 @@
 {% extends "www/base.html" %}
 
 
-{% load bootstrap3 %}
+
 
 
 
@@ -16,7 +16,7 @@
 
 	<form class="form-vertical" action="/contact/" method="post">
 	    {% csrf_token %}
-	    {% bootstrap_form form %}
+	    {{ form }}
 	    <input type="submit" value="Submit" class="btn btn-default">
 	</form>
 {% endblock %}

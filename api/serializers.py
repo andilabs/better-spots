@@ -4,27 +4,25 @@ from django.contrib.gis.geos import fromstr, Point
 from rest_framework.serializers import (
     BooleanField,
     CharField,
-    HyperlinkedModelSerializer,
-    HyperlinkedRelatedField,
+    ModelSerializer,
     PrimaryKeyRelatedField,
     ReadOnlyField,
     DecimalField,
 )
-from rest_framework.pagination import PaginationSerializer
 
 from core.models import Spot, Rating, UsersSpotsList
 from accounts.models import SpotUser
 
 
-class SpotUserSerializer(HyperlinkedModelSerializer):
+class SpotUserSerializer(ModelSerializer):
 
     class Meta:
         model = SpotUser
         fields = ('url', 'mail_verified', 'email')
 
 
-class RatingSerializer(HyperlinkedModelSerializer):
-    spot = HyperlinkedRelatedField(read_only=True, view_name='spot-detail')
+class RatingSerializer(ModelSerializer):
+    spot = PrimaryKeyRelatedField(read_only=True)
     spot_pk = PrimaryKeyRelatedField(queryset=Spot.objects.all())
     is_enabled = BooleanField()
 
@@ -40,22 +38,22 @@ class RatingSerializer(HyperlinkedModelSerializer):
         )
 
 
-class SpotListSerializer(HyperlinkedModelSerializer):
-    www_url = ReadOnlyField()
-    id = ReadOnlyField()
-    thumbnail_venue_photo = ReadOnlyField()
-    location = CharField(required=True)
-    friendly_rate_stars = ReadOnlyField()
-    friendly_rate = DecimalField(max_digits=2, decimal_places=1, coerce_to_string=False)
+class SpotListSerializer(ModelSerializer):
+    # www_url = ReadOnlyField()
+    # id = ReadOnlyField()
+    # thumbnail_venue_photo = ReadOnlyField()
+    # location = CharField(required=True)
+    # friendly_rate_stars = ReadOnlyField()
+    # friendly_rate = DecimalField(max_digits=2, decimal_places=1, coerce_to_string=False)
 
     class Meta:
         model = Spot
         fields = (
-            'pk',
-            'url',
+            # 'pk',
+            # 'url',
             'id',
-            'www_url',
-            'thumbnail_venue_photo',
+            # 'www_url',
+            # 'thumbnail_venue_photo',
             'location',
             'name',
             'address_street',
@@ -63,16 +61,16 @@ class SpotListSerializer(HyperlinkedModelSerializer):
             'address_city',
             'address_country',
             'spot_type',
-            'is_accepted',
-            'phone_number',
-            'email',
-            'www',
-            'facebook',
-            'is_enabled',
-            'friendly_rate',
-            'is_certificated',
-            'friendly_rate_stars',
-            'facilities',
+            # 'is_accepted',
+            # 'phone_number',
+            # 'email',
+            # 'www',
+            # 'facebook',
+            # 'is_enabled',
+            # 'friendly_rate',
+            # 'is_certificated',
+            # 'friendly_rate_stars',
+            # 'facilities',
         )
 
     def to_internal_value(self, data):
@@ -107,17 +105,17 @@ class SpotListSerializer(HyperlinkedModelSerializer):
         else:
             ret['location'] = None
 
-        ret['www_url'] = instance.www_url
+        # ret['www_url'] = instance.www_url
 
-        ret['thumbnail_venue_photo'] = "http://%s%s" % (
-            settings.INSTANCE_DOMAIN,
-            instance.thumbnail_venue_photo
-        ) if instance.thumbnail_venue_photo else None
+        # ret['thumbnail_venue_photo'] = "http://%s%s" % (
+        #     settings.INSTANCE_DOMAIN,
+        #     instance.thumbnail_venue_photo
+        # ) if instance.thumbnail_venue_photo else None
 
         if not instance.email:
             ret['email'] = ""
 
-        ret['facilities'] = {settings.FACILITIES_CODE_VERBOSE_MAP[k]: bool(eval(str(v))) for k, v in instance.facilities.items()}
+        ret['facilities'] = {}#{settings.FACILITIES_CODE_VERBOSE_MAP[k]: bool(eval(str(v))) for k, v in instance.facilities.items()}
         ret['friendly_rate_stars'] = '*'*int(round(instance.friendly_rate))
         return ret
 
@@ -136,17 +134,11 @@ class SpotWithDistanceSerializer(SpotListSerializer):
     def to_representation(self, instance):
         ret = super(
             SpotWithDistanceSerializer, self).to_representation(instance)
-        ret['distance'] = instance.distance.km
+        # ret['distance'] = instance.distance.km
         return ret
 
 
-class PaginetedSpotWithDistanceSerializer(PaginationSerializer):
-
-    class Meta:
-        object_serializer_class = SpotWithDistanceSerializer
-
-
-class FavouritesSpotsListSerializer(HyperlinkedModelSerializer):
+class FavouritesSpotsListSerializer(ModelSerializer):
     spot = SpotListSerializer(read_only=True)
     spot_pk = PrimaryKeyRelatedField(
         queryset=Spot.objects.all())

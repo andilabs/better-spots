@@ -84,6 +84,19 @@
                      role_attr_flags=NOSUPERUSER,NOCREATEDB
                      state=present
 
+  - name: Add postgis extension
+    become_user: postgres
+    become: yes
+    postgresql_ext:
+      name: postgis
+      db: mbf
+
+  - name: Add hstore extension
+    become_user: postgres
+    become: yes
+    postgresql_ext:
+      name: hstore
+      db: mbf
 
   - name: create virtualenv for python 3.5
     sudo: yes

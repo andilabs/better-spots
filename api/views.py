@@ -43,7 +43,6 @@ from .serializers import (
     SpotListSerializer,
     SpotDetailSerializer,
     SpotWithDistanceSerializer,
-    PaginetedSpotWithDistanceSerializer,
     RatingSerializer,
     FavouritesSpotsListSerializer,
 )
@@ -59,53 +58,53 @@ def api_root(request, format=None):
     return Response({
         'SPOTS': {
             'Spots': reverse(
-                'spot-list', request=request),
+                'api:spot-list', request=request),
 
             'Certificated Spots': reverse(
-                'certificated-spot-list', request=request),
+                'api:certificated-spot-list', request=request),
 
             'User favourites Spots': reverse(
-                'user-favourites-spot-list', request=request),
+                'api:user-favourites-spot-list', request=request),
         },
         'NEARBY': {
             'with default radius': reverse(
-                'nearby_spots', request=request, kwargs={
+                'api:nearby_spots', request=request, kwargs={
                     'lat': 52.22642,
                     'lng': 20.98283}),
 
             'with default radius and paginated by {5}':
             "%s?paginated=5" % reverse(
-                'nearby_spots', request=request, kwargs={
+                'api:nearby_spots', request=request, kwargs={
                     'lat': 52.22642,
                     'lng': 20.98283}),
 
 
             'with specified radius': reverse(
-                'nearby_spots_with_radius', request=request, kwargs={
+                'api:nearby_spots_with_radius', request=request, kwargs={
                     'lat': 52.22642,
                     'lng': 20.98283,
                     'radius': 8000}),
 
             'with specified radius and paginated by {5}':
             "%s?paginated=5" % reverse(
-                'nearby_spots_with_radius', request=request, kwargs={
+                'api:nearby_spots_with_radius', request=request, kwargs={
                     'lat': 52.22642,
                     'lng': 20.98283,
                     'radius': 8000}),
             },
         'Ratings': reverse(
-            'rating-list', request=request),
+            'api:rating-list', request=request),
 
         'Image upload to spot POST': reverse(
-            'image_upload', request=request, kwargs={'pk': 2}
+            'api:image_upload', request=request, kwargs={'pk': 2}
         ),
 
         'Authentication POST': reverse(
-            'authentication', request=request,
+            'api:authentication', request=request,
         ),
 
         'Users (admin only)': reverse(
-            'users-list', request=request,
+            'api:users-list', request=request,
         )
     })
 
@@ -318,9 +317,9 @@ def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
             user_location,
             D(**desired_radius)
         )
-    ).distance(user_location).order_by('distance')[:limit]
+    )#.distance(user_location).order_by('distance')[:limit]
 
-    paginated = request.QUERY_PARAMS.get('paginated')
+    paginated = request.query_params.get('paginated')
 
     if paginated:
 
@@ -330,15 +329,15 @@ def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
             paginated = settings.MAX_SPOTS_PER_PAGE_API
 
         paginator = Paginator(nearby_spots, paginated)
-        page = request.QUERY_PARAMS.get('page')
+        page = request.query_params.get('page')
         try:
             result = paginator.page(page)
         except PageNotAnInteger:
             result = paginator.page(1)
         except EmptyPage:
             result = paginator.page(paginator.num_pages)
-        serializer = PaginetedSpotWithDistanceSerializer(
-            result, context={'request': request})
+        serializer = SpotWithDistanceSerializer(
+            result, context={'request': request}, many=True)
     else:
         serializer = SpotWithDistanceSerializer(
             nearby_spots, many=True, context={'request': request})

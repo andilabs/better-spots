@@ -8,6 +8,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
+from django.template.loader import get_template
 
 from django.template.response import TemplateResponse
 from django.views.generic import FormView, CreateView
@@ -20,19 +21,19 @@ from .forms import ContactForm, AddSpotForm, EditSpotPhotoForm
 
 def main(request):
     if request.method == 'GET':
-        response = TemplateResponse(request, 'www/mission.html', {})
+        response = TemplateResponse(request, get_template('www/mission.html'), {})
         return response
 
 
 def map(request):
     if request.method == 'GET':
-        response = TemplateResponse(request, 'www/map.html', {})
+        response = TemplateResponse(request, get_template('www/map.html'), {})
         return response
 
 
 def mobile(request):
     if request.method == 'GET':
-        response = TemplateResponse(request, 'www/mobile.html', {})
+        response = TemplateResponse(request, get_template('www/mobile.html'), {})
         return response
 
 
@@ -90,7 +91,7 @@ def spot(request, pk, slug):
                 ' and it is awaiting moderation.'
             )
         )
-    return render(request, 'www/spot_detail.html', {'spot': spot})
+    return render(request, get_template('www/spot_detail.html'), {'spot': spot})
 
 
 def add_spot(request):
@@ -152,7 +153,7 @@ def add_spot(request):
         else:
             return render(
                 request,
-                'www/add_spot.html',
+                get_template('www/add_spot.html'),
                 {'form': form}
             )
 
@@ -166,7 +167,7 @@ def edit_photo(request, pk):
             form = EditSpotPhotoForm(instance=spot)
             return render(
                 request,
-                'www/edit_spot_photo.html',
+                get_template('www/edit_spot_photo.html'),
                 {'form': form, 'spot': spot}
             )
         else:
@@ -205,7 +206,7 @@ def favourites_list(request):
             site_title='your favourites spots',
             icon_type='heart')
     else:
-        response = TemplateResponse(request, 'www/favourites.html')
+        response = TemplateResponse(request, get_template('www/favourites.html'))
         return response
 
 
@@ -220,7 +221,7 @@ def certificated_list(request):
 
 def certificated(request, pk, slug=None):
     spot = get_object_or_404(Spot, pk=pk, is_certificated=True)
-    return render(request, 'www/spot_detail.html', {'spot': spot})
+    return render(request, get_template('www/spot_detail.html'), {'spot': spot})
 
 
 def generic_spots_list(request, spots, site_title='Spots',
@@ -264,7 +265,7 @@ def pdf_sticker(request, pk):
 
     if spot.is_certificated:
         return render_to_pdf(
-            'www/pdf_sticker.html',
+            get_template('www/pdf_sticker.html'),
             {
                 'BASE_HOST': settings.INSTANCE_DOMAIN,
                 'MEDIA_ROOT': settings.MEDIA_ROOT,
