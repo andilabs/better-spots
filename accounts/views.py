@@ -27,7 +27,7 @@ def mail_verification(request, verification_key):
                 messages.add_message(
                     request, messages.SUCCESS,
                     "Your account is arleady active! Just log in!")
-                return redirect('login')
+                return redirect('accounts:login')
 
         else:
 
@@ -41,7 +41,7 @@ def mail_verification(request, verification_key):
                     ("Account was activated! Log in and enjoy %s!" %
                      settings.SPOT_PROJECT_NAME)
                 )
-                return redirect('login')
+                return redirect('accounts:login')
 
             else:
 
@@ -55,14 +55,14 @@ def mail_verification(request, verification_key):
                     "The E-mail verification link has expired. We"
                     + " will send you the new one activation link"
                     + " to the e-mail: %s" % existing_account.user.email)
-                return redirect('login')
+                return redirect('accounts:login')
 
     except EmailVerification.DoesNotExist:
 
         messages.add_message(
             request, messages.ERROR,
             "Account does not exist")
-        return redirect('user_create')
+        return redirect('www:user_create')
 
 
 class SpotUserCreate(CreateView):
@@ -105,14 +105,14 @@ def mylogin(request):
                     messages.WARNING,
                     'Your account is not active. Check your mailbox and verify'
                     + ' E-mail by clicking the link we sent you.')
-                return redirect('login')
+                return redirect('accounts:login')
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
                 'Your provided invalid credentials')
 
-            return redirect('login')
+            return redirect('accounts:login')
 
 
 def mylogout(request):

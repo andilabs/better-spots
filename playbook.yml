@@ -39,12 +39,6 @@
                     update_cache=yes
                     state=present
 
-#  - name: Install PostgreSQL
-#    sudo: yes
-#    apt:
-#      name: postgresql-server-dev-9.6
-#      cache_valid_time: 600  # 10 minutes
-#      force: yes
   - name: Install PostgreSQL
     sudo: yes
     apt: name={{ item }} update_cache=yes state=installed
