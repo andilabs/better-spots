@@ -1,19 +1,19 @@
 {% load custom_tags_and_filters %}
 <div class="row" style="width:55%; min-width: 320px">
     <div class="col-xs-3">
-        <a href="{% url 'blogpost_list' %}" class="link-logo-menu initialy-invisible">
+        <a href="{% url 'blog:blogpost_list' %}" class="link-logo-menu initialy-invisible">
                 <i class="fa fa-rss fa-4x" data-toggle="tooltip" data-placement="bottom" title="Blog"></i><br>
                 Blog
         </a>
     </div>
     <div class="col-xs-6" >
-        <a href="{% url 'spots_list' %}" class="link-logo-menu initialy-invisible">
+        <a href="{% url 'www:spots_list' %}" class="link-logo-menu initialy-invisible">
             <i class="fa fa-th-large 0 fa-4x "  data-toggle="tooltip" data-placement="bottom" title="Spots"></i><br>
             Spots
         </a>
     </div>
     <div class="col-xs-3">
-    <a href="{% url 'add_spot' %}" class="link-logo-menu initialy-invisible">
+    <a href="{% url 'www:add_spot' %}" class="link-logo-menu initialy-invisible">
             <i class="fa fa-plus fa-4x" data-toggle="tooltip" data-placement="bottom" title="Add new spot"></i><br>
             Add new
         </a>
@@ -22,7 +22,7 @@
 
 <div class="row" style="width:55%; min-width: 320px">
     <div class="col-xs-3" style="vertical-align:middle; padding-top:15%">
-        <a href="{% url 'favourites_list' %}" class="link-logo-menu initialy-invisible">
+        <a href="{% url 'www:favourites_list' %}" class="link-logo-menu initialy-invisible">
             <i class="fa fa-heart fa-4x" data-toggle="tooltip" data-placement="bottom" title="Favourites"></i><br>
         Favourites
         </a>
@@ -31,7 +31,7 @@
         <a href="#" class="show-menu"><img src="{{STATIC_URL}}{% settings_value "SPOT_PROJECT_NAME" %}/logo.png" alt="{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}" style="min-height:80px; min-width:80px; width: 100%; max-width:200px;"></a>
     </div>
     <div class="col-xs-3" style="vertical-align:middle; padding-top:15%">
-        <a href="{% url 'certificated_list' %}" class="link-logo-menu initialy-invisible">
+        <a href="{% url 'www:certificated_list' %}" class="link-logo-menu initialy-invisible">
             <i class="fa fa-certificate fa-4x" data-toggle="tooltip" data-placement="bottom" title="Certificated"></i><br>
             Certificated
         </a>
@@ -55,13 +55,13 @@
         Search
   </div>
   <div class="col-xs-6" style="text-align:center">
-    <a href="{% url 'map' %}" class="link-logo-menu initialy-invisible">
+    <a href="{% url 'www:map' %}" class="link-logo-menu initialy-invisible">
         <i class="fa fa-map-marker fa-4x "  data-toggle="tooltip" data-placement="bottom" title="Map"></i><br>
         Show nearby
     </a>
   </div>
   <div class="col-xs-3">
-    <a href="{% if not user.is_authenticated %}{% url 'login' %}{% else %}{% url 'logout' %}{% endif %}"class="link-logo-menu initialy-invisible">
+    <a href="{% if not user.is_authenticated %}{% url 'accounts:login' %}{% else %}{% url 'accounts:logout' %}{% endif %}"class="link-logo-menu initialy-invisible">
         <i class="fa fa-user fa-4x" data-placement="bottom" title=""></i><br>
         {% if not user.is_authenticated %}
             Login

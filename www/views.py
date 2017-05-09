@@ -324,6 +324,8 @@ def download_vcard(request, pk):
     return response
 
 
+
+# TODO this view should be moved to accounts app !!!!
 class SpotUserCreate(CreateView):
     template_name = 'www/spotuser_form.html'
     form_class = UserCreationForm

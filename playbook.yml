@@ -107,6 +107,16 @@
     pip: virtualenv={{ web_base_dir }}/venv
          requirements=/mbf/requirements.txt
 
-  # TODO POSTGRES CREATE EXTENSION IF NOT EXISTS hstore;.
-  # TODO CREATE EXTENSION postgis;
+  - name: run database migrations
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py migrate --noinput --settings=mbf.settings.andi"
+    args:
+      chdir: "/mbf"
+      executable: /bin/bash
 
+  - name: activate virtualenv
+    become_user: ubuntu
+    become: yes
+    shell: "source {{ web_base_dir }}/venv/bin/activate"
+    args:
+      chdir: "/mbf"
+      executable: /bin/bash

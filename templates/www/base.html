@@ -120,42 +120,42 @@
             </li>
 
             <li>
-              <a href="{% url 'blogpost_list' %}">
+              <a href="{% url 'blog:blogpost_list' %}">
                 <i class="fa fa-rss fa-2x" data-toggle="tooltip" data-placement="bottom" title="Blog"></i>
               </a>
             </li>
 
             <li>
-              <a href="{% url 'spots_list' %}">
+              <a href="{% url 'www:spots_list' %}">
                  <i class="fa fa-th-large 0 fa-2x"  data-toggle="tooltip" data-placement="bottom" title="Spots"></i>
               </a>
             </li>
             <li>
-              <a href="{% url 'map' %}">
+              <a href="{% url 'www:map' %}">
                 <i class="fa fa-map-marker fa-2x"  data-toggle="tooltip" data-placement="bottom" title="Map"></i>
               </a>
             </li>
 
             <li>
-              <a href="{% url 'favourites_list' %}">
+              <a href="{% url 'www:favourites_list' %}">
                 <i class="fa fa-heart fa-2x" data-toggle="tooltip" data-placement="bottom" title="Favourites"></i>
               </a>
             </li>
 
             <li>
-              <a href="{% url 'certificated_list' %}">
+              <a href="{% url 'www:certificated_list' %}">
                 <i class="fa fa-certificate fa-2x" data-toggle="tooltip" data-placement="bottom" title="Certificated"></i>
               </a>
             </li>
 
             <li>
-              <a href="{% url 'mobile' %}">
+              <a href="{% url 'www:mobile' %}">
 		            <i class="fa fa-mobile fa-2x" data-toggle="tooltip" data-placement="bottom" title="Mobile"></i>
 	            </a>
             </li>
 
             <li>
-              <a href="{% url 'add_spot' %}">
+              <a href="{% url 'www:add_spot' %}">
                 <i class="fa fa-plus fa-2x" data-toggle="tooltip" data-placement="bottom" title="Add new spot"></i>
               </a>
             </li>
@@ -174,10 +174,10 @@
               </a>
               <ul class="dropdown-menu" role="menu">
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'logout' %}">Log me out!</a></li>
+                    <li><a href="{% url 'accounts:logout' %}">Log me out!</a></li>
                 {% else %}
-                  <li><a href="{% url 'user_create' %}">Register</a></li>
-                  <li><a href="{% url 'login' %}">Login</a></li>
+                  <li><a href="{% url 'www:user_create' %}">Register</a></li>
+                  <li><a href="{% url 'accounts:login' %}">Login</a></li>
                 {% endif %}
               </ul>
             </li>
@@ -222,21 +222,21 @@
       <div class="row">
           <div class="col-xs-4">
           <p>SITEMAP:</p>
-            <a href="{% url 'spots_list' %}">Browse all the spots</a>, 
-            <a href="{% url 'map' %}">Visualize spots on map</a>, 
-            <a href="{% url 'add_spot' %}">Add new spots</a>, 
-            <a href="{% url 'favourites_list' %}">Collect your favourites spots</a>, 
-            <a href="{% url 'certificated_list' %}">Discover best spots, which were awarded the certificate</a>, 
-            <a href="{% url 'blogpost_list' %}">Read newest entries on our blog</a>, 
-            <a href="{% url 'blog_rss' %}">RSS our blog</a><br>
+            <a href="{% url 'www:spots_list' %}">Browse all the spots</a>,
+            <a href="{% url 'www:map' %}">Visualize spots on map</a>,
+            <a href="{% url 'www:add_spot' %}">Add new spots</a>,
+            <a href="{% url 'www:favourites_list' %}">Collect your favourites spots</a>,
+            <a href="{% url 'www:certificated_list' %}">Discover best spots, which were awarded the certificate</a>,
+            <a href="{% url 'blog:blogpost_list' %}">Read newest entries on our blog</a>,
+            <a href="{% url 'blog:blog_rss' %}">RSS our blog</a><br>
             CITIES:
               {% for city in ALL_CITIES %}
-               <a href="{% url 'spots_list' %}?city={{ city }}" title="{% settings_value "SPOT_PROJECT_SUBJECT" %} friendly spots in {{ city }}">{{ city }}</a>,
+               <a href="{% url 'www:spots_list' %}?city={{ city }}" title="{% settings_value "SPOT_PROJECT_SUBJECT" %} friendly spots in {{ city }}">{{ city }}</a>,
               {% endfor %}
             <br>
             FACILITIES:
               {% for facility in SPOT_FACILITIES_VERBOSE_NAMES %}
-              <a href="{% url 'spots_list' %}?{{ facility.1 }}=True">{{ facility.0 }}</a>,
+              <a href="{% url 'www:spots_list' %}?{{ facility.1 }}=True">{{ facility.0 }}</a>,
               {% endfor %}
           </div>
           <div class="col-xs-4" style="text-align:center">
