@@ -98,7 +98,7 @@ def mylogin(request):
                 messages.add_message(
                     request,
                     messages.SUCCESS, 'You were sucessfully logged in!')
-                return redirect('main')
+                return redirect('www:main')
             else:
                 messages.add_message(
                     request,
@@ -126,6 +126,4 @@ def mylogout(request):
             request, messages.SUCCESS,
             'You sucessfully log out!')
 
-        return render_to_response(
-            'www/login.html',
-            context_instance=RequestContext(request))
+        return redirect('www:main')

@@ -113,6 +113,12 @@
       chdir: "/mbf"
       executable: /bin/bash
 
+  - name: load spots data fixtures for dogspot
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/dogspot/spots.json --settings=mbf.settings.andi"
+    args:
+      chdir: "/mbf"
+      executable: /bin/bash
+
   - name: activate virtualenv
     become_user: ubuntu
     become: yes

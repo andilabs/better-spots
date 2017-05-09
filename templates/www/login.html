@@ -11,7 +11,7 @@
     <h2 class="title">
         <span class="glyphicon glyphicon-log-in"></span> Login!
     </h2>
-    <form class="form-vertical" action="/user/login/" method="post">
+    <form class="form-vertical" action="{% url 'accounts:login' %}" method="post">
         {% csrf_token %}
         <div class="form-group" >
             <label class="control-label" for="id_email">Email address</label>
@@ -24,7 +24,7 @@
         <div class="form-group">
             <button type="submit" class="btn btn-default">Submit</button>
         </div>
-        Have no account? <a href="{% url 'user_create' %}">Register</a>
+        Have no account? <a href="{% url 'www:user_create' %}">Register</a>
     </form>
 
 {% endblock %}
