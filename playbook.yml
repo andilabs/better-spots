@@ -112,6 +112,7 @@
     args:
       chdir: "/mbf"
       executable: /bin/bash
+    # TODO some tag or other magic should determine it won't happen on production instance
 
   - name: activate virtualenv
     become_user: ubuntu
@@ -120,3 +121,9 @@
     args:
       chdir: "/mbf"
       executable: /bin/bash
+
+  # TODO createsuperuser
+
+  # TODO setup git
+
+  # TODO handle passwords and other secret data, like api keys right
