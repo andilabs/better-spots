@@ -32,9 +32,9 @@ class BlogPostDetailView(DetailView):
 
 
 class LastBlogPostEntries(Feed):
-    title = "Dogspot blog."
+    title = "%s blog." % (settings.SPOT_PROJECT_NAME.title())
     link = "/blog/"
-    description = "The latest posts about %s friednly spots in Warsaw" % (
+    description = "The latest posts about %s friendly spots around" % (
         settings.SPOT_PROJECT_SUBJECT.lower())
 
     def items(self):

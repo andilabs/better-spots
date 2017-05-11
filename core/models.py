@@ -265,7 +265,7 @@ LIKERT = (
     (5, 'exccelent'),
 )
 
-DOGS_ALLOWED = (
+IS_ALLOWED_CHOICES = (
     (False, 'Not allowed'),
     (True, 'Allowed'),
 )
@@ -279,7 +279,7 @@ class Rating(models.Model):
     spot = models.ForeignKey(
         Spot, related_name='ratings')
     is_enabled = models.BooleanField(
-        choices=DOGS_ALLOWED, default=False)
+        choices=IS_ALLOWED_CHOICES, default=False)
     friendly_rate = models.PositiveIntegerField(
         choices=LIKERT)
     facilities = HStoreField(null=True)
@@ -299,7 +299,7 @@ class Rating(models.Model):
     def __unicode__(self):
         return "%s %s by: %s rate: %2.f" % (
             self.spot.name,
-            DOGS_ALLOWED[self.is_enabled][1],
+            IS_ALLOWED_CHOICES[self.is_enabled][1],
             self.user.email,
             self.friendly_rate
         )
