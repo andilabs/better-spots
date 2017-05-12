@@ -14,6 +14,8 @@
       - postgresql-client
 
     web_base_dir: '/home/ubuntu/mbf'
+    project_dir: '/mbf'
+    project_instance: 'dogspot'
 
   gather_facts: no
   pre_tasks:
@@ -102,27 +104,38 @@
          requirements=/mbf/requirements.txt
 
   - name: run database migrations
-    shell: "{{ web_base_dir }}/venv/bin/python manage.py migrate --noinput --settings=mbf.settings.andi"
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py migrate --noinput"
     args:
-      chdir: "/mbf"
+      chdir: "{{ project_dir }}"
       executable: /bin/bash
 
   - name: load spots data fixtures for dogspot
-    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/dogspot/spots.json --settings=mbf.settings.andi"
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/spots.json"
     args:
-      chdir: "/mbf"
+      chdir: "{{ project_dir }}"
       executable: /bin/bash
     # TODO some tag or other magic should determine it won't happen on production instance
 
-  - name: activate virtualenv
-    become_user: ubuntu
-    become: yes
-    shell: "source {{ web_base_dir }}/venv/bin/activate"
+#  - name: activate virtualenv
+#    become_user: ubuntu
+#    become: yes
+#    shell: "source {{ web_base_dir }}/venv/bin/activate"
+#    args:
+#      chdir: "{{ project_dir }}"
+#      executable: /bin/bash
+
+  - name: create superuser
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_andi"
     args:
-      chdir: "/mbf"
+      chdir: "{{ project_dir }}"
       executable: /bin/bash
 
-  # TODO createsuperuser
+  - name: create instance
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_instance"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+
 
   # TODO setup git
 

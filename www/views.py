@@ -1,3 +1,4 @@
+import collections
 import json
 
 from django.db.models import Q
@@ -12,6 +13,7 @@ from django.template.loader import get_template
 
 from django.template.response import TemplateResponse
 from django.views.generic import FormView, CreateView
+from django.views.generic.list import ListView
 
 from core.models import Spot, SPOT_TYPE
 from utils.qrcodes import make_qrcode
@@ -42,6 +44,36 @@ def construct_facilities_filter(raw_get_data):
         facility: raw_get_data[facility]
         for facility in raw_get_data if facility in settings.SPOT_FACILITIES}
 
+
+SpotListUIConfig = collections.namedtuple('SpotListUIConfig', ['site_title', 'icon_type'])
+
+
+class BaseSpotListView(ListView):
+    template_name = 'www/spot_list.html'
+    queryset = Spot.objects.all()
+    paginate_by = 6
+    context_object_name = 'spots'
+    ui_context = SpotListUIConfig(site_title='browse spots', icon_type='th-large')
+
+    def get_context_data(self, **kwargs):
+        context = super(BaseSpotListView, self).get_context_data(**kwargs)
+        context.update(self.ui_context._asdict())
+        return context
+
+
+class SpotListView(BaseSpotListView):
+    pass
+
+class CertificatedSpotListView(BaseSpotListView):
+    queryset = Spot.objects.filter(is_certificated=True).order_by('name')
+    ui_context = SpotListUIConfig(site_title='certificated spots', icon_type='certificate')
+
+
+
+
+def certificated(request, pk, slug=None):
+    spot = get_object_or_404(Spot, pk=pk, is_certificated=True)
+    return render(request, get_template('www/spot_detail.html'), {'spot': spot})
 
 def spots_list(request, spot_type=None):
 
@@ -210,18 +242,7 @@ def favourites_list(request):
         return response
 
 
-def certificated_list(request):
-    spots = Spot.objects.filter(is_certificated=True).order_by('name')
-    return generic_spots_list(
-        request,
-        spots,
-        site_title='certificated spots',
-        icon_type='certificate')
 
-
-def certificated(request, pk, slug=None):
-    spot = get_object_or_404(Spot, pk=pk, is_certificated=True)
-    return render(request, get_template('www/spot_detail.html'), {'spot': spot})
 
 
 def generic_spots_list(request, spots, site_title='Spots',

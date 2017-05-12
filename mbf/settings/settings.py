@@ -36,6 +36,8 @@ elif 'veganspot.eu' in PROJECT_ROOT_PATH.split('/'):
     from .veganspot import *
     SPOT_PROJECT_NAME = 'veganspot'
 
+else:
+    from .local import *
 
 SPOT_PROJECT_FAVICON_URL = os.path.join(
     'static',
@@ -43,7 +45,7 @@ SPOT_PROJECT_FAVICON_URL = os.path.join(
     'favicon.ico'
 )
 
-SPOT_PROJECT_BLOGERS = os.path.join(
+SPOT_PROJECT_BLOGGER_PHOTO = os.path.join(
     STATIC_URL, SPOT_PROJECT_NAME, 'bloger_photo.jpg')
 
 TEMPLATE_DIRS = (

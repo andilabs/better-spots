@@ -11,7 +11,7 @@ urlpatterns = [
 
     url(r'^ajax_search/$', views.ajax_search, name='ajax_search'),
 
-    url(r'^certificated/$', views.certificated_list, name='certificated_list'),
+    url(r'^certificated/$', views.CertificatedSpotListView.as_view(), name='certificated_list'),
 
     url(r'^certificated/(?P<pk>\d+)(?:/(?P<slug>[\w\d-]+))?/$', views.certificated, name='certificated_detail'),
 
@@ -33,7 +33,7 @@ urlpatterns = [
 
     url(r'^qrcode_vcard/(?P<pk>\d+)/(?P<size>\d*)/?$', views.qrencode_vcard, name='qrcode_vcard'),
 
-    url(r'^spots/$', views.spots_list, name='spots_list'),
+    url(r'^spots/$', views.SpotListView.as_view(), name='spots_list'),
 
     url(r'^spots/add/$', views.add_spot, name='add_spot'),
 

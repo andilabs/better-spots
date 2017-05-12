@@ -61,7 +61,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    # 'django_extensions',
+    'django_extensions',
     'raven.contrib.django.raven_compat',
     'rest_framework',
     'rest_framework.authtoken',

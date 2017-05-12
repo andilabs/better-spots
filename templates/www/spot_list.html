@@ -39,7 +39,7 @@
           {% endif %}
         {% endif %}
 
-        <a href="{% url 'spot' spot.pk spot.spot_slug %}">
+        <a href="{% url 'www:spot' spot.pk spot.spot_slug %}">
         {% if spot.thumbnail_venue_photo %}
           <img src="{{spot.thumbnail_venue_photo}}" class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok {% else %} bad{% endif %}{% endif %}" style="width: 350px; height: 150px;">
         {% else %}
@@ -49,7 +49,7 @@
 
         <div class="caption">
             <h4>
-              <a href="{% url 'spot' spot.pk spot.spot_slug %}" title="{{ spot.name }}">{{ spot.name|upper|truncatechars:27 }}</a>
+              <a href="{% url 'www:spot' spot.pk spot.spot_slug %}" title="{{ spot.name }}">{{ spot.name|upper|truncatechars:27 }}</a>
             </h4>
 
             <div>
@@ -80,40 +80,24 @@
   {% endfor %}
 </div>
 
-    {% if spots.paginator.num_pages > 1 %}
+{% if is_paginated %}
   <ul class="pagination pagination-centered">
-    {% if spots.has_previous %}
+    {% if page_obj.has_previous %}
+
         <li>
-          <a href="?{% url_replace request 'page' 1 %}">
-            <<
-          </a>
-        </li>
-        <li>
-          <a href="?{% url_replace request 'page' spots.previous_page_number %}">
+          <a href="?page={{ page_obj.previous_page_number }}">
             <
           </a>
         </li>
     {% endif %}
 
-    {% for i in spots.paginator.page_range %}
-        <li {% if spots.number == i %} class="active" {% endif %}>
-          <a href="?{% url_replace request 'page' i %}">
-            {{i}}
-          </a>
-        </li>
-    {% endfor %}
 
-    {% if spots.has_next %}
+    {% if page_obj.has_next %}
         <li>
-          <a href="?{% url_replace request 'page' spots.next_page_number %}">
+          <a href="?page={{ page_obj.next_page_number }}">
             >
           </a>
         </li>
-
-        <li>
-          <a href="?{% url_replace request 'page' spots.paginator.num_pages %}">
-            >>
-          </a>
         </li>
     {% endif %}
   </ul>

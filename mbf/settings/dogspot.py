@@ -47,6 +47,8 @@ SNCACKS_VERBOSE = "dog treats"
 SPECIAL_MENU_CODE = "dedicated_dogs_menu"
 SPECIAL_MENU_VERBOSE = "special menu for dogs"
 
+SPOT_PROJECT_INSTAGRAM_URL = "https://www.instagram.com/dogspoteu/"
+
 FACILITIES_CODE_VERBOSE_MAP = {
     FRESH_WATER_CODE: FRESH_WATER_VERBOSE,
     SNACKS_CODE: SNCACKS_VERBOSE,

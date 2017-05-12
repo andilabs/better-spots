@@ -154,11 +154,14 @@ SNCACKS_VERBOSE = "dog snakcs"
 SPECIAL_MENU_CODE = "dedicated_dogs_menu"
 SPECIAL_MENU_VERBOSE = "special menu for dogs"
 
+SPOT_PROJECT_INSTAGRAM_URL = "https://www.instagram.com/andiventur.es/"
+
 FACILITIES_CODE_VERBOSE_MAP = {
     FRESH_WATER_CODE: FRESH_WATER_VERBOSE,
     SNACKS_CODE: SNCACKS_VERBOSE,
     SPECIAL_MENU_CODE: SPECIAL_MENU_VERBOSE
 }
+
 
 HSTORE_SCHEMA = [
     {
@@ -193,10 +196,6 @@ SPOT_PROJECT_FAVICON_URL = os.path.join(
     SPOT_PROJECT_NAME,
     'favicon.ico'
 )
-
-SPOT_PROJECT_BLOGERS = os.path.join(STATIC_URL, SPOT_PROJECT_NAME, 'bloger_photo.jpg')
-
-# MIDDLEWARE_CLASSES = ('utils.performance.db_queries.QueryCountDebugMiddleware',) + MIDDLEWARE_CLASSES
 
 LOGGING = {
     'disable_existing_loggers': False,

@@ -50,6 +50,9 @@ PLAYROOM_VERBOSE = "playroom for kids"
 KIDS_MENU_CODE = "kids_menu"
 KIDS_MENU_VERBOSE = "kids menu"
 
+SPOT_PROJECT_INSTAGRAM_URL = "https://www.instagram.com/momspoteu/"
+
+
 FACILITIES_CODE_VERBOSE_MAP = {
     BABY_CHANGING_CODE: BABY_CHANGING_VERBOSE,
     PLAYROOM_CODE: PLAYROOM_VERBOSE,
