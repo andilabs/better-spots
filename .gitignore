@@ -2,4 +2,5 @@
 *.sqlite3
 *.db
 .DS_Store
-media/img/
+.vagrant
+media

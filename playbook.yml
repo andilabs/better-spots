@@ -14,6 +14,7 @@
       - postgresql-client
 
     web_base_dir: '/home/ubuntu/mbf'
+    media_dir: '/mbf/media'
     project_dir: '/mbf'
     project_instance: 'dogspot'
 
@@ -94,6 +95,12 @@
       name: hstore
       db: mbf
 
+  - name: Create media directories
+    sudo: yes
+    file: path="{{ item }}" state=directory
+    with_items:
+      - "{{ media_dir }}/img"
+
   - name: create virtualenv for python 3.5
     sudo: yes
     command: creates={{ web_base_dir }}/venv virtualenv -p python3.5 {{ web_base_dir }}/venv
@@ -115,6 +122,11 @@
       chdir: "{{ project_dir }}"
       executable: /bin/bash
     # TODO some tag or other magic should determine it won't happen on production instance
+
+  - name: copy images for spots from fixtures
+    copy: src={{ item.src }} dest={{ item.dest }}
+    with_items:
+      - { src: 'data/{{project_instance}}/initial_img/', dest: "{{ media_dir }}/img" }
 
 #  - name: activate virtualenv
 #    become_user: ubuntu
