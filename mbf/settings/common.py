@@ -70,6 +70,7 @@ INSTALLED_APPS = (
     'api',
     'www',
     'blog',
+    'debug_toolbar',
 )
 
 REST_FRAMEWORK = {
@@ -89,7 +90,7 @@ REST_FRAMEWORK = {
 }
 
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -97,7 +98,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
 
 ROOT_URLCONF = 'mbf.urls'
 
@@ -130,3 +132,4 @@ IMAGE_CROPPING_SIZE_WARNING = True
 SERIALIZATION_MODULES = {
     "geojson": "django.contrib.gis.serializers.geojson", 
 }
+

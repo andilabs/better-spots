@@ -13,11 +13,11 @@ urlpatterns = [
 
     url(r'^certificated/$', views.CertificatedSpotListView.as_view(), name='certificated_list'),
 
-    url(r'^certificated/(?P<pk>\d+)(?:/(?P<slug>[\w\d-]+))?/$', views.certificated, name='certificated_detail'),
+    url(r'^certificated/(?P<pk>\d+)(?:/(?P<slug>[\w\d-]+))?/$', views.CertificatedSpotDetailView.as_view(), name='certificated_detail'),
 
     url(r'^contact/$', ContactView.as_view(), name='contact'),
 
-    url(r'^favourites/$', views.favourites_list, name='favourites_list'),
+    url(r'^favourites/$', views.FavouritesSpotListView.as_view(), name='favourites_list'),
 
     url(r'^map/$', views.map, name='map'),
 
@@ -37,7 +37,7 @@ urlpatterns = [
 
     url(r'^spots/add/$', views.add_spot, name='add_spot'),
 
-    url(r'^spots/(?P<pk>\d+)(?:/(?P<slug>[\w\d-]+))?/$', views.spot, name='spot'),
+    url(r'^spots/(?P<pk>\d+)(?:/(?P<slug>[\w\d-]+))?/$', views.SpotDetailView.as_view(), name='spot'),
 
     url(r'^edit_photo/(?P<pk>\d+)/$', views.edit_photo, name='edit_photo'),
 

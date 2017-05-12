@@ -1,18 +1,23 @@
 import collections
 import json
 
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
+from django.db.models.expressions import Value, ExpressionWrapper
+from django.db.models.fields import BooleanField
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import get_template
 
 from django.template.response import TemplateResponse
+from django.utils.decorators import method_decorator
 from django.views.generic import FormView, CreateView
+from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 from core.models import Spot, SPOT_TYPE
@@ -21,36 +26,12 @@ from accounts.forms import UserCreationForm
 from .forms import ContactForm, AddSpotForm, EditSpotPhotoForm
 
 
-def main(request):
-    if request.method == 'GET':
-        response = TemplateResponse(request, get_template('www/mission.html'), {})
-        return response
-
-
-def map(request):
-    if request.method == 'GET':
-        response = TemplateResponse(request, get_template('www/map.html'), {})
-        return response
-
-
-def mobile(request):
-    if request.method == 'GET':
-        response = TemplateResponse(request, get_template('www/mobile.html'), {})
-        return response
-
-
-def construct_facilities_filter(raw_get_data):
-    return {
-        facility: raw_get_data[facility]
-        for facility in raw_get_data if facility in settings.SPOT_FACILITIES}
-
-
 SpotListUIConfig = collections.namedtuple('SpotListUIConfig', ['site_title', 'icon_type'])
 
 
 class BaseSpotListView(ListView):
     template_name = 'www/spot_list.html'
-    queryset = Spot.objects.all()
+    model = Spot
     paginate_by = 6
     context_object_name = 'spots'
     ui_context = SpotListUIConfig(site_title='browse spots', icon_type='th-large')
@@ -58,6 +39,10 @@ class BaseSpotListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(BaseSpotListView, self).get_context_data(**kwargs)
         context.update(self.ui_context._asdict())
+        if self.request.user.is_authenticated():
+            user_favourites = self.request.user.favourites
+            context['user_favourites_spots_pks'] = user_favourites.values_list('spot_id', flat=True)
+            context['user_favourites_spots_lookup'] = dict(user_favourites.values('spot_id', 'pk'))
         return context
 
 
@@ -69,61 +54,30 @@ class CertificatedSpotListView(BaseSpotListView):
     ui_context = SpotListUIConfig(site_title='certificated spots', icon_type='certificate')
 
 
+@method_decorator(login_required(), name='dispatch')
+class FavouritesSpotListView(BaseSpotListView):
+    ui_context = SpotListUIConfig(site_title='your favourites spots', icon_type='heart')
 
-
-def certificated(request, pk, slug=None):
-    spot = get_object_or_404(Spot, pk=pk, is_certificated=True)
-    return render(request, get_template('www/spot_detail.html'), {'spot': spot})
-
-def spots_list(request, spot_type=None):
-
-    spots = Spot.objects.filter(is_accepted=True).order_by('name')
-
-    facilities = construct_facilities_filter(request.GET)
-    spots = spots.filter(
-        facilities__contains=facilities,
-    )
-    spot_types_dict = dict(SPOT_TYPE)
-    if spot_type and spot_type in spot_types_dict.values():
-        spot_type_index = spot_types_dict.keys()[spot_types_dict.values().index(spot_type)]
-        spots = spots.filter(spot_type=spot_type_index)
-
-    cities = None
-    if request.GET.getlist('city'):
-        cities = request.GET.getlist('city')
-        spots = spots.filter(
-            address_city__in=cities
+    def get_queryset(self):
+        return super(FavouritesSpotListView, self).get_queryset().filter(
+            pk__in=self.request.user.favourites.values_list('spot_id', flat=True)
         )
 
-    if request.GET.getlist('is_enabled'):
-        enable_status = [int(i) for i in request.GET.getlist('is_enabled')]
-        spots = spots.filter(
-            is_enabled__in=enable_status
-        )
 
-    return generic_spots_list(
-        request,
-        spots,
-        site_title='browse %s %s %s' % (
-            '%ss ' % spot_type if spot_type else 'spots ',
-            'in %s' % ' '.join(cities) if cities else '',
-            'having facilities: %s' % (' '.join(facilities.keys()).replace('_', ' ')) if facilities.keys() else '',
-        ),
-        icon_type='th-large')
+class BaseSpotDetailView(DetailView):
+    model = Spot
 
 
-def spot(request, pk, slug):
-    spot = get_object_or_404(Spot, pk=pk)
-    if not spot.is_accepted:
-        messages.add_message(
-            request,
-            messages.WARNING,
-            (
-                'The spots was added by not-registred user'
-                ' and it is awaiting moderation.'
-            )
-        )
-    return render(request, get_template('www/spot_detail.html'), {'spot': spot})
+class SpotDetailView(BaseSpotDetailView):
+    template_name = 'www/spot_detail.html'
+
+
+class CertificatedSpotDetailView(SpotDetailView):
+
+    def get_queryset(self):
+        return super(CertificatedSpotDetailView, self).get_queryset().filter(is_certificated=True)
+
+
 
 
 def add_spot(request):
@@ -227,41 +181,6 @@ def edit_photo(request, pk):
                     }
                 )
             )
-
-
-def favourites_list(request):
-    if request.user.is_authenticated():
-        spots = request.user.favourites
-        return generic_spots_list(
-            request,
-            spots,
-            site_title='your favourites spots',
-            icon_type='heart')
-    else:
-        response = TemplateResponse(request, get_template('www/favourites.html'))
-        return response
-
-
-
-
-
-def generic_spots_list(request, spots, site_title='Spots',
-                       template='www/spot_list.html', icon_type='th'):
-
-    paginator = Paginator(spots, 12)
-    page = request.GET.get('page')
-    try:
-        spots = paginator.page(page)
-    except PageNotAnInteger:
-        spots = paginator.page(1)
-    except EmptyPage:
-        spots = paginator.page(paginator.num_pages)
-    return render(request, template, {
-        'spots': spots,
-        'site_title': site_title,
-        'icon_type': icon_type,
-        'all_cities': Spot.objects.order_by().values_list('address_city', flat=True).distinct(),
-    })
 
 
 def render_to_pdf(template_src, context_dict):
@@ -383,3 +302,21 @@ class ContactView(FormView):
             messages.SUCCESS, 'Your message was sucessfully sent!'
             )
         return super(ContactView, self).form_valid(form)
+
+
+def main(request):
+    if request.method == 'GET':
+        response = TemplateResponse(request, get_template('www/mission.html'), {})
+        return response
+
+
+def map(request):
+    if request.method == 'GET':
+        response = TemplateResponse(request, get_template('www/map.html'), {})
+        return response
+
+
+def mobile(request):
+    if request.method == 'GET':
+        response = TemplateResponse(request, get_template('www/mobile.html'), {})
+        return response

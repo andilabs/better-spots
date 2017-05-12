@@ -39,7 +39,8 @@
           {% endif %}
         {% endif %}
 
-        <a href="{% url 'www:spot' spot.pk spot.spot_slug %}">
+
+        <a href="{{spot.get_url}}">
         {% if spot.thumbnail_venue_photo %}
           <img src="{{spot.thumbnail_venue_photo}}" class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok {% else %} bad{% endif %}{% endif %}" style="width: 350px; height: 150px;">
         {% else %}
@@ -49,7 +50,7 @@
 
         <div class="caption">
             <h4>
-              <a href="{% url 'www:spot' spot.pk spot.spot_slug %}" title="{{ spot.name }}">{{ spot.name|upper|truncatechars:27 }}</a>
+              <a href="{{spot.get_url}}" title="{{ spot.name }}">{{ spot.name|upper|truncatechars:27 }}</a>
             </h4>
 
             <div>
@@ -65,8 +66,8 @@
               </div>
 
               <div class="col2">
-                {% if spot in user.favourites %}
-                  <div class="heart" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="{{user.spot_pk_to_fav_asset_pk|keyvalue:spot.pk}}"></div>
+                {% if spot.pk in user_favourites_spots_pks %}
+                  <div class="heart" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="{{user_favourites_spots_lookup|keyvalue:spot.pk}}"></div>
                 {% else %}
                   <div class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk=""></div>
                 {% endif %}

@@ -3,11 +3,11 @@ from django.conf.urls import url
 from accounts import views
 
 urlpatterns = [
-    url(r'^user/login/$',
+    url(r'^login/$',
         views.mylogin,
         name='login'),
 
-    url(r'^user/logout/$',
+    url(r'^logout/$',
         views.mylogout,
         name='logout'),
 

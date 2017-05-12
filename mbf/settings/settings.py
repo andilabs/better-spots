@@ -1,6 +1,3 @@
-from .common import *
-import os
-
 from unipath import Path
 
 DEBUG = True
@@ -18,22 +15,22 @@ STATIC_URL = '/static/'
 
 
 if 'dogspot.eu' in PROJECT_ROOT_PATH.split('/'):
-    from .dogspot import *
+    from mbf.settings.instance_configs.dogspot import *
     SPOT_PROJECT_NAME = 'dogspot'
 
 
 elif 'momspot.eu' in PROJECT_ROOT_PATH.split('/'):
-    from .momspot import *
+    from mbf.settings.instance_configs.momspot import *
     SPOT_PROJECT_NAME = 'momspot'
 
 
 elif 'enabledspot.eu' in PROJECT_ROOT_PATH.split('/'):
-    from .enabledspot import *
+    from mbf.settings.instance_configs.enabledspot import *
     SPOT_PROJECT_NAME = 'enabledspot'
 
 
 elif 'veganspot.eu' in PROJECT_ROOT_PATH.split('/'):
-    from .veganspot import *
+    from mbf.settings.instance_configs.veganspot import *
     SPOT_PROJECT_NAME = 'veganspot'
 
 else:
@@ -46,7 +43,7 @@ SPOT_PROJECT_FAVICON_URL = os.path.join(
 )
 
 SPOT_PROJECT_BLOGGER_PHOTO = os.path.join(
-    STATIC_URL, SPOT_PROJECT_NAME, 'bloger_photo.jpg')
+    MEDIA_URL, SPOT_PROJECT_NAME, 'bloger_photo.jpg')
 
 TEMPLATE_DIRS = (
      os.path.join(PROJECT_ROOT_PATH, 'templates/'),

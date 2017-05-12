@@ -237,6 +237,13 @@ class Spot(models.Model):
         return "http://%s%s" % (settings.INSTANCE_DOMAIN, reverse(
             'www:spot', args=[self.pk, self.spot_slug]))
 
+    @property
+    def get_url(self):
+        if self.is_certificated:
+            return reverse('www:certificated_detail', args=[self.pk, self.spot_slug])
+        else:
+            return reverse('www:spot', args=[self.pk, self.spot_slug])
+
     def __unicode__(self):
         return self.name
 

@@ -18,6 +18,7 @@
       "location": "POINT (21.0066200000000016 52.2317699999999974)",
       "spot_type": 1,
       "is_accepted": true,
+      "is_certificated": false,
       "address_country": "Polska",
       "email": "justyna@kulturalna.pl"
     }
@@ -41,6 +42,7 @@
       "location": "POINT (21.0227600000000017 52.2395899999999997)",
       "spot_type": 1,
       "is_accepted": true,
+      "is_certificated": false,
       "address_country": "Polska",
       "email": "kafka@kafka.com.pl"
     }
@@ -64,6 +66,7 @@
       "location": "POINT (21.0026900000000012 52.2362600000000015)",
       "spot_type": 1,
       "is_accepted": true,
+      "is_certificated": true,
       "address_country": "Polska",
       "email": ""
     }
@@ -110,6 +113,7 @@
       "location": "POINT (21.0164000000000009 52.2214499999999973)",
       "spot_type": 2,
       "is_accepted": true,
+      "is_certificated": false,
       "address_country": "Polska",
       "email": ""
     }
@@ -133,6 +137,7 @@
       "location": "POINT (21.0187400000000011 52.2199299999999980)",
       "spot_type": 1,
       "is_accepted": true,
+      "is_certificated": false,
       "address_country": "Polska",
       "email": "info@bistrocharlotte.pl"
     }
@@ -156,6 +161,7 @@
       "location": "POINT (20.9884799999999991 52.2110399999999970)",
       "spot_type": 2,
       "is_accepted": true,
+      "is_certificated": false,
       "address_country": "Polska",
       "email": ""
     }
@@ -179,6 +185,7 @@
       "location": "POINT (19.9492900000000013 50.0460800000000035)",
       "spot_type": 1,
       "is_accepted": true,
+      "is_certificated": true,
       "address_country": "Polska",
       "email": "drukarnia@drukarniaclub.pl"
     }
