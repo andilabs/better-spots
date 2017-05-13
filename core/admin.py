@@ -2,17 +2,14 @@ from solo.admin import SingletonModelAdmin
 from image_cropping import ImageCroppingMixin
 
 from django import forms
-from django.conf import settings
 from django.contrib import admin
 from django.db import models
-
 
 from core.models import (
     Spot,
     Rating,
     Opinion,
     OpinionUsefulnessRating,
-    UsersSpotsList,
     Instance
 )
 
@@ -49,7 +46,7 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'number_of_ratings',
         'admin_thumbnail_venue_photo',
         'google_maps_static_image',
-        'creator',
+        # 'creator',
         'anonymous_creator_cookie',
         'facilities']
     )
@@ -118,8 +115,8 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'longitude',
         'is_enabled',
         'friendly_rate',
-        'date_updated',
-        'date_created',
+        'updated_at',
+        'created_at',
         'spot_slug'])
 
     def number_of_ratings(self, obj):
@@ -152,18 +149,8 @@ class RatingAdmin(admin.ModelAdmin):
             'spot',
             'friendly_rate',
             'is_enabled',
-            'user',
+            # 'user',
         ]
-
-
-class UsersSpotsListAdmin(admin.ModelAdmin):
-    list_display = (
-        'role',
-        'spot',
-        'user'
-    )
-
-    list_filter = ('role', 'user', 'spot')
 
 
 admin.site.register(Spot, SpotAdmin)
@@ -171,4 +158,3 @@ admin.site.register(Rating, RatingAdmin)
 admin.site.register(Opinion)
 admin.site.register(Instance, SingletonModelAdmin)
 admin.site.register(OpinionUsefulnessRating)
-admin.site.register(UsersSpotsList, UsersSpotsListAdmin)

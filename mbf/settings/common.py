@@ -7,7 +7,9 @@ from easy_thumbnails.conf import Settings as thumbnail_settings
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-AUTH_USER_MODEL = 'accounts.SpotUser'
+DEBUG = True
+
+AUTH_USER_MODEL = 'accounts.User'
 
 SECRET_KEY = os.environ.get(
     'DJANGO_SECRET_KEY',
@@ -23,8 +25,6 @@ DESIRED_PASSWORD_LENGTH = 5
 
 MAX_SPOTS_PER_PAGE_API = 20
 
-
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -34,6 +34,7 @@ TEMPLATES = [
         ],
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug': DEBUG,
             'context_processors': [
                 # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
                 # list if you haven't customized them:
@@ -44,6 +45,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -65,11 +67,14 @@ INSTALLED_APPS = (
     'raven.contrib.django.raven_compat',
     'rest_framework',
     'rest_framework.authtoken',
+
     'accounts',
     'core',
     'api',
     'www',
     'blog',
+    'utils',
+
     'debug_toolbar',
 )
 
@@ -84,7 +89,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated'
+        # 'rest_framework.permissions.IsAuthenticated'
     ],
     'PAGE_SIZE': 10,
 }

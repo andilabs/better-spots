@@ -9,25 +9,13 @@ from django.conf import settings
 from django.utils import timezone
 from django.template.defaultfilters import slugify
 
-from core.models import Spot
+from blog.managers import DraftsManager, PublishedManager
 from utils.img_path import get_image_path
 
 
-class DraftsManager(models.Manager):
-    def get_queryset(self):
-        return super(DraftsManager, self).get_queryset().filter(
-            published_date__isnull=True)
-
-
-class PublishedManager(models.Manager):
-    def get_queryset(self):
-        return super(PublishedManager, self).get_queryset().filter(
-            published_date__isnull=False)
-
-
-class Post(models.Model):
+class BlogPost(models.Model):
     user = models.ForeignKey(
-        'accounts.SpotUser',
+        'accounts.User',
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
@@ -43,9 +31,10 @@ class Post(models.Model):
         null=True,
         help_text='Saving with empty values makes post unpublished')
     spot = models.ForeignKey(
-        Spot,
+        'core.Spot',
         null=True,
         blank=True,
+        on_delete=models.CASCADE,
         related_name='blog_posts')
     blogpost_photo = ImageCropField(
         upload_to=get_image_path,
@@ -59,6 +48,7 @@ class Post(models.Model):
         size_warning=True)
     post_slug = models.SlugField(
         max_length=1200)
+
     objects = models.Manager()
     drafts = DraftsManager()
     published = PublishedManager()
@@ -117,4 +107,4 @@ class Post(models.Model):
             self.created_date.day,
             slugify(self.title)
         )
-        super(Post, self).save(*args, **kwargs)
+        super(BlogPost, self).save(*args, **kwargs)

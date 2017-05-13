@@ -2,7 +2,7 @@ from image_cropping import ImageCroppingMixin
 
 from django.contrib import admin
 
-from blog.models import Post
+from blog.models import BlogPost
 
 
 class BlogPostAdmin(ImageCroppingMixin, admin.ModelAdmin):
@@ -11,9 +11,9 @@ class BlogPostAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'title',
         'created_date',
         'published_date',
-        'spot',
+        # 'spot',
         'admin_blogpost_photo_thumb',
-        'user'
+        # 'user'
     )
 
     fieldsets = [
@@ -26,9 +26,9 @@ class BlogPostAdmin(ImageCroppingMixin, admin.ModelAdmin):
                     'published_date',
                     'text',
                     'blogpost_photo',
-                    'spot',
+                    # 'spot',
                     'admin_blogpost_photo_thumb',
-                    'user',
+                    # 'user',
                 ]
             }),
     ]
@@ -39,4 +39,4 @@ class BlogPostAdmin(ImageCroppingMixin, admin.ModelAdmin):
     )
 
 
-admin.site.register(Post, BlogPostAdmin)
+admin.site.register(BlogPost, BlogPostAdmin)

@@ -1,0 +1,22 @@
+[
+   {
+      "model": "core.instance",
+      "pk": 1,
+      "fields": {
+         "created_at": "2017-05-13T13:18:02.518",
+         "updated_at": "2017-05-13T13:23:30.082",
+         "name": "dogspot",
+         "slogan": "Wow the World!",
+         "subject": "Dog",
+         "main_color": "#fcbd41",
+         "description": "find dog friendly cafes, restaurants and more",
+         "windows_phone_store_url": null,
+         "google_store_url": null,
+         "apple_store_url": null,
+         "instagram": "https://www.instagram.com/dogspoteu/",
+         "facebook": null,
+         "twitter": null,
+         "blogger_photo": "img/blogger_photo.jpg"
+      }
+   }
+]

@@ -10,14 +10,15 @@ from rest_framework.serializers import (
     DecimalField,
 )
 
-from core.models import Spot, Rating, UsersSpotsList
-from accounts.models import SpotUser
+from accounts.models import UserFavouritesSpotList
+from core.models import Spot, Rating
+from accounts.models import User
 
 
-class SpotUserSerializer(ModelSerializer):
+class UserSerializer(ModelSerializer):
 
     class Meta:
-        model = SpotUser
+        model = User
         fields = ('url', 'mail_verified', 'email')
 
 
@@ -39,21 +40,20 @@ class RatingSerializer(ModelSerializer):
 
 
 class SpotListSerializer(ModelSerializer):
-    # www_url = ReadOnlyField()
-    # id = ReadOnlyField()
-    # thumbnail_venue_photo = ReadOnlyField()
-    # location = CharField(required=True)
-    # friendly_rate_stars = ReadOnlyField()
-    # friendly_rate = DecimalField(max_digits=2, decimal_places=1, coerce_to_string=False)
+    www_url = ReadOnlyField()
+    id = ReadOnlyField()
+    thumbnail_venue_photo = ReadOnlyField()
+    location = CharField(required=True)
+    friendly_rate_stars = ReadOnlyField()
+    friendly_rate = DecimalField(max_digits=2, decimal_places=1, coerce_to_string=False)
 
     class Meta:
         model = Spot
         fields = (
-            # 'pk',
-            # 'url',
+            'pk',
             'id',
-            # 'www_url',
-            # 'thumbnail_venue_photo',
+            'www_url',
+            'thumbnail_venue_photo',
             'location',
             'name',
             'address_street',
@@ -61,15 +61,15 @@ class SpotListSerializer(ModelSerializer):
             'address_city',
             'address_country',
             'spot_type',
-            # 'is_accepted',
-            # 'phone_number',
-            # 'email',
-            # 'www',
-            # 'facebook',
-            # 'is_enabled',
-            # 'friendly_rate',
-            # 'is_certificated',
-            # 'friendly_rate_stars',
+            'is_accepted',
+            'phone_number',
+            'email',
+            'www',
+            'facebook',
+            'is_enabled',
+            'friendly_rate',
+            'is_certificated',
+            'friendly_rate_stars',
             # 'facilities',
         )
 
@@ -105,12 +105,10 @@ class SpotListSerializer(ModelSerializer):
         else:
             ret['location'] = None
 
-        # ret['www_url'] = instance.www_url
-
-        # ret['thumbnail_venue_photo'] = "http://%s%s" % (
-        #     settings.INSTANCE_DOMAIN,
-        #     instance.thumbnail_venue_photo
-        # ) if instance.thumbnail_venue_photo else None
+        ret['thumbnail_venue_photo'] = "http://%s%s" % (
+            settings.INSTANCE_DOMAIN,
+            instance.thumbnail_venue_photo
+        ) if instance.thumbnail_venue_photo else None
 
         if not instance.email:
             ret['email'] = ""
@@ -134,20 +132,16 @@ class SpotWithDistanceSerializer(SpotListSerializer):
     def to_representation(self, instance):
         ret = super(
             SpotWithDistanceSerializer, self).to_representation(instance)
-        # ret['distance'] = instance.distance.km
+        ret['distance'] = instance.distance.km
         return ret
 
 
 class FavouritesSpotsListSerializer(ModelSerializer):
     spot = SpotListSerializer(read_only=True)
-    spot_pk = PrimaryKeyRelatedField(
-        queryset=Spot.objects.all())
 
     class Meta:
-        model = UsersSpotsList
+        model = UserFavouritesSpotList
         fields = (
-            'url',
             'spot',
-            'data_added',
-            'spot_pk'
+            'created_at',
         )

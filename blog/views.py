@@ -4,13 +4,13 @@ from django.views.generic.list import ListView
 from django.views.generic import DetailView
 
 from django.conf import settings
-from .models import Post
+from .models import BlogPost
 from core.models import Instance
 
 
 class BlogPostsListView(ListView):
 
-    model = Post
+    model = BlogPost
     template_name = 'blog/post_list.html'
     paginate_by = 4
 
@@ -22,12 +22,12 @@ class BlogPostsListView(ListView):
         return context
 
     def get_queryset(self, **kwargs):
-        return Post.published.all().order_by('-published_date')
+        return BlogPost.published.all().order_by('-published_date')
 
 
 class BlogPostDetailView(DetailView):
 
-    model = Post
+    model = BlogPost
     template_name = 'blog/post_detail.html'
 
 
@@ -38,7 +38,7 @@ class LastBlogPostEntries(Feed):
         settings.SPOT_PROJECT_SUBJECT.lower())
 
     def items(self):
-        return Post.objects.order_by('-published_date')[:15]
+        return BlogPost.objects.order_by('-published_date')[:15]
 
     def item_title(self, item):
         return item.title

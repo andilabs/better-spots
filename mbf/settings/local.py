@@ -19,9 +19,8 @@ SPOT_PROJECT_NAME = 'dogspot'
 
 
 DEBUG = True
-TEMPLATE_DEBUG = True
 
-INSTANCE_DOMAIN = "127.0.0.1:4000"
+INSTANCE_DOMAIN = "192.168.33.13:8000"
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
@@ -54,9 +53,9 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 STATIC_ROOT = '/pseudo_static_server_spots/'
 
-TEMPLATE_DIRS = (
-     os.path.join(PROJECT_ROOT_PATH, 'templates/'),
-)
+# TEMPLATE_DIRS = (
+#      os.path.join(PROJECT_ROOT_PATH, 'templates/'),
+# )
 
 
 SPOT_FACILITIES = [d['name'] for d in HSTORE_SCHEMA]

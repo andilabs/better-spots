@@ -1,11 +1,11 @@
 from django.contrib.auth.admin import UserAdmin
 from django.contrib import admin
 
-from .models import SpotUser
+from .models import User, UserFavouritesSpotList
 from .forms import UserCreationForm, UserChangeForm
 
 
-class SpotUserAdmin(UserAdmin):
+class UserAdmin(UserAdmin):
     # The forms to add and change user instances
     form = UserChangeForm
     add_form = UserCreationForm
@@ -32,4 +32,17 @@ class SpotUserAdmin(UserAdmin):
     filter_horizontal = ()
 
 
-admin.site.register(SpotUser, SpotUserAdmin)
+class UserFavouritesSpotListAdmin(admin.ModelAdmin):
+    list_display = (
+        'spot',
+        'user',
+    )
+
+    list_filter = (
+        'user',
+        'spot'
+    )
+
+
+admin.site.register(User, UserAdmin)
+admin.site.register(UserFavouritesSpotList, UserFavouritesSpotListAdmin)

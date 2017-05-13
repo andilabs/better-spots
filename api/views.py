@@ -34,12 +34,12 @@ from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 
 from core.models import (
-    Spot, Rating, UsersSpotsList
+    Spot, Rating
 )
-from accounts.models import SpotUser
+from accounts.models import User, UserFavouritesSpotList
 from accounts.authentication import ExpiringTokenAuthentication
 from .serializers import (
-    SpotUserSerializer,
+    UserSerializer,
     SpotListSerializer,
     SpotDetailSerializer,
     SpotWithDistanceSerializer,
@@ -127,22 +127,22 @@ class FileUploadView(APIView):
 
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
 @permission_classes((IsAdmin, ))
-class SpotUserList(ListCreateAPIView):
-    serializer_class = SpotUserSerializer
+class UserListApiView(ListCreateAPIView):
+    serializer_class = UserSerializer
 
     def get_queryset(self):
-        queryset = SpotUser.objects.all()
+        queryset = User.objects.all()
         return queryset
 
 
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
 @permission_classes((IsAdmin, ))
-class SpotUserDetail(RetrieveUpdateDestroyAPIView):
-    model = SpotUser
-    serializer_class = SpotUserSerializer
+class UserDetail(RetrieveUpdateDestroyAPIView):
+    model = User
+    serializer_class = UserSerializer
 
     def get_queryset(self):
-        queryset = SpotUser.objects.all()
+        queryset = User.objects.all()
         return queryset
 
     def get_object(self):
@@ -153,14 +153,12 @@ class SpotUserDetail(RetrieveUpdateDestroyAPIView):
 
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
 @permission_classes((IsAuthenticated, ))
-class UserFavouritesSpotsList(ListCreateAPIView):
-    model = UsersSpotsList
+class UserFavouritesSpotListApiView(ListCreateAPIView):
+    model = UserFavouritesSpotList
     serializer_class = FavouritesSpotsListSerializer
 
     def get_queryset(self):
-        queryset = UsersSpotsList.objects.filter(
-            user=self.request.user,
-            role=1)
+        queryset = UserFavouritesSpotList.objects.filter(user=self.request.user)
         return queryset
 
     def post(self, request):
@@ -168,8 +166,8 @@ class UserFavouritesSpotsList(ListCreateAPIView):
         spot = get_object_or_404(Spot, pk=request.data.get('spot_pk'))
         role = 1
 
-        if not UsersSpotsList.objects.filter(user=user, spot=spot, role=role):
-            obj = UsersSpotsList.objects.create(
+        if not UserFavouritesSpotList.objects.filter(user=user, spot=spot, role=role):
+            obj = UserFavouritesSpotList.objects.create(
                 user=user,
                 spot=spot,
                 role=role,
@@ -185,11 +183,11 @@ class UserFavouritesSpotsList(ListCreateAPIView):
 @authentication_classes((ExpiringTokenAuthentication, SessionAuthentication))
 @permission_classes((IsOwnerOrReadOnly, ))
 class UserFavouritesSpotDetail(RetrieveUpdateDestroyAPIView):
-    model = UsersSpotsList
+    model = UserFavouritesSpotList
     serializer_class = FavouritesSpotsListSerializer
 
     def get_queryset(self):
-        queryset = UsersSpotsList.objects.filter(
+        queryset = UserFavouritesSpotList.objects.filter(
             role=1)
         return queryset
 
@@ -310,6 +308,7 @@ def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
 
     user_location = fromstr("POINT(%s %s)" % (lng, lat))
     desired_radius = {'m': radius}
+
     nearby_spots = Spot.objects.filter(
         friendly_rate__gte=1.0,
         is_accepted=True,
@@ -317,8 +316,7 @@ def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
             user_location,
             D(**desired_radius)
         )
-    )#.distance(user_location).order_by('distance')[:limit]
-
+    ).distance(user_location).order_by('distance')
     paginated = request.query_params.get('paginated')
 
     if paginated:

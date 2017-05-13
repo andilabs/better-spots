@@ -7,16 +7,15 @@ from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageCropField, ImageRatioField
 from solo.models import SingletonModel
 
-from django.db.models.signals import post_save, post_delete
 from django.conf import settings
 from django.contrib.gis.db import models
+from django.contrib.gis.db.models.manager import GeoManager
 from django.contrib.postgres.fields import HStoreField
 from django.core.urlresolvers import reverse
-from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
 
-# from utils.img_path import get_image_path
+from utils.models import TimeStampedModel
 
 
 def get_image_path(instance, filename):
@@ -30,33 +29,19 @@ def get_image_path(instance, filename):
     )
 
 
-class Instance(SingletonModel):
-    name = models.CharField(
-        max_length=254, default='', blank=True, null=True)
-    slogan = models.CharField(
-        max_length=254, default='', blank=True, null=True)
-    subject = models.CharField(
-        max_length=254, default='', blank=True, null=True)
-    main_color = models.CharField(
-        max_length=254, default='', blank=True, null=True)
+class Instance(SingletonModel, TimeStampedModel):
+    name = models.CharField(max_length=254, default='', blank=True, null=True)
+    slogan = models.CharField(max_length=254, default='', blank=True, null=True)
+    subject = models.CharField(max_length=254, default='', blank=True, null=True)
+    main_color = models.CharField(max_length=254, default='', blank=True, null=True)
     description = models.TextField()
-
-    windows_phone_store_url = models.URLField(
-        max_length=1023, blank=True, null=True)
-    google_store_url = models.URLField(
-        max_length=1023, blank=True, null=True)
-    apple_store_url = models.URLField(
-        max_length=1023, blank=True, null=True)
-
-    instagram = models.CharField(
-        max_length=254, blank=True, null=True)
-    facebook = models.CharField(
-        max_length=254, blank=True, null=True)
-    twitter = models.CharField(
-        max_length=254, blank=True, null=True)
-
-    bloger_photo = models.ImageField(
-        upload_to=get_image_path, null=True, blank=True)
+    windows_phone_store_url = models.URLField(max_length=1023, blank=True, null=True)
+    google_store_url = models.URLField(max_length=1023, blank=True, null=True)
+    apple_store_url = models.URLField(max_length=1023, blank=True, null=True)
+    instagram = models.CharField(max_length=254, blank=True, null=True)
+    facebook = models.CharField(max_length=254, blank=True, null=True)
+    twitter = models.CharField(max_length=254, blank=True, null=True)
+    blogger_photo = models.ImageField(upload_to=get_image_path, null=True, blank=True)
 
 SPOT_TYPE = (
     (1, 'cafe'),
@@ -67,58 +52,31 @@ SPOT_TYPE = (
 )
 
 
-class Spot(models.Model):
-    date_created = models.DateTimeField(
-        auto_now_add=True, null=True)
-    date_updated = models.DateTimeField(
-        auto_now=True, null=True)
-    name = models.CharField(
-        max_length=250)
-    location = models.PointField(
-        max_length=40)
-    address_street = models.CharField(
-        max_length=254, default='', blank=True, null=True)
-    address_number = models.CharField(
-        max_length=10, default='', blank=True, null=True)
-    address_city = models.CharField(
-        max_length=100, default='', blank=True, null=True)
-    address_country = models.CharField(
-        max_length=100, default='', blank=True, null=True)
-    spot_type = models.IntegerField(
-        max_length=3, choices=SPOT_TYPE)
-    is_accepted = models.BooleanField(
-        default=False)
-    phone_number = models.CharField(
-        max_length=100, default='', blank=True, null=True)
-    email = models.EmailField(
-        blank=True, null=True)
-    www = models.URLField(
-        blank=True, null=True)
-    facebook = models.CharField(
-        max_length=254, blank=True, null=True)
-    is_enabled = models.NullBooleanField(
-        default=None, null=True)
-    friendly_rate = models.DecimalField(
-        default=-1.00, max_digits=3, decimal_places=2, null=True)
-    is_certificated = models.BooleanField(
-        default=False)
-    venue_photo = ImageCropField(
-        upload_to=get_image_path, blank=True, null=True)
-    cropping_venue_photo = ImageRatioField(
-        'venue_photo',
-        settings.VENUE_PHOTO_SIZE['W']+"x"+settings.VENUE_PHOTO_SIZE['H'],
-        size_warning=True)
-    spot_slug = models.SlugField(
-        max_length=1000)
+class Spot(TimeStampedModel):
+    name = models.CharField(max_length=250)
+    location = models.PointField(max_length=40)
+    address_street = models.CharField(max_length=254, default='', blank=True, null=True)
+    address_number = models.CharField(max_length=10, default='', blank=True, null=True)
+    address_city = models.CharField(max_length=100, default='', blank=True, null=True)
+    address_country = models.CharField(max_length=100, default='', blank=True, null=True)
+    spot_type = models.IntegerField(choices=SPOT_TYPE)
+    is_accepted = models.BooleanField(default=False)
+    phone_number = models.CharField(max_length=100, default='', blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    www = models.URLField(blank=True, null=True)
+    facebook = models.CharField(max_length=254, blank=True, null=True)
+    is_enabled = models.NullBooleanField(default=None, null=True)
+    friendly_rate = models.DecimalField(default=-1.00, max_digits=3, decimal_places=2, null=True)
+    is_certificated = models.BooleanField(default=False)
+    venue_photo = ImageCropField(upload_to=get_image_path, blank=True, null=True)
+    cropping_venue_photo = ImageRatioField('venue_photo', settings.VENUE_PHOTO_SIZE['W']+"x"+settings.VENUE_PHOTO_SIZE['H'], size_warning=True)
+    spot_slug = models.SlugField(max_length=1000)
     facilities = HStoreField(null=True)
-    creator = models.ForeignKey(
-        'accounts.SpotUser',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-    )
-    anonymous_creator_cookie = models.CharField(
-        max_length=1024, blank=True, null=True)
+    anonymous_creator_cookie = models.CharField(max_length=1024, blank=True, null=True)
+
+    creator = models.ForeignKey('accounts.User', null=True, blank=True, on_delete=models.SET_NULL)
+
+    objects = GeoManager()
 
     class Meta:
         unique_together = (
@@ -227,10 +185,7 @@ class Spot(models.Model):
         return dane
 
     def is_in_user_favourites(self, user):
-        if UsersSpotsList.favourites.filter(spot=self, user=user).count():
-            return True
-        else:
-            return False
+        return self in user.favourites
 
     @property
     def www_url(self):
@@ -244,7 +199,7 @@ class Spot(models.Model):
         else:
             return reverse('www:spot', args=[self.pk, self.spot_slug])
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def google_maps_admin_widget(self):
@@ -278,18 +233,17 @@ IS_ALLOWED_CHOICES = (
 )
 
 
-class Rating(models.Model):
-    data_added = models.DateTimeField(
-        auto_now_add=True)
-    user = models.ForeignKey(
-        'accounts.SpotUser')
-    spot = models.ForeignKey(
-        Spot, related_name='ratings')
-    is_enabled = models.BooleanField(
-        choices=IS_ALLOWED_CHOICES, default=False)
-    friendly_rate = models.PositiveIntegerField(
-        choices=LIKERT)
+class Rating(TimeStampedModel):
+    data_added = models.DateTimeField(auto_now_add=True)
+    is_enabled = models.BooleanField(choices=IS_ALLOWED_CHOICES, default=False)
+    friendly_rate = models.PositiveIntegerField(choices=LIKERT)
     facilities = HStoreField(null=True)
+
+    user = models.ForeignKey('accounts.User', null=True)
+    spot = models.ForeignKey(Spot, related_name='ratings')
+
+    class Meta:
+        unique_together = ("user", "spot")
 
     @property
     def opinion(self):
@@ -311,21 +265,17 @@ class Rating(models.Model):
             self.friendly_rate
         )
 
-    class Meta:
-        unique_together = ("user", "spot")
 
+class Opinion(TimeStampedModel):
+    opinion_text = models.CharField(max_length=500)
 
-class Opinion(models.Model):
-    rating = models.OneToOneField(
-        Rating, primary_key=True)
-    opinion_text = models.CharField(
-        max_length=500)
+    rating = models.OneToOneField(Rating, primary_key=True)
 
     def __unicode__(self):
         return self.opinion_text
 
     @property
-    def opinion_usefulnes_ratings(self):
+    def opinion_usefulness_ratings(self):
         return OpinionUsefulnessRating.objects.filter(opinion=self)
 
 
@@ -335,60 +285,11 @@ VOTE = (
 )
 
 
-class OpinionUsefulnessRating(models.Model):
-    opinion = models.ForeignKey(
-        Opinion)
-    user = models.ForeignKey(
-        'accounts.SpotUser')
-    vote = models.IntegerField(
-        max_length=1, choices=VOTE)
+class OpinionUsefulnessRating(TimeStampedModel):
+    vote = models.IntegerField(choices=VOTE)
+
+    opinion = models.ForeignKey(Opinion)
+    user = models.ForeignKey('accounts.User', null=True)
 
 
-class UsersFavouritesSpotsListManager(models.Manager):
-    def get_queryset(self):
-        return super(
-            UsersFavouritesSpotsListManager, self).get_queryset().filter(
-            role=1)
 
-
-class UserToBeVisitedSpotsListManager(models.Manager):
-    def get_queryset(self):
-        return super(
-            UserToBeVisitedSpotsListManager, self).get_queryset().filter(
-            role=2)
-
-
-LIST_KIND = (
-    (1, 'Favorites'),
-    (2, 'To be visited'),
-)
-
-
-class UsersSpotsList(models.Model):
-    data_added = models.DateTimeField(
-        auto_now_add=True)
-    spot = models.ForeignKey(
-        Spot)
-    user = models.ForeignKey(
-        'accounts.SpotUser')
-    role = models.IntegerField(
-        max_length=1, choices=LIST_KIND)
-
-    objects = models.Manager()
-    favourites = UsersFavouritesSpotsListManager()
-    to_be_visited = UserToBeVisitedSpotsListManager()
-
-    def __unicode__(self):
-        return "%s: %s %s %s" % (
-            dict(LIST_KIND)[self.role].upper(),
-            self.user.email,
-            self.spot.name,
-            self.role
-        )
-
-    class Meta:
-        unique_together = ("user", "spot", "role")
-
-    @property
-    def spot_pk(self):
-        return self.spot.pk

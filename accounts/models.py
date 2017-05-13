@@ -1,60 +1,28 @@
-import uuid
 import base64
+import uuid
 
 from django.conf import settings
 from django.contrib.auth.models import (
-    AbstractBaseUser, PermissionsMixin, BaseUserManager
+    AbstractBaseUser, PermissionsMixin
 )
 from django.core.mail import EmailMessage
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from core.models import UsersSpotsList
+from accounts.managers import UserManager
+from utils.models import TimeStampedModel
 
 
-class SpotUserManager(BaseUserManager):
-
-    def create_user(self, email, password=None, mail_verified=False):
-        """
-        Creates and saves a User with the given email and password.
-        """
-        if not email:
-            raise ValueError('Users must have an email address')
-
-        user = self.model(
-            email=self.normalize_email(email),
-            mail_verified=mail_verified,
-        )
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, email, password, mail_verified=True):
-        """
-        Creates and saves a superuser with the given email and password.
-        """
-        user = self.create_user(
-            email,
-            password=password,
-            mail_verified=mail_verified,
-        )
-        user.is_admin = True
-        user.save(using=self._db)
-        return user
-
-
-class SpotUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(
-        max_length=255,
-        unique=True,
-        verbose_name='email address',
-    )
+class User(AbstractBaseUser, TimeStampedModel, PermissionsMixin):
+    email = models.EmailField(max_length=255, unique=True, verbose_name='email address')
     mail_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
-    objects = SpotUserManager()
+    favourites = models.ManyToManyField('core.Spot', through='accounts.UserFavouritesSpotList', related_name='users')
+
+    objects = UserManager()
 
     USERNAME_FIELD = 'email'
 
@@ -86,10 +54,6 @@ class SpotUser(AbstractBaseUser, PermissionsMixin):
         return self.is_admin
 
     @property
-    def favourites(self):
-        return UsersSpotsList.favourites.filter(user=self).order_by('-pk')
-
-    @property
     def spot_pk_to_fav_asset_pk(self):
         """
             for given user
@@ -105,13 +69,30 @@ class SpotUser(AbstractBaseUser, PermissionsMixin):
         return UsersSpotsList.to_be_visited.filter(user=self)
 
 
-class EmailVerification(models.Model):
+class EmailVerification(TimeStampedModel):
     verification_key = models.CharField(max_length=21, unique=True)
     key_timestamp = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(SpotUser)
+
+    user = models.ForeignKey(User)
 
 
-@receiver(post_save, sender=SpotUser)
+class UsersSpotsList(TimeStampedModel):
+
+    spot = models.ForeignKey('core.Spot')
+    user = models.ForeignKey(User)
+
+    class Meta:
+        abstract = True
+        unique_together = ("user", "spot")
+
+
+class UserFavouritesSpotList(UsersSpotsList):
+    pass
+
+
+# TODO move signals to seperate module and new style using apps
+# TODO use fuckin async celery like solution please
+@receiver(post_save, sender=User)
 def verify_email(sender, instance, created, *args, **kwargs):
     if created and not instance.mail_verified:
         email_verification = EmailVerification(

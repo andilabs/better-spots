@@ -1,17 +1,15 @@
 from django.conf.urls import url
 
-from accounts import views
+from accounts.views import (
+    mail_verification,
+    mylogin,
+    mylogout,
+    UserCreate
+)
 
 urlpatterns = [
-    url(r'^login/$',
-        views.mylogin,
-        name='login'),
-
-    url(r'^logout/$',
-        views.mylogout,
-        name='logout'),
-
-    url(r'^user/email_verification/(?P<verification_key>[^/]+)/$',
-        views.mail_verification,
-        name='email_verification'),
+    url(r'^login/$', mylogin, name='login'),
+    url(r'^logout/$', mylogout, name='logout'),
+    url(r'^email_verification/(?P<verification_key>[^/]+)/$', mail_verification, name='email_verification'),
+    url(r'^create/$', UserCreate.as_view(), name='user_create'),
 ]

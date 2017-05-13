@@ -176,7 +176,7 @@
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'accounts:logout' %}">Log me out!</a></li>
                 {% else %}
-                  <li><a href="{% url 'www:user_create' %}">Register</a></li>
+                  <li><a href="{% url 'accounts:user_create' %}">Register</a></li>
                   <li><a href="{% url 'accounts:login' %}">Login</a></li>
                 {% endif %}
               </ul>
@@ -274,11 +274,11 @@
     <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/jquery.ui.map.overlays.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/markerclusterer.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/holder.js"></script>
-    <script language="javascript"> var DJANGO_USER = "{{user.is_authenticated|lower}}";</script>
+    <script language="javascript"> var DJANGO_USER = "{{user.is_authenticated|yesno:"true,false"}}";</script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/common.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}external/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}external/jquery.serializejson.js"></script>
-    <script language="javascript"> var STATIC_URL = "/static/"; var BASE_HOST = "//{{request.META.HTTP_HOST}}"</script>
+    <script language="javascript"> var STATIC_URL = "/static/"; var BASE_HOST = "//{{ request.get_host }}"</script>
     <script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
   {% endblock scripts %}
 </body>

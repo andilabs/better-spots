@@ -1,35 +1,42 @@
 import collections
 import json
 
-from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
-from django.db.models.expressions import Value, ExpressionWrapper
-from django.db.models.fields import BooleanField
+from django.db.models import Q
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import get_template
-
 from django.template.response import TemplateResponse
 from django.utils.decorators import method_decorator
-from django.views.generic import FormView, CreateView
+from django.views.generic import FormView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
+from accounts.models import UserFavouritesSpotList
 from core.models import Spot, SPOT_TYPE
 from utils.qrcodes import make_qrcode
-from accounts.forms import UserCreationForm
 from .forms import ContactForm, AddSpotForm, EditSpotPhotoForm
-
 
 SpotListUIConfig = collections.namedtuple('SpotListUIConfig', ['site_title', 'icon_type'])
 
 
-class BaseSpotListView(ListView):
+class UserFavouritesSpotsSmugglerMixin(object):
+
+    def get_context_data(self, **kwargs):
+        context = super(UserFavouritesSpotsSmugglerMixin, self).get_context_data(**kwargs)
+        if self.request.user.is_authenticated():
+            user_favourites = dict(UserFavouritesSpotList.objects.filter(
+                user_id=self.request.user.id).values_list('spot_id', 'pk'))
+            context['user_favourites_spots_pks'] = user_favourites.keys()
+            context['user_favourites_spots_lookup'] = user_favourites
+        return context
+
+
+class BaseSpotListView(UserFavouritesSpotsSmugglerMixin, ListView):
     template_name = 'www/spot_list.html'
     model = Spot
     paginate_by = 6
@@ -39,15 +46,12 @@ class BaseSpotListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(BaseSpotListView, self).get_context_data(**kwargs)
         context.update(self.ui_context._asdict())
-        if self.request.user.is_authenticated():
-            user_favourites = self.request.user.favourites
-            context['user_favourites_spots_pks'] = user_favourites.values_list('spot_id', flat=True)
-            context['user_favourites_spots_lookup'] = dict(user_favourites.values('spot_id', 'pk'))
         return context
 
 
 class SpotListView(BaseSpotListView):
     pass
+
 
 class CertificatedSpotListView(BaseSpotListView):
     queryset = Spot.objects.filter(is_certificated=True).order_by('name')
@@ -60,7 +64,7 @@ class FavouritesSpotListView(BaseSpotListView):
 
     def get_queryset(self):
         return super(FavouritesSpotListView, self).get_queryset().filter(
-            pk__in=self.request.user.favourites.values_list('spot_id', flat=True)
+            pk__in=self.request.user.favourites.all()
         )
 
 
@@ -68,7 +72,7 @@ class BaseSpotDetailView(DetailView):
     model = Spot
 
 
-class SpotDetailView(BaseSpotDetailView):
+class SpotDetailView(UserFavouritesSpotsSmugglerMixin, BaseSpotDetailView):
     template_name = 'www/spot_detail.html'
 
 
@@ -92,7 +96,7 @@ def add_spot(request):
                     ' are not visible until being peer-reviewed'
                     ' <br> If you wish to register go '
                     '<a href="%s">HERE</a> it takes just few seconds.'
-                ) % reverse('user_create')
+                ) % reverse('accounts:user_create')
             )
         return render(
             request,
@@ -262,23 +266,6 @@ def download_vcard(request, pk):
     response['Content-Disposition'] = (
         'filename=vcard_from_%s.vcf' % settings.SPOT_PROJECT_NAME)
     return response
-
-
-
-# TODO this view should be moved to accounts app !!!!
-class SpotUserCreate(CreateView):
-    template_name = 'www/spotuser_form.html'
-    form_class = UserCreationForm
-    success_url = '/'
-
-    def form_valid(self, form):
-        messages.add_message(
-            self.request,
-            messages.WARNING,
-            'Your account was created, but it is not active.' +
-            ' We sent you e-mail with confrimation link')
-
-        return super(SpotUserCreate, self).form_valid(form)
 
 
 class ContactView(FormView):

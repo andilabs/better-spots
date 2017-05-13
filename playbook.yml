@@ -123,10 +123,17 @@
       executable: /bin/bash
     # TODO some tag or other magic should determine it won't happen on production instance
 
-  - name: copy images for spots from fixtures
+  - name: load instance data fixtures for dogspot
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/instance.json"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+
+  - name: copy images for spots and instance from fixtures
     copy: src={{ item.src }} dest={{ item.dest }}
     with_items:
-      - { src: 'data/{{project_instance}}/initial_img/', dest: "{{ media_dir }}/img" }
+      - { src: "data/{{project_instance}}/initial_img/", dest: "{{ media_dir }}/img" }
+      - { src: "static_assets/{{project_instance}}/blogger_photo.jpg", dest: "{{media_dir}}/img"}
 
 #  - name: activate virtualenv
 #    become_user: ubuntu
@@ -138,12 +145,6 @@
 
   - name: create superuser
     shell: "{{ web_base_dir }}/venv/bin/python manage.py create_andi"
-    args:
-      chdir: "{{ project_dir }}"
-      executable: /bin/bash
-
-  - name: create instance
-    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_instance"
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash

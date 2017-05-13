@@ -1,8 +1,5 @@
 from unipath import Path
 
-DEBUG = True
-TEMPLATE_DEBUG = True
-
 PROJECT_ROOT_PATH = Path(__file__).ancestor(3)
 
 STATICFILES_DIRS = (
@@ -35,6 +32,7 @@ elif 'veganspot.eu' in PROJECT_ROOT_PATH.split('/'):
 
 else:
     from .local import *
+    SPOT_PROJECT_NAME = 'dogspot'
 
 SPOT_PROJECT_FAVICON_URL = os.path.join(
     'static',
@@ -43,11 +41,7 @@ SPOT_PROJECT_FAVICON_URL = os.path.join(
 )
 
 SPOT_PROJECT_BLOGGER_PHOTO = os.path.join(
-    MEDIA_URL, SPOT_PROJECT_NAME, 'bloger_photo.jpg')
-
-TEMPLATE_DIRS = (
-     os.path.join(PROJECT_ROOT_PATH, 'templates/'),
-)
+    STATIC_URL, SPOT_PROJECT_NAME, 'blogger_photo.jpg')
 
 SPOT_FACILITIES = [d['name'] for d in HSTORE_SCHEMA]
 

@@ -5,14 +5,28 @@ from datetime import timedelta
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import redirect, render_to_response
-from django.template import RequestContext
+from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.utils import timezone
 from django.views.generic import CreateView
 
 from .models import EmailVerification
 from .forms import UserCreationForm
+
+
+class UserCreate(CreateView):
+    template_name = 'accounts/user_form.html'
+    form_class = UserCreationForm
+    success_url = '/'
+
+    def form_valid(self, form):
+        messages.add_message(
+            self.request,
+            messages.WARNING,
+            'Your account was created, but it is not active.' +
+            ' We sent you e-mail with confrimation link')
+
+        return super(UserCreate, self).form_valid(form)
 
 
 def mail_verification(request, verification_key):
@@ -62,22 +76,7 @@ def mail_verification(request, verification_key):
         messages.add_message(
             request, messages.ERROR,
             "Account does not exist")
-        return redirect('www:user_create')
-
-
-class SpotUserCreate(CreateView):
-    template_name = 'www/spotuser_form.html'
-    form_class = UserCreationForm
-    success_url = '/'
-
-    def form_valid(self, form):
-        messages.add_message(
-            self.request,
-            messages.WARNING,
-            'Your account was created, but it is not active.' +
-            ' We sent you e-mail with confrimation link')
-
-        return super(SpotUserCreate, self).form_valid(form)
+        return redirect('accounts:user_create')
 
 
 def mylogin(request):

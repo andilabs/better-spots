@@ -2,7 +2,7 @@
 
 from django.conf.urls import *
 from www import views
-from www.views import ContactView, SpotUserCreate
+from www.views import ContactView
 
 # place app url patterns here
 urlpatterns = [
@@ -40,8 +40,6 @@ urlpatterns = [
     url(r'^spots/(?P<pk>\d+)(?:/(?P<slug>[\w\d-]+))?/$', views.SpotDetailView.as_view(), name='spot'),
 
     url(r'^edit_photo/(?P<pk>\d+)/$', views.edit_photo, name='edit_photo'),
-
-    url(r'^user/create/$', SpotUserCreate.as_view(), name='user_create'),
 
     url(r'^vcard/(?P<pk>\d+)/$', views.download_vcard, name='vcard'),
 ]

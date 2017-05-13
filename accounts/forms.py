@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import SpotUser
+from .models import User
 
 
 class UserCreationForm(forms.ModelForm):
@@ -17,7 +17,7 @@ class UserCreationForm(forms.ModelForm):
         widget=forms.PasswordInput)
 
     class Meta:
-        model = SpotUser
+        model = User
         fields = ('email', )
 
     def clean_password2(self):
@@ -44,7 +44,7 @@ class UserChangeForm(forms.ModelForm):
     """
 
     class Meta:
-        model = SpotUser
+        model = User
         fields = (
             'email', 'password', 'mail_verified', 'is_active', 'is_admin')
 
