@@ -19,6 +19,7 @@
     media_dir: '/mbf/media'
     project_dir: '/mbf'
     project_instance: 'dogspot'
+    celery_worker: 'mbf'
 
   gather_facts: no
   pre_tasks:
@@ -137,13 +138,6 @@
       - { src: "data/{{project_instance}}/initial_img/", dest: "{{ media_dir }}/img" }
       - { src: "static_assets/{{project_instance}}/blogger_photo.jpg", dest: "{{media_dir}}/img"}
 
-#  - name: activate virtualenv
-#    become_user: ubuntu
-#    become: yes
-#    shell: "source {{ web_base_dir }}/venv/bin/activate"
-#    args:
-#      chdir: "{{ project_dir }}"
-#      executable: /bin/bash
 
   - name: create superuser
     shell: "{{ web_base_dir }}/venv/bin/python manage.py create_andi"
@@ -151,6 +145,13 @@
       chdir: "{{ project_dir }}"
       executable: /bin/bash
 
+  # todo this needs refactor using nohup isn't cool, and different strategies of running celery for develop and production needed
+  - name: start celery
+    sudo: yes
+    shell: "nohup {{ web_base_dir }}/venv/bin/celery -A {{ celery_worker }} worker &"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
 
   # TODO setup git
 
