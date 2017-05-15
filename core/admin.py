@@ -43,10 +43,10 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'address_city',
         'is_enabled',
         'is_certificated',
-        'number_of_ratings',
+        # 'number_of_ratings',
         'admin_thumbnail_venue_photo',
         'google_maps_static_image',
-        # 'creator',
+        'creator',
         'anonymous_creator_cookie',
         'facilities']
     )
@@ -70,8 +70,8 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
             {'fields': (
                 'name',
                 'spot_slug',
-                'date_created',
-                'date_updated',
+                'created_at',
+                'updated_at',
                 'spot_type',
                 'is_certificated')}),
 
@@ -119,9 +119,9 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'created_at',
         'spot_slug'])
 
-    def number_of_ratings(self, obj):
-        return obj.ratings__count
-    number_of_ratings.admin_order_field = 'ratings__count'
+    # def number_of_ratings(self, obj):
+    #     return obj.ratings__count
+    # number_of_ratings.admin_order_field = 'ratings__count'
 
     def make_certificated(self, request, queryset):
         for spot in queryset:
@@ -149,7 +149,7 @@ class RatingAdmin(admin.ModelAdmin):
             'spot',
             'friendly_rate',
             'is_enabled',
-            # 'user',
+            'user',
         ]
 
 

@@ -63,6 +63,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'django.contrib.postgres',
     'django_extensions',
     'raven.contrib.django.raven_compat',
     'rest_framework',
@@ -76,6 +77,7 @@ INSTALLED_APPS = (
     'utils',
 
     'debug_toolbar',
+    'django_celery_results',
 )
 
 REST_FRAMEWORK = {
@@ -138,3 +140,5 @@ SERIALIZATION_MODULES = {
     "geojson": "django.contrib.gis.serializers.geojson", 
 }
 
+
+CELERY_RESULT_BACKEND = 'django-cache'

@@ -1,6 +1,7 @@
 from django.contrib.auth.admin import UserAdmin
 from django.contrib import admin
 
+from accounts.models import EmailVerification
 from .models import User, UserFavouritesSpotList
 from .forms import UserCreationForm, UserChangeForm
 
@@ -44,5 +45,10 @@ class UserFavouritesSpotListAdmin(admin.ModelAdmin):
     )
 
 
+class EmailVerificationAdmin(admin.ModelAdmin):
+    list_display = ('verification_key', 'key_timestamp', 'user')
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(UserFavouritesSpotList, UserFavouritesSpotListAdmin)
+admin.site.register(EmailVerification, EmailVerificationAdmin)

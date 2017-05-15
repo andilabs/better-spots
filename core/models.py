@@ -25,7 +25,7 @@ def get_image_path(instance, filename):
         extension = ''
     return os.path.join(
         'img',
-        '%s.%s' % (uuid.uuid4().hex, extension)
+        '{}.{}'.format(uuid.uuid4().hex, extension)
     )
 
 
@@ -111,7 +111,7 @@ class Spot(TimeStampedModel):
 
     def admin_thumbnail_venue_photo(self):
         if self.thumbnail_venue_photo:
-            return mark_safe('<img src="%s" />' % self.thumbnail_venue_photo)
+            return mark_safe('<img src="{}" width="175" height="75"/>'.format(self.thumbnail_venue_photo))
         else:
             return '(No photo)'
 
@@ -119,24 +119,20 @@ class Spot(TimeStampedModel):
         if self.location:
             return mark_safe(
                 '<img src="https://maps.googleapis.com/maps/api/staticmap?'
-                'center=%s,%s&zoom=%s&size=%sx%s&'
-                'markers=%s,%s" /><br><h2>Location: %s, %s' % (
-                    self.location.coords[1],
-                    self.location.coords[0],
-                    zoom,
-                    width,
-                    height,
-                    self.location.coords[1],
-                    self.location.coords[0],
-                    self.location.coords[1],
-                    self.location.coords[0],
+                'center={latitude},{longitude}&zoom={zoom}&size={width}x{height}&'
+                'markers={latitude},{longitude}" /><br><h2>Location: {latitude},{longitude}'.format(
+                    latitude=self.location.coords[1],
+                    longitude=self.location.coords[0],
+                    zoom=zoom,
+                    width=width,
+                    height=height
                 )
             )
 
     @property
     def facebook_url(self):
         if self.facebook:
-            facebook_url = "http://www.facebook.com/%s" % self.facebook
+            facebook_url = "http://www.facebook.com/{}".format(self.facebook)
         else:
             facebook_url = None
 
@@ -156,40 +152,39 @@ class Spot(TimeStampedModel):
 
     @property
     def address(self):
-        return "%s, %s %s" % (
+        return "{}, {} {}".format(
             self.address_city,
             self.address_street,
-            self.address_number,)
+            self.address_number
+        )
 
     @property
     def prepare_vcard(self):
-
-        dane = "BEGIN:VCARD\r\n"
-        dane += "VERSION:3.0\r\n"
-        dane += "N:;%s\r\n" % self.name
-        dane += "item1.ADR;type=HOME;type=pref:;;%s %s;%s;;;%s\r\n" % (
+        vcard = "BEGIN:VCARD\r\n"
+        vcard += "VERSION:3.0\r\n"
+        vcard += "N:;{}\r\n".format(self.name)
+        vcard += "item1.ADR;type=HOME;type=pref:;;{} {};{};;;{}\r\n".format(
             self.address_street,
             self.address_number,
             self.address_city,
             self.address_country)
-        dane += "EMAIL;INTERNET;PREF:%s\r\n" % (
-            self.email if self.email else "")
-        dane += "TEL;WORK;VOICE;PREF:%s\r\n" % (
-            self.phone_number if self.phone_number else "")
-        dane += "URL;WORK;PREF:%s\r\n" % (
-            self.www if self.www else "")
-        dane += "X-SOCIALPROFILE;type=facebook:%s\r\n" % (
-            self.facebook if self.facebook else "")
-        dane += "END:VCARD\r\n"
-
-        return dane
+        if self.email:
+            vcard += "EMAIL;INTERNET;PREF:{}\r\n".format(self.email)
+        if self.phone_number:
+            vcard += "TEL;WORK;VOICE;PREF:{}\r\n".format(self.phone_number)
+        if self.www:
+            vcard += "URL;WORK;PREF:{}\r\n".format(self.www)
+        if self.facebook:
+            vcard += "X-SOCIALPROFILE;type=facebook:{}\r\n".format(self.facebook)
+        vcard += "END:VCARD\r\n"
+        return vcard
 
     def is_in_user_favourites(self, user):
         return self in user.favourites
 
     @property
     def www_url(self):
-        return "http://%s%s" % (settings.INSTANCE_DOMAIN, reverse(
+        return "http://{}{}".format(settings.INSTANCE_DOMAIN, reverse(
             'www:spot', args=[self.pk, self.spot_slug]))
 
     @property
@@ -208,12 +203,13 @@ class Spot(TimeStampedModel):
 
     def save(self, *args, **kwargs):
         self.spot_slug = slugify(
-            "%s %s %s %s %s" % (
+            "{} {} {} {} {}".format(
                 self.name,
-                SPOT_TYPE[self.spot_type-1][1],
+                dict(SPOT_TYPE)[self.spot_type],
                 self.address_city,
                 self.address_street,
-                self.address_number,)
+                self.address_number
+            )
         )
 
         super(Spot, self).save(*args, **kwargs)
@@ -258,9 +254,9 @@ class Rating(TimeStampedModel):
         return self.spot.pk
 
     def __unicode__(self):
-        return "%s %s by: %s rate: %2.f" % (
+        return "{} {} by: {} rate: {}".format(
             self.spot.name,
-            IS_ALLOWED_CHOICES[self.is_enabled][1],
+            dict(IS_ALLOWED_CHOICES)[self.is_enabled],
             self.user.email,
             self.friendly_rate
         )

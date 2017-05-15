@@ -12,6 +12,8 @@
       - tree
       - language-pack-pl
       - postgresql-client
+      - redis-tools
+      - redis-server
 
     web_base_dir: '/home/ubuntu/mbf'
     media_dir: '/mbf/media'

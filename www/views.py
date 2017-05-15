@@ -82,8 +82,6 @@ class CertificatedSpotDetailView(SpotDetailView):
         return super(CertificatedSpotDetailView, self).get_queryset().filter(is_certificated=True)
 
 
-
-
 def add_spot(request):
     if request.method == 'GET':
         form = AddSpotForm()

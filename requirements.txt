@@ -20,3 +20,6 @@ Unipath==1.1
 django-solo==1.1.2
 django-image-cropping==1.0.3
 django-debug-toolbar==1.8
+celery==4.0.2
+django-celery-results==1.0.1
+redis==2.10.5

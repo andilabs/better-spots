@@ -9,7 +9,7 @@
     <h2 class="title">
         <span class="glyphicon glyphicon-user"></span> Register!
     </h2>
-    <form class="form-vertical" action="/user/create/" method="post">
+    <form class="form-vertical" action="{% url 'accounts:user_create'%}" method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Submit" class="btn btn-default">

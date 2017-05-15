@@ -5,10 +5,11 @@ from django.conf import settings
 from django.contrib.auth.models import (
     AbstractBaseUser, PermissionsMixin
 )
-from django.core.mail import EmailMessage
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 
 from accounts.managers import UserManager
 from utils.models import TimeStampedModel
@@ -106,15 +107,17 @@ def send_email(sender, instance, created, *args, **kwargs):
 
     if created:
         subject = "Verify your e-mail to activate your account."
-        mail_content = ("Please clcik this link to activate your account "
-                        "http://%s/user/email_verification/%s") % (
-            settings.INSTANCE_DOMAIN,
-            instance.verification_key)
-
-        msg = EmailMessage(
-            subject,
-            mail_content,
-            settings.EMAIL_HOST_USER,
-            [instance.user.email, ]
-            )
-        msg.send()
+        activation_url = 'http://{domain}{uri}'.format(
+            domain=settings.INSTANCE_DOMAIN,
+            uri=reverse('accounts:email_verification', kwargs={'verification_key': instance.verification_key})
+        )
+        mail_content = "Please click this link to activate your account\n {activation_url}".format(
+            activation_url=activation_url
+        )
+        from .tasks import send_asynchronous_email
+        #TODO switch to apply_async
+        send_asynchronous_email.delay(
+            subject=subject,
+            mail_content=mail_content,
+            recipients_emails=[instance.user.email]
+        )

@@ -19,7 +19,7 @@ class UserSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('url', 'mail_verified', 'email')
+        fields = ('mail_verified', 'email')
 
 
 class RatingSerializer(ModelSerializer):
@@ -30,7 +30,6 @@ class RatingSerializer(ModelSerializer):
     class Meta:
         model = Rating
         fields = (
-            'url',
             'is_enabled',
             'friendly_rate',
             'spot',
