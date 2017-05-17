@@ -12,9 +12,9 @@ urlpatterns = [
 
     url(r'', include('www.urls', namespace='www')),
     url(r'accounts/', include('accounts.urls', namespace='accounts')),
-    url(r'api/', include('api.urls', namespace='api')),
+    # url(r'api/', include('api.urls', namespace='api')),
     url(r'api2/', include('api2.urls', namespace='api2')),
-    # url(r'blog/', include('blog.urls', namespace='blog')),
+    url(r'blog/', include('blog.urls', namespace='blog')),
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^favicon\.ico$', RedirectView.as_view(url=settings.SPOT_PROJECT_FAVICON_URL)),

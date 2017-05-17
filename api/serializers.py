@@ -22,21 +22,21 @@ class UserSerializer(ModelSerializer):
         model = User
         fields = ('mail_verified', 'email')
 
-
-class RatingSerializer(ModelSerializer):
-    spot = PrimaryKeyRelatedField(read_only=True)
-    spot_pk = PrimaryKeyRelatedField(queryset=Spot.objects.all())
-    is_enabled = BooleanField()
-
-    class Meta:
-        model = Rating
-        fields = (
-            'is_enabled',
-            'friendly_rate',
-            'spot',
-            'spot_pk',
-            'facilities',
-        )
+#
+# class RatingSerializer(ModelSerializer):
+#     spot = PrimaryKeyRelatedField(read_only=True)
+#     spot_pk = PrimaryKeyRelatedField(queryset=Spot.objects.all())
+#     is_enabled = BooleanField()
+#
+#     class Meta:
+#         model = Rating
+#         fields = (
+#             'is_enabled',
+#             'friendly_rate',
+#             'spot',
+#             'spot_pk',
+#             'facilities',
+#         )
 
 
 class SpotListSerializer(ModelSerializer):
