@@ -4,5 +4,12 @@ import os
 import uuid
 
 
-def get_image_path(instance=None, filename=None):
-    return os.path.join('img', uuid.uuid4().hex)
+def get_image_path(filename):
+    try:
+        extension = filename.split('.')[-1]
+    except IndexError:
+        extension = ''
+    return os.path.join(
+        'img',
+        '{}.{}'.format(uuid.uuid4().hex, extension)
+    )

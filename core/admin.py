@@ -5,16 +5,10 @@ from django import forms
 from django.contrib import admin
 from django.db import models
 
-from core.models import (
-    Spot,
-    Rating,
-    Opinion,
-    OpinionUsefulnessRating,
-    Instance
-)
-
-
-# hstore_fields = [field['name'] for field in settings.HSTORE_SCHEMA]
+from core.models.instance import Instance
+from core.models.opinions import Opinion, OpinionUsefulnessRating
+from core.models.ratings import Rating
+from core.models.spots import Spot
 
 
 class SpotLocationForm(forms.ModelForm):
@@ -43,7 +37,6 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'address_city',
         'is_enabled',
         'is_certificated',
-        # 'number_of_ratings',
         'admin_thumbnail_venue_photo',
         'google_maps_static_image',
         'creator',
@@ -118,10 +111,6 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'updated_at',
         'created_at',
         'spot_slug'])
-
-    # def number_of_ratings(self, obj):
-    #     return obj.ratings__count
-    # number_of_ratings.admin_order_field = 'ratings__count'
 
     def make_certificated(self, request, queryset):
         for spot in queryset:

@@ -4,23 +4,13 @@ from image_cropping import ImageCropWidget
 
 from django import forms
 
-from core.models import Spot
+from core.models.spots import Spot
 
 
 class ContactForm(forms.Form):
-    name = forms.CharField(max_length=100,)
+    name = forms.CharField(max_length=100)
     mail = forms.EmailField()
-
-    date = forms.DateField(
-        initial=datetime.date.today,
-        # widget=DateTimePicker(
-        #     options={
-        #         "format": "DD-MM-YYYY",
-        #         "pickTime": False,
-        #         "showToday": True,
-        #         })
-        )
-
+    date = forms.DateField(initial=datetime.date.today)
     message = forms.CharField(widget=forms.Textarea)
 
 

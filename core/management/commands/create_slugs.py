@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.core.management.base import BaseCommand
 
-from core.models import Spot
+from core.models.spots import Spot
 
 
 class Command(BaseCommand):

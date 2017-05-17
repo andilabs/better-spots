@@ -53,32 +53,39 @@ TEMPLATES = [
 
 
 INSTALLED_APPS = (
-    'solo',
-    'image_cropping',
-    'easy_thumbnails',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
     'django.contrib.gis',
+    'django.contrib.messages',
     'django.contrib.postgres',
-    'django_extensions',
-    'raven.contrib.django.raven_compat',
-    'rest_framework',
-    'rest_framework.authtoken',
+    'django.contrib.sessions',
+    'django.contrib.staticfiles',
 
-    'accounts',
-    'core',
-    'api',
-    'api2',
-    'www',
-    'blog',
-    'utils',
 
     'debug_toolbar',
     'django_celery_results',
+    'django_extensions',
+    'django_filters',
+    'easy_thumbnails',
+    'image_cropping',
+    'raven.contrib.django.raven_compat',
+    'solo',
+
+
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_framework_swagger',
+
+
+    'accounts',
+    'api',
+    'api2',
+    'blog',
+    'core',
+    'utils',
+    'www',
+
 )
 
 REST_FRAMEWORK = {

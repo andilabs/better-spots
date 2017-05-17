@@ -5,7 +5,7 @@ from django.views.generic import DetailView
 
 from django.conf import settings
 from .models import BlogPost
-from core.models import Instance
+from core.models.instance import Instance
 
 
 class BlogPostsListView(ListView):

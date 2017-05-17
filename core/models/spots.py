@@ -1,11 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import os
-import uuid
-
-from easy_thumbnails.files import get_thumbnailer
-from image_cropping import ImageCropField, ImageRatioField
-from solo.models import SingletonModel
 
 from django.conf import settings
 from django.contrib.gis.db import models
@@ -14,34 +9,13 @@ from django.contrib.postgres.fields import HStoreField
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
+from easy_thumbnails.files import get_thumbnailer
+from image_cropping import ImageCropField, ImageRatioField
 
+from utils.absolute_url import absolute_url
+from utils.img_path import get_image_path
 from utils.models import TimeStampedModel
 
-
-def get_image_path(instance, filename):
-    try:
-        extension = filename.split('.')[-1]
-    except IndexError:
-        extension = ''
-    return os.path.join(
-        'img',
-        '{}.{}'.format(uuid.uuid4().hex, extension)
-    )
-
-
-class Instance(SingletonModel, TimeStampedModel):
-    name = models.CharField(max_length=254, default='', blank=True, null=True)
-    slogan = models.CharField(max_length=254, default='', blank=True, null=True)
-    subject = models.CharField(max_length=254, default='', blank=True, null=True)
-    main_color = models.CharField(max_length=254, default='', blank=True, null=True)
-    description = models.TextField()
-    windows_phone_store_url = models.URLField(max_length=1023, blank=True, null=True)
-    google_store_url = models.URLField(max_length=1023, blank=True, null=True)
-    apple_store_url = models.URLField(max_length=1023, blank=True, null=True)
-    instagram = models.CharField(max_length=254, blank=True, null=True)
-    facebook = models.CharField(max_length=254, blank=True, null=True)
-    twitter = models.CharField(max_length=254, blank=True, null=True)
-    blogger_photo = models.ImageField(upload_to=get_image_path, null=True, blank=True)
 
 SPOT_TYPE = (
     (1, 'cafe'),
@@ -95,9 +69,7 @@ class Spot(TimeStampedModel):
         if self.venue_photo and self.venue_photo.name == '':
             return None
 
-        if not os.path.isfile(
-            os.path.join(
-                settings.MEDIA_ROOT, self.venue_photo.name)):
+        if not os.path.isfile(os.path.join(settings.MEDIA_ROOT, self.venue_photo.name)):
             return None
 
         thumbnail_url = get_thumbnailer(self.venue_photo).get_thumbnail({
@@ -140,6 +112,7 @@ class Spot(TimeStampedModel):
 
     @property
     def ratings(self):
+        from core.models.ratings import Rating
         return Rating.objects.filter(spot_id=self.id)
 
     @property
@@ -184,8 +157,7 @@ class Spot(TimeStampedModel):
 
     @property
     def www_url(self):
-        return "http://{}{}".format(settings.INSTANCE_DOMAIN, reverse(
-            'www:spot', args=[self.pk, self.spot_slug]))
+        return reverse('www:spot', args=[self.pk, self.spot_slug])
 
     @property
     def get_url(self):
@@ -211,81 +183,4 @@ class Spot(TimeStampedModel):
                 self.address_number
             )
         )
-
         super(Spot, self).save(*args, **kwargs)
-
-
-LIKERT = (
-    (1, 'terrible'),
-    (2, 'poor'),
-    (3, 'average'),
-    (4, 'very good'),
-    (5, 'exccelent'),
-)
-
-IS_ALLOWED_CHOICES = (
-    (False, 'Not allowed'),
-    (True, 'Allowed'),
-)
-
-
-class Rating(TimeStampedModel):
-    data_added = models.DateTimeField(auto_now_add=True)
-    is_enabled = models.BooleanField(choices=IS_ALLOWED_CHOICES, default=False)
-    friendly_rate = models.PositiveIntegerField(choices=LIKERT)
-    facilities = HStoreField(null=True)
-
-    user = models.ForeignKey('accounts.User', null=True)
-    spot = models.ForeignKey(Spot, related_name='ratings')
-
-    class Meta:
-        unique_together = ("user", "spot")
-
-    @property
-    def opinion(self):
-        opinion = Opinion.objects.filter(rating=self)
-        if opinion:
-            return opinion
-        else:
-            return None
-
-    @property
-    def spot_pk(self):
-        return self.spot.pk
-
-    def __unicode__(self):
-        return "{} {} by: {} rate: {}".format(
-            self.spot.name,
-            dict(IS_ALLOWED_CHOICES)[self.is_enabled],
-            self.user.email,
-            self.friendly_rate
-        )
-
-
-class Opinion(TimeStampedModel):
-    opinion_text = models.CharField(max_length=500)
-
-    rating = models.OneToOneField(Rating, primary_key=True)
-
-    def __unicode__(self):
-        return self.opinion_text
-
-    @property
-    def opinion_usefulness_ratings(self):
-        return OpinionUsefulnessRating.objects.filter(opinion=self)
-
-
-VOTE = (
-    (1, 'Upvote'),
-    (-1, 'Downvote'),
-)
-
-
-class OpinionUsefulnessRating(TimeStampedModel):
-    vote = models.IntegerField(choices=VOTE)
-
-    opinion = models.ForeignKey(Opinion)
-    user = models.ForeignKey('accounts.User', null=True)
-
-
-

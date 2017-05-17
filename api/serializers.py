@@ -10,9 +10,10 @@ from rest_framework.serializers import (
     DecimalField,
 )
 
-from accounts.models import UserFavouritesSpotList
-from core.models import Spot, Rating
 from accounts.models import User
+from accounts.models import UserFavouritesSpotList
+from core.models.ratings import Rating
+from core.models.spots import Spot
 
 
 class UserSerializer(ModelSerializer):
@@ -39,12 +40,12 @@ class RatingSerializer(ModelSerializer):
 
 
 class SpotListSerializer(ModelSerializer):
-    www_url = ReadOnlyField()
-    id = ReadOnlyField()
-    thumbnail_venue_photo = ReadOnlyField()
-    location = CharField(required=True)
-    friendly_rate_stars = ReadOnlyField()
-    friendly_rate = DecimalField(max_digits=2, decimal_places=1, coerce_to_string=False)
+    # www_url = ReadOnlyField()
+    # id = ReadOnlyField()
+    # thumbnail_venue_photo = ReadOnlyField()
+    # location = CharField(required=True)
+    # friendly_rate_stars = ReadOnlyField()
+    # friendly_rate = DecimalField(max_digits=2, decimal_places=1, coerce_to_string=False)
 
     class Meta:
         model = Spot
@@ -52,6 +53,7 @@ class SpotListSerializer(ModelSerializer):
             'pk',
             'id',
             'www_url',
+            'venue_photo',
             'thumbnail_venue_photo',
             'location',
             'name',
@@ -68,8 +70,7 @@ class SpotListSerializer(ModelSerializer):
             'is_enabled',
             'friendly_rate',
             'is_certificated',
-            'friendly_rate_stars',
-            # 'facilities',
+            # 'friendly_rate_stars',
         )
 
     def to_internal_value(self, data):
@@ -92,29 +93,29 @@ class SpotListSerializer(ModelSerializer):
 
         return ret
 
-    def to_representation(self, instance):
-        ret = super(SpotListSerializer, self).to_representation(instance)
-
-        if ret.get('location'):
-            pnt = fromstr(ret['location'])
-            ret['location'] = {
-                'longitude': pnt.coords[0],
-                'latitude': pnt.coords[1]
-            }
-        else:
-            ret['location'] = None
-
-        ret['thumbnail_venue_photo'] = "http://%s%s" % (
-            settings.INSTANCE_DOMAIN,
-            instance.thumbnail_venue_photo
-        ) if instance.thumbnail_venue_photo else None
-
-        if not instance.email:
-            ret['email'] = ""
-
-        ret['facilities'] = {}#{settings.FACILITIES_CODE_VERBOSE_MAP[k]: bool(eval(str(v))) for k, v in instance.facilities.items()}
-        ret['friendly_rate_stars'] = '*'*int(round(instance.friendly_rate))
-        return ret
+    # def to_representation(self, instance):
+    #     ret = super(SpotListSerializer, self).to_representation(instance)
+    #
+    #     if ret.get('location'):
+    #         pnt = fromstr(ret['location'])
+    #         ret['location'] = {
+    #             'longitude': pnt.coords[0],
+    #             'latitude': pnt.coords[1]
+    #         }
+    #     else:
+    #         ret['location'] = None
+    #
+    #     ret['thumbnail_venue_photo'] = "http://%s%s" % (
+    #         settings.INSTANCE_DOMAIN,
+    #         instance.thumbnail_venue_photo
+    #     ) if instance.thumbnail_venue_photo else None
+    #
+    #     if not instance.email:
+    #         ret['email'] = ""
+    #
+    #     ret['facilities'] = {}#{settings.FACILITIES_CODE_VERBOSE_MAP[k]: bool(eval(str(v))) for k, v in instance.facilities.items()}
+    #     ret['friendly_rate_stars'] = '*'*int(round(instance.friendly_rate))
+    #     return ret
 
 
 class SpotDetailSerializer(SpotListSerializer):

@@ -33,9 +33,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 
-from core.models import (
-    Spot, Rating
-)
+from core.models.ratings import Rating
+from core.models.spots import Spot
+
 from accounts.models import User, UserFavouritesSpotList
 from accounts.authentication import ExpiringTokenAuthentication
 from .serializers import (

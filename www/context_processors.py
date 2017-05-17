@@ -1,6 +1,7 @@
 from django.conf import settings
 
-from core.models import Instance, Spot
+from core.models.instance import Instance
+from core.models.spots import Spot
 
 
 def spot_facilities(request):

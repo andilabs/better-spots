@@ -17,7 +17,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 from accounts.models import UserFavouritesSpotList
-from core.models import Spot, SPOT_TYPE
+from core.models.spots import Spot, SPOT_TYPE
 from utils.qrcodes import make_qrcode
 from .forms import ContactForm, AddSpotForm, EditSpotPhotoForm
 
