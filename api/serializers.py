@@ -93,29 +93,29 @@ class SpotListSerializer(ModelSerializer):
 
         return ret
 
-    # def to_representation(self, instance):
-    #     ret = super(SpotListSerializer, self).to_representation(instance)
-    #
-    #     if ret.get('location'):
-    #         pnt = fromstr(ret['location'])
-    #         ret['location'] = {
-    #             'longitude': pnt.coords[0],
-    #             'latitude': pnt.coords[1]
-    #         }
-    #     else:
-    #         ret['location'] = None
-    #
-    #     ret['thumbnail_venue_photo'] = "http://%s%s" % (
-    #         settings.INSTANCE_DOMAIN,
-    #         instance.thumbnail_venue_photo
-    #     ) if instance.thumbnail_venue_photo else None
-    #
-    #     if not instance.email:
-    #         ret['email'] = ""
-    #
-    #     ret['facilities'] = {}#{settings.FACILITIES_CODE_VERBOSE_MAP[k]: bool(eval(str(v))) for k, v in instance.facilities.items()}
-    #     ret['friendly_rate_stars'] = '*'*int(round(instance.friendly_rate))
-    #     return ret
+    def to_representation(self, instance):
+        ret = super(SpotListSerializer, self).to_representation(instance)
+
+        if ret.get('location'):
+            pnt = fromstr(ret['location'])
+            ret['location'] = {
+                'longitude': pnt.coords[0],
+                'latitude': pnt.coords[1]
+            }
+        else:
+            ret['location'] = None
+
+        ret['thumbnail_venue_photo'] = "http://%s%s" % (
+            settings.INSTANCE_DOMAIN,
+            instance.thumbnail_venue_photo
+        ) if instance.thumbnail_venue_photo else None
+
+        if not instance.email:
+            ret['email'] = ""
+
+        ret['facilities'] = {}#{settings.FACILITIES_CODE_VERBOSE_MAP[k]: bool(eval(str(v))) for k, v in instance.facilities.items()}
+        ret['friendly_rate_stars'] = '*'*int(round(instance.friendly_rate))
+        return ret
 
 
 class SpotDetailSerializer(SpotListSerializer):
