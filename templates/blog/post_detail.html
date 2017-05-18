@@ -15,16 +15,16 @@
 <div class="row">
     <div class="col-md-12 no-col-padding">
     	<h2 class="titles">
-  			<span class="fa fa-rss fa-2x spot_project_color"></span> <a href="{% url 'blogpost_list' %}">Blog!</a>
+  			<span class="fa fa-rss fa-2x spot_project_color"></span> <a href="{% url 'blog:blogpost_list' %}">Blog!</a>
   		</h2>
         <h1 style="font-family:Lato">
-            <a href="{% url 'blogpost_detail' pk=post.pk post_slug=post.post_slug %}" style="text-decoration:none; font-weight:600;">{{post.title}}</a>
+            <a href="{{post.get_slugged_url}}" style="text-decoration:none; font-weight:600;">{{post.title}}</a>
         </h1>
         <h2 style="font-family:Lato Italic">{{post.text}}</h2>
     </div>
     <div class="col-md-12">
-        <a href="{{post.blogpost_photo_thumb}}" target="_blank">
-        <img src="{{post.blogpost_photo_thumb|safe}}" width="100%"></a>
+        <a href="{{post.photo_thumb}}" target="_blank">
+        <img src="{{post.photo_thumb|safe}}" width="100%"></a>
     </div>
 </div>
 

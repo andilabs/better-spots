@@ -17,7 +17,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 from accounts.models import UserFavouritesSpotList
-from core.models.spots import Spot, SPOT_TYPE
+from core.models.spots import Spot, SPOT_TYPE_CHOICES
 from utils.qrcodes import make_qrcode
 from .forms import ContactForm, AddSpotForm, EditSpotPhotoForm
 
@@ -224,7 +224,7 @@ def ajax_search(request):
     result = [
         {
             'name': spot.name,
-            'category': SPOT_TYPE[spot.spot_type-1][1],
+            'category': SPOT_TYPE_CHOICES[spot.spot_type-1][1],
             'url': spot.www_url,
             'thumb': spot.thumbnail_venue_photo,
             'address': spot.address,

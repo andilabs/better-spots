@@ -4,7 +4,7 @@ import os
 import uuid
 
 
-def get_image_path(filename):
+def get_image_path(instance, filename):
     try:
         extension = filename.split('.')[-1]
     except IndexError:

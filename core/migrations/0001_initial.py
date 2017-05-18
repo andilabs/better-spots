@@ -59,7 +59,6 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('created_at', models.DateTimeField(auto_now_add=True, db_index=True)),
                 ('updated_at', models.DateTimeField(auto_now=True, db_index=True)),
-                ('data_added', models.DateTimeField(auto_now_add=True)),
                 ('is_enabled', models.BooleanField(choices=[(False, 'Not allowed'), (True, 'Allowed')], default=False)),
                 ('friendly_rate', models.PositiveIntegerField(choices=[(1, 'terrible'), (2, 'poor'), (3, 'average'), (4, 'very good'), (5, 'excellent')])),
                 ('facilities', django.contrib.postgres.fields.hstore.HStoreField(null=True)),

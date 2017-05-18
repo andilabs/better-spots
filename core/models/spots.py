@@ -12,12 +12,11 @@ from django.utils.safestring import mark_safe
 from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageCropField, ImageRatioField
 
-from utils.absolute_url import absolute_url
 from utils.img_path import get_image_path
 from utils.models import TimeStampedModel
 
 
-SPOT_TYPE = (
+SPOT_TYPE_CHOICES = (
     (1, 'cafe'),
     (2, 'restaurant'),
     (3, 'hotel'),
@@ -33,7 +32,7 @@ class Spot(TimeStampedModel):
     address_number = models.CharField(max_length=10, default='', blank=True, null=True)
     address_city = models.CharField(max_length=100, default='', blank=True, null=True)
     address_country = models.CharField(max_length=100, default='', blank=True, null=True)
-    spot_type = models.IntegerField(choices=SPOT_TYPE)
+    spot_type = models.IntegerField(choices=SPOT_TYPE_CHOICES)
     is_accepted = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=100, default='', blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
@@ -177,7 +176,7 @@ class Spot(TimeStampedModel):
         self.spot_slug = slugify(
             "{} {} {} {} {}".format(
                 self.name,
-                dict(SPOT_TYPE)[self.spot_type],
+                dict(SPOT_TYPE_CHOICES)[self.spot_type],
                 self.address_city,
                 self.address_street,
                 self.address_number

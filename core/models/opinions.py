@@ -19,14 +19,14 @@ class Opinion(TimeStampedModel):
         return OpinionUsefulnessRating.objects.filter(opinion=self)
 
 
-VOTE = (
+VOTE_CHOICES = (
     (1, 'Upvote'),
     (-1, 'Downvote'),
 )
 
 
 class OpinionUsefulnessRating(TimeStampedModel):
-    vote = models.IntegerField(choices=VOTE)
+    vote = models.IntegerField(choices=VOTE_CHOICES)
 
     opinion = models.ForeignKey('core.Opinion')
     user = models.ForeignKey('accounts.User', null=True)

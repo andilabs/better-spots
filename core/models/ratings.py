@@ -4,12 +4,11 @@
 from django.contrib.gis.db import models
 from django.contrib.postgres.fields import HStoreField
 
-from core.models.opinions import Opinion
 from core.models.spots import Spot
 from utils.models import TimeStampedModel
 
 
-LIKERT = (
+FRIENDLY_RATE_CHOICES = (
     (1, 'terrible'),
     (2, 'poor'),
     (3, 'average'),
@@ -24,9 +23,8 @@ IS_ALLOWED_CHOICES = (
 
 
 class Rating(TimeStampedModel):
-    data_added = models.DateTimeField(auto_now_add=True)
     is_enabled = models.BooleanField(choices=IS_ALLOWED_CHOICES, default=False)
-    friendly_rate = models.PositiveIntegerField(choices=LIKERT)
+    friendly_rate = models.PositiveIntegerField(choices=FRIENDLY_RATE_CHOICES)
     facilities = HStoreField(null=True)
 
     user = models.ForeignKey('accounts.User', null=True)
@@ -34,18 +32,6 @@ class Rating(TimeStampedModel):
 
     class Meta:
         unique_together = ("user", "spot")
-
-    @property
-    def opinion(self):
-        opinion = Opinion.objects.filter(rating=self)
-        if opinion:
-            return opinion
-        else:
-            return None
-
-    @property
-    def spot_pk(self):
-        return self.spot.pk
 
     def __unicode__(self):
         return "{} {} by: {} rate: {}".format(

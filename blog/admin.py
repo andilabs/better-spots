@@ -11,9 +11,9 @@ class BlogPostAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'title',
         'created_date',
         'published_date',
-        # 'spot',
-        'admin_blogpost_photo_thumb',
-        # 'user'
+        'spot',
+        'admin_photo_thumb',
+        'user'
     )
 
     fieldsets = [
@@ -25,16 +25,16 @@ class BlogPostAdmin(ImageCroppingMixin, admin.ModelAdmin):
                     'created_date',
                     'published_date',
                     'text',
-                    'blogpost_photo',
-                    # 'spot',
-                    'admin_blogpost_photo_thumb',
-                    # 'user',
+                    'photo',
+                    'spot',
+                    'admin_photo_thumb',
+                    'user',
                 ]
             }),
     ]
 
     readonly_fields = (
-        'admin_blogpost_photo_thumb',
+        'admin_photo_thumb',
         'post_slug',
     )
 

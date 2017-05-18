@@ -29,6 +29,7 @@ class BlogPostDetailView(DetailView):
 
     model = BlogPost
     template_name = 'blog/post_detail.html'
+    context_object_name = 'post'
 
 
 class LastBlogPostEntries(Feed):
@@ -47,4 +48,4 @@ class LastBlogPostEntries(Feed):
         return item.text
 
     def item_link(self, item):
-        return reverse('blogpost_detail', args=[item.post_slug, item.pk])
+        return reverse('blog:blogpost_detail', args=[item.post_slug, item.pk])

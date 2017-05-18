@@ -133,11 +133,11 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="imgAbt">
-                                        <img src="{{post.blogpost_photo_thumb|safe}}" width="100%">
+                                        <img src="{{post.photo_thumb|safe}}" width="100%">
                                     </div>
                                 </div>
                                 <div class="col-md-8">
-                                    <a href="{% url 'blogpost_detail' pk=post.pk post_slug=post.post_slug %}"><h3 style="margin-top:5px">{{post.title}}</h3></a>
+                                    <a href="{{post.get_slugged_url}}"><h3 style="margin-top:5px">{{post.title}}</h3></a>
                                     <p>{{post.text|truncatechars:200}}</p>
                                 </div>
                             </div>
