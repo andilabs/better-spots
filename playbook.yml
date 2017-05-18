@@ -136,7 +136,7 @@
     copy: src={{ item.src }} dest={{ item.dest }}
     with_items:
       - { src: "data/{{project_instance}}/initial_img/", dest: "{{ media_dir }}/img" }
-      - { src: "static_assets/{{project_instance}}/blogger_photo.jpg", dest: "{{media_dir}}/img"} #TODO you forgot commiting images chaned from mac
+      - { src: "static_assets/{{project_instance}}/blogger_photo.jpg", dest: "{{media_dir}}/img"}
 
 
   - name: create superuser

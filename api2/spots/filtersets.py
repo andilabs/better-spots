@@ -43,6 +43,7 @@ class LatLonRadiusField(forms.MultiValueField):
 from django.contrib.gis.measure import D
 from django.contrib.gis.geos import fromstr
 
+
 class LatLonRadiusFilter(Filter):
     field_class = LatLonRadiusField
 
@@ -72,5 +73,6 @@ class SpotFilterSet(FilterSet):
         fields = [
             'name',
             'location',
+            'spot_type',
         ]
 
