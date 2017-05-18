@@ -32,7 +32,6 @@ elif 'veganspot.eu' in PROJECT_ROOT_PATH.split('/'):
 
 else:
     from .local import *
-    SPOT_PROJECT_NAME = 'dogspot'
 
 SPOT_PROJECT_FAVICON_URL = os.path.join(
     'static',

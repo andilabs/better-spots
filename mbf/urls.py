@@ -5,6 +5,7 @@ from django.conf import settings
 from django.views.generic import RedirectView
 from django.conf.urls.static import static
 from django.contrib import admin
+from rest_framework.documentation import include_docs_urls
 
 admin.autodiscover()
 
@@ -19,6 +20,7 @@ urlpatterns = [
 
     url(r'^favicon\.ico$', RedirectView.as_view(url=settings.SPOT_PROJECT_FAVICON_URL)),
     url(r'^apple-touch-icon-120x120\.png$', RedirectView.as_view(url='static/%s/apple-touch-icon-120x120.png' % (settings.SPOT_PROJECT_NAME))),
+    url(r'^api2/docs/', include_docs_urls(title='{} API'.format(settings.SPOT_PROJECT_NAME))),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

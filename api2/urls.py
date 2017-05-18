@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.conf.urls import include, url
 
 from rest_framework.schemas import get_schema_view
@@ -15,7 +16,7 @@ spot_router = routers.NestedSimpleRouter(router, r'spots', lookup='spot')
 spot_router.register(r'opinions', OpinionViewSet, base_name='opinions')
 
 
-schema_view = get_schema_view(title='Spots API', renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer], public=True)
+schema_view = get_schema_view(title='{} API'.format(settings.SPOT_PROJECT_NAME), renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer], public=True)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
