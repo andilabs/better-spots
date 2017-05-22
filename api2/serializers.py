@@ -6,6 +6,12 @@ from django.contrib.gis.geos.point import Point
 
 GeoPoint = namedtuple('GeoPoint', ['longitude', 'latitude'])
 
+# TODO try using type NamedTuple like this
+# from typing import NamedTuple
+# GeoPoint = NamedTuple('GeoPoint', [('longitude', float), ('latitude', float)])
+# TODO so the cast in to_internal_value won't be needed
+
+
 class GeoPointSerializerField(serializers.Field):
 
     def to_representation(self, obj):
@@ -14,4 +20,4 @@ class GeoPointSerializerField(serializers.Field):
 
     def to_internal_value(self, data):
         geo = GeoPoint(**data)
-        return Point(*geo)
+        return Point(*[float(i) for i in geo])

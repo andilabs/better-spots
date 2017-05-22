@@ -5,8 +5,8 @@ from .common import *
 
 from unipath import Path
 
-# from mbf.settings.instance_configs.dogspot import *
-# SPOT_PROJECT_NAME = 'dogspot'
+from mbf.settings.instance_configs.dogspot import *
+SPOT_PROJECT_NAME = 'dogspot'
 #
 # from mbf.settings.instance_configs.momspot import *
 # SPOT_PROJECT_NAME = 'momspot'
@@ -14,8 +14,8 @@ from unipath import Path
 # from mbf.settings.instance_configs.enabledspot import *
 # SPOT_PROJECT_NAME = 'enabledspot'
 #
-from mbf.settings.instance_configs.veganspot import *
-SPOT_PROJECT_NAME = 'veganspot'
+# from mbf.settings.instance_configs.veganspot import *
+# SPOT_PROJECT_NAME = 'veganspot'
 
 
 DEBUG = True
