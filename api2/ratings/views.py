@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 
-from .serializers import RatingSerializer
+from api2.ratings.serializers import RatingSerializer
 from core.models.ratings import Rating
 
 

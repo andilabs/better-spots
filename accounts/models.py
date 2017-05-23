@@ -27,48 +27,6 @@ class User(AbstractBaseUser, TimeStampedModel, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
 
-    def get_full_name(self):
-        # The user is identified by their email address
-        return self.email
-
-    def get_short_name(self):
-        # The user is identified by their email address
-        return self.email
-
-    def __unicode__(self):
-        return self.email
-
-    def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
-        return True
-
-    def has_module_perms(self, api):
-        "Does the user have permissions to view the app `api`?"
-        # Simplest possible answer: Yes, always
-        return True
-
-    @property
-    def is_staff(self):
-        "Is the user a member of staff?"
-        # Simplest possible answer: All admins are staff
-        return self.is_admin
-
-    @property
-    def spot_pk_to_fav_asset_pk(self):
-        """
-            for given user
-            filters favourites spots of user
-            and returns their representation in form of dictionary
-            {spot_pk: list_itme_pk}
-        """
-        return {u_s_l.spot.pk: '%s' % u_s_l.pk
-                for u_s_l in UsersSpotsList.favourites.filter(user=self)}
-
-    @property
-    def to_be_visited(self):
-        return UsersSpotsList.to_be_visited.filter(user=self)
-
 
 class EmailVerification(TimeStampedModel):
     verification_key = models.CharField(max_length=21, unique=True)

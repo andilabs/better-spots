@@ -1,0 +1,16 @@
+ignore-paths:
+  - docs
+  - data
+  - api # TODO legacy now... to be removed when api2 becomes api
+  - static_assets
+
+pep8:
+  options:
+    max-line-length: 200
+
+pylint:
+  options:
+    max-line-length: 200
+
+  disable:
+    - R0901 # Too many ancestors - because of django libraries inheritance

@@ -16,7 +16,7 @@ from utils.img_path import get_image_path
 
 
 class BlogPost(models.Model):
-    user = models.ForeignKey( 'accounts.User', blank=True, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey('accounts.User', blank=True, null=True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=200)
     text = models.TextField(help_text='blog note text')
     created_date = models.DateTimeField(default=timezone.now)

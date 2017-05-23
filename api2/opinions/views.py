@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 
-from .serializers import OpinionSerializer
+from api2.opinions.serializers import OpinionSerializer
 from core.models.opinions import Opinion
 
 
