@@ -24,3 +24,6 @@ django-debug-toolbar==1.8
 celery==4.0.2
 django-celery-results==1.0.1
 redis==2.10.5
+factory_boy==2.8.1
+prospector==0.12.5
+Faker==0.7.12
