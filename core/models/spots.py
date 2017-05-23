@@ -51,15 +51,6 @@ class Spot(TimeStampedModel):
 
     objects = GeoManager()
 
-    class Meta:
-        unique_together = (
-            "name",
-            "address_street",
-            "address_number",
-            "address_city",
-            "address_country",
-        )
-
     @property
     def thumbnail_venue_photo(self):
         if not self.venue_photo:

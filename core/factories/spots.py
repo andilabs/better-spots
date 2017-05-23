@@ -1,21 +1,25 @@
-from django.contrib.gis.geos.point import Point
-from factory import django, fuzzy
+import random
+
+from django.contrib.gis.geos import Point
+from factory import django, fuzzy, lazy_attribute
 from faker import Factory
 
 from core.models.spots import SPOT_TYPE_CHOICES
+from utils.geocoding import reverse_geocoding
 
-import random
-from django.contrib.gis.geos import Point
-from factory.fuzzy import BaseFuzzyAttribute
 
 faker = Factory.create('pl_PL')
 
-class FuzzyPoint(BaseFuzzyAttribute):
+
+class FuzzyPoint(fuzzy.BaseFuzzyAttribute):
+
     def fuzz(self):
         return Point(
-            random.uniform(20.983331, 21.071981),
-            random.uniform(52.2110206, 52.216912)
+            random.uniform(20.961733, 21.071981),
+            random.uniform(52.167108, 52.216912)
         )
+        # TODO more sexy approach for given point get random points within radius
+        # https://gis.stackexchange.com/questions/25877/generating-random-locations-nearby/68275
 
 
 class SpotFactory(django.DjangoModelFactory):
@@ -25,16 +29,26 @@ class SpotFactory(django.DjangoModelFactory):
     class Meta:
         model = 'core.Spot'
 
-    name = fuzzy.FuzzyText(length=32, chars='0123456789abcdef')
-    address_city = faker.city()
-    address_country = faker.country()
+    is_accepted = True
+    is_enabled = fuzzy.FuzzyChoice([True, False])
+    friendly_rate = fuzzy.FuzzyDecimal(0.0, 5.0, 2)
 
-    # @classmethod
-    # def _generate(cls, create, attrs):
-    #     lat = fuzzy.FuzzyFloat(52.2110206, 52.216912)
-    #     lon = fuzzy.FuzzyFloat(20.983331, 21.071981)
-    #
-    #     spot =  super(SpotFactory, cls)._generate(create, attrs)
-    #     import ipdb; ipdb.set_trace()
-    #     spot.location = Point(lat, lon)
-    #     return spot
+    @lazy_attribute
+    def name(self):
+        return "{type} '{name}'".format(
+            type=dict(SPOT_TYPE_CHOICES)[self.spot_type],
+            name=faker.first_name()
+        )
+
+    @classmethod
+    def _generate(cls, create, attrs):
+        # TODO parametrize this factory, so that using google api is an option not default
+        spot = super(SpotFactory, cls)._generate(create, attrs)
+        longitude, latitude = spot.location.coords
+        address_info = reverse_geocoding(latitude=latitude, longitude=longitude)
+        spot.address_number = address_info.get('address_number')
+        spot.address_street = address_info.get('address_street')
+        spot.address_city = address_info.get('address_city')
+        spot.address_country = address_info.get('address_country')
+        spot.save()
+        return spot

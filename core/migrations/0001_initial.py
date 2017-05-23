@@ -109,10 +109,6 @@ class Migration(migrations.Migration):
                 'abstract': False,
             },
         ),
-        migrations.AlterUniqueTogether(
-            name='spot',
-            unique_together=set([('name', 'address_street', 'address_number', 'address_city', 'address_country')]),
-        ),
         migrations.AddField(
             model_name='rating',
             name='spot',
