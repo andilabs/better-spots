@@ -12,6 +12,7 @@ from django.dispatch import receiver
 
 
 from accounts.managers import UserManager
+from accounts.tasks import send_asynchronous_email
 from utils.models import TimeStampedModel
 
 
@@ -26,6 +27,33 @@ class User(AbstractBaseUser, TimeStampedModel, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
+    def get_full_name(self):
+        # The user is identified by their email address
+        return self.email
+
+    def get_short_name(self):
+        # The user is identified by their email address
+        return self.email
+
+    def __unicode__(self):
+        return self.email
+
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    def has_module_perms(self, api):
+        "Does the user have permissions to view the app `api`?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    @property
+    def is_staff(self):
+        "Is the user a member of staff?"
+        # Simplest possible answer: All admins are staff
+        return self.is_admin
 
 
 class EmailVerification(TimeStampedModel):
@@ -49,10 +77,13 @@ class UserFavouritesSpotList(UsersSpotsList):
     pass
 
 
+# TODO read https://stackoverflow.com/a/21612050/953553 and https://docs.djangoproject.com/en/dev/topics/signals/
+# TODO apps https://stackoverflow.com/a/32795405/953553
+
 # TODO move signals to seperate module and new style using apps
 # TODO use fuckin async celery like solution please
 @receiver(post_save, sender=User)
-def verify_email(sender, instance, created, *args, **kwargs):
+def verify_email(sender, instance, created, **kwargs):
     if created and not instance.mail_verified:
         email_verification = EmailVerification(
             verification_key=base64.urlsafe_b64encode(uuid.uuid4().bytes)[:21],
@@ -61,7 +92,7 @@ def verify_email(sender, instance, created, *args, **kwargs):
 
 
 @receiver(post_save, sender=EmailVerification)
-def send_email(sender, instance, created, *args, **kwargs):
+def send_email(sender, instance, created, **kwargs):
 
     if created:
         subject = "Verify your e-mail to activate your account."
@@ -72,10 +103,8 @@ def send_email(sender, instance, created, *args, **kwargs):
         mail_content = "Please click this link to activate your account\n {activation_url}".format(
             activation_url=activation_url
         )
-        from .tasks import send_asynchronous_email
-        #TODO switch to apply_async
-        send_asynchronous_email.delay(
-            subject=subject,
-            mail_content=mail_content,
-            recipients_emails=[instance.user.email]
-        )
+        send_asynchronous_email.apply_async(kwargs={
+            'subject': subject,
+            'mail_content': mail_content,
+            'recipients_emails': [instance.user.email]
+        })

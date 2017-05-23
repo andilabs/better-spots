@@ -1,9 +1,7 @@
-import factory
-
-from core.models.ratings import Rating
+from factory import django
 
 
-class InstanceFactory(factory.Factory):
+class RatingFactory(django.DjangoModelFactory):
 
     class Meta:
-        model = Rating
+        model = 'core.Rating'

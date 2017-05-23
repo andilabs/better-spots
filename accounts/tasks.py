@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-from celery.decorators import task
+from celery.task import task
 
 from django.conf import settings
 from django.core.mail import EmailMessage
@@ -14,9 +14,3 @@ def send_asynchronous_email(subject, mail_content, recipients_emails):
         to=recipients_emails
     )
     msg.send()
-
-
-
-@task()
-def add(x, y):
-    return x + y

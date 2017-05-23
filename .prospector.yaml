@@ -14,3 +14,7 @@ pylint:
 
   disable:
     - R0901 # Too many ancestors - because of django libraries inheritance
+
+uses:
+    - django
+    - celery

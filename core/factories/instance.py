@@ -1,9 +1,7 @@
-import factory
-
-from core.models.instance import Instance
+from factory import django
 
 
-class InstanceFactory(factory.Factory):
+class InstanceFactory(django.DjangoModelFactory):
 
     class Meta:
-        model = Instance
+        model = 'core.Instance'

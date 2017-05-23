@@ -40,4 +40,3 @@ class Rating(TimeStampedModel):
             self.user.email,
             self.friendly_rate
         )
-

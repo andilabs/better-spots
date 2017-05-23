@@ -1,9 +1,7 @@
-import factory
-
-from core.models.opinions import Opinion
+from factory import django
 
 
-class InstanceFactory(factory.Factory):
+class OpinionFactory(django.DjangoModelFactory):
 
     class Meta:
-        model = Opinion
+        model = 'core.Opinion'

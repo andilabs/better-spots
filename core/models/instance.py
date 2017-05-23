@@ -21,6 +21,3 @@ class Instance(SingletonModel, TimeStampedModel):
     facebook = models.CharField(max_length=254, blank=True, null=True)
     twitter = models.CharField(max_length=254, blank=True, null=True)
     blogger_photo = models.ImageField(upload_to=get_image_path, null=True, blank=True)
-
-
-

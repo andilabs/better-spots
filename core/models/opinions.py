@@ -30,5 +30,3 @@ class OpinionUsefulnessRating(TimeStampedModel):
 
     opinion = models.ForeignKey('core.Opinion')
     user = models.ForeignKey('accounts.User', null=True)
-
-

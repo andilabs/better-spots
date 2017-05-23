@@ -310,13 +310,13 @@ def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
     desired_radius = {'m': radius}
 
     nearby_spots = Spot.objects.filter(
-        friendly_rate__gte=1.0,
-        is_accepted=True,
+        # friendly_rate__gte=1.0,
+        # is_accepted=True,
         location__distance_lte=(
             user_location,
             D(**desired_radius)
         )
-    ).distance(user_location).order_by('distance')
+    ).distance(user_location).order_by('distance')[:500]
     paginated = request.query_params.get('paginated')
 
     if paginated:
