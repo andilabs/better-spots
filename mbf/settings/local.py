@@ -53,11 +53,6 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 STATIC_ROOT = '/pseudo_static_server_spots/'
 
-# TEMPLATE_DIRS = (
-#      os.path.join(PROJECT_ROOT_PATH, 'templates/'),
-# )
-
-
 SPOT_FACILITIES = [d['name'] for d in HSTORE_SCHEMA]
 
 SPOT_FACILITIES_VERBOSE_NAMES = [(d['kwargs']['verbose_name'],d['name']) for d in HSTORE_SCHEMA]
