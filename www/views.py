@@ -90,7 +90,7 @@ def add_spot(request):
                 request,
                 messages.WARNING,
                 (
-                    'The spots added by not-registred users'
+                    'The spots added by not-registred accounts'
                     ' are not visible until being peer-reviewed'
                     ' <br> If you wish to register go '
                     '<a href="%s">HERE</a> it takes just few seconds.'

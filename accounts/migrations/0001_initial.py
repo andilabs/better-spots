@@ -70,7 +70,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='favourites',
-            field=models.ManyToManyField(related_name='users', through='accounts.UserFavouritesSpotList', to='core.Spot'),
+            field=models.ManyToManyField(related_name='accounts', through='accounts.UserFavouritesSpotList', to='core.Spot'),
         ),
         migrations.AlterUniqueTogether(
             name='userfavouritesspotlist',

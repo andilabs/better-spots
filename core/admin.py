@@ -31,6 +31,7 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
     change_form_template = "admin/spots/change_form.html"
 
     list_display = tuple([
+        'pk',
         'name',
         'is_accepted',
         'friendly_rate',
@@ -135,15 +136,24 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
 
 class RatingAdmin(admin.ModelAdmin):
     list_display = [
-            'spot',
-            'friendly_rate',
-            'is_enabled',
-            'user',
-        ]
+        'pk',
+        'spot',
+        'friendly_rate',
+        'is_enabled',
+        'user',
+    ]
+
+
+class OpinionAdmin(admin.ModelAdmin):
+    list_display = [
+        'pk',
+        'rating',
+        'opinion_text',
+    ]
 
 
 admin.site.register(Spot, SpotAdmin)
 admin.site.register(Rating, RatingAdmin)
-admin.site.register(Opinion)
+admin.site.register(Opinion, OpinionAdmin)
 admin.site.register(Instance, SingletonModelAdmin)
 admin.site.register(OpinionUsefulnessRating)

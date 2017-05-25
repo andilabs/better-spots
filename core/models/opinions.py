@@ -11,7 +11,7 @@ class Opinion(TimeStampedModel):
 
     rating = models.OneToOneField('core.Rating', primary_key=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.opinion_text
 
     @property

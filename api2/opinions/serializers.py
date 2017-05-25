@@ -7,4 +7,10 @@ class OpinionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Opinion
-        fields = '__all__'
+        fields = [
+            "pk",
+            "rating",
+            "created_at",
+            "updated_at",
+            "opinion_text",
+        ]

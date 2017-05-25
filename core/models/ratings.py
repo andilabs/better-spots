@@ -33,7 +33,7 @@ class Rating(TimeStampedModel):
     class Meta:
         unique_together = ("user", "spot")
 
-    def __unicode__(self):
+    def __str__(self):
         return "{} {} by: {} rate: {}".format(
             self.spot.name,
             dict(IS_ALLOWED_CHOICES)[self.is_enabled],

@@ -13,8 +13,8 @@ urlpatterns = [
 
     url(r'^image_upload/(?P<pk>[0-9]+)/$', views.FileUploadView.as_view(), name="image_upload"),
 
-    url(r'^users/$', views.UserListApiView.as_view(), name="users-list"),
-    url(r'^users/(?P<pk>\d+)/$', views.UserDetail.as_view(), name="user-detail"),
+    url(r'^accounts/$', views.UserListApiView.as_view(), name="accounts-list"),
+    url(r'^accounts/(?P<pk>\d+)/$', views.UserDetail.as_view(), name="user-detail"),
 
     url(r'^ratings/$', views.RatingList.as_view(), name="rating-list"),
     url(r'^ratings/(?P<pk>\d+)/$', views.RatingDetail.as_view(), name="rating-detail"),

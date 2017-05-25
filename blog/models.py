@@ -77,7 +77,7 @@ class BlogPost(models.Model):
     def get_slugged_url(self):
         return reverse('blog:blogpost_detail', args=[self.post_slug, self.pk])
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):

@@ -22,7 +22,7 @@ class User(AbstractBaseUser, TimeStampedModel, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
-    favourites = models.ManyToManyField('core.Spot', through='accounts.UserFavouritesSpotList', related_name='users')
+    favourites = models.ManyToManyField('core.Spot', through='accounts.UserFavouritesSpotList', related_name='accounts')
 
     objects = UserManager()
 
@@ -36,7 +36,7 @@ class User(AbstractBaseUser, TimeStampedModel, PermissionsMixin):
         # The user is identified by their email address
         return self.email
 
-    def __unicode__(self):
+    def __str__(self):
         return self.email
 
     def has_perm(self, perm, obj=None):

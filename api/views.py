@@ -104,7 +104,7 @@ def api_root(request, format=None):
         ),
 
         'Users (admin only)': reverse(
-            'api:users-list', request=request,
+            'api:accounts-list', request=request,
         )
     })
 
