@@ -10,7 +10,8 @@ GeoPoint = namedtuple('GeoPoint', ['longitude', 'latitude'])
 # from typing import NamedTuple
 # GeoPoint = NamedTuple('GeoPoint', [('longitude', float), ('latitude', float)])
 # TODO so the cast in to_internal_value won't be needed
-
+# or use enforce so it will crash when passed not proper type
+# https://github.com/RussBaz/enforce
 
 class GeoPointSerializerField(serializers.Field):
 
