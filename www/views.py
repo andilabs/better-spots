@@ -1,5 +1,6 @@
 import collections
 import json
+from io import StringIO, BytesIO
 
 from django.conf import settings
 from django.contrib import messages
@@ -15,6 +16,8 @@ from django.utils.decorators import method_decorator
 from django.views.generic import FormView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+
+from xhtml2pdf import pisa
 
 from accounts.models import UserFavouritesSpotList
 from core.models.spots import Spot, SPOT_TYPE_CHOICES
@@ -186,18 +189,17 @@ def edit_photo(request, pk):
 
 
 def render_to_pdf(template_src, context_dict):
-    # template = get_template(template_src)
-    # context = Context(context_dict)
-    # html = template.render(context)
-    # result = StringIO.StringIO()
-    #
-    # pdf = pisa.pisaDocument(
-    #     StringIO.StringIO(html.encode('utf-8')),
-    #     result,
-    #     encoding='UTF-8')
-    #
-    # if not pdf.err:
-    #     return HttpResponse(result.getvalue(), mimetype='application/pdf')
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(
+        StringIO(html),
+        dest=result,
+        encoding='UTF-8'
+    )
+
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
 
     return HttpResponse('We had some errors')#<pre>%s</pre>' % escape(html))
 
@@ -207,10 +209,12 @@ def pdf_sticker(request, pk):
 
     if spot.is_certificated:
         return render_to_pdf(
-            get_template('www/pdf_sticker.html'),
+            'www/pdf_sticker.html',
             {
                 'BASE_HOST': settings.INSTANCE_DOMAIN,
                 'MEDIA_ROOT': settings.MEDIA_ROOT,
+                'STATIC_ROOT': settings.STATIC_ROOT,
+                'SPOT_PROJECT_NAME': settings.SPOT_PROJECT_NAME,
                 'pagesize': 'A6',
                 'spot': Spot.objects.get(pk=pk),
             }
@@ -239,7 +243,7 @@ def ajax_search(request):
         content_type="application/json")
 
 
-def qrencode_link(request, pk, size=3, for_view='spot-detail'):
+def qrencode_link(request, pk, size=3, for_view='www:spot'):
     spot = get_object_or_404(Spot, pk=pk)
     dane = "http://%s%s" % (
         settings.INSTANCE_DOMAIN,

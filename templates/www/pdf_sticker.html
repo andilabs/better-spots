@@ -8,19 +8,19 @@
         <style type="text/css">
                  @font-face {
                     font-family: "Lobster";
-                    src: url({% settings_value "STATIC_ROOT" %}font/Lobster-32.ttf);
+                    src: url("{{ STATIC_ROOT }}font/Lobster-32.ttf");
                     font-weight: normal;
                     font-style: normal;
                 }
                 @font-face {
                     font-family: "Lato";
-                    src: url({% settings_value "STATIC_ROOT" %}font/Lato-Hairline.ttf);
+                    src: url("{{ STATIC_ROOT }}font/Lato-Hairline.ttf");
                     font-weight: 100;
                     font-style: thin;
                 }
                 @font-face {
                     font-family: "Nobile";
-                    src: url({% settings_value "STATIC_ROOT" %}font/Nobile-34.ttf);
+                    src: url("{{ STATIC_ROOT }}font/Nobile-34.ttf");
                     font-weight: normal;
                     font-style: normal;
                 }
@@ -34,7 +34,7 @@
     </head>
     <body>
         <center>
-            <img src="{% settings_value "STATIC_ROOT" %}/{% settings_value "SPOT_PROJECT_NAME" %}/certificate.png" height="260px">
+            <img src="{{ STATIC_ROOT }}/{{ SPOT_PROJECT_NAME }}/certificate.png" height="260px">
             <p style="font-family:Lobster;">
                 <span style="font-size:60px;">
                     {% settings_value "SPOT_PROJECT_SUBJECT" %}<br>
@@ -46,7 +46,7 @@
                 <table>
                     <tr>
                         <td colspan=2>
-                             <img src="http://{{BASE_HOST}}{% url 'qrencode_link' pk=spot.pk size=4 for_view='certificated_detail' %}">
+                             <img src="http://{{BASE_HOST}}{% url 'www:qrencode_link' pk=spot.pk size=4 %}">
                         </td>
                     </tr>
                     <tr>
@@ -55,9 +55,9 @@
                     <tr>
                         <td colspan=2>
                             <span style="font-family:Nobile; font-size:15px;">
-                            Powered by: <img src="{% settings_value "STATIC_ROOT" %}/{% settings_value "SPOT_PROJECT_NAME" %}/logo.png" height="50px"> </span>
+                            Powered by: <img src="{{ STATIC_ROOT }}/{{ SPOT_PROJECT_NAME }}/logo.png" height="50px"> </span>
                             <span style="font-family:Lobster; font-size:25px;">
-                                    {% settings_value "INSTANCE_DOMAIN" %}
+                                    {{ SPOT_PROJECT_NAME }}
                             </span>
                         </td>
                     </tr>
