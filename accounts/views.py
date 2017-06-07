@@ -29,6 +29,7 @@ class UserCreate(CreateView):
         return super(UserCreate, self).form_valid(form)
 
 
+# TODO: DO IT BETTER WITHOUT DB PERSISTANCE
 def mail_verification(request, verification_key):
 
     try:
@@ -79,6 +80,10 @@ def mail_verification(request, verification_key):
         return redirect('accounts:user_create')
 
 
+# TODO use django.contrib.auth.views.LoginView
+# https://docs.djangoproject.com/en/1.11/topics/auth/default/#django.contrib.auth.views.LoginView
+
+
 def mylogin(request):
 
     if request.method == 'GET':
@@ -126,3 +131,10 @@ def mylogout(request):
             'You sucessfully log out!')
 
         return redirect('www:main')
+
+
+# TODO password reset
+# https://docs.djangoproject.com/en/1.11/topics/auth/default/#django.contrib.auth.views.PasswordResetView
+# https://docs.djangoproject.com/en/1.11/topics/auth/default/#django.contrib.auth.views.PasswordResetConfirmView
+# https://docs.djangoproject.com/en/1.11/topics/auth/default/#django.contrib.auth.views.PasswordResetDoneView
+# https://docs.djangoproject.com/en/1.11/topics/auth/default/#django.contrib.auth.views.PasswordResetCompleteView

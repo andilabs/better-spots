@@ -342,7 +342,7 @@ def nearby_spots(request, lat=None, lng=None, radius=5000, limit=50):
 
     return Response(serializer.data)
 
-
+# TODO do zaorania, let the token not expire
 @api_view(http_method_names=['POST'])
 @csrf_exempt
 def authentication(request):

@@ -3,6 +3,8 @@ from django import forms
 from .models import User
 
 
+# TODO use or override django.contrib.auth.forms.UserCreationForm
+
 class UserCreationForm(forms.ModelForm):
     """
     A form that creates a user, with no privileges, from the given username and
@@ -36,7 +38,7 @@ class UserCreationForm(forms.ModelForm):
             user.save()
         return user
 
-
+# todo use or override django.contrib.auth.forms.UserChangeForm
 class UserChangeForm(forms.ModelForm):
 
     """A form for updating accounts. Includes all the fields on
