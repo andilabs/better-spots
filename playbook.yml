@@ -29,7 +29,7 @@
     project_instance: 'dogspot'
     celery_worker: 'mbf'
     app_user: 'ubuntu'
-    environment_variables:
+    environment:
       DB_PASSWORD: "{{db_password}}"
 
   gather_facts: no
@@ -131,6 +131,8 @@
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
+    environment:
+      DB_PASSWORD: "{{db_password}}"
 
   - name: load spots data fixtures for dogspot
     shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/spots.json"
@@ -138,12 +140,16 @@
       chdir: "{{ project_dir }}"
       executable: /bin/bash
     # TODO some tag or other magic should determine it won't happen on production instance
+    environment:
+      DB_PASSWORD: "{{db_password}}"
 
   - name: load instance data fixtures for dogspot
     shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/instance.json"
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
+    environment:
+      DB_PASSWORD: "{{db_password}}"
 
   - name: copy images for spots and instance from fixtures
     copy: src={{ item.src }} dest={{ item.dest }}
@@ -157,13 +163,16 @@
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
+    environment:
+      DB_PASSWORD: "{{db_password}}"
 
   - name: collect static
     shell: "{{ web_base_dir }}/venv/bin/python manage.py collectstatic"
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
-
+    environment:
+      DB_PASSWORD: "{{db_password}}"
 
   # todo this needs refactor using nohup isn't cool, and different strategies of running celery for develop and production needed
   - name: start celery
@@ -172,7 +181,8 @@
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
-
+    environment:
+      DB_PASSWORD: "{{db_password}}"
   # TODO setup git
 
   # TODO handle passwords and other secret data, like api keys right
