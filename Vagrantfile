@@ -1,6 +1,9 @@
 # This guide is optimized for Vagrant 1.7 and above.
 # Although versions 1.6.x should behave very similarly, it is recommended
 # to upgrade instead of disabling the requirement below.
+
+#SECRETS_UN_HASH_PASSWORD = ENV["SECRETS_UN_HASH_PASSWORD"]
+
 Vagrant.require_version ">= 1.7.0"
 
 Vagrant.configure("2") do |config|
@@ -15,6 +18,10 @@ Vagrant.configure("2") do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "v"
     ansible.playbook = "playbook.yml"
+    ansible.raw_arguments = ["--vault-password-file=.vault_pass.txt"]
+#    ansible.extra_vars = {
+#        secrets_un_hash_password: SECRETS_UN_HASH_PASSWORD
+#    }
   end
 end
 

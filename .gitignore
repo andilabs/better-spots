@@ -4,3 +4,4 @@
 .DS_Store
 .vagrant
 media
+.vault_pass.txt

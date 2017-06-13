@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import os
 
 from .common import *
 
@@ -37,7 +38,7 @@ DATABASES = {
         'USER': 'mbf',
         'HOST': 'localhost',
         'PORT': '5432',
-        'PASSWORD': '1234',
+        'PASSWORD': os.environ['DB_PASSWORD'],
     }
 }
 

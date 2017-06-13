@@ -1,5 +1,4 @@
 ---
-
 - hosts: all
   vars:
     packages:
@@ -22,9 +21,14 @@
     project_instance: 'dogspot'
     celery_worker: 'mbf'
     app_user: 'ubuntu'
+    environment_variables:
+      DB_PASSWORD: "{{db_password}}"
 
   gather_facts: no
   pre_tasks:
+    - name: Include secret vars
+      include_vars: secrets_vars.yml
+      no_log: true
 
     - name: 'install python2'
       raw: sudo apt-get -y install python
@@ -73,11 +77,12 @@
   - name: Ensure user has access to the database
     become_user: postgres
     become: yes
-    postgresql_user: db='mbf'
-                     name='mbf'
-                     password='1234'
-                     priv=ALL
-                     state=present
+    postgresql_user:
+      db: 'mbf'
+      name: 'mbf'
+      password: '{{db_password}}'
+      priv: ALL
+      state: present
 
   - name: Ensure user does not have unnecessary privileges
     become_user: postgres
