@@ -5,7 +5,7 @@
       include_vars: secrets_vars.yml
       no_log: true
 
-    - name: 'install python2'
+    - name: 'install python2 (because ansible needs it, but xenial does not provide it by default)'
       raw: sudo apt-get -y install python
 
   vars:
@@ -22,6 +22,7 @@
       - redis-tools
       - redis-server
 
+    home_dir: '/home/ubuntu'
     web_base_dir: '/home/ubuntu/mbf'
     media_dir: '/mbf/media'
     project_dir: '/mbf'
@@ -29,10 +30,14 @@
     project_instance: 'dogspot'
     celery_worker: 'mbf'
     app_user: 'ubuntu'
-    environment:
+    environment_variables:
       DB_PASSWORD: "{{db_password}}"
+      DJANGO_SECRET_KEY: "{{ django_secret_key }}"
+      EMAIL_HOST_PASSWORD: "{{ gmail_password }}"
+      GOOGLE_API_KEY: "{{ google_api_key }}"
 
   gather_facts: no
+  environment: "{{ environment_variables }}"
   tasks:
 
   - name: Install packages
@@ -126,13 +131,24 @@
     pip: virtualenv={{ web_base_dir }}/venv
          requirements=/mbf/requirements.txt
 
+  - name: save environment variables into .app_environemnts file
+    lineinfile:
+      dest: "{{ home_dir }}/.app_environemnts"
+      regexp: "^export {{ item.key }}"
+      line: "export {{ item.key }}='{{ item.value }}'"
+      create: yes
+    with_dict: "{{ environment_variables }}"
+
+  - name: add sourcing the .app_environemnts file to the .profile file
+    lineinfile:
+      dest: "{{ home_dir }}/.profile"
+      line: "source ~/.app_environemnts"
+
   - name: run database migrations
     shell: "{{ web_base_dir }}/venv/bin/python manage.py migrate --noinput"
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
-    environment:
-      DB_PASSWORD: "{{db_password}}"
 
   - name: load spots data fixtures for dogspot
     shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/spots.json"
@@ -140,16 +156,12 @@
       chdir: "{{ project_dir }}"
       executable: /bin/bash
     # TODO some tag or other magic should determine it won't happen on production instance
-    environment:
-      DB_PASSWORD: "{{db_password}}"
 
   - name: load instance data fixtures for dogspot
     shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/instance.json"
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
-    environment:
-      DB_PASSWORD: "{{db_password}}"
 
   - name: copy images for spots and instance from fixtures
     copy: src={{ item.src }} dest={{ item.dest }}
@@ -163,16 +175,12 @@
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
-    environment:
-      DB_PASSWORD: "{{db_password}}"
 
   - name: collect static
-    shell: "{{ web_base_dir }}/venv/bin/python manage.py collectstatic"
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py collectstatic  --noinput"
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
-    environment:
-      DB_PASSWORD: "{{db_password}}"
 
   # todo this needs refactor using nohup isn't cool, and different strategies of running celery for develop and production needed
   - name: start celery
@@ -181,8 +189,14 @@
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
-    environment:
-      DB_PASSWORD: "{{db_password}}"
+
   # TODO setup git
 
-  # TODO handle passwords and other secret data, like api keys right
+  - name: activate virtualenv, navigate to project dir
+    lineinfile:
+      dest: "{{ home_dir }}/.bashrc"
+      state: present
+      line: "{{ item }}"
+    with_items:
+      - "source {{ web_base_dir }}/venv/bin/activate"
+      - "cd {{ project_dir }}"

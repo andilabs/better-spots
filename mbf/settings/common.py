@@ -11,9 +11,9 @@ DEBUG = True
 
 AUTH_USER_MODEL = 'accounts.User'
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'kq$$wn#ff0qt)j7mm!d$6cee22e7hw9z#i11-@g1qaya^o!gnj')
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
-GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
+GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
 
 ALLOWED_HOSTS = ['*']
 
