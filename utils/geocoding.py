@@ -1,5 +1,6 @@
 import requests
 
+from django.conf import settings
 from django.utils.http import urlquote
 
 
@@ -23,7 +24,7 @@ def reverse_geocoding(latitude, longitude):
     url = "https://maps.googleapis.com/maps/api/geocode/json?latlng={latitude},{longitude}&key={api_key}".format(
         latitude=latitude,
         longitude=longitude,
-        api_key=""
+        api_key=settings.get('GOOGLE_API_KEY')
     )
     response = requests.get(url)
     info = response.json()
