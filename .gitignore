@@ -5,3 +5,4 @@
 .vagrant
 media
 .vault_pass.txt
+docs/build
