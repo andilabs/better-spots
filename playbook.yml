@@ -176,6 +176,12 @@
       chdir: "{{ project_dir }}"
       executable: /bin/bash
 
+  - name: create objects
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_objects"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+
   - name: collect static
     shell: "{{ web_base_dir }}/venv/bin/python manage.py collectstatic  --noinput"
     args:
