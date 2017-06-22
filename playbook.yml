@@ -37,7 +37,11 @@
       GOOGLE_API_KEY: "{{ google_api_key }}"
 
   gather_facts: no
-  environment: "{{proxy_env}}"
+  environment:
+      DB_PASSWORD: "{{db_password}}"
+      DJANGO_SECRET_KEY: "{{ django_secret_key }}"
+      EMAIL_HOST_PASSWORD: "{{ gmail_password }}"
+      GOOGLE_API_KEY: "{{ google_api_key }}"
   tasks:
 
   - name: Install packages
@@ -131,20 +135,6 @@
     pip: virtualenv={{ web_base_dir }}/venv
          requirements=/mbf/requirements.txt
 
-  - name: save environment variables into .app_environemnts file
-    lineinfile:
-      dest: "{{ home_dir }}/.app_environemnts"
-      regexp: "^export {{ item.key }}"
-      line: "export {{ item.key }}='{{ item.value }}'"
-      create: yes
-    with_dict: "{{proxy_env}}"
-
-  - name: add sourcing the .app_environemnts file to the .profile file
-    lineinfile:
-      dest: "{{ home_dir }}/.profile"
-      line: "source ~/.app_environemnts"
-
-
   - name: activate virtualenv, navigate to project dir
     lineinfile:
       dest: "{{ home_dir }}/.bashrc"
@@ -208,4 +198,15 @@
 
   # TODO setup git
 
+  - name: save environment variables into .app_environemnts file
+    lineinfile:
+      dest: "{{ home_dir }}/.app_environemnts"
+      regexp: "^export {{ item.key }}"
+      line: "export {{ item.key }}='{{ item.value }}'"
+      create: yes
+    with_dict: "{{proxy_env}}"
 
+  - name: add sourcing the .app_environemnts file to the .profile file
+    lineinfile:
+      dest: "{{ home_dir }}/.profile"
+      line: "source ~/.app_environemnts"
