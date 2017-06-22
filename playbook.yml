@@ -30,14 +30,14 @@
     project_instance: 'dogspot'
     celery_worker: 'mbf'
     app_user: 'ubuntu'
-    environment_variables:
+    proxy_env:
       DB_PASSWORD: "{{db_password}}"
       DJANGO_SECRET_KEY: "{{ django_secret_key }}"
       EMAIL_HOST_PASSWORD: "{{ gmail_password }}"
       GOOGLE_API_KEY: "{{ google_api_key }}"
 
   gather_facts: no
-  environment: "{{ environment_variables }}"
+  environment: "{{proxy_env}}"
   tasks:
 
   - name: Install packages
@@ -137,12 +137,22 @@
       regexp: "^export {{ item.key }}"
       line: "export {{ item.key }}='{{ item.value }}'"
       create: yes
-    with_dict: "{{ environment_variables }}"
+    with_dict: "{{proxy_env}}"
 
   - name: add sourcing the .app_environemnts file to the .profile file
     lineinfile:
       dest: "{{ home_dir }}/.profile"
       line: "source ~/.app_environemnts"
+
+
+  - name: activate virtualenv, navigate to project dir
+    lineinfile:
+      dest: "{{ home_dir }}/.bashrc"
+      state: present
+      line: "{{ item }}"
+    with_items:
+      - "source {{ web_base_dir }}/venv/bin/activate"
+      - "cd {{ project_dir }}"
 
   - name: run database migrations
     shell: "{{ web_base_dir }}/venv/bin/python manage.py migrate --noinput"
@@ -198,11 +208,4 @@
 
   # TODO setup git
 
-  - name: activate virtualenv, navigate to project dir
-    lineinfile:
-      dest: "{{ home_dir }}/.bashrc"
-      state: present
-      line: "{{ item }}"
-    with_items:
-      - "source {{ web_base_dir }}/venv/bin/activate"
-      - "cd {{ project_dir }}"
+
