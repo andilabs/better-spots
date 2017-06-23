@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 
 from accounts.models import User, UserFavouritesSpotList
+from api2.permissions import IsOwnerOrReadOnly
 from api2.accounts.serializers import UserSerializer, UsersFavouritesSpotsSerializer
 
 
@@ -12,6 +13,7 @@ class UserViewSet(ModelViewSet):
 class UserFavouritesSpotsViewSet(ModelViewSet):
     queryset = UserFavouritesSpotList.objects.order_by('-pk')
     serializer_class = UsersFavouritesSpotsSerializer
+    permission_classes = (IsOwnerOrReadOnly, )
 
     def get_queryset(self):
         return super(UserFavouritesSpotsViewSet, self).get_queryset().filter(
