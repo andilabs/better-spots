@@ -7,7 +7,7 @@ from core.models.spots import Spot
 
 class SpotViewSet(ModelViewSet):
 
-    queryset = Spot.objects.all()
+    queryset = Spot.objects.order_by('pk')
     serializer_class = SpotSerializer
     filter_class = SpotFilterSet
 

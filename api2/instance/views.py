@@ -5,5 +5,5 @@ from core.models.instance import Instance
 
 
 class InstanceViewSet(ModelViewSet):
-    queryset = Instance.objects.all()
+    queryset = Instance.objects.get()
     serializer_class = InstanceSerializer

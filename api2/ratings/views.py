@@ -5,7 +5,7 @@ from core.models.ratings import Rating
 
 
 class SpotsRatingViewSet(ModelViewSet):
-    queryset = Rating.objects.all()
+    queryset = Rating.objects.order_by('-pk')
     serializer_class = SpotsRatingSerializer
 
     def get_queryset(self):
@@ -15,7 +15,7 @@ class SpotsRatingViewSet(ModelViewSet):
 
 
 class UserRatingViewSet(ModelViewSet):
-    queryset = Rating.objects.all()
+    queryset = Rating.objects.order_by('-pk')
     serializer_class = UsersRatingSerializer
 
     def get_queryset(self):

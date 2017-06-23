@@ -5,7 +5,7 @@ from core.models.opinions import Opinion
 
 
 class OpinionViewSet(ModelViewSet):
-    queryset = Opinion.objects.all()
+    queryset = Opinion.objects.order_by('-pk')
     serializer_class = OpinionSerializer
 
 
@@ -17,7 +17,7 @@ class OpinionViewSet(ModelViewSet):
 
 
 class UserOpinionViewSet(ModelViewSet):
-    queryset = Opinion.objects.all()
+    queryset = Opinion.objects.order_by('-pk')
     serializer_class = OpinionSerializer
 
     def get_queryset(self):

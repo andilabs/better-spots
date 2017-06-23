@@ -34,3 +34,4 @@ class SpotSerializer(serializers.ModelSerializer):
             'is_certificated',
             # 'friendly_rate_stars',
         ]
+

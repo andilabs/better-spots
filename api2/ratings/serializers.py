@@ -2,7 +2,9 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from api2.accounts.mixins import ObjectInUserContextMixin
 from api2.opinions.serializers import OpinionSerializer
+from api2.spots.mixins import ObjectInSpotContextMixin
 from core.models.ratings import Rating
 from core.models.spots import Spot
 
@@ -22,23 +24,11 @@ class RatingSerializer(serializers.ModelSerializer):
         )
 
 
-class ObjectInUserContextMixin(object):
-    def validate(self, attrs):
-        attrs['user_id'] = self.context['view'].kwargs['user_pk']
-        return attrs
-
-
 class UsersRatingSerializer(ObjectInUserContextMixin, RatingSerializer):
 
     class Meta(RatingSerializer.Meta):
         model = Rating
         fields = RatingSerializer.Meta.fields + ('spot', )
-
-
-class ObjectInSpotContextMixin(object):
-    def validate(self, attrs):
-        attrs['spot'] = Spot.objects.get(pk=self.context['view'].kwargs['spot_pk'])
-        return attrs
 
 
 class SpotsRatingSerializer(ObjectInSpotContextMixin, RatingSerializer):
