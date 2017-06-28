@@ -37,12 +37,8 @@ class SpotsRatingSerializer(ObjectInSpotContextMixin, RatingSerializer):
         model = Rating
         fields = RatingSerializer.Meta.fields + ('user', )
 
-    def create(self, validated_data):
-        model_class = self.Meta.model
-        obj, created = model_class.objects.get_or_create(
-            spot=validated_data.get('spot'),
-            user=validated_data.get('user'),
-            defaults=validated_data)
-        if not created:
+    def validate(self, attrs):
+        validated_data = super(SpotsRatingSerializer, self).validate(attrs)
+        if Rating.objects.filter(spot=validated_data['spot'], user=validated_data['user']).exists():
             raise ValidationError('Already rated by this user')
-        return obj
+        return validated_data

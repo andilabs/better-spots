@@ -6,7 +6,7 @@ from api2.accounts.serializers import UserSerializer, UsersFavouritesSpotsSerial
 
 
 class UserViewSet(ModelViewSet):
-    queryset = User.objects.order_by('pk')
+    queryset = User.objects.order_by('pk').prefetch_related('favourites')
     serializer_class = UserSerializer
 
 
