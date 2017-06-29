@@ -18,6 +18,7 @@
       - postgresql-client
       - redis-tools
       - redis-server
+      - coffeescript
 
     home_dir: '/home/ubuntu'
     web_base_dir: '/home/ubuntu/mbf'
@@ -203,3 +204,10 @@
     lineinfile:
       dest: "{{ home_dir }}/.profile"
       line: "source ~/.app_environemnts"
+
+  - name: compile coffescripts
+    sudo: yes
+    shell: "coffee --compile --output js/ coffee/"
+    args:
+      chdir: "{{ project_dir }}/static_assets"
+      executable: /bin/bash

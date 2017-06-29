@@ -269,11 +269,11 @@ loadMarkers = (lat, lng) ->
     #on each reload clean all markers on map
     $('#map_canvas').gmap('clear', 'markers')
 
-    url = BASE_HOST + "/api/nearby/#{lat.toFixed(5)}/#{lng.toFixed(5)}/#{getDesiredRadius()}"
+    url = BASE_HOST + "/api2/spots/?location_0=#{lat.toFixed(5)}&location_1=#{lng.toFixed(5)}&location_2=#{getDesiredRadius()}&check="
 
     jqxhr = $.getJSON url, (data) ->
-
-        $.each data, (i, spot) ->
+        obj = data.results
+        $.each obj, (i, spot) ->
             # spots with undefined enablence are not displayed
             if spot.is_enabled isnt null
 
