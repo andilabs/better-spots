@@ -161,11 +161,10 @@
     });
     $('span.rating input').attr('type', 'number').attr('required', true);
     $(document).on('click', 'div.heart', function(e) {
-      var deleteFavUrl, heart;
+      var heart;
       heart = $(this);
-      deleteFavUrl = $(this).data('url') + $(this).data('fav-pk') + '/';
       return $.ajax({
-        url: deleteFavUrl,
+        url: $(this).data('url'),
         type: 'DELETE',
         success: function(result) {
           if (window.location.pathname.indexOf('favourites') >= 0) {
@@ -183,11 +182,11 @@
       return $.ajax({
         url: url,
         data: {
-          'spot_pk': $(this).data('spot-pk')
+          'spot': $(this).data('spot-pk')
         },
         type: 'POST',
         success: function(result) {
-          $(heart).data('fav-pk', result.pk);
+          $(heart).data('url', result.url);
           return $(heart).removeClass('no-heart').addClass('heart');
         }
       });

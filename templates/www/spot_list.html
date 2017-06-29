@@ -10,18 +10,10 @@
 {% endblock %}
 
 {% block content %}
-
     <link rel="stylesheet" href="{{ STATIC_URL }}external/chosen_v1.4.2/chosen.css">
 <h2 class="titles">
   <span class="fa fa-{{icon_type}} fa-2x spot_project_color"></span> {{site_title}}!
 </h2>
-
-{#<select data-placeholder="Your Favorite Types of Bear" style="width:350px;" multiple class="chosen-select" tabindex="8" id="kurwa_andrzej">#}
-{# <option value=""></option>#}
-{#{% for city in all_cities %}#}
-{#  <option selected="">{{ city }}</option>#}
-{#{% endfor %}#}
-{#</select>#}
 <div class="row">
   {% for spot in spots %}
     <div class="col-sm-6 col-md-4">
@@ -67,9 +59,9 @@
 
               <div class="col2">
                 {% if spot.pk in user_favourites_spots_pks %}
-                  <div class="heart" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk="{{user_favourites_spots_lookup|keyvalue:spot.pk}}"></div>
+                  <div class="heart" data-url="{% url 'api2:user-favourites-detail' pk=user_favourites_spots_lookup|keyvalue:spot.pk user_pk=user.pk %}"></div>
                 {% else %}
-                  <div class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-url="/api/favourites_spots/" data-spot-pk="{{spot.pk}}" data-fav-pk=""></div>
+                  <div class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-url="{% url 'api2:user-favourites-list' user_pk=user.pk %}" data-spot-pk="{{spot.pk}}"></div>
                 {% endif %}
               </div>
             </div>

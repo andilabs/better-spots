@@ -1,4 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.reverse import reverse
 
 from accounts.models import User, UserFavouritesSpotList
 from api2.permissions import IsOwnerOrReadOnly
@@ -19,3 +20,11 @@ class UserFavouritesSpotsViewSet(ModelViewSet):
         return super(UserFavouritesSpotsViewSet, self).get_queryset().filter(
             user=self.kwargs['user_pk']
         )
+
+    def create(self, request, *args, **kwargs):
+        response = super(UserFavouritesSpotsViewSet, self).create(request, args, kwargs)
+        response.data['url'] = reverse(
+            'api2:user-favourites-detail',
+            kwargs={'user_pk': self.request.user.pk, 'pk': response.data['id']}
+        )
+        return response

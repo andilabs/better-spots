@@ -128,9 +128,8 @@ $ ->
 
     $(document).on 'click', 'div.heart', (e) ->
         heart = $(this)
-        deleteFavUrl = $(this).data('url') + $(this).data('fav-pk') + '/'
         $.ajax
-            url: deleteFavUrl
+            url: $(this).data('url')
             type: 'DELETE'
             success: (result) ->
                 if window.location.pathname.indexOf('favourites') >= 0
@@ -144,10 +143,10 @@ $ ->
         url = $(this).data('url')
         $.ajax
             url: url
-            data: 'spot_pk': $(this).data('spot-pk')
+            data: 'spot': $(this).data('spot-pk')
             type: 'POST'
             success: (result) ->
-                $(heart).data 'fav-pk', result.pk
+                $(heart).data 'url', result.url
                 $(heart).removeClass('no-heart').addClass 'heart'
 
 
@@ -197,6 +196,7 @@ $ ->
             parseNulls: true
             parseNumbers: true))
 
+# TODO refactor to api v2
         $.ajax
             url: '/api/ratings/'
             data: data
@@ -206,6 +206,7 @@ $ ->
             success: (result) ->
                 $('#rating-modal').modal('hide')
                 window.location.reload()
+
 
     $.widget "custom.autocomplete", $.ui.autocomplete,
         _create: () ->
@@ -238,6 +239,7 @@ $ ->
         source: (request, response) ->
             $.ajax
                 data: {q: request.term}
+#TODO resolve url ; use FTS
                 url: "/ajax_search/"
                 dataType: "json"
 
