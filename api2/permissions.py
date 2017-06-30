@@ -1,3 +1,5 @@
+import operator
+
 from rest_framework import permissions
 
 
@@ -12,5 +14,8 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         # so we'll always allow GET, HEAD or OPTIONS requests.
         if request.method in permissions.SAFE_METHODS:
             return True
-
-        return obj.user == request.user
+        if hasattr(view, 'object_user_to_check'):
+            object_user_to_check = operator.attrgetter(view.object_user_to_check)(obj)
+        else:
+            object_user_to_check = obj.user
+        return object_user_to_check == request.user

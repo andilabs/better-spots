@@ -9,7 +9,6 @@ class OpinionSerializer(serializers.ModelSerializer):
         model = Opinion
         fields = [
             "pk",
-            # "rating",
             "created_at",
             "updated_at",
             "opinion_text",

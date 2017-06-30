@@ -1,10 +1,15 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import mixins
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from api2.opinions.serializers import OpinionSerializer
+from api2.permissions import IsOwnerOrReadOnly
 from core.models.opinions import Opinion
 
 
-class OpinionViewSet(ModelViewSet):
+class OpinionViewSet(
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    GenericViewSet):
     queryset = Opinion.objects.order_by('-pk')
     serializer_class = OpinionSerializer
 
@@ -19,6 +24,8 @@ class OpinionViewSet(ModelViewSet):
 class UserOpinionViewSet(ModelViewSet):
     queryset = Opinion.objects.order_by('-pk')
     serializer_class = OpinionSerializer
+    permission_classes = (IsOwnerOrReadOnly, )
+    object_user_to_check = 'rating.user'
 
     def get_queryset(self):
         return super(UserOpinionViewSet, self).get_queryset().filter(
