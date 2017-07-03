@@ -178,7 +178,7 @@
     $(document).on('click', 'div.no-heart:not(.disabled)', function(e) {
       var heart, url;
       heart = $(this);
-      url = $(this).data('url');
+      url = $(this).data('list-url');
       return $.ajax({
         url: url,
         data: {

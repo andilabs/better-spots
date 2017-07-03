@@ -4,6 +4,8 @@ from core.models.instance import Instance
 from core.models.spots import Spot
 
 
+#TODO raczej kupa
+
 def spot_facilities(request):
     return {'HSTORE_SCHEMA': settings.HSTORE_SCHEMA}
 

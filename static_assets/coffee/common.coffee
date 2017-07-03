@@ -125,7 +125,7 @@ $ ->
 
     $('span.rating input').attr('type', 'number').attr 'required', true
 
-
+    # REMOVE FROM FAVOURITES
     $(document).on 'click', 'div.heart', (e) ->
         heart = $(this)
         $.ajax
@@ -137,10 +137,10 @@ $ ->
                 else
                     $(heart).removeClass('heart').addClass 'no-heart'
 
-
+    # ADD TO FAVOURITES
     $(document).on 'click', 'div.no-heart:not(.disabled)', (e) ->
         heart = $(this)
-        url = $(this).data('url')
+        url = $(this).data('list-url')
         $.ajax
             url: url
             data: 'spot': $(this).data('spot-pk')

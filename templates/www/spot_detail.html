@@ -64,7 +64,7 @@
                     {% if spot.pk in user_favourites_spots_pks %}
                         <div class="heart" data-url="{% url 'api2:user-favourites-detail' pk=user_favourites_spots_lookup|keyvalue:spot.pk user_pk=user.pk %}" style="font-size:72px; "></div>
                     {% else %}
-                        <div class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-url="{% url 'api2:user-favourites-list' user_pk=user.pk %}" data-spot-pk="{{spot.pk}}" data-fav-pk="" style="font-size:72px"></div>
+                        <div class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-url="{% url 'api2:user-favourites-list' user_pk=user.pk %}" data-spot-pk="{{spot.pk}}" data-list-url="{% url 'api2:user-favourites-list' user_pk=user.pk %}" data-fav-pk="" style="font-size:72px"></div>
                     {% endif %}
             </center>
         </div>
