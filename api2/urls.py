@@ -6,6 +6,7 @@ from rest_framework_nested import routers
 from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
 
 from api2.accounts.views import UserViewSet, UserFavouritesSpotsViewSet
+from api2.instance.views import InstanceViewSet
 from api2.opinions.views import OpinionViewSet, UserOpinionViewSet
 from api2.spots.views import SpotViewSet
 from api2.ratings.views import SpotsRatingViewSet, UserRatingViewSet
@@ -43,6 +44,9 @@ user_rating_router.register(r'opinion', UserOpinionViewSet, base_name='user-rate
 user_router.register('favourites', UserFavouritesSpotsViewSet, base_name='user-favourites')
 user_favourites_router = routers.NestedSimpleRouter(user_router, 'favourites', lookup='spot')
 
+
+# instance/
+router.register(r'instance', InstanceViewSet)
 
 schema_view = get_schema_view(
     title='{} API'.format(settings.SPOT_PROJECT_NAME),

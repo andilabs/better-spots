@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from accounts.models import User
 from api2.serializers import GeoPointSerializerField
 from core.models.spots import Spot
 from utils.models import Tag
@@ -12,7 +13,7 @@ class SpotSerializer(serializers.ModelSerializer):
         queryset=Tag.objects.all(),
         slug_field='text'
     )
-
+    creator = serializers.PrimaryKeyRelatedField(queryset=User.objects.none())
 
     class Meta:
         model = Spot
@@ -38,5 +39,10 @@ class SpotSerializer(serializers.ModelSerializer):
             'friendly_rate',
             'is_certificated',
             'tags',
+            'creator',
         ]
 
+    def __init__(self, *args, **kwargs):
+        super(SpotSerializer, self).__init__(*args, **kwargs)
+        if 'request' in self.context and self.context['request'] and hasattr(self.context['request'].user, 'pk'):
+            self.fields['creator'].queryset = User.objects.filter(pk=self.context['request'].user.pk)

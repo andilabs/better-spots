@@ -8,10 +8,10 @@ from core.models.ratings import Rating
 
 
 class SpotsRatingViewSet(
-    mixins.CreateModelMixin,
-    mixins.RetrieveModelMixin,
-    mixins.ListModelMixin,
-    GenericViewSet):
+        mixins.CreateModelMixin,
+        mixins.RetrieveModelMixin,
+        mixins.ListModelMixin,
+        GenericViewSet):
 
     queryset = Rating.objects.order_by('-pk')
     serializer_class = SpotsRatingSerializer

@@ -1,9 +1,10 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import mixins
+from rest_framework.viewsets import GenericViewSet
 
 from api2.instance.serializers import InstanceSerializer
 from core.models.instance import Instance
 
 
-class InstanceViewSet(ModelViewSet):
-    queryset = Instance.objects.get()
+class InstanceViewSet(mixins.ListModelMixin, GenericViewSet):
+    queryset = Instance.objects.all()
     serializer_class = InstanceSerializer

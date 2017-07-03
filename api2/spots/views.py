@@ -8,10 +8,10 @@ from core.models.spots import Spot
 
 
 class SpotViewSet(
-    mixins.CreateModelMixin,
-    mixins.RetrieveModelMixin,
-    mixins.ListModelMixin,
-    GenericViewSet):
+        mixins.CreateModelMixin,
+        mixins.RetrieveModelMixin,
+        mixins.ListModelMixin,
+        GenericViewSet):
 
     queryset = Spot.objects.order_by('pk')
     serializer_class = SpotSerializer

@@ -7,12 +7,11 @@ from core.models.opinions import Opinion
 
 
 class OpinionViewSet(
-    mixins.RetrieveModelMixin,
-    mixins.ListModelMixin,
-    GenericViewSet):
+        mixins.RetrieveModelMixin,
+        mixins.ListModelMixin,
+        GenericViewSet):
     queryset = Opinion.objects.order_by('-pk')
     serializer_class = OpinionSerializer
-
 
     def get_queryset(self):
         return super(OpinionViewSet, self).get_queryset().filter(
