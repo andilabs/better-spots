@@ -1,3 +1,4 @@
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework import mixins
 
@@ -7,11 +8,14 @@ from core.models.ratings import Rating
 
 
 class SpotsRatingViewSet(
+    mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
     GenericViewSet):
+
     queryset = Rating.objects.order_by('-pk')
     serializer_class = SpotsRatingSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
     def get_queryset(self):
         return super(SpotsRatingViewSet, self).get_queryset().filter(

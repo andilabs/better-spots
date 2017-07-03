@@ -2,11 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib.gis.db import models
-from django.contrib.postgres.fields import HStoreField
 
 from core.models.spots import Spot
-from utils.models import TimeStampedModel
-
+from utils.models import TimeStampedModel, Tag
 
 FRIENDLY_RATE_CHOICES = (
     (1, 'terrible'),
@@ -28,6 +26,7 @@ class Rating(TimeStampedModel):
 
     user = models.ForeignKey('accounts.User', null=True) #TODO wtf it can be null?
     spot = models.ForeignKey(Spot, related_name='ratings')
+    tags = models.ManyToManyField(Tag, related_name='rating_facilities', null=True, blank=True)
 
     class Meta:
         unique_together = ("user", "spot")

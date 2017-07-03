@@ -56,7 +56,7 @@ class Spot(TimeStampedModel):
 
     creator = models.ForeignKey('accounts.User', null=True, blank=True, on_delete=models.SET_NULL) #TODO rethink it
 
-    tags = models.ManyToManyField(Tag, related_name='facilities', null=True, blank=True)
+    tags = models.ManyToManyField(Tag, related_name='spot_facilities', null=True, blank=True)
 
 
     objects = GeoManager()
