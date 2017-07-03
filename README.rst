@@ -1,6 +1,8 @@
 Up and running
 ==============
 
+required version of `ansible==2.3.1.0`
+
 All the secret variables (db passwords, access tokens, etc.) are stored in encrypted file secrets_vars.yml
 
 
