@@ -1,10 +1,12 @@
 from django_filters import (
     Filter,
     FilterSet,
+    ModelMultipleChoiceFilter,
 )
 from django import forms
 
 from core.models.spots import Spot
+from utils.models import Tag
 
 
 class LatLonRadiusWidget(forms.MultiWidget):
@@ -67,6 +69,12 @@ class LatLonRadiusFilter(Filter):
 
 class SpotFilterSet(FilterSet):
     location = LatLonRadiusFilter()
+    tags = ModelMultipleChoiceFilter(
+        name='tags__text',
+        queryset=Tag.objects.all(),
+        to_field_name='text',
+        # conjoined=True, #makes AND - only spots having all the tags will be returned
+    )
 
     class Meta:
         model = Spot
@@ -74,5 +82,6 @@ class SpotFilterSet(FilterSet):
             'name',
             'location',
             'spot_type',
+            'tags',
         ]
 

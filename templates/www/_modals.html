@@ -31,26 +31,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-4" for="id_facilities">Facilities:</label>
-                    <div class="col-sm-8">
-                        <table>
-                            {% for element in HSTORE_SCHEMA %}
-                                <tr>
-                                    <td>{{element|keyvalue:'kwargs'|keyvalue:'verbose_name'}}</td>
-                                    <td width="50px"></td>
-                                    <td>
-                                        <select name="facilities[{{element|keyvalue:'name'}}]">
-                                            <option value="null" selected="selected">Unknown</option>
-                                            <option value="true">Yes</option>
-                                            <option value="false">No</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                    </div>
-                </div>
-                <div class="form-group">
                   <div class="col-sm-offset-4 col-sm-8">
                     <button type="submit" class="btn btn-default">Submit</button>
                   </div>

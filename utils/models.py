@@ -10,3 +10,11 @@ class TimeStampedModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class Tag(models.Model):
+
+    text = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return "{} (pk={})".format(self.text, self.pk)

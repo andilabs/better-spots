@@ -233,11 +233,6 @@
               {% for city in ALL_CITIES %}
                <a href="{% url 'www:spots_list' %}?city={{ city }}" title="{% settings_value "SPOT_PROJECT_SUBJECT" %} friendly spots in {{ city }}">{{ city }}</a>,
               {% endfor %}
-            <br>
-            FACILITIES:
-              {% for facility in SPOT_FACILITIES_VERBOSE_NAMES %}
-              <a href="{% url 'www:spots_list' %}?{{ facility.1 }}=True">{{ facility.0 }}</a>,
-              {% endfor %}
           </div>
           <div class="col-xs-4" style="text-align:center">
 

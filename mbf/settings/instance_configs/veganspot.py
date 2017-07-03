@@ -41,35 +41,10 @@ SPOT_PROJECT_SUBJECT = 'Vegan'
 
 SPOT_PROJECT_MAIN_COLOR = '#59b84d'
 
-VEGETARIAN_MENU_CODE = "vegetarian_menu"
-VEGETARIAN_MENU_VERBOSE = "vegetarian menu"
-
-VEGAN_MENU_CODE = "vegan_menu"
-VEGAN_MENU_VERBOSE = "vegan menu"
-
 SPOT_PROJECT_INSTAGRAM_URL = "https://www.instagram.com/veganspoteu/"
 
-FACILITIES_CODE_VERBOSE_MAP = {
-    VEGETARIAN_MENU_CODE: VEGETARIAN_MENU_VERBOSE,
-    VEGAN_MENU_CODE: VEGAN_MENU_VERBOSE,
+
+TAGS = {
+    1: "vegetarian menu",
+    2: "vegan menu",
 }
-
-
-HSTORE_SCHEMA = [
-    {
-        "name": VEGETARIAN_MENU_CODE,
-        "class": "NullBooleanField",
-        "kwargs": {
-            "default": None,
-            "verbose_name": VEGETARIAN_MENU_VERBOSE
-        }
-    },
-    {
-        "name": VEGAN_MENU_CODE,
-        "class": "NullBooleanField",
-        "kwargs": {
-            "default": None,
-            "verbose_name": VEGAN_MENU_VERBOSE
-        }
-    }
-]

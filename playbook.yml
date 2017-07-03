@@ -144,6 +144,12 @@
       chdir: "{{ project_dir }}"
       executable: /bin/bash
 
+  - name: create instance specific tags
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_tags"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+
   - name: load spots data fixtures for dogspot
     shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/spots.json"
     args:

@@ -53,8 +53,4 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 STATIC_ROOT = '/pseudo_static_server_spots/'
 
-SPOT_FACILITIES = [d['name'] for d in HSTORE_SCHEMA]
-
-SPOT_FACILITIES_VERBOSE_NAMES = [(d['kwargs']['verbose_name'],d['name']) for d in HSTORE_SCHEMA]
-
 INTERNAL_IPS = ('192.168.33.1', )

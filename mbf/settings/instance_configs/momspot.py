@@ -41,47 +41,11 @@ SPOT_PROJECT_SUBJECT = 'Mom'
 
 SPOT_PROJECT_MAIN_COLOR = '#eb386f'
 
-BABY_CHANGING_CODE = "baby_changing"
-BABY_CHANGING_VERBOSE = "baby changing facilites"
-
-PLAYROOM_CODE = "playroom"
-PLAYROOM_VERBOSE = "playroom for kids"
-
-KIDS_MENU_CODE = "kids_menu"
-KIDS_MENU_VERBOSE = "kids menu"
-
 SPOT_PROJECT_INSTAGRAM_URL = "https://www.instagram.com/momspoteu/"
 
 
-FACILITIES_CODE_VERBOSE_MAP = {
-    BABY_CHANGING_CODE: BABY_CHANGING_VERBOSE,
-    PLAYROOM_CODE: PLAYROOM_VERBOSE,
-    KIDS_MENU_CODE: KIDS_MENU_VERBOSE,
+TAGS = {
+    1: "baby changing facilites",
+    2: "playroom for kids",
+    3: "kids menu",
 }
-
-HSTORE_SCHEMA = [
-    {
-        "name": BABY_CHANGING_CODE,
-        "class": "NullBooleanField",
-        "kwargs": {
-            "default": None,
-            "verbose_name": BABY_CHANGING_VERBOSE
-        }
-    },
-    {
-        "name": PLAYROOM_CODE,
-        "class": "NullBooleanField",
-        "kwargs": {
-            "default": None,
-            "verbose_name": PLAYROOM_VERBOSE
-        }
-    },
-    {
-        "name": KIDS_MENU_CODE,
-        "class": "NullBooleanField",
-        "kwargs": {
-            "default": None,
-            "verbose_name": KIDS_MENU_VERBOSE
-        }
-    }
-]

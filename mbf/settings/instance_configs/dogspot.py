@@ -38,48 +38,10 @@ SPOT_PROJECT_SUBJECT = 'Dog'
 
 SPOT_PROJECT_MAIN_COLOR = '#fcbd41'
 
-FRESH_WATER_CODE = "fresh_water"
-FRESH_WATER_VERBOSE = "fresh water served"
-
-SNACKS_CODE = "dog_snacks"
-SNCACKS_VERBOSE = "dog treats"
-
-SPECIAL_MENU_CODE = "dedicated_dogs_menu"
-SPECIAL_MENU_VERBOSE = "special menu for dogs"
-
 SPOT_PROJECT_INSTAGRAM_URL = "https://www.instagram.com/dogspoteu/"
 
-FACILITIES_CODE_VERBOSE_MAP = {
-    FRESH_WATER_CODE: FRESH_WATER_VERBOSE,
-    SNACKS_CODE: SNCACKS_VERBOSE,
-    SPECIAL_MENU_CODE: SPECIAL_MENU_VERBOSE
+TAGS = {
+    1: 'fresh water',
+    2: 'dedicated menu',
+    3: 'snacks',
 }
-
-HSTORE_SCHEMA = [
-    {
-        "name": FRESH_WATER_CODE,
-        "class": "NullBooleanField",
-        "kwargs": {
-            "default": None,
-            "verbose_name": FRESH_WATER_VERBOSE
-        }
-    },
-    {
-        "name": SNACKS_CODE,
-        "class": "NullBooleanField",
-        "kwargs": {
-            "default": None,
-            "verbose_name": SNCACKS_VERBOSE
-        }
-    },
-    {
-        "name": SPECIAL_MENU_CODE,
-        "class": "NullBooleanField",
-        "kwargs": {
-            "default": None,
-            "verbose_name": SPECIAL_MENU_VERBOSE
-        }
-    }
-]
-
-

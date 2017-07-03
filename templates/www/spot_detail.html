@@ -41,25 +41,6 @@
 
                 <span data-score="{{spot.friendly_rate}}" class="rating via_modal" id="{{spot.pk}}"></span>
                 <br><br>
-                {% for element in HSTORE_SCHEMA %}
-
-                    {% with element|keyvalue:'name' as FACILITY_FULLFILMENT %}
-                        {% if spot.facilities|keyvalue:FACILITY_FULLFILMENT == True %}
-                            <i class="fa fa-check fa-4x" style="color: #3fb350" title="Yes"></i>
-                        {% elif spot.facilities|keyvalue:FACILITY_FULLFILMENT == False %}
-                            <i class="fa fa-times fa-4x" style="color: #a1a1a1" title="No"></i>
-                        {% else %}
-                            <i class="fa fa-question fa-4x" style="color: #a1a1a1" title="Undefined"></i>
-                        {% endif %}
-                    {% endwith %}
-
-                    {% with element|keyvalue:'kwargs'|keyvalue:'verbose_name' as FACILITY %}
-                        <h2 class="facility">
-                            {{FACILITY}}:
-                        </h2>
-                    {% endwith %}
-
-                {% endfor %}
 
                     {% if spot.pk in user_favourites_spots_pks %}
                         <div class="heart" data-url="{% url 'api2:user-favourites-detail' pk=user_favourites_spots_lookup|keyvalue:spot.pk user_pk=user.pk %}" style="font-size:72px; "></div>

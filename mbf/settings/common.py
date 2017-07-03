@@ -50,7 +50,6 @@ INSTALLED_APPS = (
 
 
     'accounts',
-    'api',
     'api2',
     'blog',
     'core',

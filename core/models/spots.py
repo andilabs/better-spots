@@ -13,8 +13,7 @@ from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageCropField, ImageRatioField
 
 from utils.img_path import get_image_path
-from utils.models import TimeStampedModel
-
+from utils.models import TimeStampedModel, Tag
 
 SPOT_TYPE_CHOICES = (
     (1, 'cafe'),
@@ -28,26 +27,37 @@ SPOT_TYPE_CHOICES = (
 class Spot(TimeStampedModel):
     name = models.CharField(max_length=250)
     location = models.PointField(max_length=40)
+
     address_street = models.CharField(max_length=254, default='', blank=True, null=True)
     address_number = models.CharField(max_length=10, default='', blank=True, null=True)
     address_city = models.CharField(max_length=100, default='', blank=True, null=True)
     address_country = models.CharField(max_length=100, default='', blank=True, null=True)
+
     spot_type = models.IntegerField(choices=SPOT_TYPE_CHOICES)
+
     is_accepted = models.BooleanField(default=False)
+
     phone_number = models.CharField(max_length=100, default='', blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     www = models.URLField(blank=True, null=True)
     facebook = models.CharField(max_length=254, blank=True, null=True)
+
     is_enabled = models.NullBooleanField(default=None, null=True)
+
     friendly_rate = models.DecimalField(default=-1.00, max_digits=3, decimal_places=2, null=True)
+
     is_certificated = models.BooleanField(default=False)
+
     venue_photo = ImageCropField(upload_to=get_image_path, blank=True, null=True)
     cropping_venue_photo = ImageRatioField('venue_photo', settings.VENUE_PHOTO_SIZE['W']+"x"+settings.VENUE_PHOTO_SIZE['H'], size_warning=True)
     spot_slug = models.SlugField(max_length=1000)
-    facilities = HStoreField(null=True)
-    anonymous_creator_cookie = models.CharField(max_length=1024, blank=True, null=True)
 
-    creator = models.ForeignKey('accounts.User', null=True, blank=True, on_delete=models.SET_NULL)
+    anonymous_creator_cookie = models.CharField(max_length=1024, blank=True, null=True) #TODO needed?
+
+    creator = models.ForeignKey('accounts.User', null=True, blank=True, on_delete=models.SET_NULL) #TODO rethink it
+
+    tags = models.ManyToManyField(Tag, related_name='facilities', null=True, blank=True)
+
 
     objects = GeoManager()
 

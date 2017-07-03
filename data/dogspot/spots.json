@@ -22,7 +22,11 @@
       "is_accepted": true,
       "is_certificated": false,
       "address_country": "Polska",
-      "email": "justyna@kulturalna.pl"
+      "email": "justyna@kulturalna.pl",
+      "tags": [
+          1,
+          3
+      ]
     }
   },
   {

@@ -41,8 +41,3 @@ SPOT_PROJECT_FAVICON_URL = os.path.join(
 
 SPOT_PROJECT_BLOGGER_PHOTO = os.path.join(
     STATIC_URL, SPOT_PROJECT_NAME, 'blogger_photo.jpg')
-
-SPOT_FACILITIES = [d['name'] for d in HSTORE_SCHEMA]
-
-SPOT_FACILITIES_VERBOSE_NAMES = [
-    (d['kwargs']['verbose_name'], d['name']) for d in HSTORE_SCHEMA]

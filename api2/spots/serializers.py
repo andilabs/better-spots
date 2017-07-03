@@ -2,11 +2,16 @@ from rest_framework import serializers
 
 from api2.serializers import GeoPointSerializerField
 from core.models.spots import Spot
-
+from utils.models import Tag
 
 
 class SpotSerializer(serializers.ModelSerializer):
     location = GeoPointSerializerField()
+    tags = serializers.SlugRelatedField(
+        many=True,
+        queryset=Tag.objects.all(),
+        slug_field='text'
+    )
 
 
     class Meta:
@@ -32,6 +37,6 @@ class SpotSerializer(serializers.ModelSerializer):
             'is_enabled',
             'friendly_rate',
             'is_certificated',
-            # 'friendly_rate_stars',
+            'tags',
         ]
 

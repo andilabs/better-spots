@@ -30,7 +30,7 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
     add_form_template = "admin/spots/add_form.html"
     change_form_template = "admin/spots/change_form.html"
 
-    list_display = tuple([
+    list_display = (
         'pk',
         'name',
         'is_accepted',
@@ -42,7 +42,6 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'google_maps_static_image',
         'creator',
         'anonymous_creator_cookie',
-        'facilities']
     )
 
     list_filter = (
@@ -51,6 +50,7 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'spot_type',
         'is_certificated',
         'is_accepted',
+        'tags',
     )
 
     search_fields = (
@@ -93,7 +93,7 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
                 'cropping_venue_photo')}),
 
         ('Evaluations and facilities calculated based on ratings',
-            {'fields': tuple(['friendly_rate', 'is_enabled'])})
+            {'fields': tuple(['friendly_rate', 'is_enabled', 'tags'])})
     )
 
     actions = [

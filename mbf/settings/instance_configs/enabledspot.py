@@ -40,46 +40,10 @@ SPOT_PROJECT_SUBJECT = 'Disabled People'
 
 SPOT_PROJECT_MAIN_COLOR = '#4f5fa7'
 
-ENABLED_TOILET_CODE = "toilet_enabled"
-ENABLED_TOILET_VERBOSE = "enabled toilet"
-
-ENABLED_ENTRANCE_CODE = "entrance_enabled"
-ENABLED_ENTRANCE_VERBOSE = "enabled entrance"
-
-ENABLED_TABLES_CODE = "tables_enabled"
-ENABLED_TABLES_VERBOSE = "enabled tables"
-
 SPOT_PROJECT_INSTAGRAM_URL = "https://www.instagram.com/enabledspot/"
 
-FACILITIES_CODE_VERBOSE_MAP = {
-    ENABLED_TOILET_CODE: ENABLED_TOILET_VERBOSE,
-    ENABLED_ENTRANCE_CODE: ENABLED_ENTRANCE_VERBOSE,
-    ENABLED_TABLES_CODE: ENABLED_TABLES_VERBOSE,
+TAGS = {
+    1: "enabled toilet",
+    2: "enabled entrance",
+    3: "tables_enabled",
 }
-
-HSTORE_SCHEMA = [
-    {
-        "name": ENABLED_TOILET_CODE,
-        "class": "NullBooleanField",
-        "kwargs": {
-            "default": None,
-            "verbose_name": ENABLED_TOILET_VERBOSE
-        }
-    },
-    {
-        "name": ENABLED_ENTRANCE_CODE,
-        "class": "NullBooleanField",
-        "kwargs": {
-            "default": None,
-            "verbose_name": ENABLED_ENTRANCE_VERBOSE
-        }
-    },
-    {
-        "name": ENABLED_TABLES_CODE,
-        "class": "NullBooleanField",
-        "kwargs": {
-            "default": None,
-            "verbose_name": ENABLED_TABLES_VERBOSE
-        }
-    }
-]
