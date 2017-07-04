@@ -295,7 +295,7 @@
     window.allSpotsDict = {};
     window.allSpotsArray = [];
     $('#map_canvas').gmap('clear', 'markers');
-    url = BASE_HOST + ("/api2/spots/?location_0=" + (lat.toFixed(5)) + "&location_1=" + (lng.toFixed(5)) + "&location_2=" + (getDesiredRadius()));
+    url = BASE_HOST + SPOTS_API_ENDPOINT + ("?location_0=" + (lat.toFixed(5)) + "&location_1=" + (lng.toFixed(5)) + "&location_2=" + (getDesiredRadius()));
     return jqxhr = $.getJSON(url, function(data) {
       var j, k, len, obj, ref2, ref3, spot;
       obj = data.results;

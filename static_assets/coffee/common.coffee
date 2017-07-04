@@ -129,7 +129,7 @@ $ ->
     $(document).on 'click', 'div.heart', (e) ->
         heart = $(this)
         $.ajax
-            url: $(this).data('url')
+            url: $(this).data('spot-detail-url')
             type: 'DELETE'
             success: (result) ->
                 if window.location.pathname.indexOf('favourites') >= 0
@@ -140,13 +140,13 @@ $ ->
     # ADD TO FAVOURITES
     $(document).on 'click', 'div.no-heart:not(.disabled)', (e) ->
         heart = $(this)
-        url = $(this).data('list-url')
+        url = $(this).data('spot-list-url')
         $.ajax
             url: url
             data: 'spot': $(this).data('spot-pk')
             type: 'POST'
             success: (result) ->
-                $(heart).data 'url', result.url
+                $(heart).data 'spot-detail-url', result.url
                 $(heart).removeClass('no-heart').addClass 'heart'
 
 
@@ -239,8 +239,7 @@ $ ->
         source: (request, response) ->
             $.ajax
                 data: {q: request.term}
-#TODO resolve url ; use FTS
-                url: "/ajax_search/"
+                url: FTS_SEARCH_API_ENDPOINT
                 dataType: "json"
 
                 success: (data) ->

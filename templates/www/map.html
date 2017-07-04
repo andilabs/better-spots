@@ -39,7 +39,8 @@
   {{ block.super }}
   <script type="text/javascript" src="{{ STATIC_URL }}external/spin/spin.min.js"></script>
   <script language="javascript">
-    var ICON_URL = "/static/dogspot/"; var STATIC_URL = "/static/"; var BASE_HOST = "//{{ request.get_host }}";
+    var ICON_URL = "/static/{{SPOT_PROJECT_NAME}}/"; var STATIC_URL = "/static/"; var BASE_HOST = "//{{ request.get_host }}";
+    var SPOTS_API_ENDPOINT = "{% url 'api2:spot-list' %}";
   </script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/map.js"></script>
 {% endblock scripts %}

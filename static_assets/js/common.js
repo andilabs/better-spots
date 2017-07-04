@@ -164,7 +164,7 @@
       var heart;
       heart = $(this);
       return $.ajax({
-        url: $(this).data('url'),
+        url: $(this).data('spot-detail-url'),
         type: 'DELETE',
         success: function(result) {
           if (window.location.pathname.indexOf('favourites') >= 0) {
@@ -178,7 +178,7 @@
     $(document).on('click', 'div.no-heart:not(.disabled)', function(e) {
       var heart, url;
       heart = $(this);
-      url = $(this).data('list-url');
+      url = $(this).data('spot-list-url');
       return $.ajax({
         url: url,
         data: {
@@ -186,7 +186,7 @@
         },
         type: 'POST',
         success: function(result) {
-          $(heart).data('url', result.url);
+          $(heart).data('spot-detail-url', result.url);
           return $(heart).removeClass('no-heart').addClass('heart');
         }
       });
@@ -288,7 +288,7 @@
           data: {
             q: request.term
           },
-          url: "/ajax_search/",
+          url: FTS_SEARCH_API_ENDPOINT,
           dataType: "json",
           success: function(data) {
             return response(data);

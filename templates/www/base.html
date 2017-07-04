@@ -269,7 +269,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/jquery.ui.map.overlays.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/markerclusterer.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/holder.js"></script>
-    <script language="javascript"> var DJANGO_USER = "{{user.is_authenticated|yesno:"true,false"}}";</script>
+    <script language="javascript"> var DJANGO_USER = "{{user.is_authenticated|yesno:"true,false"}}"; var FTS_SEARCH_API_ENDPOINT = "{% url 'www:ajax_search' %}";</script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/common.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}external/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}external/jquery.serializejson.js"></script>

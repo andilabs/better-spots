@@ -270,7 +270,7 @@ loadMarkers = (lat, lng) ->
     $('#map_canvas').gmap('clear', 'markers')
 
     #TODO resolve url in template and pass it to JS some smarter logic please!
-    url = BASE_HOST + "/api2/spots/?location_0=#{lat.toFixed(5)}&location_1=#{lng.toFixed(5)}&location_2=#{getDesiredRadius()}"
+    url = BASE_HOST + SPOTS_API_ENDPOINT + "?location_0=#{lat.toFixed(5)}&location_1=#{lng.toFixed(5)}&location_2=#{getDesiredRadius()}"
 
     jqxhr = $.getJSON url, (data) ->
         obj = data.results

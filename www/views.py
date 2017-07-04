@@ -301,7 +301,7 @@ def main(request):
 
 def map(request):
     if request.method == 'GET':
-        response = TemplateResponse(request, get_template('www/map.html'), {})
+        response = TemplateResponse(request, get_template('www/map.html'), {'SPOT_PROJECT_NAME': settings.SPOT_PROJECT_NAME})
         return response
 
 

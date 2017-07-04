@@ -1,0 +1,6 @@
+{% load custom_tags_and_filters %}
+{% if spot.pk in user_favourites_spots_pks %}
+  <div class="heart" data-spot-detail-url="{% url 'api2:user-favourites-detail' pk=user_favourites_spots_lookup|keyvalue:spot.pk user_pk=user.pk %}"></div>
+{% else %}
+  <div class="no-heart {% if user.is_authenticated == False %}disabled{%endif%}" data-spot-detail-url="{% url 'api2:user-favourites-list' user_pk=user.pk %}" data-spot-pk="{{spot.pk}}" data-spot-list-url="{% url 'api2:user-favourites-list' user_pk=user.pk %}"></div>
+{% endif %}
