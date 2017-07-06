@@ -2,8 +2,8 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework import mixins
 
-from api2.permissions import IsOwnerOrReadOnly
-from api2.ratings.serializers import UsersRatingSerializer, SpotsRatingSerializer
+from api.permissions import IsOwnerOrReadOnly
+from api.ratings.serializers import UsersRatingSerializer, SpotsRatingSerializer
 from core.models.ratings import Rating
 
 

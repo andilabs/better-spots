@@ -13,14 +13,13 @@ urlpatterns = [
 
     url(r'', include('www.urls', namespace='www')),
     url(r'accounts/', include('accounts.urls', namespace='accounts')),
-    # url(r'api/', include('api.urls', namespace='api')),
-    url(r'api2/', include('api2.urls', namespace='api2')),
+    url(r'api/', include('api.urls', namespace='api')),
     url(r'blog/', include('blog.urls', namespace='blog')),
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^favicon\.ico$', RedirectView.as_view(url=settings.SPOT_PROJECT_FAVICON_URL)),
     url(r'^apple-touch-icon-120x120\.png$', RedirectView.as_view(url='static/%s/apple-touch-icon-120x120.png' % (settings.SPOT_PROJECT_NAME))),
-    url(r'^api2/docs/', include_docs_urls(title='{} API'.format(settings.SPOT_PROJECT_NAME))),
+    url(r'^api/docs/', include_docs_urls(title='{} API'.format(settings.SPOT_PROJECT_NAME))),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

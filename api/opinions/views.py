@@ -1,8 +1,8 @@
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
-from api2.opinions.serializers import OpinionSerializer
-from api2.permissions import IsOwnerOrReadOnly
+from api.opinions.serializers import OpinionSerializer
+from api.permissions import IsOwnerOrReadOnly
 from core.models.opinions import Opinion
 
 

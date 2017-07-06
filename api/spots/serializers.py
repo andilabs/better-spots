@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from accounts.models import User
-from api2.serializers import GeoPointSerializerField
+from api.serializers import GeoPointSerializerField
 from core.models.spots import Spot
 from utils.models import Tag
 

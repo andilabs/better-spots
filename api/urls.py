@@ -5,11 +5,11 @@ from rest_framework.schemas import get_schema_view
 from rest_framework_nested import routers
 from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
 
-from api2.accounts.views import UserViewSet, UserFavouritesSpotsViewSet
-from api2.instance.views import InstanceViewSet
-from api2.opinions.views import OpinionViewSet, UserOpinionViewSet
-from api2.spots.views import SpotViewSet
-from api2.ratings.views import SpotsRatingViewSet, UserRatingViewSet
+from api.accounts.views import UserViewSet, UserFavouritesSpotsViewSet
+from api.instance.views import InstanceViewSet
+from api.opinions.views import OpinionViewSet, UserOpinionViewSet
+from api.spots.views import SpotViewSet
+from api.ratings.views import SpotsRatingViewSet, UserRatingViewSet
 
 router = routers.SimpleRouter()
 

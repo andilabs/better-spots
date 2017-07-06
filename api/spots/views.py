@@ -2,8 +2,8 @@ from rest_framework import mixins
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import GenericViewSet
 
-from api2.spots.filtersets import SpotFilterSet
-from api2.spots.serializers import SpotSerializer
+from api.spots.filtersets import SpotFilterSet
+from api.spots.serializers import SpotSerializer
 from core.models.spots import Spot
 
 

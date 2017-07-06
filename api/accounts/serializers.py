@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError, PermissionDenied
 from accounts.models import User, UserFavouritesSpotList
-from api2.accounts.mixins import ObjectInUserContextMixin
-from api2.spots.serializers import SpotSerializer
+from api.accounts.mixins import ObjectInUserContextMixin
+from api.spots.serializers import SpotSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):

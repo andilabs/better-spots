@@ -1,7 +1,6 @@
 ignore-paths:
   - docs
   - data
-  - api # TODO legacy now... to be removed when api2 becomes api
   - static_assets
 
 pep8:

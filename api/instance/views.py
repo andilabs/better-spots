@@ -1,7 +1,7 @@
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 
-from api2.instance.serializers import InstanceSerializer
+from api.instance.serializers import InstanceSerializer
 from core.models.instance import Instance
 
 

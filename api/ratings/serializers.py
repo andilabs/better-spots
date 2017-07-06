@@ -3,9 +3,9 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError, PermissionDenied
 
 from accounts.models import User
-from api2.accounts.mixins import ObjectInUserContextMixin
-from api2.opinions.serializers import OpinionSerializer
-from api2.spots.mixins import ObjectInSpotContextMixin
+from api.accounts.mixins import ObjectInUserContextMixin
+from api.opinions.serializers import OpinionSerializer
+from api.spots.mixins import ObjectInSpotContextMixin
 from core.models.ratings import Rating
 
 
