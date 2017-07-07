@@ -56,5 +56,5 @@ class SpotsRatingSerializer(ObjectInSpotContextMixin, RatingSerializer):
 
     def __init__(self, *args, **kwargs):
         super(SpotsRatingSerializer, self).__init__(*args, **kwargs)
-        if hasattr(self.context['request'].user, 'pk'):
+        if hasattr(self.context['request'], 'user') and hasattr(self.context['request'].user, 'pk'):
             self.fields['user'].queryset = User.objects.filter(pk=self.context['request'].user.pk)
