@@ -74,6 +74,11 @@ class FavouritesSpotListView(BaseSpotListView):
 class BaseSpotDetailView(DetailView):
     model = Spot
 
+    def get_context_data(self, **kwargs):
+        context = super(BaseSpotDetailView, self).get_context_data(**kwargs)
+        context.update({'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
+        return context
+
 
 class SpotDetailView(UserFavouritesSpotsSmugglerMixin, BaseSpotDetailView):
     template_name = 'www/spot_detail.html'
