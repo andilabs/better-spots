@@ -1,7 +1,14 @@
 Up and running
-==============
+---------------
 
-required version of `ansible==2.3.1.0`
+What is needed to be installed on your system:
+==============================================
+
+* install [vagrant](https://www.vagrantup.com/downloads.html)
+* install [Virtual Box](https://www.virtualbox.org/wiki/Downloads)
+* install [pip](https://pip.pypa.io/en/stable/installing/) if you don't have it already
+* required version of `pip install ansible>=2.3.1.0`
+
 
 All the secret variables (db passwords, access tokens, etc.) are stored in encrypted file secrets_vars.yml
 
