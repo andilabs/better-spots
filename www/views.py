@@ -5,15 +5,15 @@ from io import StringIO, BytesIO
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponse, Http404
+from django.http.response import JsonResponse
+from django.middleware.csrf import get_token
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import get_template
-from django.template.response import TemplateResponse
 from django.utils.decorators import method_decorator
-from django.views.generic import FormView
+from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
@@ -22,7 +22,7 @@ from xhtml2pdf import pisa
 from accounts.models import UserFavouritesSpotList
 from core.models.spots import Spot, SPOT_TYPE_CHOICES
 from utils.qrcodes import make_qrcode
-from .forms import ContactForm, AddSpotForm, EditSpotPhotoForm
+from .forms import AddSpotForm, EditSpotPhotoForm
 
 SpotListUIConfig = collections.namedtuple('SpotListUIConfig', ['site_title', 'icon_type'])
 
@@ -88,6 +88,15 @@ class CertificatedSpotDetailView(SpotDetailView):
 
     def get_queryset(self):
         return super(CertificatedSpotDetailView, self).get_queryset().filter(is_certificated=True)
+
+
+class MapView(TemplateView):
+    template_name = 'www/map.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(MapView, self).get_context_data(**kwargs)
+        context.update({'SPOT_PROJECT_NAME': settings.SPOT_PROJECT_NAME})
+        return context
 
 
 def add_spot(request):
@@ -158,8 +167,8 @@ def edit_photo(request, pk):
     spot = get_object_or_404(Spot, pk=pk)
 
     if request.method == 'GET':
-        identify = request._cookies['csrftoken']
-        if (identify == spot.anonymous_creator_cookie or request.user == spot.creator):
+        csrf_token = get_token(request)
+        if csrf_token == spot.anonymous_creator_cookie or request.user == spot.creator:
             form = EditSpotPhotoForm(instance=spot)
             return render(
                 request,
@@ -169,10 +178,10 @@ def edit_photo(request, pk):
         else:
             return HttpResponse(
                 'You have not acces to this resource',
-                status=403)
+                status=403
+            )
 
     if request.method == 'POST':
-        form = EditSpotPhotoForm(instance=spot)
         form = EditSpotPhotoForm(request.POST, request.FILES, instance=spot)
         if form.is_valid():
             spot = form.save()
@@ -184,12 +193,7 @@ def edit_photo(request, pk):
                 messages.SUCCESS, 'Spot added!' + memo
             )
             return redirect(
-                reverse(
-                    'spot',
-                    kwargs={
-                        "pk": spot.pk
-                    }
-                )
+                reverse('spot', kwargs={"pk": spot.pk})
             )
 
 
@@ -206,7 +210,7 @@ def render_to_pdf(template_src, context_dict):
     if not pdf.err:
         return HttpResponse(result.getvalue(), content_type='application/pdf')
 
-    return HttpResponse('We had some errors')#<pre>%s</pre>' % escape(html))
+    return HttpResponse('We had some errors')
 
 
 def pdf_sticker(request, pk):
@@ -229,6 +233,7 @@ def pdf_sticker(request, pk):
 
 
 def ajax_search(request):
+    # TODO FTS to be applied
     query = request.GET.get('q', '')
     result = [
         {
@@ -243,17 +248,15 @@ def ajax_search(request):
             is_accepted=True).order_by('spot_type')[:7]
     ]
 
-    return HttpResponse(
-        json.dumps(result, ensure_ascii=False),
-        content_type="application/json")
+    return JsonResponse(result)
 
 
 def qrencode_link(request, pk, size=3, for_view='www:spot'):
     spot = get_object_or_404(Spot, pk=pk)
-    dane = "http://%s%s" % (
+    data = "http://%s%s" % (
         settings.INSTANCE_DOMAIN,
         reverse(for_view, kwargs={'pk': spot.pk}))
-    img = make_qrcode(dane, box_size=size)
+    img = make_qrcode(data, box_size=size)
     response = HttpResponse(content_type="image/png")
     img.save(response, "png")
     return response
@@ -273,44 +276,3 @@ def download_vcard(request, pk):
     response['Content-Disposition'] = (
         'filename=vcard_from_%s.vcf' % settings.SPOT_PROJECT_NAME)
     return response
-
-
-class ContactView(FormView):
-    template_name = 'www/contact.html'
-    form_class = ContactForm
-    success_url = '/'
-
-    def form_valid(self, form):
-        content = form.cleaned_data.get('message')
-        to = str(form.cleaned_data.get('mail'))
-        msg = EmailMessage(
-            "contact form",
-            content,
-            settings.EMAIL_HOST_USER,
-            [to, ]
-        )
-        msg.send()
-
-        messages.add_message(
-            self.request,
-            messages.SUCCESS, 'Your message was sucessfully sent!'
-            )
-        return super(ContactView, self).form_valid(form)
-
-
-def main(request):
-    if request.method == 'GET':
-        response = TemplateResponse(request, get_template('www/mission.html'), {})
-        return response
-
-
-def map(request):
-    if request.method == 'GET':
-        response = TemplateResponse(request, get_template('www/map.html'), {'SPOT_PROJECT_NAME': settings.SPOT_PROJECT_NAME})
-        return response
-
-
-def mobile(request):
-    if request.method == 'GET':
-        response = TemplateResponse(request, get_template('www/mobile.html'), {})
-        return response

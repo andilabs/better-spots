@@ -13,6 +13,7 @@ GeoPoint = namedtuple('GeoPoint', ['longitude', 'latitude'])
 # or use enforce so it will crash when passed not proper type
 # https://github.com/RussBaz/enforce
 
+
 class GeoPointSerializerField(serializers.Field):
 
     def to_representation(self, obj):
