@@ -43,25 +43,29 @@
     apt: pkg={{ item }} state=present update_cache=yes
     with_items: "{{ packages }}"
 
-  - name: Add the PostgreSQL public GPG key to the apt repo
-    sudo: yes
-    apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc
-             state=present
-
+  # http://trac.osgeo.org/postgis/wiki/UsersWikiPostGIS23UbuntuPGSQL96Apt
   - name: Add PostgreSQL to the sources list
     sudo: yes
     apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main'
                     update_cache=yes
                     state=present
 
+  - name: Add the PostgreSQL public GPG key to the apt repo
+    sudo: yes
+    apt_key: url=http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc
+             state=present
+
   - name: Install PostgreSQL
     sudo: yes
     apt: name={{ item }} update_cache=yes state=installed
     with_items:
-      - postgresql
-      - postgresql-contrib
-      - postgresql-9.6-postgis-scripts #TODO make it postgres version parametrized
+      - postgresql-9.6
+      - postgresql-9.6-postgis-2.3
+      - postgresql-contrib-9.6
+      - postgresql-9.6-postgis-scripts
       - python-psycopg2
+      - postgis
+      - postgresql-9.6-pgrouting
     tags: packages
 
   - name: Ensure the PostgreSQL service is running
