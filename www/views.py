@@ -1,6 +1,4 @@
 import collections
-import json
-from io import StringIO, BytesIO
 
 from django.conf import settings
 from django.contrib import messages
@@ -17,10 +15,10 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from xhtml2pdf import pisa
 
 from accounts.models import UserFavouritesSpotList
 from core.models.spots import Spot, SPOT_TYPE_CHOICES
+from utils.pdfs import render_to_pdf
 from utils.qrcodes import make_qrcode
 from .forms import AddSpotForm, EditSpotPhotoForm
 
@@ -197,30 +195,13 @@ def edit_photo(request, pk):
             )
 
 
-def render_to_pdf(template_src, context_dict):
-    template = get_template(template_src)
-    html = template.render(context_dict)
-    result = BytesIO()
-    pdf = pisa.pisaDocument(
-        StringIO(html),
-        dest=result,
-        encoding='UTF-8'
-    )
-
-    if not pdf.err:
-        return HttpResponse(result.getvalue(), content_type='application/pdf')
-
-    return HttpResponse('We had some errors')
-
-
 def pdf_sticker(request, pk):
     spot = get_object_or_404(Spot, pk=pk)
-
     if spot.is_certificated:
-        return render_to_pdf(
+        pdf, result = render_to_pdf(
             'www/pdf_sticker.html',
             {
-                'BASE_HOST': settings.INSTANCE_DOMAIN,
+                'BASE_HOST': request.get_host(),
                 'MEDIA_ROOT': settings.MEDIA_ROOT,
                 'STATIC_ROOT': settings.STATIC_ROOT,
                 'SPOT_PROJECT_NAME': settings.SPOT_PROJECT_NAME,
@@ -228,6 +209,9 @@ def pdf_sticker(request, pk):
                 'spot': Spot.objects.get(pk=pk),
             }
         )
+        if not pdf.err:
+            return HttpResponse(result.getvalue(), content_type='application/pdf')
+        return HttpResponse('We had some errors')
     else:
         raise Http404
 
@@ -254,7 +238,7 @@ def ajax_search(request):
 def qrencode_link(request, pk, size=3, for_view='www:spot'):
     spot = get_object_or_404(Spot, pk=pk)
     data = "http://%s%s" % (
-        settings.INSTANCE_DOMAIN,
+        request.get_host(),
         reverse(for_view, kwargs={'pk': spot.pk}))
     img = make_qrcode(data, box_size=size)
     response = HttpResponse(content_type="image/png")
