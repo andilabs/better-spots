@@ -29,4 +29,4 @@ after vagrant ssh:
 
     `manage.py runserver runserver 0:8000`
 
-    access from web browser: `http://192.168.33.13:8000/`
+    access from web browser: `http://127.0.0.1:9000/`
