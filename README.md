@@ -27,6 +27,6 @@ Then just vagrant up !
 
 after vagrant ssh:
 
-    `manage.py runserver runserver 0:8000`
+    `manage.py runserver runserver 0:9000`
 
     access from web browser: `http://127.0.0.1:9000/`
