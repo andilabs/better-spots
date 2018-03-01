@@ -12,21 +12,24 @@ What is needed to be installed on your system:
 
 All the secret variables (db passwords, access tokens, etc.) are stored in encrypted file secrets_vars.yml
 
-
 In main directory you should create file `.vault_pass.txt` containing password needed for decryption.
+
+For demo purpose fill the file with value `P@ssw0rd`
 
 To get decrypted values:
 
-    `ansible-vault decrypt secrets_vars.yml --vault-password-file .vault_pass.txt`
+    ansible-vault decrypt secrets_vars.yml --vault-password-file .vault_pass.txt
 
 Modify it (e.g add new variables) and encrypt it back (before pushing to repo):
 
-    `ansible-vault encrypt secrets_vars.yml --vault-password-file .vault_pass.txt`
+    ansible-vault encrypt secrets_vars.yml --vault-password-file .vault_pass.txt
 
 Then just vagrant up !
 
 after vagrant ssh:
 
-    `manage.py runserver runserver 0:9000`
+    manage.py runserver runserver 0:9000
 
-    access from web browser: `http://127.0.0.1:9000/`
+and access from web browser: 
+
+    http://127.0.0.1:9000/
