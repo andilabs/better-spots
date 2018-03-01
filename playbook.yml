@@ -2,7 +2,7 @@
 - hosts: all
   pre_tasks:
     - name: 'install python2 (because ansible needs it, but xenial does not provide it by default)'
-      raw: sudo apt-get -y install python
+      raw: sudo apt-get update && sudo apt-get -y install python
   vars_files:
     - secrets_vars.yml
   vars:
@@ -90,6 +90,7 @@
       password: '{{db_password}}'
       priv: ALL
       state: present
+      encrypted: yes
 
   - name: Ensure user does not have unnecessary privileges
     become_user: postgres
