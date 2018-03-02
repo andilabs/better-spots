@@ -24,11 +24,11 @@ Modify it (e.g add new variables) and encrypt it back (before pushing to repo):
 
     ansible-vault encrypt secrets_vars.yml --vault-password-file .vault_pass.txt
 
-Then just vagrant up !
+Then just `vagrant up` !
 
-after vagrant ssh:
+after `vagrant ssh`:
 
-    manage.py runserver runserver 0:9000
+    ./manage.py runserver 0:9000
 
 and access from web browser: 
 
