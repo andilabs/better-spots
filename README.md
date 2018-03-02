@@ -1,8 +1,8 @@
 Up and running
----------------
+===============
 
 What is needed to be installed on your system:
-==============================================
+----------------------------------------------
 
 * install [vagrant](https://www.vagrantup.com/downloads.html)
 * install [Virtual Box](https://www.virtualbox.org/wiki/Downloads)
@@ -33,3 +33,12 @@ after `vagrant ssh`:
 and access from web browser: 
 
     http://127.0.0.1:9000/
+
+
+API
+===
+
+Use swagger to browse API:
+--------------------------
+
+http://127.0.0.1:9000/api/schema/
