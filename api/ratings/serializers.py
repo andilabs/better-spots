@@ -2,7 +2,6 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError, PermissionDenied
 
-from accounts.models import User
 from api.accounts.mixins import ObjectInUserContextMixin
 from api.opinions.serializers import OpinionSerializer
 from api.spots.mixins import ObjectInSpotContextMixin
@@ -42,7 +41,7 @@ class UsersRatingSerializer(ObjectInUserContextMixin, RatingSerializer):
 
 class SpotsRatingSerializer(ObjectInSpotContextMixin, RatingSerializer):
 
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.none())
+    user = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
 
     class Meta(RatingSerializer.Meta):
         model = Rating
@@ -50,11 +49,6 @@ class SpotsRatingSerializer(ObjectInSpotContextMixin, RatingSerializer):
 
     def validate(self, attrs):
         validated_data = super(SpotsRatingSerializer, self).validate(attrs)
-        if Rating.objects.filter(spot=validated_data['spot'], user=validated_data['user']).exists():
+        if Rating.objects.filter(spot=validated_data['spot'], user=self.context['request'].user).exists():
             raise ValidationError('Already rated by this user')
         return validated_data
-
-    def __init__(self, *args, **kwargs):
-        super(SpotsRatingSerializer, self).__init__(*args, **kwargs)
-        if hasattr(self.context['request'], 'user') and hasattr(self.context['request'].user, 'pk'):
-            self.fields['user'].queryset = User.objects.filter(pk=self.context['request'].user.pk)
