@@ -21,12 +21,12 @@
       - coffeescript
 
     home_dir: '/home/ubuntu'
-    web_base_dir: '/home/ubuntu/mbf'
-    media_dir: '/mbf/media'
-    project_dir: '/mbf'
-    static_root: '/pseudo_static_server_spots'
+    web_base_dir: '/home/ubuntu/better_spots'
+    media_dir: '/better_spots/media'
+    project_dir: '/better_spots'
+#    static_root: '/pseudo_static_server_spots'
     project_instance: 'dogspot'
-    celery_worker: 'mbf'
+    celery_worker: 'better_spots'
     app_user: 'ubuntu'
     proxy_env:
       DB_PASSWORD: "{{db_password}}"
@@ -74,7 +74,7 @@
   - name: Ensure database is created
     become_user: postgres
     become: yes
-    postgresql_db: name='mbf'
+    postgresql_db: name='better_spots'
                    encoding='UTF-8'
                    lc_collate='en_US.UTF-8'
                    lc_ctype='en_US.UTF-8'
@@ -85,8 +85,8 @@
     become_user: postgres
     become: yes
     postgresql_user:
-      db: 'mbf'
-      name: 'mbf'
+      db: 'better_spots'
+      name: 'better_spots'
       password: '{{db_password}}'
       priv: ALL
       state: present
@@ -95,7 +95,7 @@
   - name: Ensure user does not have unnecessary privileges
     become_user: postgres
     become: yes
-    postgresql_user: name='mbf'
+    postgresql_user: name='better_spots'
                      role_attr_flags=NOSUPERUSER,NOCREATEDB
                      state=present
 
@@ -104,14 +104,14 @@
     become: yes
     postgresql_ext:
       name: postgis
-      db: mbf
+      db: better_spots
 
   - name: Add hstore extension
     become_user: postgres
     become: yes
     postgresql_ext:
       name: hstore
-      db: mbf
+      db: better_spots
 
   - name: Create media directories
     sudo: yes
@@ -119,11 +119,11 @@
     with_items:
       - "{{ media_dir }}/img"
 
-  - name: Craete STATIC_ROOT
-    sudo: yes
-    file: path="{{ item }}" owner='ubuntu' group='ubuntu' mode=0775 state=directory
-    with_items:
-      - "{{ static_root }}"
+#  - name: Craete STATIC_ROOT
+#    sudo: yes
+#    file: path="{{ item }}" owner='ubuntu' group='ubuntu' mode=0775 state=directory
+#    with_items:
+#      - "{{ static_root }}"
 
   - name: create virtualenv for python 3.5
     sudo: yes
@@ -132,7 +132,8 @@
   - name: install pip packages
     sudo: yes
     pip: virtualenv={{ web_base_dir }}/venv
-         requirements=/mbf/requirements.txt
+         requirements=/better_spots/requirements.txt
+    tags: pipka
 
   - name: activate virtualenv, navigate to project dir
     lineinfile:
@@ -149,57 +150,57 @@
       chdir: "{{ project_dir }}"
       executable: /bin/bash
 
-  - name: create instance specific tags
-    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_tags"
-    args:
-      chdir: "{{ project_dir }}"
-      executable: /bin/bash
+#  - name: create instance specific tags
+#    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_tags"
+#    args:
+#      chdir: "{{ project_dir }}"
+#      executable: /bin/bash
+#
+#  - name: load spots data fixtures for dogspot
+#    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/spots.json"
+#    args:
+#      chdir: "{{ project_dir }}"
+#      executable: /bin/bash
+#    # TODO some tag or other magic should determine it won't happen on production instance
+#
+#  - name: load instance data fixtures for dogspot
+#    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/instance.json"
+#    args:
+#      chdir: "{{ project_dir }}"
+#      executable: /bin/bash
 
-  - name: load spots data fixtures for dogspot
-    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/spots.json"
-    args:
-      chdir: "{{ project_dir }}"
-      executable: /bin/bash
-    # TODO some tag or other magic should determine it won't happen on production instance
+#  - name: copy images for spots and instance from fixtures
+#    copy: src={{ item.src }} dest={{ item.dest }}
+#    with_items:
+#      - { src: "data/{{project_instance}}/initial_img/", dest: "{{ media_dir }}/img" }
+#      - { src: "static/{{project_instance}}/blogger_photo.jpg", dest: "{{media_dir}}/img"}
+#
+#
+#  - name: create superuser
+#    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_andi"
+#    args:
+#      chdir: "{{ project_dir }}"
+#      executable: /bin/bash
+#
+#  - name: create objects
+#    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_objects"
+#    args:
+#      chdir: "{{ project_dir }}"
+#      executable: /bin/bash
+#
+#  - name: collect static
+#    shell: "{{ web_base_dir }}/venv/bin/python manage.py collectstatic  --noinput"
+#    args:
+#      chdir: "{{ project_dir }}"
+#      executable: /bin/bash
 
-  - name: load instance data fixtures for dogspot
-    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/instance.json"
-    args:
-      chdir: "{{ project_dir }}"
-      executable: /bin/bash
-
-  - name: copy images for spots and instance from fixtures
-    copy: src={{ item.src }} dest={{ item.dest }}
-    with_items:
-      - { src: "data/{{project_instance}}/initial_img/", dest: "{{ media_dir }}/img" }
-      - { src: "static_assets/{{project_instance}}/blogger_photo.jpg", dest: "{{media_dir}}/img"}
-
-
-  - name: create superuser
-    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_andi"
-    args:
-      chdir: "{{ project_dir }}"
-      executable: /bin/bash
-
-  - name: create objects
-    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_objects"
-    args:
-      chdir: "{{ project_dir }}"
-      executable: /bin/bash
-
-  - name: collect static
-    shell: "{{ web_base_dir }}/venv/bin/python manage.py collectstatic  --noinput"
-    args:
-      chdir: "{{ project_dir }}"
-      executable: /bin/bash
-
-  # todo this needs refactor using nohup isn't cool, and different strategies of running celery for develop and production needed
-  - name: start celery
-    sudo: yes
-    shell: "nohup {{ web_base_dir }}/venv/bin/celery -A {{ celery_worker }} worker &"
-    args:
-      chdir: "{{ project_dir }}"
-      executable: /bin/bash
+#  # todo this needs refactor using nohup isn't cool, and different strategies of running celery for develop and production needed
+#  - name: start celery
+#    sudo: yes
+#    shell: "nohup {{ web_base_dir }}/venv/bin/celery -A {{ celery_worker }} worker &"
+#    args:
+#      chdir: "{{ project_dir }}"
+#      executable: /bin/bash
 
   # TODO setup git
 
@@ -220,5 +221,5 @@
     sudo: yes
     shell: "coffee --compile --output js/ coffee/"
     args:
-      chdir: "{{ project_dir }}/static_assets"
+      chdir: "{{ project_dir }}/static"
       executable: /bin/bash
