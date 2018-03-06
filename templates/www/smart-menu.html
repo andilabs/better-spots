@@ -1,4 +1,5 @@
 {% load custom_tags_and_filters %}
+{% load static %}
 <div class="row" style="width:55%; min-width: 320px">
     <div class="col-xs-3">
         <a href="{% url 'blog:blogpost_list' %}" class="link-logo-menu initialy-invisible">
@@ -28,7 +29,7 @@
         </a>
     </div>
     <div class="col-xs-6">
-        <a href="#" class="show-menu"><img src="{{STATIC_URL}}{% settings_value "SPOT_PROJECT_NAME" %}/logo.png" alt="{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}" style="min-height:80px; min-width:80px; width: 100%; max-width:200px;"></a>
+        <a href="#" class="show-menu"><img src="{% settings_value_static "SPOT_PROJECT_NAME" %}/logo.png" alt="{% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}" style="min-height:80px; min-width:80px; width: 100%; max-width:200px;"></a>
     </div>
     <div class="col-xs-3" style="vertical-align:middle; padding-top:15%">
         <a href="{% url 'www:certificated_list' %}" class="link-logo-menu initialy-invisible">

@@ -10,7 +10,7 @@
 {% endblock %}
  {{ form.media }}
 {% load custom_tags_and_filters %}
-
+{% load static %}
 {% block content %}
 <head>
     {{ form.media }}
@@ -70,7 +70,7 @@
 
 {% block scripts %}
   {{ block.super }}
-  <script type="text/javascript" src="{{ STATIC_URL }}external/jquery-locationpicker-plugin/src/locationpicker.jquery.js"></script>
+  <script type="text/javascript" src="{% static "external/jquery-locationpicker-plugin/src/locationpicker.jquery.js" %}"></script>
 
  <script>
 	 var strIPLocation = window.getIPbasedLocation();

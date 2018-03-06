@@ -1,5 +1,6 @@
 {% extends "www/base.html" %}
 {% load custom_tags_and_filters %}
+{% load static %}
 {% block title %}
     {{ spot.name }} {{spot.address_city}}, {{spot.address_street}} {{spot.address_number}}
 
@@ -27,14 +28,14 @@
 
                 <div class='allowance-icon'>
                 {% if spot.is_certificated %}
-                     <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/certificate.png" alt="spot is certificated to be {% settings_value "SPOT_PROJECT_SUBJECT" %} friendly!" style="max-width:100%">
+                     <img src="{% settings_value_static "SPOT_PROJECT_NAME" %}/certificate.png" alt="spot is certificated to be {% settings_value "SPOT_PROJECT_SUBJECT" %} friendly!" style="max-width:100%">
                 {% else %}
                     {% if spot.is_enabled %}
-                        <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok-kopia.png" alt="spot is enabled">
+                        <img src="{% settings_value_static "SPOT_PROJECT_NAME" %}/marker-ok-kopia.png" alt="spot is enabled">
                     {% elif spot.is_enabled == False %}
-                        <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad-kopia.png" alt="spot is not enabled">
+                        <img src="{% settings_value_static "SPOT_PROJECT_NAME" %}/marker-bad-kopia.png" alt="spot is not enabled">
                     {% else %}
-                        <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-undefined-kopia.png" alt="spot enablence is undefined">
+                        <img src="{% settings_value_static "SPOT_PROJECT_NAME" %}/marker-undefined-kopia.png" alt="spot enablence is undefined">
                     {% endif %}
                 {% endif %}
                 </div>
@@ -132,5 +133,5 @@
     <script language="javascript">
         var STATIC_URL = "/static/"; var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";
     </script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/spot_detail.js"></script>
+    <script type="text/javascript" src="{% static "js/spot_detail.js" %}"></script>
 {% endblock scripts %}

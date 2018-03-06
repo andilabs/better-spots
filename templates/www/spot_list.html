@@ -1,5 +1,6 @@
 {% extends "www/base.html" %}
 {% load custom_tags_and_filters %}
+{% load static %}
 {% block title %}
     {{site_title}} - {% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_SLOGAN" %}
 {% endblock %}
@@ -10,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}external/chosen_v1.4.2/chosen.css">
+    <link rel="stylesheet" href="{% static "external/chosen_v1.4.2/chosen.css" %}">
 <h2 class="titles">
   <span class="fa fa-{{icon_type}} fa-2x spot_project_color"></span> {{site_title}}!
 </h2>
@@ -20,14 +21,14 @@
       <div class="thumbnail">
 
         {% if spot.is_certificated %}
-          <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/certificate_small.png" class="enablence-symbol">
+          <img src='{% settings_value_static "SPOT_PROJECT_NAME" %}/certificate_small.png' class="enablence-symbol">
         {% else %}
           {% if spot.is_enabled %}
-            <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png" class="enablence-symbol">
+            <img src='{% settings_value_static "SPOT_PROJECT_NAME" %}/marker-ok.png' class="enablence-symbol">
           {% elif spot.is_enabled == False %}
-            <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png" class="enablence-symbol">
+            <img src='{% settings_value_static "SPOT_PROJECT_NAME" %}/marker-bad.png' class="enablence-symbol">
           {% else %}
-            <img src="/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-undefined.png" class="enablence-symbol">
+            <img src='{% settings_value_static "SPOT_PROJECT_NAME" %}/marker-undefined.png' class="enablence-symbol">
           {% endif %}
         {% endif %}
 
@@ -95,9 +96,9 @@
 
 {% block scripts %}
   {{ block.super }}
-  <script type="text/javascript" src="{{ STATIC_URL }}js/spots_list.js"></script>
-  <script src="{{ STATIC_URL }}external/chosen_v1.4.2/chosen.jquery.js" type="text/javascript"></script>
-  <script src="{{ STATIC_URL }}external/chosen_v1.4.2/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" src="{% static "js/spots_list.js" %}"></script>
+  <script src='{% static "external/chosen_v1.4.2/chosen.jquery.js" %}' type="text/javascript"></script>
+  <script src='{% static "external/chosen_v1.4.2/docsupport/prism.js" %}' type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript">
     var config = {
       '.chosen-select'           : {},

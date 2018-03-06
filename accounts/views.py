@@ -123,7 +123,7 @@ def mylogout(request):
 
     if request.method == 'GET':
 
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             logout(request)
 
         messages.add_message(

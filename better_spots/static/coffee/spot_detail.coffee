@@ -16,7 +16,7 @@ $ ->
 
         $("#map_canvas_spot_detail").gmap "addMarker",
           position: new google.maps.LatLng(LAT,LON)
-          bounds: true
 
-        $("#map_canvas_spot_detail").gmap "option", "zoom", 17
+        $("#map_canvas_spot_detail").gmap "option", "center", new google.maps.LatLng(LAT, LON)
+        $("#map_canvas_spot_detail").gmap "option", "zoom", 15
 

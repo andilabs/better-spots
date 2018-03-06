@@ -65,7 +65,7 @@ showError = (error) ->
 confirm_login_redirect = (msg) ->
     confirmation = confirm("#{msg} Would you like to login now?")
     if confirmation
-        location.href = '/user/login/'
+        location.href = LOGIN_URL
 
 $ ->
     if $("#mobile-menu:hidden").length == 0

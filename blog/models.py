@@ -6,7 +6,7 @@ from image_cropping import ImageCropField, ImageRatioField
 
 from django.db import models
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils import timezone
 from django.template.defaultfilters import slugify
 

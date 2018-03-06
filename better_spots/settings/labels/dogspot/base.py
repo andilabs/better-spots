@@ -6,17 +6,13 @@ EMAIL_HOST_USER = 'no-reply@dogspot.eu'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
 
-
-STATIC_ROOT = '/home/ubuntu/dogspot.eu/static_assets/'
-MEDIA_ROOT = '/home/ubuntu/dogspot.eu/media_assets/'
-
 POSTGIS_VERSION = (2, 1, 2)
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'dogspot',
-        'USER': 'dogspot',
-        'PASSWORD': 'c9c38a6dc8cdb66a0c416a9e1f8eac21',
+        'NAME': 'better_spots',
+        'USER': 'better_spots',
+        'PASSWORD': os.environ['DB_PASSWORD'],
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -39,3 +35,11 @@ TAGS = {
     2: 'dedicated menu',
     3: 'snacks',
 }
+
+SPOT_PROJECT_FAVICON_URL = os.path.join(
+    'static',
+    SPOT_PROJECT_NAME,
+    'favicon.ico'
+)
+
+SPOT_PROJECT_BLOGGER_PHOTO = os.path.join(STATIC_URL, SPOT_PROJECT_NAME, 'blogger_photo.jpg')

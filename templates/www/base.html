@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 {% load custom_tags_and_filters %}
-
+{% load static %}
 {% include "www/_modals.html" %}
 <html lang="en">
 <head>
@@ -13,43 +13,43 @@
 
 
   <!--- mobile icons -->
-<link rel="apple-touch-icon" sizes="57x57" href="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/apple-touch-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="60x60" href="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/apple-touch-icon-60x60.png">
-<link rel="apple-touch-icon" sizes="72x72" href="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76" href="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="57x57" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-114x114.png">
 <link rel="apple-touch-icon" sizes="120x120" href="apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144" href="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/apple-touch-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152" href="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/apple-touch-icon-152x152.png">
-<link rel="apple-touch-icon" sizes="180x180" href="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/apple-touch-icon-180x180.png">
-<link rel="icon" type="image/png" href="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/android-chrome-192x192.png" sizes="192x192">
-<link rel="icon" type="image/png" href="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/favicon-96x96.png" sizes="96x96">
-<link rel="icon" type="image/png" href="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/favicon-16x16.png" sizes="16x16">
-<link rel="manifest" href="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/manifest.json">
-<link rel="shortcut icon" href="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/favicon.ico">
+<link rel="apple-touch-icon" sizes="144x144" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-180x180.png">
+<link rel="icon" type="image/png" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/android-chrome-192x192.png" sizes="192x192">
+<link rel="icon" type="image/png" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/manifest.json">
+<link rel="shortcut icon" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/favicon.ico">
 <meta name="msapplication-TileColor" content="#da532c">
-<meta name="msapplication-TileImage" content="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/mstile-144x144.png">
-<meta name="msapplication-config" content="{{ STATIC_URL }}{% settings_value "SPOT_PROJECT_NAME" %}/browserconfig.xml">
+<meta name="msapplication-TileImage" content="{% settings_value_static "SPOT_PROJECT_NAME" %}/mstile-144x144.png">
+<meta name="msapplication-config" content="{% settings_value_static "SPOT_PROJECT_NAME" %}/browserconfig.xml">
 <meta name="theme-color" content="#ffffff">
 
 
   <!-- Font Awesome Icons -->
-  <link  rel="stylesheet" href="{{STATIC_URL}}external/font-awesome-4.3.0/css/font-awesome.min.css">
+  <link  rel="stylesheet" href="{% static "external/font-awesome-4.3.0/css/font-awesome.min.css" %}">
 
-  <link href="{{ STATIC_URL }}css/fontello.css" rel="stylesheet">
-  <link href="{{ STATIC_URL }}css/{% settings_value "SPOT_PROJECT_NAME" %}/bootstrap.min.css" media="screen" rel="stylesheet">
+  <link href="{% static "css/fontello.css"%}" rel="stylesheet">
+  <link href="/static/css/{% settings_value "SPOT_PROJECT_NAME" %}/bootstrap.min.css" media="screen" rel="stylesheet">
 
   <!-- jquery UI -->
-  <link rel="stylesheet" href="{{ STATIC_URL }}external/jqueryui/themes/flick/jquery-ui.css" type="text/css" media="screen" />
-  <link rel="stylesheet" href="{{ STATIC_URL }}external/jqueryui/themes/flick/jquery.ui.theme.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="{% static "external/jqueryui/themes/flick/jquery-ui.css" %}" type="text/css" media="screen" />
+  <link rel="stylesheet" href="{% static "external/jqueryui/themes/flick/jquery.ui.theme.css" %}" type="text/css" media="screen" />
 
   <!-- my custom CSS -->
-  <link href="{{ STATIC_URL }}css/layout.css" rel="stylesheet">
+  <link href="{% static "css/layout.css" %}" rel="stylesheet">
   <!-- jQuery must be loaded here for things like datepicker to work :/ -->
-  <script type="text/javascript" src="{{ STATIC_URL }}external/jquery/jquery-1.10.1.min.js"></script>
-  <!-- this style needs values passed from django settings via template tags -->
-  <style>
+  <script type="text/javascript" src="{% static "external/jquery/jquery-1.10.1.min.js" %}"></script>
+  <style media="screen" type="text/css">
+    //this style needs values passed from django settings via template tags
     .spot_project_color {
       color: {% settings_value "SPOT_PROJECT_MAIN_COLOR" %};
     }
@@ -210,7 +210,7 @@
           </div>
           <div class="col-xs-4" style="text-align:center">
           <span style="font-family:Nobile; font-size:15px;">
-                                Powered by:<a href="#" id="go-top"><img src="{{STATIC_URL}}/{% settings_value "SPOT_PROJECT_NAME" %}/logo.png" height="50px"> </span></a>
+                                Powered by:<a href="#" id="go-top"><img src="{% settings_value_static "SPOT_PROJECT_NAME" %}/logo.png" height="50px"> </span></a>
                                 <span style="font-family:Lobster; font-size:25px;">
                                         {% settings_value "SPOT_PROJECT_NAME" %}
                                 </span>
@@ -260,20 +260,24 @@
   <br>
 
   {% block scripts %}
-    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/jquerycookie/jquery.cookie.js"></script>
+    <script type="text/javascript" src="{% static "external/jqueryui/jquery-ui.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "external/jquerycookie/jquery.cookie.js" %}"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&key={% settings_value 'GOOGLE_API_KEY' %}"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/jquery.ui.map.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/jquery.ui.map.extensions.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/jquery.ui.map.overlays.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/jqueryuimap/markerclusterer.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/holder.js"></script>
-    <script language="javascript"> var DJANGO_USER = "{{user.is_authenticated|yesno:"true,false"}}"; var FTS_SEARCH_API_ENDPOINT = "{% url 'www:ajax_search' %}";</script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/common.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/jquery.serializejson.js"></script>
-    <script language="javascript"> var STATIC_URL = "/static/"; var BASE_HOST = "//{{ request.get_host }}"</script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/raty/jquery.raty.js"></script>
+    <script type="text/javascript" src="{% static "external/jqueryuimap/jquery.ui.map.js" %}"></script>
+    <script type="text/javascript" src="{% static "external/jqueryuimap/jquery.ui.map.extensions.js" %}"></script>
+    <script type="text/javascript" src="{% static "external/jqueryuimap/jquery.ui.map.overlays.js" %}"></script>
+    <script type="text/javascript" src="{% static "external/jqueryuimap/markerclusterer.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/holder.js" %}"></script>
+    <script language="javascript">
+      var DJANGO_USER = "{{user.is_authenticated|yesno:"true,false"}}";
+      var FTS_SEARCH_API_ENDPOINT = "{% url 'www:ajax_search' %}";
+      var LOGIN_URL = "{% url 'accounts:login' %}"
+    </script>
+    <script type="text/javascript" src="{% static "js/common.js" %}"></script>
+    <script type="text/javascript" src="{% static "external/bootstrap/js/bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "external/jquery.serializejson.js" %}"></script>
+    <script language="javascript">var STATIC_URL = "/static/"; var BASE_HOST = "//{{ request.get_host }}"</script>
+    <script type="text/javascript" src="{% static "external/raty/jquery.raty.js" %}"></script>
   {% endblock scripts %}
 </body>
 

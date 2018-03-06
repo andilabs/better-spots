@@ -24,8 +24,8 @@ class Rating(TimeStampedModel):
     is_enabled = models.BooleanField(choices=IS_ALLOWED_CHOICES, default=False)
     friendly_rate = models.PositiveIntegerField(choices=FRIENDLY_RATE_CHOICES)
 
-    user = models.ForeignKey('accounts.User', null=True) #TODO wtf it can be null?
-    spot = models.ForeignKey(Spot, related_name='ratings')
+    user = models.ForeignKey('accounts.User', null=True, on_delete=models.CASCADE) #TODO wtf it can be null?
+    spot = models.ForeignKey(Spot, related_name='ratings', on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, related_name='rating_facilities', null=True, blank=True)
 
     class Meta:

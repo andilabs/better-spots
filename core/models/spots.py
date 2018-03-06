@@ -4,9 +4,7 @@ import os
 
 from django.conf import settings
 from django.contrib.gis.db import models
-from django.contrib.gis.db.models.manager import GeoManager
-from django.contrib.postgres.fields import HStoreField
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
 from easy_thumbnails.files import get_thumbnailer
@@ -59,7 +57,7 @@ class Spot(TimeStampedModel):
     tags = models.ManyToManyField(Tag, related_name='spot_facilities', null=True, blank=True)
 
 
-    objects = GeoManager()
+    # objects = GeoManager() TODO fix depreciated
 
     @property
     def thumbnail_venue_photo(self):

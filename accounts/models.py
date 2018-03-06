@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib.auth.models import (
     AbstractBaseUser, PermissionsMixin
 )
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -60,13 +60,13 @@ class EmailVerification(TimeStampedModel):
     verification_key = models.CharField(max_length=21, unique=True)
     key_timestamp = models.DateTimeField(auto_now=True)
 
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
 
 class UsersSpotsList(TimeStampedModel):
 
-    spot = models.ForeignKey('core.Spot')
-    user = models.ForeignKey(User)
+    spot = models.ForeignKey('core.Spot', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         abstract = True

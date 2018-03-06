@@ -3,7 +3,7 @@ import collections
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models import Q
 from django.http import HttpResponse, Http404
 from django.http.response import JsonResponse
@@ -29,7 +29,7 @@ class UserFavouritesSpotsSmugglerMixin(object):
 
     def get_context_data(self, **kwargs):
         context = super(UserFavouritesSpotsSmugglerMixin, self).get_context_data(**kwargs)
-        if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated:
             user_favourites = dict(UserFavouritesSpotList.objects.filter(
                 user_id=self.request.user.id).values_list('spot_id', 'pk'))
             context['user_favourites_spots_pks'] = user_favourites.keys()
@@ -100,7 +100,7 @@ class MapView(TemplateView):
 def add_spot(request):
     if request.method == 'GET':
         form = AddSpotForm()
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             messages.add_message(
                 request,
                 messages.WARNING,
@@ -121,7 +121,7 @@ def add_spot(request):
         if form.is_valid():
             spot = form.save()
 
-            if request.user.is_authenticated():
+            if request.user.is_authenticated:
                 spot.creator = request.user
                 spot.is_accepted = True
                 spot.save()
@@ -135,7 +135,7 @@ def add_spot(request):
             if spot.venue_photo:
                 return redirect(
                     reverse(
-                        'edit_photo',
+                        'www:edit_photo',
                         kwargs={
                             "pk": spot.pk
                         }
@@ -147,7 +147,7 @@ def add_spot(request):
             )
             return redirect(
                 reverse(
-                    'spot',
+                    'www:spot',
                     kwargs={
                         "pk": spot.pk
                     }
@@ -185,7 +185,7 @@ def edit_photo(request, pk):
             spot = form.save()
             memo = (' The spot will be visible when'
                     ' it is reviewed by our moderators'
-                    ) if not request.user.is_authenticated() else ''
+                    ) if not request.user.is_authenticated else ''
             messages.add_message(
                 request,
                 messages.SUCCESS, 'Spot added!' + memo
@@ -203,7 +203,7 @@ def pdf_sticker(request, pk):
             {
                 'BASE_HOST': request.get_host(),
                 'MEDIA_ROOT': settings.MEDIA_ROOT,
-                'STATIC_ROOT': settings.STATIC_ROOT,
+                'STATIC_ROOT': settings.STATICFILES_DIRS[0],
                 'SPOT_PROJECT_NAME': settings.SPOT_PROJECT_NAME,
                 'pagesize': 'A6',
                 'spot': Spot.objects.get(pk=pk),
@@ -231,8 +231,7 @@ def ajax_search(request):
             Q(name__icontains=query) | Q(address_city__icontains=query),
             is_accepted=True).order_by('spot_type')[:7]
     ]
-
-    return JsonResponse(result)
+    return JsonResponse(result, safe=False)
 
 
 def qrencode_link(request, pk, size=3, for_view='www:spot'):

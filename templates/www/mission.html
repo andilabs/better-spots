@@ -2,7 +2,7 @@
 
 {% block content %}
 {% block show_smart_menu %}{% endblock %}
-
+{% load static %}
 {% load custom_tags_and_filters %}
 
 
@@ -69,8 +69,9 @@
 {% block scripts %}
 
   {{ block.super }}
-    <script type="text/javascript" src="{{ STATIC_URL }}js/mission.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}external/unslider/unslider.min.js"></script>
+
+    <script type="text/javascript" src="{% static "js/mission.js" %}"></script>
+    <script type="text/javascript" src="{% static "external/unslider/unslider.min.js" %}"></script>
 
 {% endblock scripts %}
 

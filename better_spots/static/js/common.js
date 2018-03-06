@@ -96,7 +96,7 @@
     var confirmation;
     confirmation = confirm(msg + " Would you like to login now?");
     if (confirmation) {
-      return location.href = '/user/login/';
+      return location.href = LOGIN_URL;
     }
   };
 

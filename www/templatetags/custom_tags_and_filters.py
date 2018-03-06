@@ -1,3 +1,4 @@
+import os
 from django import template
 from django.conf import settings
 
@@ -7,6 +8,11 @@ register = template.Library()
 @register.simple_tag
 def settings_value(name):
     return str(getattr(settings, name, ""))
+
+
+@register.simple_tag
+def settings_value_static(name):
+    return os.path.join(settings.STATIC_URL, str(getattr(settings, name, "")))
 
 
 @register.simple_tag

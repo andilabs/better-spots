@@ -8,12 +8,13 @@
 
 {% block content %}
 {% load custom_tags_and_filters %}
+{% load static %}
     <div class="row">
 
         <div class="col-md-9 col-md-push-3">
             <center>
             <br>
-                <img src="{{ STATIC_URL }}/{% settings_value "SPOT_PROJECT_NAME" %}/certificate.png"  style="max-height: 300px">
+                <img src="{% settings_value_static "SPOT_PROJECT_NAME" %}/certificate.png"  style="max-height: 300px">
         		<h1 style="font-family:Lato Italic"> {{spot.name}} </h1>
         		<h3 style="font-family:Nobile"> {{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}</h3>
         		<span style="font-size:48px; font-family:Lobster">is {% settings_value "SPOT_PROJECT_SUBJECT" %}-friendly spot!<br>
@@ -73,6 +74,6 @@
 {% block scripts %}
     {{ block.super }}
     <script language="javascript">  var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";</script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/spot_detail.js"></script>
+    <script type="text/javascript" src="{% static "js/spot_detail.js" %}"></script>
 {% endblock scripts %}
 

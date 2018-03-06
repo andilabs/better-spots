@@ -1,9 +1,10 @@
-from django_filters import (
-    Filter,
-    FilterSet,
-    ModelMultipleChoiceFilter,
-)
 from django import forms
+from django.contrib.gis.measure import Distance
+from django.contrib.gis.db.models.functions import Distance as DistanceFun
+from django.contrib.gis.geos import fromstr
+
+from django_filters import rest_framework as filters
+
 
 from core.models.spots import Spot
 from utils.models import Tag
@@ -11,12 +12,14 @@ from utils.models import Tag
 
 class LatLonRadiusWidget(forms.MultiWidget):
     def __init__(self, attrs=None):
-        widgets = (forms.TextInput, forms.TextInput, forms.TextInput)
-        super(LatLonRadiusWidget, self).__init__(widgets, attrs)
+        _widgets = (forms.widgets.NumberInput(attrs={'name': 'dupa', 'step': 0.000001}),
+                    forms.widgets.NumberInput(attrs={'step': 0.000001}),
+                    forms.widgets.NumberInput)
+        super(LatLonRadiusWidget, self).__init__(_widgets, attrs)
 
     def decompress(self, value):
-        # if value:
-        #     return [value.lat, value.lon, value.radius]
+        if value:
+            return [value.lat, value.lon, value.radius]
         return [None, None, None]
 
     def format_output(self, rendered_widgets):
@@ -36,41 +39,32 @@ class LatLonRadiusField(forms.MultiValueField):
         super(LatLonRadiusField, self).__init__(fields, *args, **kwargs)
 
     def compress(self, data_list):
-        if data_list:
-            # lat, lon, radius = data_list
-            # return {'lat': lat, 'lon': lon, 'radius': radius}
-            return data_list
-        return None
-
-from django.contrib.gis.measure import D
-from django.contrib.gis.geos import fromstr
+        return data_list
 
 
-class LatLonRadiusFilter(Filter):
+class LatLonRadiusFilter(filters.Filter):
     field_class = LatLonRadiusField
 
     def filter(self, qs, value):
         if value:
             value_lat = value[0]
             value_lon = value[1]
-            value_radius = value[2]
-            if value_lat is not None and value_lon is not None and value_radius is not None:
-                lookup = 'location__distance_lte'
-                user_location = fromstr("POINT(%s %s)" % (value_lon, value_lat))
-                desired_radius = {'m': value_radius}
-                return self.get_method(qs)(**{lookup: (user_location, D(**desired_radius))})
+            value_radius_in_meters = value[2]
+            if value_lat and value_lon and value_radius_in_meters:
+                user_location = fromstr(
+                    "POINT({value_lon} {value_lat})".format(value_lon=value_lon, value_lat=value_lat)
+                )
+                return qs.filter(
+                    location__distance_lte=(user_location, Distance(m=value_radius_in_meters))
+                ).annotate(distance=DistanceFun('location', user_location)).order_by('distance')
 
-                # if value.start is not None:
-                #     qs = self.get_method(qs)(**{'%s__gte' % self.name: value.start})
-                # if value.stop is not None:
-                #     qs = self.get_method(qs)(**{'%s__lte' % self.name: value.stop})
         return qs
 
 
-class SpotFilterSet(FilterSet):
+class SpotFilterSet(filters.FilterSet):
     location = LatLonRadiusFilter()
-    tags = ModelMultipleChoiceFilter(
-        name='tags__text',
+    tags = filters.ModelMultipleChoiceFilter(
+        'tags__text',
         queryset=Tag.objects.all(),
         to_field_name='text',
         # conjoined=True, #makes AND - only spots having all the tags will be returned

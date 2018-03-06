@@ -144,66 +144,6 @@
       - "source {{ web_base_dir }}/venv/bin/activate"
       - "cd {{ project_dir }}"
 
-  - name: run database migrations
-    shell: "{{ web_base_dir }}/venv/bin/python manage.py migrate --noinput"
-    args:
-      chdir: "{{ project_dir }}"
-      executable: /bin/bash
-
-#  - name: create instance specific tags
-#    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_tags"
-#    args:
-#      chdir: "{{ project_dir }}"
-#      executable: /bin/bash
-#
-#  - name: load spots data fixtures for dogspot
-#    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/spots.json"
-#    args:
-#      chdir: "{{ project_dir }}"
-#      executable: /bin/bash
-#    # TODO some tag or other magic should determine it won't happen on production instance
-#
-#  - name: load instance data fixtures for dogspot
-#    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/instance.json"
-#    args:
-#      chdir: "{{ project_dir }}"
-#      executable: /bin/bash
-
-#  - name: copy images for spots and instance from fixtures
-#    copy: src={{ item.src }} dest={{ item.dest }}
-#    with_items:
-#      - { src: "data/{{project_instance}}/initial_img/", dest: "{{ media_dir }}/img" }
-#      - { src: "static/{{project_instance}}/blogger_photo.jpg", dest: "{{media_dir}}/img"}
-#
-#
-#  - name: create superuser
-#    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_andi"
-#    args:
-#      chdir: "{{ project_dir }}"
-#      executable: /bin/bash
-#
-#  - name: create objects
-#    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_objects"
-#    args:
-#      chdir: "{{ project_dir }}"
-#      executable: /bin/bash
-#
-#  - name: collect static
-#    shell: "{{ web_base_dir }}/venv/bin/python manage.py collectstatic  --noinput"
-#    args:
-#      chdir: "{{ project_dir }}"
-#      executable: /bin/bash
-
-#  # todo this needs refactor using nohup isn't cool, and different strategies of running celery for develop and production needed
-#  - name: start celery
-#    sudo: yes
-#    shell: "nohup {{ web_base_dir }}/venv/bin/celery -A {{ celery_worker }} worker &"
-#    args:
-#      chdir: "{{ project_dir }}"
-#      executable: /bin/bash
-
-  # TODO setup git
-
   - name: save environment variables into .app_environemnts file
     lineinfile:
       dest: "{{ home_dir }}/.app_environemnts"
@@ -217,9 +157,71 @@
       dest: "{{ home_dir }}/.profile"
       line: "source ~/.app_environemnts"
 
+
+  - name: run database migrations
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py migrate --noinput"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+
+  - name: create instance specific tags
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_tags"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+
+  - name: load spots data fixtures for dogspot
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/spots.json"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+    # TODO some tag or other magic should determine it won't happen on production instance
+
+  - name: load instance data fixtures for dogspot
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/instance.json"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+
+  - name: copy images for spots and instance from fixtures
+    copy: src={{ item.src }} dest={{ item.dest }}
+    with_items:
+      - { src: "data/{{project_instance}}/initial_img/", dest: "{{ media_dir }}/img" }
+
+
+  - name: create superuser
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_andi"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+
+  - name: create objects
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_objects"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+
+  - name: collect static
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py collectstatic  --noinput"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+
+#  # todo this needs refactor using nohup isn't cool, and different strategies of running celery for develop and production needed
+#  - name: start celery
+#    sudo: yes
+#    shell: "nohup {{ web_base_dir }}/venv/bin/celery -A {{ celery_worker }} worker &"
+#    args:
+#      chdir: "{{ project_dir }}"
+#      executable: /bin/bash
+
+  # TODO setup git
+
+
   - name: compile coffescripts
     sudo: yes
     shell: "coffee --compile --output js/ coffee/"
     args:
-      chdir: "{{ project_dir }}/static"
+      chdir: "{{ project_dir }}/{{ project_dir }}/static"
       executable: /bin/bash
+    tags: coffee

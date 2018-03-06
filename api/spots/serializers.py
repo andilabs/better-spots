@@ -14,6 +14,7 @@ class SpotSerializer(serializers.ModelSerializer):
         slug_field='text'
     )
     creator = serializers.PrimaryKeyRelatedField(queryset=User.objects.none())
+    distance = serializers.SerializerMethodField()
 
     class Meta:
         model = Spot
@@ -40,7 +41,15 @@ class SpotSerializer(serializers.ModelSerializer):
             'is_certificated',
             'tags',
             'creator',
+            'distance',
         ]
+
+    def get_distance(self, obj):
+        # if queryset was filtered by location it will be annotated with distance
+        if hasattr(obj, 'distance'):
+            return round(obj.distance.km, 1)
+        else:
+            return None
 
     def __init__(self, *args, **kwargs):
         super(SpotSerializer, self).__init__(*args, **kwargs)
