@@ -24,7 +24,7 @@
     web_base_dir: '/home/ubuntu/better_spots'
     media_dir: '/better_spots/media'
     project_dir: '/better_spots'
-#    static_root: '/pseudo_static_server_spots'
+    static_root: '/var/www/static'
     project_instance: 'dogspot'
     celery_worker: 'better_spots'
     app_user: 'ubuntu'
@@ -89,6 +89,7 @@
       name: 'better_spots'
       password: '{{db_password}}'
       priv: ALL
+      role_attr_flags: CREATEDB,SUPERUSER
       state: present
       encrypted: yes
 
@@ -119,11 +120,11 @@
     with_items:
       - "{{ media_dir }}/img"
 
-#  - name: Craete STATIC_ROOT
-#    sudo: yes
-#    file: path="{{ item }}" owner='ubuntu' group='ubuntu' mode=0775 state=directory
-#    with_items:
-#      - "{{ static_root }}"
+  - name: Craete STATIC_ROOT
+    sudo: yes
+    file: path="{{ item }}" owner='ubuntu' group='ubuntu' mode=0775 state=directory
+    with_items:
+      - "{{ static_root }}"
 
   - name: create virtualenv for python 3.5
     sudo: yes
@@ -201,11 +202,6 @@
       chdir: "{{ project_dir }}"
       executable: /bin/bash
 
-  - name: collect static
-    shell: "{{ web_base_dir }}/venv/bin/python manage.py collectstatic  --noinput"
-    args:
-      chdir: "{{ project_dir }}"
-      executable: /bin/bash
 
 #  # todo this needs refactor using nohup isn't cool, and different strategies of running celery for develop and production needed
 #  - name: start celery
@@ -225,3 +221,9 @@
       chdir: "{{ project_dir }}/{{ project_dir }}/static"
       executable: /bin/bash
     tags: coffee
+
+  - name: collect static
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py collectstatic  --noinput"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash

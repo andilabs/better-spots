@@ -131,6 +131,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = '/better_spots/static'
+
 AUTH_USER_MODEL = 'accounts.User'
 
 REST_FRAMEWORK = {

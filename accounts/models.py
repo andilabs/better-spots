@@ -86,7 +86,7 @@ class UserFavouritesSpotList(UsersSpotsList):
 def verify_email(sender, instance, created, **kwargs):
     if created and not instance.mail_verified:
         email_verification = EmailVerification(
-            verification_key=base64.urlsafe_b64encode(uuid.uuid4().bytes)[:21],
+            verification_key=uuid.uuid4().hex[:21],
             user=instance)
         email_verification.save()
 

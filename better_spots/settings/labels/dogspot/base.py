@@ -1,4 +1,4 @@
-from better_spots.settings.common import *
+from better_spots.settings.labels.common import *
 
 INSTANCE_DOMAIN = "dogspot.eu"
 

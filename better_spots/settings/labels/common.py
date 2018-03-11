@@ -1,0 +1,1 @@
+from better_spots.settings.base import *
