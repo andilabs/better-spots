@@ -20,6 +20,7 @@ from accounts.models import UserFavouritesSpotList
 from core.models.spots import Spot, SPOT_TYPE_CHOICES
 from utils.pdfs import render_to_pdf
 from utils.qrcodes import make_qrcode
+from utils.search import spots_full_text_search
 from .forms import AddSpotForm, EditSpotPhotoForm
 
 SpotListUIConfig = collections.namedtuple('SpotListUIConfig', ['site_title', 'icon_type'])
@@ -219,17 +220,18 @@ def pdf_sticker(request, pk):
 def ajax_search(request):
     # TODO FTS to be applied
     query = request.GET.get('q', '')
+    fts_resulted_spots = spots_full_text_search(query)
     result = [
         {
             'name': spot.name,
             'category': SPOT_TYPE_CHOICES[spot.spot_type-1][1],
             'url': spot.www_url,
             'thumb': spot.thumbnail_venue_photo,
+            'tags': [tag.text for tag in spot.tags.all()],
             'address': spot.address,
+            'rank': spot.rank,
         }
-        for spot in Spot.objects.filter(
-            Q(name__icontains=query) | Q(address_city__icontains=query),
-            is_accepted=True).order_by('spot_type')[:7]
+        for spot in fts_resulted_spots
     ]
     return JsonResponse(result, safe=False)
 
