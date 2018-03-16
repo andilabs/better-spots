@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 import os
 
 from django.conf import settings
@@ -55,9 +53,6 @@ class Spot(TimeStampedModel):
     creator = models.ForeignKey('accounts.User', null=True, blank=True, on_delete=models.SET_NULL) #TODO rethink it
 
     tags = models.ManyToManyField(Tag, related_name='spot_facilities', null=True, blank=True)
-
-
-    # objects = GeoManager() TODO fix depreciated
 
     @property
     def thumbnail_venue_photo(self):

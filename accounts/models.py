@@ -1,18 +1,10 @@
-import base64
-import uuid
-
-from django.conf import settings
 from django.contrib.auth.models import (
     AbstractBaseUser, PermissionsMixin
 )
-from django.urls import reverse
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 
 from accounts.managers import UserManager
-from accounts.tasks import send_asynchronous_email
 from utils.models import TimeStampedModel
 
 
@@ -76,35 +68,3 @@ class UsersSpotsList(TimeStampedModel):
 class UserFavouritesSpotList(UsersSpotsList):
     pass
 
-
-# TODO read https://stackoverflow.com/a/21612050/953553 and https://docs.djangoproject.com/en/dev/topics/signals/
-# TODO apps https://stackoverflow.com/a/32795405/953553
-
-# TODO move signals to seperate module and new style using apps
-# TODO use fuckin async celery like solution please
-@receiver(post_save, sender=User)
-def verify_email(sender, instance, created, **kwargs):
-    if created and not instance.mail_verified:
-        email_verification = EmailVerification(
-            verification_key=uuid.uuid4().hex[:21],
-            user=instance)
-        email_verification.save()
-
-
-@receiver(post_save, sender=EmailVerification)
-def send_email(sender, instance, created, **kwargs):
-
-    if created:
-        subject = "Verify your e-mail to activate your account."
-        activation_url = 'http://{domain}{uri}'.format(
-            domain=settings.INSTANCE_DOMAIN,
-            uri=reverse('accounts:email_verification', kwargs={'verification_key': instance.verification_key})
-        )
-        mail_content = "Please click this link to activate your account\n {activation_url}".format(
-            activation_url=activation_url
-        )
-        send_asynchronous_email.apply_async(kwargs={
-            'subject': subject,
-            'mail_content': mail_content,
-            'recipients_emails': [instance.user.email]
-        })

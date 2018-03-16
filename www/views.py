@@ -218,7 +218,6 @@ def pdf_sticker(request, pk):
 
 
 def ajax_search(request):
-    # TODO FTS to be applied
     query = request.GET.get('q', '')
     fts_resulted_spots = spots_full_text_search(query)
     result = [

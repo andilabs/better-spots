@@ -5,7 +5,7 @@ from core.models.spots import Spot
 
 def spots_full_text_search(search_term):
     # weights D, C, B, A. By default, these weights refer to the numbers 0.1, 0.2, 0.4, and 1.0,
-    # https://docs.djangoproject.com/en/2.0/ref/contrib/postgres/search/
+    # TODO https://docs.djangoproject.com/en/2.0/ref/contrib/postgres/search/
     # TODO read these https://czep.net/17/full-text-search.html and improve
     spots_vector = SearchVector('name', weight='A') + SearchVector('address_street', weight='B') + \
                    SearchVector('address_city', weight='B') + SearchVector('tags__text', weight='C')

@@ -1,10 +1,5 @@
-from django.conf import settings
-
 from core.models.instance import Instance
 from core.models.spots import Spot
-
-
-#TODO raczej kupa
 
 
 def instance(request):
