@@ -1,23 +1,22 @@
-from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector, TrigramSimilarity
-# spots config
+from django.contrib.postgres.search import SearchVector
+from django.db.models import Func
+
 from core.models.spots import Spot
+from utils.text import get_unaccented
 
 
 def spots_full_text_search(search_term):
-    # weights D, C, B, A. By default, these weights refer to the numbers 0.1, 0.2, 0.4, and 1.0,
-    # TODO https://docs.djangoproject.com/en/2.0/ref/contrib/postgres/search/
-    # TODO read these https://czep.net/17/full-text-search.html and improve
-    spots_vector = SearchVector('name', weight='A') + SearchVector('address_street', weight='B') + \
-                   SearchVector('address_city', weight='B') + SearchVector('tags__text', weight='C')
-
-    spots_query = SearchQuery(search_term)
+    unaccented_search_term = get_unaccented(search_term)
+    spots_vector = SearchVector(Func('name', function='unaccent'), weight='A') +\
+        SearchVector(Func('address_street', function='unaccent'), weight='B') + \
+        SearchVector(Func('address_city', function='unaccent'), weight='B') + \
+        SearchVector('tags__text', weight='C')
 
     return Spot.objects.annotate(
-        rank=SearchRank(spots_vector, spots_query),
+        search=spots_vector
     ).filter(
-        rank__gte=0.3,
-    ).order_by(
-        'pk',
-        'spot_type',
-        '-rank'
+        search__icontains=unaccented_search_term
     ).distinct('pk')
+
+# TODO improve it using SearchQuery and SearchRank, the problem was with icontains not working with it
+# TODO find out how to pass it there

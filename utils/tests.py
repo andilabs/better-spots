@@ -5,7 +5,7 @@ from django.conf import settings
 from django.test import TestCase
 
 from utils.geocoding import reverse_geocoding, REVERSE_GEOCODING_URL
-
+from utils.text import get_unaccented
 
 RESPONSE_GEOCODING_MOCK = {
     'results': [
@@ -53,3 +53,14 @@ class TestGoogleAPIGeocodingConsumer(TestCase):
                                     'address_country': 'Poland',
                                     'address_number': '74',
                                     'address_street': 'Mickiewicza'})
+
+
+class TestUnaccent(TestCase):
+
+    PL_CHARS = u"ą, ć, ę, ł, ń, ó, ś, ź, ż".split(', ')
+
+    def test_basic_polish_charters_escaping(self):
+        correct_unnacent = 'a, c, e, l, n, o, s, z, z'.split(', ')
+        for index, pl_char in enumerate(self.PL_CHARS):
+            self.assertEqual(get_unaccented(pl_char), correct_unnacent[index])
+            self.assertEqual(get_unaccented(pl_char.upper()), correct_unnacent[index].upper())

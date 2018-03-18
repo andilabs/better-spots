@@ -4,7 +4,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.db.models import Q
 from django.http import HttpResponse, Http404
 from django.http.response import JsonResponse
 from django.middleware.csrf import get_token
@@ -228,7 +227,6 @@ def ajax_search(request):
             'thumb': spot.thumbnail_venue_photo,
             'tags': [tag.text for tag in spot.tags.all()],
             'address': spot.address,
-            'rank': spot.rank,
         }
         for spot in fts_resulted_spots
     ]

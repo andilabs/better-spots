@@ -97,7 +97,7 @@ def mylogin(request):
 
         if user:
 
-            if user.mail_verified or 1==1:
+            if user.mail_verified:
                 login(request, user)
                 messages.add_message(
                     request,

@@ -33,6 +33,7 @@
       DJANGO_SECRET_KEY: "{{ django_secret_key }}"
       EMAIL_HOST_PASSWORD: "{{ gmail_password }}"
       GOOGLE_API_KEY: "{{ google_api_key }}"
+      LC_CTYPE: "en_US.UTF-8"
 
   gather_facts: no
   environment: "{{proxy_env}}"
@@ -112,6 +113,13 @@
     become: yes
     postgresql_ext:
       name: hstore
+      db: better_spots
+
+  - name: Add unaccent extension
+    become_user: postgres
+    become: yes
+    postgresql_ext:
+      name: unaccent
       db: better_spots
 
   - name: Create media directories

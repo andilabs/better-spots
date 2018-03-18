@@ -1,15 +1,13 @@
 import uuid
 
-from accounts.models import EmailVerification
 from accounts.tasks import send_asynchronous_email
-
 from django.conf import settings
 from django.urls import reverse
 
 
 def verify_email(sender, instance, created, **kwargs):
     if created and not instance.mail_verified:
-        email_verification = EmailVerification(
+        email_verification = sender(
             verification_key=uuid.uuid4().hex[:21],
             user=instance)
         email_verification.save()
