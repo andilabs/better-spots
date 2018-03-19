@@ -16,11 +16,10 @@ urlpatterns = [
     url(r'blog/', include(('blog.urls', 'blog'), namespace='blog')),
     path('admin/', admin.site.urls),
 
-    url(r'^favicon\.ico$', RedirectView.as_view(url=settings.SPOT_PROJECT_FAVICON_URL)),
+    url(r'^favicon\.ico$', RedirectView.as_view(url='static/{}/favicon.ico'.format(settings.SPOT_PROJECT_NAME))),
     url(r'^apple-touch-icon-120x120\.png$', RedirectView.as_view(url='static/%s/apple-touch-icon-120x120.png' % (settings.SPOT_PROJECT_NAME))),
     url(r'^api/docs/', include_docs_urls(title='{} API'.format(settings.SPOT_PROJECT_NAME))),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 
 
 if settings.DEBUG:

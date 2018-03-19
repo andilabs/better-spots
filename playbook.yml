@@ -226,7 +226,7 @@
     sudo: yes
     shell: "coffee --compile --output js/ coffee/"
     args:
-      chdir: "{{ project_dir }}/{{ project_dir }}/static"
+      chdir: "{{ project_dir }}/static"
       executable: /bin/bash
     tags: coffee
 

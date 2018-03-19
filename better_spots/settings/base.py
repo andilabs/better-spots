@@ -15,8 +15,7 @@ import os
 from easy_thumbnails.conf import Settings as thumbnail_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -132,7 +131,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = '/better_spots/static'
+STATIC_ROOT = '/var/www/static/'
 
 AUTH_USER_MODEL = 'accounts.User'
 
@@ -147,7 +146,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.IsAuthenticated'
     ],
     'PAGE_SIZE': 10,
 }
@@ -174,3 +172,19 @@ SERIALIZATION_MODULES = {
 }
 
 CELERY_RESULT_BACKEND = 'django-cache'
+
+POSTGIS_VERSION = (2, 1, 2)
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'better_spots',
+        'USER': 'better_spots',
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
