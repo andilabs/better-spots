@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^spots/(?P<pk>\d+)(?:/(?P<slug>[\w\d-]+))?/$', views.SpotDetailView.as_view(), name='spot'),
     url(r'^edit_photo/(?P<pk>\d+)/$', views.edit_photo, name='edit_photo'),
     url(r'^vcard/(?P<pk>\d+)/$', views.download_vcard, name='vcard'),
+    url(r'^react/(?:.*)/?$', views.index),
 ]

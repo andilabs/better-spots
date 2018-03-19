@@ -7,3 +7,5 @@ media
 .vault_pass.txt
 docs/build
 .idea/
+node_modules
+assets/bundles

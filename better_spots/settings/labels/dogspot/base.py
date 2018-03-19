@@ -6,17 +6,6 @@ EMAIL_HOST_USER = 'no-reply@dogspot.eu'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
 
-POSTGIS_VERSION = (2, 1, 2)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'better_spots',
-        'USER': 'better_spots',
-        'PASSWORD': os.environ['DB_PASSWORD'],
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
 
 SPOT_PROJECT_NAME = 'dogspot'
 

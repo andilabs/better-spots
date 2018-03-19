@@ -14,7 +14,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-
+from django.template import loader
 
 from accounts.models import UserFavouritesSpotList
 from core.models.spots import Spot, SPOT_TYPE_CHOICES
@@ -259,3 +259,11 @@ def download_vcard(request, pk):
     response['Content-Disposition'] = (
         'filename=vcard_from_%s.vcf' % settings.SPOT_PROJECT_NAME)
     return response
+
+
+def index(request):
+    template = loader.get_template('www/react.html')
+    context = {
+        'foo': 'bar',
+    }
+    return HttpResponse(template.render(context, request))
