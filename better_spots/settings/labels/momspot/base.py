@@ -13,7 +13,7 @@ SPOT_PROJECT_SUBJECT = 'Mom'
 
 SPOT_PROJECT_MAIN_COLOR = '#eb386f'
 
-SPOT_PROJECT_INSTAGRAM_URL = "https://www.instagram.com/momspoteu/"
+SPOT_PROJECT_INSTAGRAM_USERNAME = "momspoteu"
 
 
 TAGS = {

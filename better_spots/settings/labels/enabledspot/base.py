@@ -13,7 +13,7 @@ SPOT_PROJECT_SUBJECT = 'Disabled'
 
 SPOT_PROJECT_MAIN_COLOR = '#4f5fa7'
 
-SPOT_PROJECT_INSTAGRAM_URL = "https://www.instagram.com/enabledspot/"
+SPOT_PROJECT_INSTAGRAM_USERNAME = "enabledspot"
 
 TAGS = {
     1: "enabled toilet",

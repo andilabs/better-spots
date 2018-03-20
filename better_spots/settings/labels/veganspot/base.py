@@ -13,7 +13,7 @@ SPOT_PROJECT_SUBJECT = 'Vegan'
 
 SPOT_PROJECT_MAIN_COLOR = '#59b84d'
 
-SPOT_PROJECT_INSTAGRAM_URL = "https://www.instagram.com/veganspoteu/"
+SPOT_PROJECT_INSTAGRAM_USERNAME = "veganspoteu"
 
 TAGS = {
     1: "vegetarian menu",

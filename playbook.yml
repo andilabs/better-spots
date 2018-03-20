@@ -165,21 +165,20 @@
       chdir: "{{ project_dir }}"
       executable: /bin/bash
 
-  - name: create instance specific tags
+  - name: create project label specific tags
     shell: "{{ web_base_dir }}/venv/bin/python manage.py create_tags"
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
 
-  - name: load spots data fixtures for dogspot
-    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/spots.json"
+  - name: create or update project label specific instance
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_or_update_instance"
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
-    # TODO some tag or other magic should determine it won't happen on production instance
 
-  - name: load instance data fixtures for dogspot
-    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/{{project_instance}}/instance.json"
+  - name: load spots data fixtures
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/initial_spots/spots.json"
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
@@ -187,8 +186,7 @@
   - name: copy images for spots and instance from fixtures
     copy: src={{ item.src }} dest={{ item.dest }}
     with_items:
-      - { src: "data/{{project_instance}}/initial_img/", dest: "{{ media_dir }}/img" }
-
+      - { src: "data/initial_spots/initial_img/", dest: "{{ media_dir }}/img" }
 
   - name: create superuser
     shell: "{{ web_base_dir }}/venv/bin/python manage.py create_andi"
