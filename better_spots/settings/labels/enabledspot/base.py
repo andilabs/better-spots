@@ -9,7 +9,7 @@ SPOT_PROJECT_SLOGAN = 'The Brave New Enabled World!'
 
 SPOT_PROJECT_DESCRIPTION = 'find the disabled people accessible cafes, restaurants and more'
 
-SPOT_PROJECT_SUBJECT = 'Disabled People'
+SPOT_PROJECT_SUBJECT = 'Disabled'
 
 SPOT_PROJECT_MAIN_COLOR = '#4f5fa7'
 

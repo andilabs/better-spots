@@ -14,8 +14,10 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
+from django_filters.views import FilterView
 
 from accounts.models import UserFavouritesSpotList
+from api.spots.filtersets import SpotFilterSet
 from core.models.spots import Spot, SPOT_TYPE_CHOICES
 from utils.pdfs import render_to_pdf
 from utils.qrcodes import make_qrcode
@@ -37,12 +39,13 @@ class UserFavouritesSpotsSmugglerMixin(object):
         return context
 
 
-class BaseSpotListView(UserFavouritesSpotsSmugglerMixin, ListView):
+class BaseSpotListView(UserFavouritesSpotsSmugglerMixin, FilterView):
     template_name = 'www/spot_list.html'
     model = Spot
     paginate_by = 6
     context_object_name = 'spots'
     ui_context = SpotListUIConfig(site_title='browse spots', icon_type='th-large')
+    filterset_class = SpotFilterSet  # TODO this does not works as expected.
 
     def get_context_data(self, **kwargs):
         context = super(BaseSpotListView, self).get_context_data(**kwargs)

@@ -28,7 +28,10 @@
 
                 <div class='allowance-icon'>
                 {% if spot.is_certificated %}
-                     <img src="{% settings_value_static "SPOT_PROJECT_NAME" %}/certificate.png" alt="spot is certificated to be {% settings_value "SPOT_PROJECT_SUBJECT" %} friendly!" style="max-width:100%">
+                     <a href="{% url 'www:pdf_sticker' pk=spot.pk %}" target="_blank">
+                        <img src="{% settings_value_static "SPOT_PROJECT_NAME" %}/certificate.png" alt="spot is certificated to be {% settings_value "SPOT_PROJECT_SUBJECT" %} friendly!" style="max-width:100%"><br>
+                        get a PDF sticker
+                     </a>
                 {% else %}
                     {% if spot.is_enabled %}
                         <img src="{% settings_value_static "SPOT_PROJECT_NAME" %}/marker-ok-kopia.png" alt="spot is enabled">

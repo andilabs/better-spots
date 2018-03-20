@@ -1,4 +1,6 @@
 import os
+import urllib.parse as urlparse
+
 from django import template
 from django.conf import settings
 
@@ -41,3 +43,9 @@ def addcss(value, arg):
         arg = value.field.widget.attrs.get('class') + ' ' + arg
     return value.as_widget(attrs={'class': arg})
 
+
+@register.simple_tag
+def pagination_filters_aware(querystring, page):
+    querydict = dict(urlparse.parse_qsl(querystring))
+    querydict.update({'page': page})
+    return "?{}".format(urlparse.urlencode(querydict))

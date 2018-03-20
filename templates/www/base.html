@@ -210,10 +210,10 @@
           </div>
           <div class="col-xs-4" style="text-align:center">
           <span style="font-family:Nobile; font-size:15px;">
-                                Powered by:<a href="#" id="go-top"><img src="{% settings_value_static "SPOT_PROJECT_NAME" %}/logo.png" height="50px"> </span></a>
-                                <span style="font-family:Lobster; font-size:25px;">
-                                        {% settings_value "SPOT_PROJECT_NAME" %}
-                                </span>
+            Powered by:<a href="#" id="go-top"><img src="{% settings_value_static "SPOT_PROJECT_NAME" %}/logo.png" height="50px"> </span></a>
+            <span style="font-family:Lobster; font-size:25px;">
+                    {% settings_value "SPOT_PROJECT_NAME" %}
+            </span>
           </div>
           <div class="col-xs-4" align="right">
             <span class="footer-text">2014 &copy; by</span><a href="http://andilabs.com/"><div class="andilabs_logo"></div></a>
@@ -231,7 +231,7 @@
             <a href="{% url 'blog:blog_rss' %}">RSS our blog</a><br>
             CITIES:
               {% for city in ALL_CITIES %}
-               <a href="{% url 'www:spots_list' %}?city={{ city }}" title="{% settings_value "SPOT_PROJECT_SUBJECT" %} friendly spots in {{ city }}">{{ city }}</a>,
+               <a href="{% url 'www:spots_list' %}?address_city={{ city }}" title="{% settings_value "SPOT_PROJECT_SUBJECT" %} friendly spots in {{ city }}">{{ city }}</a>,
               {% endfor %}
           </div>
           <div class="col-xs-4" style="text-align:center">

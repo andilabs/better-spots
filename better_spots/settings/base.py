@@ -86,6 +86,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'www.context_processors.instance',
             ],
         },
     },
@@ -147,7 +148,7 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PERMISSION_CLASSES': [
     ],
-    'PAGE_SIZE': 10,
+    'PAGE_SIZE': 5,
 }
 
 TOKEN_EXPIRES_AFTER = 24

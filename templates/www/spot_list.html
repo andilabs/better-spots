@@ -74,7 +74,7 @@
     {% if page_obj.has_previous %}
 
         <li>
-          <a href="?page={{ page_obj.previous_page_number }}">
+          <a href="{% pagination_filters_aware request.GET.urlencode page_obj.previous_page_number %}">
             <
           </a>
         </li>
@@ -83,10 +83,9 @@
 
     {% if page_obj.has_next %}
         <li>
-          <a href="?page={{ page_obj.next_page_number }}">
+          <a href="{% pagination_filters_aware request.GET.urlencode page_obj.next_page_number %}">
             >
           </a>
-        </li>
         </li>
     {% endif %}
   </ul>

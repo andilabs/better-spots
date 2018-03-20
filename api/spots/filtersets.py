@@ -69,6 +69,7 @@ class SpotFilterSet(filters.FilterSet):
         to_field_name='text',
         # conjoined=True, #makes AND - only spots having all the tags will be returned
     )
+    address_city = filters.CharFilter(lookup_expr='unaccent', required=False)
 
     class Meta:
         model = Spot
