@@ -42,3 +42,13 @@ Use swagger to browse API:
 --------------------------
 
 http://127.0.0.1:9000/api/schema/
+
+
+
+TESTS
+======
+
+To run these few units:
+----------------------
+
+    ./manage.py tests

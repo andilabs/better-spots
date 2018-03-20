@@ -94,13 +94,6 @@
       state: present
       encrypted: yes
 
-  - name: Ensure user does not have unnecessary privileges
-    become_user: postgres
-    become: yes
-    postgresql_user: name='better_spots'
-                     role_attr_flags=NOSUPERUSER,NOCREATEDB
-                     state=present
-
   - name: Add postgis extension
     become_user: postgres
     become: yes
