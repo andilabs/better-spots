@@ -33,7 +33,6 @@
       DJANGO_SECRET_KEY: "{{ django_secret_key }}"
       EMAIL_HOST_PASSWORD: "{{ gmail_password }}"
       GOOGLE_API_KEY: "{{ google_api_key }}"
-      LC_CTYPE: "en_US.UTF-8"
 
   gather_facts: no
   environment: "{{proxy_env}}"
@@ -211,9 +210,6 @@
 #    args:
 #      chdir: "{{ project_dir }}"
 #      executable: /bin/bash
-
-  # TODO setup git
-
 
   - name: compile coffescripts
     sudo: yes

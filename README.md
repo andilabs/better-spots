@@ -51,4 +51,5 @@ TESTS
 To run these few units:
 ----------------------
 
-    ./manage.py tests
+    ./manage.py test --settings=better_spots.unittesting
+
