@@ -29,7 +29,7 @@ def reverse_geocoding(latitude, longitude):
     url = REVERSE_GEOCODING_URL.format(
         latitude=latitude,
         longitude=longitude,
-        api_key=settings.GOOGLE_API_KEY
+        api_key=settings.GOOGLE_MAP_API_KEY
     )
     response = requests.get(url)
     info = response.json()

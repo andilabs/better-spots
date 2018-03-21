@@ -43,7 +43,7 @@ class TestGoogleAPIGeocodingConsumer(TestCase):
             REVERSE_GEOCODING_URL.format(
                 latitude=latitude,
                 longitude=longitude,
-                api_key=settings.GOOGLE_API_KEY
+                api_key=settings.GOOGLE_MAP_API_KEY
             ),
             body=json.dumps(RESPONSE_GEOCODING_MOCK),
             content_type="application/json")

@@ -1,48 +1,38 @@
 {% extends "www/base.html" %}
-
-
+{% load custom_tags_and_filters %}
+{% load static %}
 
 
 {% block extra_head %}
     {{ form.media }}
-
 {% endblock %}
 
 {% block content %}
-
-{% load custom_tags_and_filters %}
-{% load static %}
-<div class="row row-map" id="map_container">
-
-
-
-  <div class="col-md-9 no-col-padding" id="left_container">
-    <button type='button' class='btn btn-default btn-lg' id='map_filters_button' style="margin-top:20px">
-      <span class='glyphicon glyphicon-filter'></span> Filter by
-    </button>
-    <div id="map_canvas" style="height:500px;opacity:0.1">
+    <div class="row row-map" id="map_container">
+        <div class="col-md-9 no-col-padding" id="left_container">
+            <button type='button' class='btn btn-default btn-lg' id='map_filters_button' style="margin-top:20px">
+                <span class='glyphicon glyphicon-filter'></span> Filter by
+            </button>
+            <div id="map_canvas" style="height:500px;opacity:0.1">
+            </div>
+        </div>
+        <div class="col-md-3"id="right_container">
+            <div class="list-group"  id="spots_list">
+            </div>
+        </div>
     </div>
-  </div>
-
-  <div class="col-md-3"id="right_container">
-    <div class="list-group"  id="spots_list">
-    </div>
-  </div>
-</div>
-
-
-
 {% endblock %}
 
 
 {% block scripts %}
-  {{ block.super }}
-  <script type="text/javascript" src="{% static "external/spin/spin.min.js" %}"></script>
-  <script language="javascript">
-    var ICON_URL = "/static/{{SPOT_PROJECT_NAME}}/"; var STATIC_URL = "/static/"; var BASE_HOST = "//{{ request.get_host }}";
-    var SPOTS_API_ENDPOINT = "{% url 'api:spot-list' %}";
-  </script>
-  <script type="text/javascript" src="{% static "js/map.js" %}"></script>
+    {{ block.super }}
+    {% include "www/partials/map_scripts.html" %}
+    <script type="text/javascript" src="{% static "external/spin/spin.min.js" %}"></script>
+    <script language="javascript">
+        var ICON_URL = "/static/{{SPOT_PROJECT_NAME}}/"; var STATIC_URL = "/static/"; var BASE_HOST = "//{{ request.get_host }}";
+        var SPOTS_API_ENDPOINT = "{% url 'api:spot-list' %}";
+    </script>
+    <script type="text/javascript" src="{% static "js/map.js" %}"></script>
 {% endblock scripts %}
 
 

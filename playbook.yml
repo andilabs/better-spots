@@ -19,6 +19,10 @@
       - redis-tools
       - redis-server
       - coffeescript
+      - libz-dev
+      - libjpeg-dev
+      - libfreetype6-dev
+      - python-dev
 
     home_dir: '/home/ubuntu'
     web_base_dir: '/home/ubuntu/better_spots'
@@ -32,7 +36,7 @@
       DB_PASSWORD: "{{db_password}}"
       DJANGO_SECRET_KEY: "{{ django_secret_key }}"
       EMAIL_HOST_PASSWORD: "{{ gmail_password }}"
-      GOOGLE_API_KEY: "{{ google_api_key }}"
+      GOOGLE_MAP_API_KEY: "{{ google_map_api_key }}"
 
   gather_facts: no
   environment: "{{proxy_env}}"

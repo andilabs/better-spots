@@ -1,0 +1,7 @@
+{% load custom_tags_and_filters static %}
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&key={% settings_value 'GOOGLE_MAP_API_KEY' %}"></script>
+<script type="text/javascript" src="{% static "external/jquerycookie/jquery.cookie.js" %}"></script>
+<script type="text/javascript" src="{% static "external/jqueryuimap/jquery.ui.map.js" %}"></script>
+<script type="text/javascript" src="{% static "external/jqueryuimap/jquery.ui.map.extensions.js" %}"></script>
+<script type="text/javascript" src="{% static "external/jqueryuimap/jquery.ui.map.overlays.js" %}"></script>
+<script type="text/javascript" src="{% static "external/jqueryuimap/markerclusterer.min.js" %}"></script>

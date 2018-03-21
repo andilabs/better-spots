@@ -5,280 +5,273 @@
 {% include "www/_modals.html" %}
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>{% block title %} {% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_DESCRIPTION" %} {% endblock %}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="andilabs">
-  <link rel="shortcut icon" href="/{% settings_value_static "SPOT_PROJECT_NAME" %}/favicon.ico" />
+    <meta charset="utf-8">
+    <title>{% block title %} {% settings_value "SPOT_PROJECT_NAME" %} - {% settings_value "SPOT_PROJECT_DESCRIPTION" %} {% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="andilabs">
+    <link rel="shortcut icon" href="/{% settings_value_static "SPOT_PROJECT_NAME" %}/favicon.ico" />
 
 
-  <!--- mobile icons -->
-<link rel="apple-touch-icon" sizes="57x57" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="60x60" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-60x60.png">
-<link rel="apple-touch-icon" sizes="72x72" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="114x114" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-114x114.png">
-<link rel="apple-touch-icon" sizes="120x120" href="apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-152x152.png">
-<link rel="apple-touch-icon" sizes="180x180" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-180x180.png">
-<link rel="icon" type="image/png" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/android-chrome-192x192.png" sizes="192x192">
-<link rel="icon" type="image/png" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/favicon-96x96.png" sizes="96x96">
-<link rel="icon" type="image/png" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/favicon-16x16.png" sizes="16x16">
-<link rel="manifest" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/manifest.json">
-<link rel="shortcut icon" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/favicon.ico">
-<meta name="msapplication-TileColor" content="#da532c">
-<meta name="msapplication-TileImage" content="{% settings_value_static "SPOT_PROJECT_NAME" %}/mstile-144x144.png">
-<meta name="msapplication-config" content="{% settings_value_static "SPOT_PROJECT_NAME" %}/browserconfig.xml">
-<meta name="theme-color" content="#ffffff">
+    <!--- mobile icons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/manifest.json">
+    <link rel="shortcut icon" href="{% settings_value_static "SPOT_PROJECT_NAME" %}/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="{% settings_value_static "SPOT_PROJECT_NAME" %}/mstile-144x144.png">
+    <meta name="msapplication-config" content="{% settings_value_static "SPOT_PROJECT_NAME" %}/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
 
 
-  <!-- Font Awesome Icons -->
-  <link  rel="stylesheet" href="{% static "external/font-awesome-4.3.0/css/font-awesome.min.css" %}">
+    <!-- Font Awesome Icons -->
+    <link  rel="stylesheet" href="{% static "external/font-awesome-4.3.0/css/font-awesome.min.css" %}">
 
-  <link href="{% static "css/fontello.css"%}" rel="stylesheet">
-  <link href="/static/css/{% settings_value "SPOT_PROJECT_NAME" %}/bootstrap.min.css" media="screen" rel="stylesheet">
+    <link href="{% static "css/fontello.css"%}" rel="stylesheet">
+    <link href="/static/css/{% settings_value "SPOT_PROJECT_NAME" %}/bootstrap.min.css" media="screen" rel="stylesheet">
 
-  <!-- jquery UI -->
-  <link rel="stylesheet" href="{% static "external/jqueryui/themes/flick/jquery-ui.css" %}" type="text/css" media="screen" />
-  <link rel="stylesheet" href="{% static "external/jqueryui/themes/flick/jquery.ui.theme.css" %}" type="text/css" media="screen" />
+    <!-- jquery UI -->
+    <link rel="stylesheet" href="{% static "external/jqueryui/themes/flick/jquery-ui.css" %}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{% static "external/jqueryui/themes/flick/jquery.ui.theme.css" %}" type="text/css" media="screen" />
 
-  <!-- my custom CSS -->
-  <link href="{% static "css/layout.css" %}" rel="stylesheet">
-  <!-- jQuery must be loaded here for things like datepicker to work :/ -->
-  <script type="text/javascript" src="{% static "external/jquery/jquery-1.10.1.min.js" %}"></script>
-  <style media="screen" type="text/css">
-    //this style needs values passed from django settings via template tags
-    .spot_project_color {
-      color: {% settings_value "SPOT_PROJECT_MAIN_COLOR" %};
-    }
-    .spot_project_color_background {
-      background-color: {% settings_value "SPOT_PROJECT_MAIN_COLOR" %};
-    }
-    #spots_list span.list-group-item.active {
-      background-color: {% settings_value "SPOT_PROJECT_MAIN_COLOR" %};
-      color: white!important;
-    }
-    .is_enabled {
-      background:url(/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png) no-repeat;
-        cursor:pointer;
-        width: 50px;
-        height: 50px;
-        border: none;
-        margin-right: 5px;
-    }
+    <!-- my custom CSS -->
+    <link href="{% static "css/layout.css" %}" rel="stylesheet">
+    <!-- jQuery must be loaded here for things like datepicker to work :/ -->
+    <script type="text/javascript" src="{% static "external/jquery/jquery-1.10.1.min.js" %}"></script>
+    <style media="screen" type="text/css">
+        //this style needs values passed from django settings via template tags
+        .spot_project_color {
+            color: {% settings_value "SPOT_PROJECT_MAIN_COLOR" %};
+        }
+        .spot_project_color_background {
+            background-color: {% settings_value "SPOT_PROJECT_MAIN_COLOR" %};
+        }
+        #spots_list span.list-group-item.active {
+            background-color: {% settings_value "SPOT_PROJECT_MAIN_COLOR" %};
+            color: white!important;
+        }
+        .is_enabled {
+            background:url(/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-ok.png) no-repeat;
+            cursor:pointer;
+            width: 50px;
+            height: 50px;
+            border: none;
+            margin-right: 5px;
+        }
 
-    .is_not_enabled {
-      background:url(/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png) no-repeat;
-        cursor:pointer;
-        width: 50px;
-        height: 50px;
-        border: none;
-        margin-right: 5px;
-    }
-    input.allowance {
-      opacity: 0;
-    }
-    span.rating input{
-      opacity: 0;
-      height: 0px;
-      width: 5px;
-    }
-  </style>
+        .is_not_enabled {
+            background:url(/static/{% settings_value "SPOT_PROJECT_NAME" %}/marker-bad.png) no-repeat;
+            cursor:pointer;
+            width: 50px;
+            height: 50px;
+            border: none;
+            margin-right: 5px;
+        }
+        input.allowance {
+            opacity: 0;
+        }
+        span.rating input{
+            opacity: 0;
+            height: 0px;
+            width: 5px;
+        }
+    </style>
 </head>
-
 <body>
-  <div class="container">
+<div class="container">
     <nav class="navbar navbar-default"  role="navigation">
 
-      <!-- Brand and toggle get grouped for better mobile display -->
+        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse"
-          data-target="" id="mobile-menu">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand no_copy" href="/">
-            <span id="navbar_project_logo">{% settings_value "SPOT_PROJECT_NAME" %}</span>
-          </a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="" id="mobile-menu">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand no_copy" href="/">
+                <span id="navbar_project_logo">{% settings_value "SPOT_PROJECT_NAME" %}</span>
+            </a>
         </div>
 
         <div class="navbar-collapse collapse"  id="bs-example-navbar-collapse-1">
 
-          <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav">
 
-            <li>
-              <form class="navbar-form navbar-left" role="navbar-search">
-                <div class="right-inner-addon">
-                  <i class="glyphicon glyphicon-search"></i>
-                  <input type="search" class="form-control" id="main_menu_search" placeholder="Search" />
-                </div>
-              </form>
-            </li>
+                <li>
+                    <form class="navbar-form navbar-left" role="navbar-search">
+                        <div class="right-inner-addon">
+                            <i class="glyphicon glyphicon-search"></i>
+                            <input type="search" class="form-control" id="main_menu_search" placeholder="Search" />
+                        </div>
+                    </form>
+                </li>
 
-            <li>
-              <a href="{% url 'blog:blogpost_list' %}">
-                <i class="fa fa-rss fa-2x" data-toggle="tooltip" data-placement="bottom" title="Blog"></i>
-              </a>
-            </li>
+                <li>
+                    <a href="{% url 'blog:blogpost_list' %}">
+                        <i class="fa fa-rss fa-2x" data-toggle="tooltip" data-placement="bottom" title="Blog"></i>
+                    </a>
+                </li>
 
-            <li>
-              <a href="{% url 'www:spots_list' %}">
-                 <i class="fa fa-th-large 0 fa-2x"  data-toggle="tooltip" data-placement="bottom" title="Spots"></i>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'www:map' %}">
-                <i class="fa fa-map-marker fa-2x"  data-toggle="tooltip" data-placement="bottom" title="Map"></i>
-              </a>
-            </li>
+                <li>
+                    <a href="{% url 'www:spots_list' %}">
+                        <i class="fa fa-th-large 0 fa-2x"  data-toggle="tooltip" data-placement="bottom" title="Spots"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'www:map' %}">
+                        <i class="fa fa-map-marker fa-2x"  data-toggle="tooltip" data-placement="bottom" title="Map"></i>
+                    </a>
+                </li>
 
-            <li>
-              <a href="{% url 'www:favourites_list' %}">
-                <i class="fa fa-heart fa-2x" data-toggle="tooltip" data-placement="bottom" title="Favourites"></i>
-              </a>
-            </li>
+                <li>
+                    <a href="{% url 'www:favourites_list' %}">
+                        <i class="fa fa-heart fa-2x" data-toggle="tooltip" data-placement="bottom" title="Favourites"></i>
+                    </a>
+                </li>
 
-            <li>
-              <a href="{% url 'www:certificated_list' %}">
-                <i class="fa fa-certificate fa-2x" data-toggle="tooltip" data-placement="bottom" title="Certificated"></i>
-              </a>
-            </li>
+                <li>
+                    <a href="{% url 'www:certificated_list' %}">
+                        <i class="fa fa-certificate fa-2x" data-toggle="tooltip" data-placement="bottom" title="Certificated"></i>
+                    </a>
+                </li>
 
-            <li>
-              <a href="{% url 'www:mobile' %}">
-		            <i class="fa fa-mobile fa-2x" data-toggle="tooltip" data-placement="bottom" title="Mobile"></i>
-	            </a>
-            </li>
+                <li>
+                    <a href="{% url 'www:mobile' %}">
+                        <i class="fa fa-mobile fa-2x" data-toggle="tooltip" data-placement="bottom" title="Mobile"></i>
+                    </a>
+                </li>
 
-            <li>
-              <a href="{% url 'www:add_spot' %}">
-                <i class="fa fa-plus fa-2x" data-toggle="tooltip" data-placement="bottom" title="Add new spot"></i>
-              </a>
-            </li>
+                <li>
+                    <a href="{% url 'www:add_spot' %}">
+                        <i class="fa fa-plus fa-2x" data-toggle="tooltip" data-placement="bottom" title="Add new spot"></i>
+                    </a>
+                </li>
 
-          </ul>
+            </ul>
 
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                {% if user.is_authenticated %}
-                  {{user.email}}
-                {% else %}
-                  Login / Register
-                {% endif %}
-                <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu" role="menu">
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'accounts:logout' %}">Log me out!</a></li>
-                {% else %}
-                  <li><a href="{% url 'accounts:user_create' %}">Register</a></li>
-                  <li><a href="{% url 'accounts:login' %}">Login</a></li>
-                {% endif %}
-              </ul>
-            </li>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        {% if user.is_authenticated %}
+                            {{user.email}}
+                        {% else %}
+                            Login / Register
+                        {% endif %}
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'accounts:logout' %}">Log me out!</a></li>
+                        {% else %}
+                            <li><a href="{% url 'accounts:user_create' %}">Register</a></li>
+                            <li><a href="{% url 'accounts:login' %}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
 
-          </ul> <!-- end UL of navbar -->
+            </ul> <!-- end UL of navbar -->
 
-      </div>
+        </div>
     </nav>
-  </div>
+</div>
 
-  <div class="container">
+<div class="container">
 
     <center>
-    <div id="smart-menu" style="display:{% block show_smart_menu %}none{% endblock %}">
-      {% include 'www/smart-menu.html' %}
-    </div>
+        <div id="smart-menu" style="display:{% block show_smart_menu %}none{% endblock %}">
+            {% include 'www/smart-menu.html' %}
+        </div>
     </center>
 
     <div  style="min-height: 500px">
-      {% block content %}Empty page{% endblock %}
+        {% block content %}Empty page{% endblock %}
     </div>
     <p>
-      <hr>
+    <hr>
     </p>
 
     <footer>
-      <div class="row">
-          <div class="col-xs-4">
-            <span class="footer-text">{% settings_value "SPOT_PROJECT_SLOGAN" %}</span>
-          </div>
-          <div class="col-xs-4" style="text-align:center">
-          <span style="font-family:Nobile; font-size:15px;">
-            Powered by:<a href="#" id="go-top"><img src="{% settings_value_static "SPOT_PROJECT_NAME" %}/logo.png" height="50px"> </span></a>
-            <span style="font-family:Lobster; font-size:25px;">
-                    {% settings_value "SPOT_PROJECT_NAME" %}
-            </span>
-          </div>
-          <div class="col-xs-4" align="right">
-            <span class="footer-text">2014 &copy; by</span><a href="http://andilabs.com/"><div class="andilabs_logo"></div></a>
-          </div>
-      </div>
-      <div class="row">
-          <div class="col-xs-4">
-          <p>SITEMAP:</p>
-            <a href="{% url 'www:spots_list' %}">Browse all the spots</a>,
-            <a href="{% url 'www:map' %}">Visualize spots on map</a>,
-            <a href="{% url 'www:add_spot' %}">Add new spots</a>,
-            <a href="{% url 'www:favourites_list' %}">Collect your favourites spots</a>,
-            <a href="{% url 'www:certificated_list' %}">Discover best spots, which were awarded the certificate</a>,
-            <a href="{% url 'blog:blogpost_list' %}">Read newest entries on our blog</a>,
-            <a href="{% url 'blog:blog_rss' %}">RSS our blog</a><br>
-            CITIES:
-              {% for city in ALL_CITIES %}
-               <a href="{% url 'www:spots_list' %}?address_city={{ city }}" title="{% settings_value "SPOT_PROJECT_SUBJECT" %} friendly spots in {{ city }}">{{ city }}</a>,
-              {% endfor %}
-          </div>
-          <div class="col-xs-4" style="text-align:center">
+        <div class="row">
+            <div class="col-xs-4">
+                <span class="footer-text">{% settings_value "SPOT_PROJECT_SLOGAN" %}</span>
+            </div>
+            <div class="col-xs-4" style="text-align:center">
+              <span style="font-family:Nobile; font-size:15px;">
+                Powered by:<a href="#" id="go-top"><img src="{% settings_value_static "SPOT_PROJECT_NAME" %}/logo.png" height="50px"> </span></a>
+                <span style="font-family:Lobster; font-size:25px;">
+                        {% settings_value "SPOT_PROJECT_NAME" %}
+                </span>
+            </div>
+            <div class="col-xs-4" align="right">
+                <span class="footer-text">2014 &copy; by</span><a href="http://andilabs.com/"><div class="andilabs_logo"></div></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <p>SITEMAP:</p>
+                <a href="{% url 'www:spots_list' %}">Browse all the spots</a>,
+                <a href="{% url 'www:map' %}">Visualize spots on map</a>,
+                <a href="{% url 'www:add_spot' %}">Add new spots</a>,
+                <a href="{% url 'www:favourites_list' %}">Collect your favourites spots</a>,
+                <a href="{% url 'www:certificated_list' %}">Discover best spots, which were awarded the certificate</a>,
+                <a href="{% url 'blog:blogpost_list' %}">Read newest entries on our blog</a>,
+                <a href="{% url 'blog:blog_rss' %}">RSS our blog</a><br>
+                CITIES:
+                {% for city in ALL_CITIES %}
+                    <a href="{% url 'www:spots_list' %}?address_city={{ city }}" title="{% settings_value "SPOT_PROJECT_SUBJECT" %} friendly spots in {{ city }}">{{ city }}</a>,
+                {% endfor %}
+            </div>
+            <div class="col-xs-4" style="text-align:center">
 
-          </div>
-          <div class="col-xs-4" align="right">
-          {% if INSTANCE.facebook or INSTANCE.twitter or INSTANCE.instagram %}
-            <p>SOCIAL MEDIA:</p>
-            <ul>
-              {% if INSTANCE.facebook %}
-              <i class="fa fa-facebook">/<a href="https://facebook.com/{{INSTANCE.facebook}}" target="_blank">{{INSTANCE.facebook}}</a></i><br>
-              {% endif %}
-              {% if INSTANCE.twitter %}
-              <i class="fa fa-twitter">/<a href="https://twitter.com/{{INSTANCE.twitter}}" target="_blank">{{INSTANCE.twitter}}</a></i><br>
-              {% endif %}
-              {% if INSTANCE.instagram %}
-              <i class="fa fa-instagram">/<a href="https://instagram.com/{{INSTANCE.instagram}}" target="_blank">{{INSTANCE.instagram}}</a></i><br>
-              {% endif %}
-            </ul>
-          {% endif %}
-          </div>
-      </div>
+            </div>
+            <div class="col-xs-4" align="right">
+                {% if INSTANCE.facebook or INSTANCE.twitter or INSTANCE.instagram %}
+                    <p>SOCIAL MEDIA:</p>
+                    <ul>
+                        {% if INSTANCE.facebook %}
+                            <i class="fa fa-facebook">/<a href="https://facebook.com/{{INSTANCE.facebook}}" target="_blank">{{INSTANCE.facebook}}</a></i><br>
+                        {% endif %}
+                        {% if INSTANCE.twitter %}
+                            <i class="fa fa-twitter">/<a href="https://twitter.com/{{INSTANCE.twitter}}" target="_blank">{{INSTANCE.twitter}}</a></i><br>
+                        {% endif %}
+                        {% if INSTANCE.instagram %}
+                            <i class="fa fa-instagram">/<a href="https://instagram.com/{{INSTANCE.instagram}}" target="_blank">{{INSTANCE.instagram}}</a></i><br>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
 
     </footer>
-  </div>
-  <br>
+</div>
+<br>
 
-  {% block scripts %}
+{% block scripts %}
     <script type="text/javascript" src="{% static "external/jqueryui/jquery-ui.min.js" %}"></script>
     <script type="text/javascript" src="{% static "external/jquerycookie/jquery.cookie.js" %}"></script>
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&key={% settings_value 'GOOGLE_API_KEY' %}"></script>
-    <script type="text/javascript" src="{% static "external/jqueryuimap/jquery.ui.map.js" %}"></script>
-    <script type="text/javascript" src="{% static "external/jqueryuimap/jquery.ui.map.extensions.js" %}"></script>
-    <script type="text/javascript" src="{% static "external/jqueryuimap/jquery.ui.map.overlays.js" %}"></script>
-    <script type="text/javascript" src="{% static "external/jqueryuimap/markerclusterer.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/holder.js" %}"></script>
     <script language="javascript">
-      var DJANGO_USER = "{{user.is_authenticated|yesno:"true,false"}}";
-      var FTS_SEARCH_API_ENDPOINT = "{% url 'www:ajax_search' %}";
-      var LOGIN_URL = "{% url 'accounts:login' %}"
+        var DJANGO_USER = "{{user.is_authenticated|yesno:"true,false"}}";
+        var FTS_SEARCH_API_ENDPOINT = "{% url 'www:ajax_search' %}";
+        var LOGIN_URL = "{% url 'accounts:login' %}"
     </script>
     <script type="text/javascript" src="{% static "js/common.js" %}"></script>
     <script type="text/javascript" src="{% static "external/bootstrap/js/bootstrap.min.js" %}"></script>
     <script type="text/javascript" src="{% static "external/jquery.serializejson.js" %}"></script>
     <script language="javascript">var STATIC_URL = "/static/"; var BASE_HOST = "//{{ request.get_host }}"</script>
     <script type="text/javascript" src="{% static "external/raty/jquery.raty.js" %}"></script>
-  {% endblock scripts %}
+{% endblock scripts %}
 </body>
-
 </html>

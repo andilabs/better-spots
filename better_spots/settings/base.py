@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     'image_cropping',
     'solo',
+    'mapwidgets',
+    'captcha',
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -155,7 +157,17 @@ TOKEN_EXPIRES_AFTER = 24
 
 EMAIL_VERIFY_KEY_EXPIREATION_PERIOD_HOURS = 48
 
-GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
+GOOGLE_MAP_API_KEY = os.environ['GOOGLE_MAP_API_KEY']
+
+MAP_WIDGETS = {
+    "GooglePointFieldWidget": (
+        ("zoom", 17),
+        ("mapCenterLocationName", "warsaw"),
+        ("GooglePlaceAutocompleteOptions", {'componentRestrictions': {'country': 'pl'}}),
+        ("markerFitZoom", 17),
+    ),
+    "GOOGLE_MAP_API_KEY": GOOGLE_MAP_API_KEY
+}
 
 VENUE_PHOTO_SIZE = {'W': '350', 'H': '150'}
 
@@ -174,7 +186,7 @@ SERIALIZATION_MODULES = {
 
 CELERY_RESULT_BACKEND = 'django-cache'
 
-POSTGIS_VERSION = (2, 1, 2)
+POSTGIS_VERSION = (2, 4, 3)
 
 DATABASES = {
     'default': {

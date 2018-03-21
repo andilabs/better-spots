@@ -133,6 +133,7 @@
 
 {% block scripts %}
     {{ block.super }}
+    {% include "www/partials/map_scripts.html" %}
     <script language="javascript">
         var STATIC_URL = "/static/"; var LAT = "{{ spot.latitude }}"; var LON = " {{ spot.longitude }}";
     </script>

@@ -427,3 +427,6 @@ a.link-logo-menu:hover {
   pointer-events: all !important; }
 
 /*# sourceMappingURL=layout.css.map */
+.form-control {
+    width: 80%!important;
+}

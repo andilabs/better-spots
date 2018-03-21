@@ -10,6 +10,7 @@ from django.middleware.csrf import get_token
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import get_template
 from django.utils.decorators import method_decorator
+from django.views.generic import FormView, CreateView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -78,7 +79,7 @@ class BaseSpotDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(BaseSpotDetailView, self).get_context_data(**kwargs)
-        context.update({'GOOGLE_API_KEY': settings.GOOGLE_API_KEY})
+        context.update({'GOOGLE_MAP_API_KEY': settings.GOOGLE_MAP_API_KEY})
         return context
 
 
@@ -101,68 +102,12 @@ class MapView(TemplateView):
         return context
 
 
-def add_spot(request):
-    if request.method == 'GET':
-        form = AddSpotForm()
-        if not request.user.is_authenticated:
-            messages.add_message(
-                request,
-                messages.WARNING,
-                (
-                    'The spots added by not-registred accounts'
-                    ' are not visible until being peer-reviewed'
-                    ' <br> If you wish to register go '
-                    '<a href="%s">HERE</a> it takes just few seconds.'
-                ) % reverse('accounts:user_create')
-            )
-        return render(
-            request,
-            'www/add_spot.html',
-            {'form': form}
-        )
-    if request.method == 'POST':
-        form = AddSpotForm(request.POST, request.FILES)
-        if form.is_valid():
-            spot = form.save()
+class SpotCreateView(CreateView):
+    template_name = 'www/add_spot.html'
+    form_class = AddSpotForm
 
-            if request.user.is_authenticated:
-                spot.creator = request.user
-                spot.is_accepted = True
-                spot.save()
-                memo = ''
-            else:
-                spot.anonymous_creator_cookie = request._cookies['csrftoken']
-                spot.save()
-                memo = (' The spot will be visible when'
-                        ' it is reviewed by our moderators')
-
-            if spot.venue_photo:
-                return redirect(
-                    reverse(
-                        'www:edit_photo',
-                        kwargs={
-                            "pk": spot.pk
-                        }
-                    )
-                )
-            messages.add_message(
-                request,
-                messages.SUCCESS, 'Spot added!' + memo
-            )
-            return redirect(
-                reverse(
-                    'www:spot',
-                    kwargs={
-                        "pk": spot.pk
-                    }
-                )
-            )
-        else:
-            return render(
-                request,
-                get_template('www/add_spot.html'),
-                {'form': form}
-            )
+    def get_success_url(self):
+        return reverse('www:spot', args=(self.object.id,))
 
 
 def edit_photo(request, pk):

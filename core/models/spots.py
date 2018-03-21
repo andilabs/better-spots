@@ -1,15 +1,20 @@
 import os
 
+from easy_thumbnails.files import get_thumbnailer
+from image_cropping import ImageCropField, ImageRatioField
+
 from django.conf import settings
 from django.contrib.gis.db import models
 from django.urls import reverse
 from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
-from easy_thumbnails.files import get_thumbnailer
-from image_cropping import ImageCropField, ImageRatioField
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
+from utils.geocoding import reverse_geocoding
 from utils.img_path import get_image_path
 from utils.models import TimeStampedModel, Tag
+
 
 SPOT_TYPE_CHOICES = (
     (1, 'cafe'),
@@ -166,14 +171,35 @@ class Spot(TimeStampedModel):
         return mark_safe("""<input type="text" style="width:100%" id="us3-address"/>
                   <div id="us3" style="width: 750px; height: 400px;"></div>""")
 
-    def save(self, *args, **kwargs):
-        self.spot_slug = slugify(
+    @staticmethod
+    def slugify(name, spot_type, city, street, address_number):
+        return slugify(
             "{} {} {} {} {}".format(
-                self.name,
-                dict(SPOT_TYPE_CHOICES)[self.spot_type],
-                self.address_city,
-                self.address_street,
-                self.address_number
+                name,
+                spot_type,
+                city,
+                street,
+                address_number
             )
         )
-        super(Spot, self).save(*args, **kwargs)
+
+
+@receiver(post_save, sender='core.Spot')
+def fill_address_based_on_reverse_geocoding(sender, instance, created, **kwargs):
+    longitude, latitude = instance.location.coords
+    address_info = reverse_geocoding(latitude=latitude, longitude=longitude)
+    sender.objects.filter(
+        pk=instance.pk
+    ).update(
+        address_number=address_info.get('address_number'),
+        address_street=address_info.get('address_street'),
+        address_city=address_info.get('address_city'),
+        address_country=address_info.get('address_country'),
+        spot_slug=Spot.slugify(
+            name=instance.name,
+            spot_type=dict(SPOT_TYPE_CHOICES)[instance.spot_type],
+            city=address_info.get('address_city'),
+            street=address_info.get('address_street'),
+            address_number=address_info.get('address_number')
+        )
+    )
