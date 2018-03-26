@@ -34,7 +34,7 @@ class Rating(TimeStampedModel):
     def __str__(self):
         return "{} {} by: {} rate: {}".format(
             self.spot.name,
-            dict(IS_ALLOWED_CHOICES)[self.is_enabled],
+            self.get_is_enabled_display(),
             self.user.email,
             self.friendly_rate
         )
