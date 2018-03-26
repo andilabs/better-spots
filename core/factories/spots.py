@@ -50,5 +50,12 @@ class SpotFactory(django.DjangoModelFactory):
         spot.address_street = address_info.get('address_street')
         spot.address_city = address_info.get('address_city')
         spot.address_country = address_info.get('address_country')
+        spot.spot_slug = Spot.slugify(
+            name=spot.name,
+            spot_type=spot.get_spot_type_display(),
+            city=address_info.get('address_city'),
+            street=address_info.get('address_street'),
+            address_number=address_info.get('address_number')
+        )
         spot.save()
         return spot
