@@ -197,7 +197,7 @@ def fill_address_based_on_reverse_geocoding(sender, instance, created, **kwargs)
         address_country=address_info.get('address_country'),
         spot_slug=Spot.slugify(
             name=instance.name,
-            spot_type=dict(SPOT_TYPE_CHOICES)[instance.spot_type],
+            spot_type=instance.get_spot_type_display(),
             city=address_info.get('address_city'),
             street=address_info.get('address_street'),
             address_number=address_info.get('address_number')

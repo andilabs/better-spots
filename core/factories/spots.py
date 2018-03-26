@@ -4,7 +4,7 @@ from django.contrib.gis.geos import Point
 from factory import django, fuzzy, lazy_attribute
 from faker import Factory
 
-from core.models.spots import SPOT_TYPE_CHOICES
+from core.models.spots import Spot
 from utils.geocoding import reverse_geocoding
 
 
@@ -23,7 +23,7 @@ class FuzzyPoint(fuzzy.BaseFuzzyAttribute):
 
 
 class SpotFactory(django.DjangoModelFactory):
-    spot_type = fuzzy.FuzzyChoice(dict(SPOT_TYPE_CHOICES).keys())
+    spot_type = fuzzy.FuzzyChoice(dict(Spot._meta.get_field('spot_type').choices).keys())
     location = FuzzyPoint()
 
     class Meta:
@@ -36,7 +36,7 @@ class SpotFactory(django.DjangoModelFactory):
     @lazy_attribute
     def name(self):
         return "{type} '{name}'".format(
-            type=dict(SPOT_TYPE_CHOICES)[self.spot_type],
+            type=dict(Spot._meta.get_field('spot_type').choices)[self.spot_type],
             name=faker.first_name()
         )
 

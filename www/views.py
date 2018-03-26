@@ -19,7 +19,7 @@ from django_filters.views import BaseFilterView
 
 from accounts.models import UserFavouritesSpotList
 from api.spots.filtersets import SpotFilterSet
-from core.models.spots import Spot, SPOT_TYPE_CHOICES
+from core.models.spots import Spot
 from utils.pdfs import render_to_pdf
 from utils.qrcodes import make_qrcode
 from utils.search import spots_full_text_search
@@ -171,7 +171,7 @@ def ajax_search(request):
     result = [
         {
             'name': spot.name,
-            'category': SPOT_TYPE_CHOICES[spot.spot_type-1][1],
+            'category': spot.get_spot_type_display(),
             'url': spot.www_url,
             'thumb': spot.thumbnail_venue_photo,
             'tags': [tag.text for tag in spot.tags.all()],
