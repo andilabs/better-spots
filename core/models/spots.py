@@ -59,6 +59,7 @@ class Spot(TimeStampedModel):
 
     tags = models.ManyToManyField(Tag, related_name='spot_facilities', null=True, blank=True)
 
+
     @property
     def thumbnail_venue_photo(self):
         if not self.venue_photo:
@@ -77,7 +78,7 @@ class Spot(TimeStampedModel):
             'box': self.cropping_venue_photo,
             'crop': True,
             'detail': True, }).url
-        return thumbnail_url
+        return "http://{instance_domain}{img}".format(instance_domain=settings.INSTANCE_DOMAIN, img=thumbnail_url)
 
     def admin_thumbnail_venue_photo(self):
         if self.thumbnail_venue_photo:

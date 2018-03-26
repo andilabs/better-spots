@@ -12,3 +12,5 @@ EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+INSTANCE_DOMAIN = '127.0.0.1:9000'

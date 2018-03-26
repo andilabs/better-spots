@@ -1,1 +1,1 @@
-from better_spots.settings.labels.momspot.dev import *
+from better_spots.settings.labels.dogspot.dev import *
