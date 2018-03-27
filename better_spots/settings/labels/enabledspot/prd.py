@@ -13,4 +13,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'poczta.superhost.pl'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'no-reply@enabledspot.eu'
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD_PROD']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']

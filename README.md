@@ -14,7 +14,13 @@ All the secret variables (db passwords, access tokens, etc.) are stored in encry
 
 In main directory you should create file `.vault_pass.txt` containing password needed for decryption.
 
-For demo purpose fill the file with value `P@ssw0rd`
+For demo purpose fill the values in secrets_vars.yml or ask me for right content of .vaul_pass.txt:
+
+    db_password: "yourDesiredDBpass"
+    email_host_user: "yourEmail@example.com"
+    email_host_password: "yourEmailPass"
+    django_secret_key: "YourDjangoSecretKeyYourDjangoSecretKeyYourDjangoSe"
+    google_map_api_key: "YourGoogleMapsAPIkeyYourGoogleMapsAPIke"
 
 To get decrypted values:
 

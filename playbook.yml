@@ -35,8 +35,10 @@
     proxy_env:
       DB_PASSWORD: "{{db_password}}"
       DJANGO_SECRET_KEY: "{{ django_secret_key }}"
-      EMAIL_HOST_PASSWORD: "{{ gmail_password }}"
+      EMAIL_HOST_PASSWORD: "{{ email_host_password }}"
+      EMAIL_HOST_USER: "{{email_host_user}}"
       GOOGLE_MAP_API_KEY: "{{ google_map_api_key }}"
+
 
   gather_facts: no
   environment: "{{proxy_env}}"
