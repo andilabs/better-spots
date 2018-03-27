@@ -1,3 +1,17 @@
+Better Spots
+=============
+
+This project aim is to build location oriented store for collecting spots, which are
+ dog-, mom-, vegan- or disabled people- friendly.
+
+Using mostly following technologies stack:
+
+    Python 3
+    Django
+    Django Rest Framework
+    Postgres + PostGIS
+    
+
 Up and running
 ===============
 
