@@ -1,6 +1,6 @@
 {% extends "www/base.html" %}
 
-
+{% load custom_tags_and_filters %}
 {% block extra_head %}
     {{ form.media }}
 {% endblock %}
@@ -11,7 +11,17 @@
     </h2>
     <form class="form-vertical" action="{% url 'accounts:user_create'%}" method="post">
         {% csrf_token %}
-        {{ form }}
+        {% for field in form %}
+                {% if field.field.required %}
+                    *<b>{{field.label}}</b>
+                 {% else %}
+                    {{field.label}}
+                 {% endif %}
+        	    {{field|add_css:'form-control'}}
+                {% if field.errors %}
+            		<p class="error">{{field.errors}}</p>
+                {% endif %}
+        	{% endfor %}
         <input type="submit" value="Submit" class="btn btn-default">
     </form>
 {% endblock %}
