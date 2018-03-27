@@ -49,6 +49,22 @@ Modify it (e.g add new variables) and encrypt it back (before pushing to repo):
 
     ansible-vault encrypt secrets_vars.yml --vault-password-file .vault_pass.txt
 
+
+Git hook to prevent commiting unencrypted vars (place it in `.git/hooks/pre-commit`:
+
+    if grep -q password secrets_vars.yml; then
+      echo "please encrypt the secrets, found raw word password"
+      exit 1
+    elif grep -q secret secrets_vars.yml; then
+      echo "please encrypt the secrets, found raw word secret"
+      exit 1
+    elif grep -q key secrets_vars.yml; then
+      echo "please encrypt the secrets, found raw word key"
+      exit 1
+    fi
+
+    exit 0
+
 Bootstrap the project
 ---------------------
 
