@@ -111,7 +111,8 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         'friendly_rate',
         'updated_at',
         'created_at',
-        'spot_slug'])
+        'spot_slug',
+        'tags'])
 
     def make_certificated(self, request, queryset):
         for spot in queryset:

@@ -13,14 +13,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='rating',
-            name='facilities',
-        ),
-        migrations.RemoveField(
-            model_name='spot',
-            name='facilities',
-        ),
         migrations.AddField(
             model_name='rating',
             name='tags',

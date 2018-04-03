@@ -36,7 +36,7 @@ class Spot(TimeStampedModel):
 
     spot_type = models.IntegerField(choices=SPOT_TYPE_CHOICES)
 
-    is_accepted = models.BooleanField(default=False)
+    is_accepted = models.BooleanField(default=True)
 
     phone_number = models.CharField(max_length=100, default='', blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
@@ -53,12 +53,11 @@ class Spot(TimeStampedModel):
     cropping_venue_photo = ImageRatioField('venue_photo', settings.VENUE_PHOTO_SIZE['W']+"x"+settings.VENUE_PHOTO_SIZE['H'], size_warning=True)
     spot_slug = models.SlugField(max_length=1000)
 
-    anonymous_creator_cookie = models.CharField(max_length=1024, blank=True, null=True) #TODO needed?
+    anonymous_creator_cookie = models.CharField(max_length=1024, blank=True, null=True)  # TODO needed?
 
-    creator = models.ForeignKey('accounts.User', null=True, blank=True, on_delete=models.SET_NULL) #TODO rethink it
+    creator = models.ForeignKey('accounts.User', null=True, blank=True, on_delete=models.SET_NULL)  # TODO rethink it
 
-    tags = models.ManyToManyField(Tag, related_name='spot_facilities', null=True, blank=True)
-
+    tags = models.ManyToManyField(Tag, related_name='spot_facilities', blank=True)
 
     @property
     def thumbnail_venue_photo(self):

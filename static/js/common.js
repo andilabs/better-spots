@@ -199,7 +199,7 @@
     $(document).on('click', 'span.rating.via_modal', function(e) {
       var clickedRate, clickedSpot, msg, rater;
       rater = $(this);
-      clickedSpot = rater.attr('id');
+      clickedSpot = rater.data('spot-pk');
       clickedRate = rater.find('input[name="friendly_rate"]').val();
       if (rater.find('input[name="friendly_rate"]').is('[readonly]') === false) {
         $('#rating-modal').find('input[name=spot_pk]').val(clickedSpot);
@@ -231,15 +231,16 @@
       });
     });
     $('#rating-modal').on('submit', '#rating-form', function(e) {
-      var data;
+      var data, spot_pk;
       e.preventDefault();
       data = JSON.stringify($('#rating-form').serializeJSON({
         parseBooleans: true,
         parseNulls: true,
         parseNumbers: true
       }));
+      spot_pk = JSON.parse(data).spot_pk;
       return $.ajax({
-        url: '/api/ratings/',
+        url: "/api/spots/" + spot_pk + "/rates/",
         data: data,
         contentType: "application/json; charset=utf-8",
         dataType: "json",

@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import django.contrib.gis.db.models.fields
-import django.contrib.postgres.fields.hstore
 from django.db import migrations, models
 import django.db.models.deletion
 import image_cropping.fields
@@ -61,7 +60,6 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True, db_index=True)),
                 ('is_enabled', models.BooleanField(choices=[(False, 'Not allowed'), (True, 'Allowed')], default=False)),
                 ('friendly_rate', models.PositiveIntegerField(choices=[(1, 'terrible'), (2, 'poor'), (3, 'average'), (4, 'very good'), (5, 'excellent')])),
-                ('facilities', django.contrib.postgres.fields.hstore.HStoreField(null=True)),
             ],
             options={
                 'abstract': False,
@@ -93,7 +91,6 @@ class Migration(migrations.Migration):
                                                                                allow_fullsize=False, free_crop=False, help_text=None, hide_image_field=False,
                                                                                size_warning=True, verbose_name='cropping venue photo')),
                 ('spot_slug', models.SlugField(max_length=1000)),
-                ('facilities', django.contrib.postgres.fields.hstore.HStoreField(null=True)),
                 ('anonymous_creator_cookie', models.CharField(blank=True, max_length=1024, null=True)),
             ],
         ),

@@ -159,7 +159,7 @@ $ ->
 
     $(document).on 'click', 'span.rating.via_modal', (e) ->
         rater = $(this)
-        clickedSpot = rater.attr('id')
+        clickedSpot = rater.data('spot-pk')
         clickedRate = rater.find('input[name="friendly_rate"]').val()
         if rater.find('input[name="friendly_rate"]').is('[readonly]') == false
             $('#rating-modal').find('input[name=spot_pk]').val(clickedSpot)
@@ -195,10 +195,9 @@ $ ->
             parseBooleans: true
             parseNulls: true
             parseNumbers: true))
-
-# TODO refactor to api v2
+        spot_pk = JSON.parse(data).spot_pk
         $.ajax
-            url: '/api/ratings/'
+            url: "/api/spots/#{spot_pk}/rates/"
             data: data
             contentType: "application/json; charset=utf-8"
             dataType: "json"
