@@ -3,11 +3,20 @@
 from __future__ import unicode_literals
 
 import django.contrib.gis.db.models.fields
+from django.contrib.postgres.operations import UnaccentExtension, CreateExtension, TrigramExtension
 from django.db import migrations, models
 import django.db.models.deletion
 import image_cropping.fields
 
 from utils.img_path import get_image_path
+
+
+class PostGisExtension(CreateExtension):
+
+    def __init__(self):
+
+        self.name = 'postgis'
+
 
 class Migration(migrations.Migration):
 
@@ -17,6 +26,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        PostGisExtension(),
+        UnaccentExtension(),
+        TrigramExtension(),
         migrations.CreateModel(
             name='Instance',
             fields=[

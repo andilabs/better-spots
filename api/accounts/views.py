@@ -1,3 +1,4 @@
+from rest_framework.generics import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.reverse import reverse
 
@@ -17,9 +18,8 @@ class UserFavouritesSpotsViewSet(ModelViewSet):
     permission_classes = (IsOwnerOrReadOnly, )
 
     def get_queryset(self):
-        return super(UserFavouritesSpotsViewSet, self).get_queryset().filter(
-            user=self.kwargs['user_pk']
-        )
+        user = get_object_or_404(User, pk=self.kwargs['user_pk'])
+        return self.queryset.filter(user=user)
 
     def create(self, request, *args, **kwargs):
         response = super(UserFavouritesSpotsViewSet, self).create(request, args, kwargs)

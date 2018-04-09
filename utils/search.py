@@ -1,5 +1,5 @@
-from django.contrib.postgres.search import SearchVector
-from django.db.models import Func
+from django.contrib.postgres.search import SearchVector, TrigramSimilarity
+from django.db.models import Func, Q
 
 from core.models.spots import Spot
 from utils.text import get_unaccented
@@ -15,7 +15,9 @@ def spots_full_text_search(search_term):
     )
 
     return Spot.objects.annotate(
-        search=spots_vector
+        search=spots_vector,
+        similarity=TrigramSimilarity(Func('name', function='unaccent'), unaccented_search_term)
     ).filter(
-        search__icontains=unaccented_search_term
-    ).distinct('pk')
+        Q(search__icontains=unaccented_search_term) |
+        Q(similarity__gt=0.2)
+    ).order_by('pk', '-similarity').distinct('pk')

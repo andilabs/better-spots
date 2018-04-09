@@ -99,27 +99,6 @@
       state: present
       encrypted: yes
 
-  - name: Add postgis extension
-    become_user: postgres
-    become: yes
-    postgresql_ext:
-      name: postgis
-      db: better_spots
-
-  - name: Add hstore extension
-    become_user: postgres
-    become: yes
-    postgresql_ext:
-      name: hstore
-      db: better_spots
-
-  - name: Add unaccent extension
-    become_user: postgres
-    become: yes
-    postgresql_ext:
-      name: unaccent
-      db: better_spots
-
   - name: Create media directories
     sudo: yes
     file: path="{{ item }}" state=directory

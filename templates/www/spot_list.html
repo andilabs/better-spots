@@ -48,7 +48,7 @@
 
             <div>
               <div class="col1">
-                <p>{{ spot.address_city}}, {{spot.address_street}} {{spot.address_number}}<br>
+                <p>{{ spot.address_city}}, {{spot.address_street|truncatechars:20}} {{spot.address_number}}<br>
                 {% if spot.phone_number %}
                 {{spot.phone_number}}
                 {% else %}
