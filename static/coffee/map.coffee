@@ -214,13 +214,13 @@ switchColumsClasses = (left, right) ->
 
 
 renderInfoWindow = (spot, userReadOnly=true) ->
-    rating_stars = $("<br><span class='rating via_modal' id='#{spot.id}'></span>")
+    rating_stars = $("<br><span class='rating via_modal' data-spot-pk='#{spot.id}'></span>")
         .raty
             scoreName: 'friendly_rate'
             readOnly: userReadOnly
             score: spot.friendly_rate
 
-    $("<div class='spot_info no_copy' id='#{spot.id}'>
+    $("<div class='spot_info no_copy' data-spot-pk='#{spot.id}'>
        <h4><a href='#{spot.www_url}'>#{spot.name}</a></h4><br>
        #{spot.address_street} #{spot.address_number}</div>")
         .append(rating_stars)[0]

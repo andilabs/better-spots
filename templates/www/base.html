@@ -188,7 +188,7 @@
 </div>
 
 <div class="container">
-
+    {% include 'www/partials/messages.html' with messages=messages %}
     <center>
         <div id="smart-menu" style="display:{% block show_smart_menu %}none{% endblock %}">
             {% include 'www/smart-menu.html' %}

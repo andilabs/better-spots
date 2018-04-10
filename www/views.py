@@ -186,7 +186,8 @@ def qrencode_link(request, pk, size=3, for_view='www:spot'):
     spot = get_object_or_404(Spot, pk=pk)
     data = "http://%s%s" % (
         request.get_host(),
-        reverse(for_view, kwargs={'pk': spot.pk}))
+        spot.www_url
+    )
     img = make_qrcode(data, box_size=size)
     response = HttpResponse(content_type="image/png")
     img.save(response, "png")

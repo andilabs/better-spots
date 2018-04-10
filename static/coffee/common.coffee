@@ -195,6 +195,7 @@ $ ->
             parseBooleans: true
             parseNulls: true
             parseNumbers: true))
+
         spot_pk = JSON.parse(data).spot_pk
         $.ajax
             url: "/api/spots/#{spot_pk}/rates/"

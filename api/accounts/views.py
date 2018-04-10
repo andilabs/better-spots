@@ -10,6 +10,8 @@ from api.accounts.serializers import UserSerializer, UsersFavouritesSpotsSeriali
 class UserViewSet(ModelViewSet):
     queryset = User.objects.order_by('pk').prefetch_related('favourites')
     serializer_class = UserSerializer
+    permission_classes = (IsOwnerOrReadOnly, )
+    object_user_to_check = 'self'
 
 
 class UserFavouritesSpotsViewSet(ModelViewSet):
