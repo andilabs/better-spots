@@ -12,5 +12,5 @@ env:
 install:
 - pip install -r requirements.txt
 script:
-- python manage.py migrate --noinput
-- python manage.py test
+- python manage.py migrate --noinput  --settings=better_spots.unittesting
+- python manage.py test  --settings=better_spots.unittesting
