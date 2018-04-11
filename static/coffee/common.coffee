@@ -221,14 +221,14 @@ $ ->
                     currentCategory = item.category
                     ul.append "<li class='ui-autocomplete-category'>#{currentCategory}</li>"
                 li = @_renderItemData(ul, item)
-                if item.thumb
-                    li.find("a").attr('href',item.url).html(
-                        "<img src=#{item.thumb} class='search_thumb'>
+                if item.thumbnail_venue_photo
+                    li.find("a").attr('href',item.www_url).html(
+                        "<img src=#{item.thumbnail_venue_photo} class='search_thumb'>
                         <span class='search-spot-name'>#{item.name}</span>
-                        <span class='search-spot-address'>#{item.address}</span>") if item.category
+                        <span class='search-spot-address'>#{item.address_city}, #{item.address_street}  #{item.address_number}</span>") if item.category
                 else
-                    li.find("a").attr('href',item.url).html("<div class='search_thumb_placeholder'></div><span class='search-spot-name'>#{item.name}</span>
-                        <span class='search-spot-address'>#{item.address}</span>") if item.category
+                    li.find("a").attr('href',item.www_url).html("<div class='search_thumb_placeholder'></div><span class='search-spot-name'>#{item.name}</span>
+                        <span class='search-spot-address'>#{item.address_city}, #{item.address_street}  #{item.address_number}</span>") if item.category
 
 
 
@@ -238,12 +238,12 @@ $ ->
         autoFocus: false
         source: (request, response) ->
             $.ajax
-                data: {q: request.term}
+                data: {search_query: request.term}
                 url: FTS_SEARCH_API_ENDPOINT
                 dataType: "json"
 
                 success: (data) ->
-                    response data
+                    response data.results
 
         focus: (e, ui) ->
             e.preventDefault()
@@ -251,7 +251,7 @@ $ ->
 
 
         select: (e, ui) ->
-            uri = ui.item.url
+            uri = ui.item.www_url
             window.location = uri
 
         close: (e, ui) ->

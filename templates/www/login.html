@@ -1,6 +1,6 @@
 {% extends "www/base.html" %}
 
-
+{% load custom_tags_and_filters %}
 
 {% block extra_head %}
     {{ form.media }}
@@ -12,16 +12,19 @@
         <span class="glyphicon glyphicon-log-in"></span> Login!
     </h2>
     <form class="form-vertical" action="{% url 'accounts:login' %}" method="post">
+       {{form.non_field_errors}}
         {% csrf_token %}
-        <div class="form-group" >
-            <label class="control-label" for="id_email">Email address</label>
-            <input class="form-control" id="id_email" maxlength="255" name="email" placeholder="Email address" required="required" title="" type="email" />
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="id_password1">Password</label>
-            <input class="form-control" id="id_password" name="password" placeholder="Password" required="required" title="" type="password" />
-        </div>
-        <div class="form-group">
+        	{% for field in form %}
+                {% if field.field.required %}
+                    *<b>{{field.label}}</b>
+                 {% else %}
+                    {{field.label}}
+                 {% endif %}
+        	    {{field|add_css:'form-control'}}
+                {% if field.errors %}
+            		<p class="error">{{field.errors}}</p>
+                {% endif %}
+        	{% endfor %}
             <button type="submit" class="btn btn-default">Submit</button>
         </div>
         Have no account? <a href="{% url 'accounts:user_create' %}">Register</a>

@@ -3,11 +3,11 @@ from django.contrib.gis.measure import Distance
 from django.contrib.gis.db.models.functions import Distance as DistanceFun
 from django.contrib.gis.geos import fromstr
 
-from django_filters import rest_framework as filters
-
+from django_filters import rest_framework as filters, CharFilter
 
 from core.models.spots import Spot
 from utils.models import Tag
+from utils.search import spots_full_text_search
 
 
 class LatLonRadiusWidget(forms.MultiWidget):
@@ -74,9 +74,21 @@ class SpotFilterSet(filters.FilterSet):
     class Meta:
         model = Spot
         fields = [
+            'is_certificated',
             'name',
             'location',
             'spot_type',
             'tags',
         ]
 
+
+class SpotFullTextSearchFilterSet(filters.FilterSet):
+    search_query = CharFilter(method='my_custom_filter')
+
+    class Meta:
+        model = Spot
+        fields = []
+
+    @property
+    def qs(self):
+        return spots_full_text_search(self.data.get('search_query'))

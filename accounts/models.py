@@ -13,6 +13,7 @@ from accounts.managers import UserManager
 from accounts.tasks import send_asynchronous_email
 
 from utils.models import TimeStampedModel
+from utils.signer import encrypt_data
 
 
 class User(AbstractBaseUser, TimeStampedModel, PermissionsMixin):
@@ -55,13 +56,6 @@ class User(AbstractBaseUser, TimeStampedModel, PermissionsMixin):
         return self.is_admin
 
 
-class EmailVerification(TimeStampedModel):
-    verification_key = models.CharField(max_length=21, unique=True)
-    key_timestamp = models.DateTimeField(auto_now=True)
-
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-
-
 class UsersSpotsList(TimeStampedModel):
 
     spot = models.ForeignKey('core.Spot', on_delete=models.CASCADE)
@@ -79,20 +73,12 @@ class UserFavouritesSpotList(UsersSpotsList):
 @receiver(post_save, sender='accounts.User')
 def verify_email(sender, instance, created, **kwargs):
     if created and not instance.mail_verified:
-        email_verification = EmailVerification(
-            verification_key=uuid.uuid4().hex[:21],
-            user=instance)
-        email_verification.save()
 
-
-@receiver(post_save, sender='accounts.EmailVerification')
-def send_email(sender, instance, created, **kwargs):
-
-    if created:
+        verification_key = encrypt_data(instance.email)
         subject = "Verify your e-mail to activate your account."
         activation_url = 'http://{domain}{uri}'.format(
             domain=settings.INSTANCE_DOMAIN,
-            uri=reverse('accounts:email_verification', kwargs={'verification_key': instance.verification_key})
+            uri=reverse('accounts:email_verification', kwargs={'verification_key': verification_key})
         )
         mail_content = "Please click this link to activate your account\n {activation_url}".format(
             activation_url=activation_url
@@ -100,5 +86,5 @@ def send_email(sender, instance, created, **kwargs):
         send_asynchronous_email.apply(kwargs={
             'subject': subject,
             'mail_content': mail_content,
-            'recipients_emails': [instance.user.email]
+            'recipients_emails': [instance.email]
         })

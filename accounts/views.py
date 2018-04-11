@@ -1,22 +1,19 @@
-import base64
-import uuid
-from datetime import timedelta
-
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import redirect
-from django.template.response import TemplateResponse
-from django.utils import timezone
-from django.views.generic import CreateView
+from django.contrib.auth.views import LogoutView, LoginView
+from django.core.signing import SignatureExpired, BadSignature
+from django.shortcuts import redirect, get_object_or_404
+from django.views.generic import CreateView, TemplateView
 
-from .models import EmailVerification
-from .forms import UserCreationForm
+from accounts.forms import BSAuthenticationForm
+from accounts.models import User
+from utils.signer import decrypt_data
+from .forms import BSUserCreationForm
 
 
 class UserCreate(CreateView):
     template_name = 'accounts/user_form.html'
-    form_class = UserCreationForm
+    form_class = BSUserCreationForm
     success_url = '/'
 
     def form_valid(self, form):
@@ -24,113 +21,59 @@ class UserCreate(CreateView):
             self.request,
             messages.WARNING,
             'Your account was created, but it is not active.' +
-            ' We sent you e-mail with confrimation link')
+            ' We sent you e-mail with confirmation link')
 
         return super(UserCreate, self).form_valid(form)
 
 
-# TODO: DO IT BETTER WITHOUT DB PERSISTANCE
-def mail_verification(request, verification_key):
+class MailConfirmView(TemplateView):
+    template_name = 'www/login.html'
 
-    try:
-        existing_account = EmailVerification.objects.get(
-            verification_key=verification_key)
-        user = existing_account.user
+    def get(self, request, *args, **kwargs):
+        verification_key = self.kwargs.get('verification_key')
+        try:
+            decrypted = decrypt_data(verification_key, max_age=settings.EMAIL_VERIFY_KEY_EXPIRATION_PERIOD_HOURS*3600)
+            claimed_email = decrypted['signed_data'].split(':')[0]
+            resulting_email = decrypted['result']
 
-        if user.mail_verified is True:
-
-                messages.add_message(
-                    request, messages.SUCCESS,
-                    "Your account is arleady active! Just log in!")
-                return redirect('accounts:login')
-
-        else:
-
-            if timezone.now() - existing_account.key_timestamp < timedelta(
-                    hours=settings.EMAIL_VERIFY_KEY_EXPIREATION_PERIOD_HOURS):
-
+            if claimed_email == resulting_email:
+                user = get_object_or_404(User, email=claimed_email)
                 user.mail_verified = True
                 user.save()
                 messages.add_message(
-                    request, messages.SUCCESS,
-                    ("Account was activated! Log in and enjoy %s!" %
-                     settings.SPOT_PROJECT_NAME)
-                )
+                    self.request, messages.SUCCESS,
+                    "Your account is now active you can login!")
                 return redirect('accounts:login')
 
-            else:
-
-                email_verification = EmailVerification(
-                    verification_key=base64.urlsafe_b64encode(
-                        uuid.uuid4().bytes)[:21],
-                    user=user)
-                email_verification.save()
-                messages.add_message(
-                    request, messages.WARNING,
-                    "The E-mail verification link has expired. We"
-                    + " will send you the new one activation link"
-                    + " to the e-mail: %s" % existing_account.user.email)
-                return redirect('accounts:login')
-
-    except EmailVerification.DoesNotExist:
-
-        messages.add_message(
-            request, messages.ERROR,
-            "Account does not exist")
-        return redirect('accounts:user_create')
-
-
-# TODO use django.contrib.auth.views.LoginView
-# https://docs.djangoproject.com/en/1.11/topics/auth/default/#django.contrib.auth.views.LoginView
-
-
-def mylogin(request):
-
-    if request.method == 'GET':
-        response = TemplateResponse(request, 'www/login.html', {})
-        return response
-
-    elif request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
-        user = authenticate(email=email, password=password)
-
-        if user:
-
-            if user.mail_verified:
-                login(request, user)
-                messages.add_message(
-                    request,
-                    messages.SUCCESS, 'You were sucessfully logged in!')
-                return redirect('www:main')
-            else:
-                messages.add_message(
-                    request,
-                    messages.WARNING,
-                    'Your account is not active. Check your mailbox and verify'
-                    + ' E-mail by clicking the link we sent you.')
-                return redirect('accounts:login')
-        else:
+        except SignatureExpired:
             messages.add_message(
-                request,
-                messages.ERROR,
-                'Your provided invalid credentials')
+                self.request, messages.WARNING,
+                "The E-mail verification link has expired.")
+            return redirect('accounts:login')
+
+        except BadSignature:
+            messages.add_message(
+                self.request, messages.WARNING,
+                "The E-mail verification link is broken.")
 
             return redirect('accounts:login')
 
 
-def mylogout(request):
+class BSLoginView(LoginView):
+    form_class = BSAuthenticationForm
+    template_name = 'www/login.html'
 
-    if request.method == 'GET':
 
-        if request.user.is_authenticated:
-            logout(request)
+class BSLogoutView(LogoutView):
+    template_name = 'www/base.html'
 
+    def get_next_page(self):
+        next_page = super(BSLogoutView, self).get_next_page()
         messages.add_message(
-            request, messages.SUCCESS,
-            'You sucessfully log out!')
-
-        return redirect('www:main')
+            self.request, messages.SUCCESS,
+            'You successfully log out!'
+        )
+        return next_page
 
 
 # TODO password reset

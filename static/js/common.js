@@ -267,13 +267,13 @@
               ul.append("<li class='ui-autocomplete-category'>" + currentCategory + "</li>");
             }
             li = _this._renderItemData(ul, item);
-            if (item.thumb) {
+            if (item.thumbnail_venue_photo) {
               if (item.category) {
-                return li.find("a").attr('href', item.url).html("<img src=" + item.thumb + " class='search_thumb'> <span class='search-spot-name'>" + item.name + "</span> <span class='search-spot-address'>" + item.address + "</span>");
+                return li.find("a").attr('href', item.www_url).html("<img src=" + item.thumbnail_venue_photo + " class='search_thumb'> <span class='search-spot-name'>" + item.name + "</span> <span class='search-spot-address'>" + item.address_city + ", " + item.address_street + "  " + item.address_number + "</span>");
               }
             } else {
               if (item.category) {
-                return li.find("a").attr('href', item.url).html("<div class='search_thumb_placeholder'></div><span class='search-spot-name'>" + item.name + "</span> <span class='search-spot-address'>" + item.address + "</span>");
+                return li.find("a").attr('href', item.www_url).html("<div class='search_thumb_placeholder'></div><span class='search-spot-name'>" + item.name + "</span> <span class='search-spot-address'>" + item.address_city + ", " + item.address_street + "  " + item.address_number + "</span>");
               }
             }
           };
@@ -287,12 +287,12 @@
       source: function(request, response) {
         return $.ajax({
           data: {
-            q: request.term
+            search_query: request.term
           },
           url: FTS_SEARCH_API_ENDPOINT,
           dataType: "json",
           success: function(data) {
-            return response(data);
+            return response(data.results);
           }
         });
       },
@@ -302,7 +302,7 @@
       },
       select: function(e, ui) {
         var uri;
-        uri = ui.item.url;
+        uri = ui.item.www_url;
         return window.location = uri;
       },
       close: function(e, ui) {

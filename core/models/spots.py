@@ -51,6 +51,7 @@ class Spot(TimeStampedModel):
 
     venue_photo = ImageCropField(upload_to=get_image_path, blank=True, null=True)
     cropping_venue_photo = ImageRatioField('venue_photo', settings.VENUE_PHOTO_SIZE['W']+"x"+settings.VENUE_PHOTO_SIZE['H'], size_warning=True)
+
     spot_slug = models.SlugField(max_length=1000)
 
     anonymous_creator_cookie = models.CharField(max_length=1024, blank=True, null=True)  # TODO needed?
@@ -131,6 +132,10 @@ class Spot(TimeStampedModel):
 
     @property
     def prepare_vcard(self):
+        """
+        :return: spot data in vcard format
+        :rtype: basestring
+        """
         vcard = "BEGIN:VCARD\r\n"
         vcard += "VERSION:3.0\r\n"
         vcard += "N:;{}\r\n".format(self.name)
@@ -166,10 +171,6 @@ class Spot(TimeStampedModel):
 
     def __str__(self):
         return self.name
-
-    def google_maps_admin_widget(self):
-        return mark_safe("""<input type="text" style="width:100%" id="us3-address"/>
-                  <div id="us3" style="width: 750px; height: 400px;"></div>""")
 
     @staticmethod
     def slugify(name, spot_type, city, street, address_number):

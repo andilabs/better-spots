@@ -15,6 +15,7 @@ class SpotSerializer(serializers.ModelSerializer):
     )
     creator = serializers.PrimaryKeyRelatedField(queryset=User.objects.none())
     distance = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField()
 
     class Meta:
         model = Spot
@@ -42,6 +43,7 @@ class SpotSerializer(serializers.ModelSerializer):
             'tags',
             'creator',
             'distance',
+            'category',
         ]
 
     def get_distance(self, obj):
@@ -50,6 +52,9 @@ class SpotSerializer(serializers.ModelSerializer):
             return round(obj.distance.km, 1)
         else:
             return None
+
+    def get_category(self, obj):
+        return obj.get_spot_type_display()
 
     def __init__(self, *args, **kwargs):
         super(SpotSerializer, self).__init__(*args, **kwargs)

@@ -8,10 +8,13 @@ from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
 from api.accounts.views import UserViewSet, UserFavouritesSpotsViewSet
 from api.instance.views import InstanceViewSet
 from api.opinions.views import OpinionViewSet, UserOpinionViewSet
-from api.spots.views import SpotViewSet
+from api.spots.views import SpotViewSet, SpotSearchView
 from api.ratings.views import SpotsRatingViewSet, UserRatingViewSet
 
 router = routers.SimpleRouter()
+
+# spots-search/
+router.register(r'spots-search', SpotSearchView, base_name='spots-search')
 
 # spots/
 router.register(r'spots', SpotViewSet)

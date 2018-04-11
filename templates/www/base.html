@@ -196,7 +196,7 @@
     </center>
 
     <div  style="min-height: 500px">
-        {% block content %}Empty page{% endblock %}
+        {% block content %}{% endblock %}
     </div>
     <p>
     <hr>
@@ -264,7 +264,7 @@
     <script type="text/javascript" src="{% static "js/holder.js" %}"></script>
     <script language="javascript">
         var DJANGO_USER = "{{user.is_authenticated|yesno:"true,false"}}";
-        var FTS_SEARCH_API_ENDPOINT = "{% url 'www:ajax_search' %}";
+        var FTS_SEARCH_API_ENDPOINT = "{% url 'api:spots-search-list' %}";
         var LOGIN_URL = "{% url 'accounts:login' %}"
     </script>
     <script type="text/javascript" src="{% static "js/common.js" %}"></script>

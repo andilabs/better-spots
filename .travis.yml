@@ -1,0 +1,14 @@
+language: python
+python:
+  - "3.5"
+
+services: postgresql
+
+# setup environment
+env:
+  - DJANGO_VERSION=2.0.2
+  - DJANGO_SETTINGS_MODULE='better_spots.unittesting'
+
+# install dependencies
+install:
+  - pip install -r requirements.txt

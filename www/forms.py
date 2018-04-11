@@ -22,15 +22,3 @@ class AddSpotForm(forms.ModelForm):
         widgets = {
             'location': GooglePointFieldWidget,
         }
-
-
-class EditSpotPhotoForm(forms.ModelForm):
-    class Meta:
-        model = Spot
-        fields = (
-            'venue_photo',
-            'cropping_venue_photo',
-        )
-        widgets = {
-            'venue_photo': ImageCropWidget,
-        }

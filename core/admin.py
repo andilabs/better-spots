@@ -1,21 +1,14 @@
 from solo.admin import SingletonModelAdmin
 from image_cropping import ImageCroppingMixin
 
-from django import forms
 from django.contrib import admin
-from django.db import models
+from django.contrib.gis.db import models
+from mapwidgets.widgets import GooglePointFieldWidget
 
 from core.models.instance import Instance
 from core.models.opinions import Opinion, OpinionUsefulnessRating
 from core.models.ratings import Rating
 from core.models.spots import Spot
-
-
-class SpotLocationForm(forms.ModelForm):
-    location = forms.CharField(
-        widget=forms.HiddenInput(),
-        required=False,
-        label='')
 
 
 class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
@@ -25,10 +18,9 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
         qs = qs.annotate(models.Count('ratings'))
         return qs
 
-    form = SpotLocationForm
-
-    add_form_template = "admin/spots/add_form.html"
-    change_form_template = "admin/spots/change_form.html"
+    formfield_overrides = {
+        models.PointField: {"widget": GooglePointFieldWidget}
+    }
 
     list_display = (
         'pk',
@@ -71,7 +63,6 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
 
         ('Address',
             {'fields': (
-                'google_maps_admin_widget',
                 'latitude',
                 'longitude',
                 'location',
@@ -104,9 +95,12 @@ class SpotAdmin(ImageCroppingMixin, admin.ModelAdmin):
     ]
 
     readonly_fields = tuple([
-        'google_maps_admin_widget',
         'latitude',
         'longitude',
+        'address_street',
+        'address_number',
+        'address_city',
+        'address_country',
         'is_enabled',
         'friendly_rate',
         'updated_at',

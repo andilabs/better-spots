@@ -155,7 +155,7 @@ REST_FRAMEWORK = {
 
 TOKEN_EXPIRES_AFTER = 24
 
-EMAIL_VERIFY_KEY_EXPIREATION_PERIOD_HOURS = 48
+EMAIL_VERIFY_KEY_EXPIRATION_PERIOD_HOURS = 48
 
 GOOGLE_MAP_API_KEY = os.environ['GOOGLE_MAP_API_KEY']
 
@@ -201,3 +201,10 @@ DATABASES = {
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+from django.urls import reverse_lazy
+
+
+LOGIN_REDIRECT_URL = reverse_lazy('www:main')
+LOGIN_URL = reverse_lazy('accounts:login')
+LOGOUT_URL = reverse_lazy('accounts:logout')
