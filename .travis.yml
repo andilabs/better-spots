@@ -1,7 +1,13 @@
 language: python
 python:
 - '3.5'
-services: postgresql
+services:
+  - postgresql
+addons:
+  postgresql: "9.6"
+
+# Allow the sudo command
+sudo: true
 env:
   matrix:
   - DJANGO_VERSION=2.0.2
@@ -16,6 +22,8 @@ install:
 - pip install -r requirements.txt
 
 before_script:
+  # ... I install the good version (PgSQL 9.6 Postgis 2.3)
+  - sudo apt-get install postgresql-9.6-postgis-2.3 postgis -y -q
   - psql -c 'create database better_spots;' -U postgres
   - psql -c 'CREATE EXTENSION postgis;' -U postgres -d better_spots
   - psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d better_spots
