@@ -1,18 +1,16 @@
 language: python
 python:
-  - "3.5"
-
+- '3.5'
 services: postgresql
-
-# setup environment
 env:
+  matrix:
   - DJANGO_VERSION=2.0.2
   - DJANGO_SETTINGS_MODULE='better_spots.unittesting'
-
-# install dependencies
+  global:
+  - secure: hcf0CvszQD/MfcLWYIwB6PVLfa76bMwC6Bx3u0o7f+xlz04UGuEi+iJn/ugp99TABxLSBsCm5K1ZAXgYWWUfMbHE2SKlhcHI+wtY4tjybMXgnGjI7td9UTyEqOgia10UwQchf1Nei4jT8LDMsdz4bGA8Zvbphus3lk2fEhdfPSTXeUw5SQ3ggEhiEDd9Cghzz+yZ8K2oqMfz9ILmg/yDBYEQHTRDKDPWFwP+HXxAz3bdzyKvigxJc3t3LWGjZEPFGtRT6/Q4iEZ1g1H8IZXVaRVUcGOvqzRzXhB/qpIuHPIuWEtrDHqy5p9URn4bGK77oROb25L1LX5F8L6rB2AUegMDM0J1sHmC3Kbq/r+8hJe4NW/54HxbbyEBd0Ml2hiEy4D74ndfctSDPwTfJUxEXXeYGc5ll6ObUjBxKOdX0urfCRxS6AEjopPp4AdWUDEKB0uqkpWCiQmKs6YDqCodv2ZSeW64ClzRG24YYVetO2b102AOg94jaOApxSv/eWrBfI5hTB+5v280/G9zXPTkYrsF/N7lGXYktvNtk3YV+4Bohz5c+zNcm9mFePelqXP3EfaiO7lr5UrtphsDJPbpMj8UuomouCibHF38CupghlvISGFzkVgqBTZOD3gVha5zW4/UF9M2otQ3mtxa3c4Ood1ceZnFBYRs3zgbmQZVEis=
+  - secure: b3ZhYAyP7XkcAJExjIunoXxuB5SNmvZPPzVsZzo+Qk9TYELN7b0o6z2m7fnnLJrJvoeDJrN9CLMbmtyEaOGi2KxvDSxo+2naPQbmndrcM8gO9/WLcZjjth9D6rpoor9Tiay3tEuJDCgNPBfMjjY6In85Y/1vBKAYtmoW517x2UTqyZjqrV0oQGavfcB1B23uPPjTvaE7j3olFfLiZyLDqoytxQVKsfNsF5Tee6CDBCjP2En39yQKUyLcHE80SMiNQMANneMSspLoLo/pEbJN3l442fx01zlPBxdewD2tR/fhaesYwaYZuetLdowA0BBeJHorYKlDqWgmASB9LL4oKYokiBvfp8t+wgnjOZhNfMv7m9P+ZxgGDbfGm69zXCWWRzO6OejCsfdd7ZhzztaeW5TbfekvYq6lCgFC/wdBRnlY4Eoi8rYjRDBssUtcRKgCQyTIN/+L+BucEvjLl0GK1GPkn9N6EFhNZWuvqMHD1ookJ413HgM03yGmHgQkGMKaHjcTdFPyjv/p5m6sNr7Lp/pNc4es/Fc9RzTldzJsV11cPwUpNcv8wV20NOeOHgfeMfJ4FTwGqERZTLuz8L9eMR4mnMU+631QPUg/3zHMNJ40z46Bcai3U0zTbB0lXIUrm/88iO2nVgaWL4jMHQaa+Zjqq3iD0dTlrfibf6YMVi4=
 install:
-  - pip install -r requirements.txt
-
+- pip install -r requirements.txt
 script:
-  - python manage.py migrate --noinput
-  - python manage.py test
+- python manage.py migrate --noinput
+- python manage.py test
