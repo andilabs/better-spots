@@ -14,6 +14,13 @@ env:
   - secure: Bx9dG7oUXwLQnBz0rlAPQjbL/1kLVjD9RbB97JAjq1qrHJNXB0FtEfTtMdnJngU2uXSKWfL8CmUdXK3LmXZ+MWXSDYF4OI0A/BMR/6flcKyqAKSQQni+FgtbpdN2gqyMzdHpAAG/wVe4xquyAIIyDsKSJxCHZNHfef0xOOD02w0jWhUXBI5mclWfx+y6B5Cv4oZkyoOXLRLWYxDOs61zoDrET4ceseKr0tn5Vs4SfLSAdvepx+oalTCkk0cPoS/CmE2ZRlxZr0oigN97OWIPeQKHm8Dm3jKJLgNMfccVFE89LnJArTbMrkMKLmUJzxS+PaUqpBQYVfFJ5N/ck2Yh/frMVn5IYPnM+6lhA+lS28liDPcLn9On5AzUHhKEMrwcGqGF1utqAmM7o7n/rP3XbriRhvtenTSDWfzVQh4i6WKssBbGYDOT0aKazhg0jisuqvn/LEgC5mg3uuhB/lKwolBF6e5z3QQHTXsKY2BWLEcKoXVl2O1o7yQJFbJ3Jn7nHQUHw0DkeWMvuNTnVDquwsjmojiSHkBonhFoMs8hqUyazziloRPSV1Tpt0FyafSSw7gSOCH3WITFBvmMW86PLVUjig7317AEOh8z2PVpXNJBDyvE8lMrDYNmHnKOHSbf/J9BHOsL8yozH++SBmDXlWB0UmibCQAyq56eqRQyKV8=
 install:
 - pip install -r requirements.txt
+
+before_script:
+  - psql -c 'create database better_spots;' -U postgres
+  - psql -c 'CREATE EXTENSION postgis;' -U postgres -d better_spots
+  - psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d better_spots
+
+
 script:
 - python manage.py migrate --noinput  --settings=better_spots.unittesting
 - python manage.py test  --settings=better_spots.unittesting
