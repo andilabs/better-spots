@@ -22,8 +22,8 @@ install:
 - pip install -r requirements.txt
 
 before_script:
-  # ... I install the good version (PgSQL 9.6 Postgis 2.3)
-  - sudo apt-get install postgresql-9.6-postgis-2.3 postgis -y -q
+  # ... I install the good version (PgSQL 10 Postgis 2.4)
+  - sudo apt-get install postgresql-10-postgis-2.4 postgis -y -q
   - psql -c 'create database better_spots;' -U postgres
   - psql -c 'CREATE EXTENSION postgis;' -U postgres -d better_spots
   - psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d better_spots
