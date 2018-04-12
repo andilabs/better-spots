@@ -1,5 +1,7 @@
 Better Spots
 =============
+[![Build Status](https://travis-ci.org/andilabs/better-spots.png?branch=master)](https://travis-ci.org/{andilabs/better-spots)
+
 
 This project aim is to build location oriented store for collecting spots, which are
  dog-, mom-, vegan- or disabled people- friendly.
