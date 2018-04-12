@@ -42,6 +42,9 @@ before_install:
   - sudo apt-get -y install postgresql-9.6-postgis-2.3
   - sudo apt-get -y install postgresql-9.6-postgis-2.3-scripts
 
+before_script:
+  - psql -c 'create database better_spots;' -U postgres
+
 script:
 - python manage.py migrate --noinput  --settings=better_spots.unittesting
 - python manage.py test  --settings=better_spots.unittesting
