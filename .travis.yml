@@ -1,10 +1,15 @@
 language: python
 python:
 - '3.5'
-services:
-  - postgresql
 addons:
   postgresql: "10"
+  apt:
+    packages:
+    - postgresql-10
+    - postgresql-client-10
+env:
+  global:
+  - PGPORT=5433
 
 # Allow the sudo command
 sudo: true
@@ -21,10 +26,10 @@ env:
 install:
 - pip install -r requirements.txt
 
-before_script:
-  # ... I install the good version (PgSQL 10 Postgis 2.4)
-  - sudo apt-get install postgresql-10-postgis-2.4 -y -q
-  - sudo su postgres && psql -c 'create database better_spots;' -U postgres && exit
+#before_script:
+#  # ... I install the good version (PgSQL 10 Postgis 2.4)
+#  - sudo apt-get install postgresql-10-postgis-2.4 -y -q
+#  - psql -c 'create database better_spots;' -U postgres
 
 
 script:
