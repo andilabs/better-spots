@@ -1,6 +1,8 @@
 language: python
 python:
 - '3.5'
+
+# https://docs.travis-ci.com/user/database-setup/#PostgreSQL
 addons:
   postgresql: "10"
   apt:
@@ -9,7 +11,7 @@ addons:
     - postgresql-client-10
 env:
   global:
-  - PGPORT=5433
+  - PGPORT=5432
 
 # Allow the sudo command
 sudo: true
@@ -32,6 +34,7 @@ install:
 #  - psql -c 'create database better_spots;' -U postgres
 
 before_script:
+  - psql -c 'create database better_spots;' -U postgres
   - psql -U postgres -c "create extension postgis"
 
 script:
