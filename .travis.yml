@@ -9,9 +9,7 @@ addons:
     packages:
     - postgresql-10
     - postgresql-client-10
-env:
-  global:
-  - PGPORT=5432
+
 
 # Allow the sudo command
 sudo: true
