@@ -1,15 +1,8 @@
+sudo: required
+dist: trusty
 language: python
 python:
 - '3.5'
-dist: trusty
-# https://docs.travis-ci.com/user/database-setup/#PostgreSQL
-addons:
-  postgresql: "10"
-  apt:
-    packages:
-    - postgresql-10
-    - postgresql-client-10
-
 
 # Allow the sudo command
 sudo: true
@@ -26,14 +19,29 @@ env:
 install:
 - pip install -r requirements.txt
 
-#before_script:
-#  # ... I install the good version (PgSQL 10 Postgis 2.4)
-#  - sudo apt-get install postgresql-10-postgis-2.4 -y -q
-#  - psql -c 'create database better_spots;' -U postgres
+addons:
+  postgresql: "9.3"
 
-before_script:
-  - psql -c 'create database better_spots;' -U postgres
-  - sudo apt-get install python-gdal
+services:
+  - postgresql
+
+before_install:
+  - chmod +x deploy_tools/gis.sh
+  - sudo apt-get update -qq
+  - sudo apt-get -y install python-software-properties
+
+  # Install GIS libraries
+  - sudo apt-get -y install mapserver-bin
+  - sudo apt-get -y install gdal-bin
+  - sudo apt-get -y install cgi-mapserver
+
+  # Install custom PostgreSQL / PostGIS
+  - sudo apt-get -y install postgresql-9.6
+  - sudo apt-get -y install postgresql-client-9.6
+  - sudo apt-get -y install postgresql-server-dev-9.6
+  - sudo apt-get -y install postgresql-plperl-9.6
+  - sudo apt-get -y install postgresql-9.6-postgis-2.3
+  - sudo apt-get -y install postgresql-9.6-postgis-2.3-scripts
 
 script:
 - python manage.py migrate --noinput  --settings=better_spots.unittesting
