@@ -24,7 +24,7 @@ install:
 before_script:
   # ... I install the good version (PgSQL 10 Postgis 2.4)
   - sudo apt-get install postgresql-10-postgis-2.4 -y -q
-  - psql -c 'create database better_spots;' -U postgres
+  - sudo su postgres && psql -c 'create database better_spots;' -U postgres
 
 
 script:
