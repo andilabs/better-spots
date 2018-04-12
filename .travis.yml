@@ -1,7 +1,7 @@
 language: python
 python:
 - '3.5'
-
+dist: trusty
 # https://docs.travis-ci.com/user/database-setup/#PostgreSQL
 addons:
   postgresql: "10"
