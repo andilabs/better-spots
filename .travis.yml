@@ -46,5 +46,5 @@ before_script:
   - psql -c 'create database better_spots;' -U postgres
 
 script:
-- python manage.py migrate --noinput  --settings=better_spots.unittesting
-- python manage.py test  --settings=better_spots.unittesting
+- python manage.py migrate --noinput  --settings=better_spots.travis_ci
+- python manage.py test  --settings=better_spots.travis_ci

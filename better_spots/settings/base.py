@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 
+from django.urls import reverse_lazy
+
 from easy_thumbnails.conf import Settings as thumbnail_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -186,7 +188,7 @@ SERIALIZATION_MODULES = {
 
 CELERY_RESULT_BACKEND = 'django-cache'
 
-POSTGIS_VERSION = (2, 4, 3)
+POSTGIS_VERSION = (2, 4, 4)
 
 DATABASES = {
     'default': {
@@ -201,9 +203,6 @@ DATABASES = {
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-from django.urls import reverse_lazy
-
 
 LOGIN_REDIRECT_URL = reverse_lazy('www:main')
 LOGIN_URL = reverse_lazy('accounts:login')

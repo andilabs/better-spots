@@ -156,22 +156,24 @@ class UserFavouritesAPITestCase(APITestCase):
     def test_get_user_favourites(self):
         u1 = UserFactory(email='a@b.pl')
         u2 = UserFactory(email='c@d.pl')
-        uf1 = UserFavouritesSpotListFactory(
+        _ = UserFavouritesSpotListFactory(
             user=u1,
             spot=self.s1
         )
-        uf2 = UserFavouritesSpotListFactory(
+        _ = UserFavouritesSpotListFactory(
             user=u1,
             spot=self.s2
         )
-        uf3 = UserFavouritesSpotListFactory(
+        _ = UserFavouritesSpotListFactory(
             user=u2,
             spot=self.s3
         )
         url1 = reverse('api:user-favourites-list', kwargs={'user_pk': u1.pk})
         response1 = self.client.get(url1)
+        self.assertEqual(response1.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response1.json()['results']), 2)
 
         url2 = reverse('api:user-favourites-list', kwargs={'user_pk': u2.pk})
         response2 = self.client.get(url2)
+        self.assertEqual(response2.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response2.json()['results']), 1)
