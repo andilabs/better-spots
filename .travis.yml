@@ -1,11 +1,8 @@
-sudo: required
+sudo: true
 dist: trusty
 language: python
 python:
 - '3.5'
-
-# Allow the sudo command
-sudo: true
 env:
   matrix:
   - DJANGO_VERSION=2.0.2
@@ -16,42 +13,35 @@ env:
   - secure: YigN2LmoDN0i/+qrHeGKT1beT7+QRRyi2nxZ+QJgq0DRIuY4//xEFOKz3/9DJp1OGYJ9Eq4m6yomRnzIyNEnKqInQ4l1TEmc8CGjt6fxybHDbR+PmDPmLZHCZ+tC31KmzMdZiTDmshhmiiHpbeiHQrPlskjNKmo2DqypsHgz768PoM0i9U/6mQTAEW2u1cG87sJGvOCWAvbhVlUEZwub97Q2s8y3Y5/U0N2n3QhjfweOqnxknHt6tI+ICVP23r9S7xxiuRMC/p+tmomHwoLI5x70I2m+N11dwfzx8YWpRQ9rXmPaqgacaq4tDZVHSvquzHr9AuZD03VvKZU2rbgtLs1D3ISHHlGQwlKF0XT4U3IXKjCjTw858ADQqJwAibeeWtyr28eKX84QWRtrb7IRZdnZhzAFWVYMKx4w2PnG2MXI8mdeujVWX0AOsp9f3kh1OaOji6/1j1kf47O9fHv+SAvzHfn424soomNoM5iDCE6a8k/QgkCp8u8I1R0oAInqtt+U46HTzRmRJhgH9+OK11/FJzZ4BqLR1X3VAREEwC0gN86OeAoK5tp8Rm1IHZlXbwJxgxvp3V84Pf+gY7AjetJS9+3bssqitIH+uxFVv4i/yRwzVIPVE3KbBJJsrLM8Fwkm5RFlnGSG5ruPGZWsvdlP4IzOX0ZXiATxU28XZEo=
   - secure: fzBwT3meojJB46qM7BImjr9/j7AYyNqqLRzR2kJhFyPijKviL31rLJUHqal18fIoEBTctDNcWytporokBQLAjX2qVB7XM3Ueih7N72GqqHcYTNNRLK7gYz56nIKp24ChJXHWwyLoWqDrGovTcA4RRFRhrGV+spJ3jwZ3nlzMP3yRqML5xcjrQspTrMPys1R/8jOhG7aKGVV72PQ6MaqC50Xa3xvFpHBVc3IpX6n6n3B43JzlUXvxVVpo7s+F/kJl8m3Rh07+B59h6QYrsP3csWj1u7rh74F8+gGevpIZZVbl/maYJV7tuKmznpvvMsdTM/3dH5EPbhjRHgCXCMiulkIFPi32kqrMtrBrUdUcKovAMMHfcUz+8kNKG35iuumEmTPwvIKqWCRxEI45JB1kv4U7QlrmpgzQtdeEIKb92I/1LpP0PQV/OHty8+UHF+cqvIbXBfFeob720kIsWqSu6BmtXYu5TnE+bAg3vwu1JDKE3cymUZV1k6x3PEhxS05A+Fv7exosqTPQBlEJvYR9WIBctYBPh7M0nudHHarYZgNmYk17SiIe0OPmG7STzMRVzvl8Px3bDQfMIK8XO2PGdh+voK29yGjIqHzpubAVlrPgqB2MAC2h0J7pmKrhC3gB1q48QwFHjwixfOeNzYdbrlQIqQJhJ8jOK9BkwGQyIdc=
   - secure: Bx9dG7oUXwLQnBz0rlAPQjbL/1kLVjD9RbB97JAjq1qrHJNXB0FtEfTtMdnJngU2uXSKWfL8CmUdXK3LmXZ+MWXSDYF4OI0A/BMR/6flcKyqAKSQQni+FgtbpdN2gqyMzdHpAAG/wVe4xquyAIIyDsKSJxCHZNHfef0xOOD02w0jWhUXBI5mclWfx+y6B5Cv4oZkyoOXLRLWYxDOs61zoDrET4ceseKr0tn5Vs4SfLSAdvepx+oalTCkk0cPoS/CmE2ZRlxZr0oigN97OWIPeQKHm8Dm3jKJLgNMfccVFE89LnJArTbMrkMKLmUJzxS+PaUqpBQYVfFJ5N/ck2Yh/frMVn5IYPnM+6lhA+lS28liDPcLn9On5AzUHhKEMrwcGqGF1utqAmM7o7n/rP3XbriRhvtenTSDWfzVQh4i6WKssBbGYDOT0aKazhg0jisuqvn/LEgC5mg3uuhB/lKwolBF6e5z3QQHTXsKY2BWLEcKoXVl2O1o7yQJFbJ3Jn7nHQUHw0DkeWMvuNTnVDquwsjmojiSHkBonhFoMs8hqUyazziloRPSV1Tpt0FyafSSw7gSOCH3WITFBvmMW86PLVUjig7317AEOh8z2PVpXNJBDyvE8lMrDYNmHnKOHSbf/J9BHOsL8yozH++SBmDXlWB0UmibCQAyq56eqRQyKV8=
+  - secure: mkUu7HEn5n2MVUot6gENLA+zMBAzMFKUGIzVHABBQb0ZWz3r4Yq51GmDozwRec+tHqx2GxfD8DCXxlcdTBcheFU3Vxr5UVHkQuwbWNjDKwOkstO0SKUl2KDaqDfbhYl4VxNpUIYhTl+zYccBhFMGo5L3zgAHxI/YUsGueDHUvrFH8vPeK8Xp1YHOXPaSCpGdliQUDUqtiMHHxSqtkiF/jnUwOGSPiZkfqG6/C/r28D1d4Dvv+PemFhNFPylTrLckZzyjZfIb4SNEPr6x0JyTpyL7BVz8eCpXasJ534hwfNcJJGm7u6DJ0uSmP3mBLXFtqqzTU117BkifVWv34//6i7xGeKCHmNUE8TUJ1i5W8x7jPObXo1BTgsE0iZtathX0VwrVGIWpizYps+Ss+41StiVtyVyH4JkAsC0H6oMOc1jO71dEh6Vt623M+Lu7XoQxOqTrPA89QxIpc8Z2um0W8lNm7onCo+AK08CrVAoGl2jvxGY0nISFMy8hNU918DCm8bAtaYLaW0962Gm5E0Zwde/YGBojQ2RzSSN/vWin2XbcQGxTdePiA/OmbeR4Y39UP797mOEB0khSCcc3NBFCxIgCrNsXMMZBbhkwKRZ07lQ5swrZcYk39clCe8eiTBoXaXiQn0vUCO217H7CqFJAAh9MHSFU+GeNauotpetL2UU=
+  - secure: Y46+PQu/E23cB6NvmMCLe8vS5OOvQUuIp/72S+lrqirFJIx2FyjkOo6gvVA9KerzyP1KOL+2Otb3pqPucc3ecpHhN8n8r8V55TncFfn2VX7dob8luqS5SDOdJruAeFTAAmaRwOHpZAp8AOboglSeaZPQZHqRxK0es1pvbC7bLvtocJX9iACmGve3r5aSh7IaISfCU/vp3xpRp3E7IFS955CyiT3bSGsfX/4GgOcGfXiDEU/uuSzxswbLQxZoXc2WzNUt7yZLMMV+w8Dri0dxzCVySwULBLh/Ah9xMM+ZxH9gCP7w8Qwvx3FAUjgk/BXAdfqKs87MVVsTcqegUoXuEQ91y1zDszKigLIPItGYAXHIyR2pBlHhpdsR6zKlcqqXDUDyZwKrdsJ7N0YF0n9nlZWvpMyo4thwBsSH6nZhLp7g+PSJTgHjHm+XKLC1xx4Jacpf2sWDrRuQVvMvDoRYhQT/Hx63W7ixV9N23b07JmrfryehkO6jCwLHTOj2e+5xd5VKx/Jsbtdn9EMSdRsCwx3RURGXGt0lTaLFubbbhFKqtDcCFJSOnWupSdjLqD7XxUdctMnM02EFQSXr8qkaYxR28ojWQZejo87afnY6gihp4GW8OPFe9PDIryH1y9a3aQSVrL90rU8eLY31RuFZDEa/3huKoXjNH1IyZ2gaysA=
+  - secure: QZTVGF1vMfNJp7PZ82p+SeCO9AK0wtWdL+/nol5ujqCqKBGWJtMJQEb7Wl34KaHZqBifXs/IQS5uw9EP3St7wZy2TbqHJLP7ozoPHbBTTacnenyToPabB/M2tWCTbPlrEDjExfnAXNeX0HETyzCXgipux6vwE2kI9QifILHtGSBReLk4P7Wrr3imfra84SxyA5Rqa02sWOin6qRaUOf07AP8pfwU0wgxB7Q6dCZaGcfMB9kTJ4/OFOcWbUuTC+lvCFazkWKkDcNAs+WNn5L7k1HFEusMohcHGoU+62vBL3eIhHd53ICr9GCERAUUIuOxp8kRhLGAv3XptK4pYGoLUkYvcOurk55GcAiGTZyd7DF5cRmCpN4+XMXjxM56S12Nyxx2C/DwSBCgkjrWeovAJ1MkoQ/oGEhZ098cmXCXI+I6nj9mQjXyp19F6CGG6kvwBjy7uQcWPG6KSonIWs6AFzHLNMv4/Pm0HOWvTGML4fLoxJpc7Bvluzfqx4aF1q8e2UK0kiZdw/nWIWhlRD2vZeOQhtGJFjUXBL6qetrx5RtGCdLTYEf86VogWpVaoFf8T6xBnQyes12AalQyzIHqtvHyPwJcVeIcY7CnrroYCj3Zl+KytlcyfFAyNlk5bhGqpn1dK/CIvg3uLxaO4/XMoI8mx1+KltBQG633hM8grsE=
 install:
 - pip install -r requirements.txt
-
 addons:
-  postgresql: "9.6"
-
+  postgresql: '9.6'
 services:
-  - postgresql
-
+- postgresql
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get -y install python-software-properties
-
-  # Install GIS libraries
-  - sudo apt-get -y install mapserver-bin
-  - sudo apt-get -y install gdal-bin
-  - sudo apt-get -y install cgi-mapserver
-
-  # Install custom PostgreSQL / PostGIS
-  - sudo apt-get -y install postgresql-9.6
-  - sudo apt-get -y install postgresql-client-9.6
-  - sudo apt-get -y install postgresql-server-dev-9.6
-  - sudo apt-get -y install postgresql-plperl-9.6
-  - sudo apt-get -y install postgresql-9.6-postgis-2.3
-  - sudo apt-get -y install postgresql-9.6-postgis-2.3-scripts
-
+- sudo apt-get update -qq
+- sudo apt-get -y install python-software-properties
+- sudo apt-get -y install mapserver-bin
+- sudo apt-get -y install gdal-bin
+- sudo apt-get -y install cgi-mapserver
+- sudo apt-get -y install postgresql-9.6
+- sudo apt-get -y install postgresql-client-9.6
+- sudo apt-get -y install postgresql-server-dev-9.6
+- sudo apt-get -y install postgresql-plperl-9.6
+- sudo apt-get -y install postgresql-9.6-postgis-2.3
+- sudo apt-get -y install postgresql-9.6-postgis-2.3-scripts
 before_script:
-  - psql -c 'create database better_spots;' -U postgres
-
+- psql -c 'create database better_spots;' -U postgres
 script:
 - python manage.py migrate --noinput  --settings=better_spots.travis_ci
 - python manage.py test  --settings=better_spots.travis_ci
-
 notifications:
   email:
     recipients:
-      - andi@andilabs.com
+    - andi@andilabs.com
     on_success: always
     on_failure: always

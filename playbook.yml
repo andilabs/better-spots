@@ -38,6 +38,9 @@
       EMAIL_HOST_PASSWORD: "{{ email_host_password }}"
       EMAIL_HOST_USER: "{{email_host_user}}"
       GOOGLE_MAP_API_KEY: "{{ google_map_api_key }}"
+      MAILTRAP_USER: "{{ mailtrap_user }}"
+      MAILTRAP_PASSWORD: "{{ mailtrap_password }}"
+      MAILTRAP_TOKEN: "{{ mailtrap_token }}"
 
 
   gather_facts: no
