@@ -48,3 +48,10 @@ before_script:
 script:
 - python manage.py migrate --noinput  --settings=better_spots.travis_ci
 - python manage.py test  --settings=better_spots.travis_ci
+
+notifications:
+  email:
+    recipients:
+      - andi@andilabs.com
+    on_success: always
+    on_failure: always
