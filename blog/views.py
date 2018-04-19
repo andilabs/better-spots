@@ -14,14 +14,14 @@ class BlogPostsListView(ListView):
     template_name = 'blog/post_list.html'
     paginate_by = 4
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
         # Call the base implementation first to get a context
-        context = super(BlogPostsListView, self).get_context_data(**kwargs)
+        context = super().get_context_data(object_list=None, **kwargs)
         # Add in the publisher
         context['instance'] = Instance.objects.get()
         return context
 
-    def get_queryset(self, **kwargs):
+    def get_queryset(self):
         return BlogPost.published.all().order_by('-published_date')
 
 

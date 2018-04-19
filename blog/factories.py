@@ -7,4 +7,3 @@ class InstanceFactory(factory.Factory):
 
     class Meta:
         model = BlogPost
-

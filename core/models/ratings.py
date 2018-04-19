@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+from django.apps import apps
 from django.contrib.gis.db import models
 from django.db.models import Avg
 from django.db.models import IntegerField
@@ -7,7 +8,6 @@ from django.db.models.functions import Cast
 from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 
-from core.models.spots import Spot
 from utils.models import TimeStampedModel, Tag
 
 FRIENDLY_RATE_CHOICES = (
@@ -29,7 +29,7 @@ class Rating(TimeStampedModel):
     friendly_rate = models.PositiveIntegerField(choices=FRIENDLY_RATE_CHOICES)
 
     user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
-    spot = models.ForeignKey(Spot, related_name='ratings', on_delete=models.CASCADE)
+    spot = models.ForeignKey('core.Spot', related_name='ratings', on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, related_name='rating_facilities', blank=True)
 
     class Meta:
@@ -54,6 +54,7 @@ def update_friendly_rate_and_enabled_status_of_spot(sender, instance, created, *
     averages.update({
         'is_enabled': True if averages['is_enabled'] >= 0.5 else False,
     })
+    Spot = apps.get_model(app_label='core', model_name='Spot')
     Spot.objects.filter(pk=instance.spot.pk).update(
         **averages
     )
@@ -68,4 +69,3 @@ def update_tags_on_spot_after_rating(sender, instance, action, reverse, model, p
             tags__isnull=False
         ).values_list('tags', flat=True)
         instance.spot.tags.add(*list(Tag.objects.filter(pk__in=spot_ratings_tags_ids)))
-

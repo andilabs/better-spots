@@ -44,7 +44,7 @@ class User(AbstractBaseUser, TimeStampedModel, PermissionsMixin):
         # Simplest possible answer: Yes, always
         return True
 
-    def has_module_perms(self, api):
+    def has_module_perms(self, app_label):
         """Does the user have permissions to view the app `api`?"""
         # Simplest possible answer: Yes, always
         return True

@@ -1,7 +1,7 @@
 ignore-paths:
   - docs
   - data
-  - static_assets
+  - static
 
 pep8:
   options:
@@ -13,6 +13,11 @@ pylint:
 
   disable:
     - R0901 # Too many ancestors - because of django libraries inheritance
+    - R1705 # allow no-else-return
+
+pyflakes:
+  disable:
+    - F999 # allow .* imports because of settings
 
 uses:
     - django

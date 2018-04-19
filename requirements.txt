@@ -26,7 +26,6 @@ redis==2.10.5
 factory_boy==2.8.1
 prospector==0.12.5
 Faker==0.7.12
-pylint-django==0.7.2
 xhtml2pdf==0.2b1
 Sphinx==1.6.2
 sphinx_rtd_theme==0.2.4
@@ -36,3 +35,6 @@ responses==0.8.1
 Unidecode==1.0.22
 django-map-widgets==0.1.9
 django-recaptcha==1.4.0
+pylint==1.7.5
+pylint-django==0.7.2
+pylint-plugin-utils==0.2.6
