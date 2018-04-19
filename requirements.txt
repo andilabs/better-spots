@@ -35,4 +35,4 @@ geopy==1.11.0
 responses==0.8.1
 Unidecode==1.0.22
 django-map-widgets==0.1.9
-django-simple-captcha==0.5.6
+django-recaptcha==1.4.0

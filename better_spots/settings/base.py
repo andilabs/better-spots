@@ -207,3 +207,7 @@ MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = reverse_lazy('www:main')
 LOGIN_URL = reverse_lazy('accounts:login')
 LOGOUT_URL = reverse_lazy('accounts:logout')
+
+RECAPTCHA_PUBLIC_KEY = os.environ['RECAPTCHA_PUBLIC_KEY']
+RECAPTCHA_PRIVATE_KEY = os.environ['RECAPTCHA_PRIVATE_KEY']
+NOCAPTCHA = True
