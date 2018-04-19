@@ -1,6 +1,6 @@
 from image_cropping import ImageCropWidget
 from mapwidgets.widgets import GooglePointFieldWidget, GoogleStaticOverlayMapWidget
-from captcha.fields import CaptchaField
+from captcha.fields import ReCaptchaField
 
 from django import forms
 
@@ -8,7 +8,7 @@ from core.models.spots import Spot
 
 
 class AddSpotForm(forms.ModelForm):
-    captcha = CaptchaField()
+    captcha = ReCaptchaField()
 
     class Meta:
         model = Spot

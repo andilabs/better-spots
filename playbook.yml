@@ -41,7 +41,8 @@
       MAILTRAP_USER: "{{ mailtrap_user }}"
       MAILTRAP_PASSWORD: "{{ mailtrap_password }}"
       MAILTRAP_TOKEN: "{{ mailtrap_token }}"
-
+      RECAPTCHA_PUBLIC_KEY: "{{ recaptcha_public_key }}"
+      RECAPTCHA_PRIVATE_KEY: "{{ recaptcha_private_key }}"
 
   gather_facts: no
   environment: "{{proxy_env}}"

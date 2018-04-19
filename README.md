@@ -44,6 +44,9 @@ content of .vaul_pass.txt:
     google_map_api_key: "YourGoogleMapsAPIkeyYourGoogleMapsAPIke"
     mailtrap_user: "YourMailtrapUser"
     mailtrap_password: "YourMailTrapPassword"
+    mailtrap_token: "YourMailTrapRestAPIToken"
+    recaptcha_public_key: "YourGoogleRecaptchaSiteKey"
+    recaptcha_private_key: "YourGoogleRecaptchaSecretKey"
 
 To get decrypted values:
 
