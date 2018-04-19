@@ -16,4 +16,3 @@ def decrypt_data(encrypted_data, max_age=50):
         'signed_data': verification_key.decode('utf-8'),
         'result': signer.unsign(verification_key.decode('utf-8'), max_age=max_age)
     }
-

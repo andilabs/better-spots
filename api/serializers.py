@@ -15,18 +15,18 @@ class GeoPointSerializerField(serializers.Field):
 
     """
 
-    def to_representation(self, obj):
+    def to_representation(self, value):
         """ returns dict like
         {
             "latitude" 25.024444,
             "longitude": 55.2323232
         }
-        :param obj: Point
-        :type obj: models.PointField
+        :param value: Point
+        :type value: models.PointField
         :return: dict with latitude and longitude keys
         ":rtype: dict
         """
-        geo = GeoPoint(*obj.coords)
+        geo = GeoPoint(*value.coords)
         return geo._asdict()
 
     def to_internal_value(self, data):
