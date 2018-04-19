@@ -161,6 +161,8 @@ EMAIL_VERIFY_KEY_EXPIRATION_PERIOD_HOURS = 48
 
 GOOGLE_MAP_API_KEY = os.environ['GOOGLE_MAP_API_KEY']
 
+GOOGLE_MAPS_JS_API_KEY = os.environ['GOOGLE_MAPS_JS_API_KEY']
+
 MAP_WIDGETS = {
     "GooglePointFieldWidget": (
         ("zoom", 17),
@@ -168,7 +170,7 @@ MAP_WIDGETS = {
         ("GooglePlaceAutocompleteOptions", {'componentRestrictions': {'country': 'pl'}}),
         ("markerFitZoom", 17),
     ),
-    "GOOGLE_MAP_API_KEY": GOOGLE_MAP_API_KEY
+    "GOOGLE_MAP_API_KEY": GOOGLE_MAPS_JS_API_KEY
 }
 
 VENUE_PHOTO_SIZE = {'W': '350', 'H': '150'}

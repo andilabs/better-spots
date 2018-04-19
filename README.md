@@ -42,6 +42,7 @@ content of .vaul_pass.txt:
     email_host_password: "yourEmailPass"
     django_secret_key: "YourDjangoSecretKeyYourDjangoSecretKeyYourDjangoSe"
     google_map_api_key: "YourGoogleMapsAPIkeyYourGoogleMapsAPIke"
+    google_maps_js_key: "YourGoogleMapsJSApiKey"
     mailtrap_user: "YourMailtrapUser"
     mailtrap_password: "YourMailTrapPassword"
     mailtrap_token: "YourMailTrapRestAPIToken"

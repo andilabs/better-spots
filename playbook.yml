@@ -37,6 +37,7 @@
       DJANGO_SECRET_KEY: "{{ django_secret_key }}"
       EMAIL_HOST_PASSWORD: "{{ email_host_password }}"
       EMAIL_HOST_USER: "{{email_host_user}}"
+      GOOGLE_MAPS_JS_API_KEY: "{{ google_maps_js_key }}"
       GOOGLE_MAP_API_KEY: "{{ google_map_api_key }}"
       MAILTRAP_USER: "{{ mailtrap_user }}"
       MAILTRAP_PASSWORD: "{{ mailtrap_password }}"

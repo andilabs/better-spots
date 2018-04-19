@@ -75,7 +75,7 @@ class BaseSpotDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(BaseSpotDetailView, self).get_context_data(**kwargs)
-        context.update({'GOOGLE_MAP_API_KEY': settings.GOOGLE_MAP_API_KEY})
+        context.update({'GOOGLE_MAPS_JS_API_KEY': settings.GOOGLE_MAPS_JS_API_KEY})
         return context
 
 
