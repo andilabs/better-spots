@@ -21,3 +21,5 @@ TAGS = {
     2: "playroom for kids",
     3: "kids menu",
 }
+
+SPOT_PROJECT_BLOGGER_PHOTO = '/static/{}/blogger_photo.jpg'.format(SPOT_PROJECT_NAME)

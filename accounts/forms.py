@@ -1,3 +1,5 @@
+from captcha.fields import ReCaptchaField
+
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
@@ -85,6 +87,7 @@ class BSAuthenticationForm(forms.Form):
 
 
 class BSUserCreationForm(UserCreationForm):
+    captcha = ReCaptchaField()
 
     class Meta:
         model = User

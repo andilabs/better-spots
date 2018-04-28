@@ -152,7 +152,7 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PERMISSION_CLASSES': [
     ],
-    'PAGE_SIZE': 5,
+    'PAGE_SIZE': 50,
 }
 
 TOKEN_EXPIRES_AFTER = 24
@@ -167,7 +167,6 @@ MAP_WIDGETS = {
     "GooglePointFieldWidget": (
         ("zoom", 17),
         ("mapCenterLocationName", "warsaw"),
-        ("GooglePlaceAutocompleteOptions", {'componentRestrictions': {'country': 'pl'}}),
         ("markerFitZoom", 17),
     ),
     "GOOGLE_MAP_API_KEY": GOOGLE_MAPS_JS_API_KEY

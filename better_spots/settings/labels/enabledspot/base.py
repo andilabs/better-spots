@@ -20,3 +20,5 @@ TAGS = {
     2: "enabled entrance",
     3: "tables_enabled",
 }
+
+SPOT_PROJECT_BLOGGER_PHOTO = '/static/{}/blogger_photo.jpg'.format(SPOT_PROJECT_NAME)

@@ -15,7 +15,7 @@ def create_or_update_instance():
             'main_color': settings.SPOT_PROJECT_MAIN_COLOR,
             'description': settings.SPOT_PROJECT_DESCRIPTION,
             'instagram': settings.SPOT_PROJECT_INSTAGRAM_USERNAME,
-            'blogger_photo': 'img/blogger_photo.jpg'
+            'blogger_photo': settings.SPOT_PROJECT_BLOGGER_PHOTO,
         }
     )
 

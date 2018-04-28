@@ -19,3 +19,5 @@ TAGS = {
     1: "vegetarian menu",
     2: "vegan menu",
 }
+
+SPOT_PROJECT_BLOGGER_PHOTO = '/static/{}/blogger_photo.jpg'.format(SPOT_PROJECT_NAME)

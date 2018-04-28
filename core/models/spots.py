@@ -5,10 +5,13 @@ from image_cropping import ImageCropField, ImageRatioField
 
 from django.conf import settings
 from django.contrib.gis.db import models
+from django.contrib.gis.db.models.functions import Distance as DistanceFun
+from django.contrib.gis.measure import Distance
+
 from django.urls import reverse
 from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
 from utils.geocoding import reverse_geocoding
@@ -184,23 +187,53 @@ class Spot(TimeStampedModel):
             )
         )
 
-
-@receiver(post_save, sender='core.Spot')
-def fill_address_based_on_reverse_geocoding(sender, instance, created, **kwargs):
-    longitude, latitude = instance.location.coords
-    address_info = reverse_geocoding(latitude=latitude, longitude=longitude)
-    sender.objects.filter(
-        pk=instance.pk
-    ).update(
-        address_number=address_info.get('address_number'),
-        address_street=address_info.get('address_street'),
-        address_city=address_info.get('address_city'),
-        address_country=address_info.get('address_country'),
-        spot_slug=Spot.slugify(
+    @staticmethod
+    def slugify_from_address_dict(instance, address_info):
+        return Spot.slugify(
             name=instance.name,
             spot_type=instance.get_spot_type_display(),
             city=address_info.get('address_city'),
             street=address_info.get('address_street'),
             address_number=address_info.get('address_number')
         )
-    )
+
+    @property
+    def nearby(self, radius_in_meters=5000):
+        return Spot.objects.exclude(pk=self.pk).filter(
+            location__distance_lte=(self.location, Distance(m=radius_in_meters))
+        ).annotate(distance=DistanceFun('location', self.location)).order_by('distance')[:5]
+
+
+@receiver(pre_save, sender='core.Spot')
+def fill_address_based_on_reverse_geocoding_when_location_changed(sender, instance, **kwargs):
+    """update spot address from Google API when marker was moved and geo location changed"""
+    try:
+        old = sender.objects.get(pk=instance.pk)
+    except sender.DoesNotExist:
+        pass
+    else:
+        if old.location.coords != instance.location.coords:
+            longitude, latitude = instance.location.coords
+            address_info = reverse_geocoding(latitude=latitude, longitude=longitude)
+            instance.address_number = address_info.get('address_number')
+            instance.address_street = address_info.get('address_street')
+            instance.address_city = address_info.get('address_city')
+            instance.address_country = address_info.get('address_country')
+            instance.spot_slug = Spot.slugify_from_address_dict(instance, address_info)
+
+
+@receiver(post_save, sender='core.Spot')
+def fill_address_based_on_reverse_geocoding(sender, instance, created, **kwargs):
+    """fill info regarding spot address from Google API based on latitude and longitude"""
+    if created:
+        longitude, latitude = instance.location.coords
+        address_info = reverse_geocoding(latitude=latitude, longitude=longitude)
+        sender.objects.filter(
+            pk=instance.pk
+        ).update(
+            address_number=address_info.get('address_number'),
+            address_street=address_info.get('address_street'),
+            address_city=address_info.get('address_city'),
+            address_country=address_info.get('address_country'),
+            spot_slug=Spot.slugify_from_address_dict(instance, address_info)
+        )

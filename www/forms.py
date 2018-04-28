@@ -1,5 +1,4 @@
-from image_cropping import ImageCropWidget
-from mapwidgets.widgets import GooglePointFieldWidget, GoogleStaticOverlayMapWidget
+from mapwidgets.widgets import GooglePointFieldWidget
 from captcha.fields import ReCaptchaField
 
 from django import forms

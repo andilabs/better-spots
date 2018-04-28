@@ -18,53 +18,7 @@
 <div class="row">
   {% for spot in spots %}
     <div class="col-sm-6 col-md-4">
-      <div class="thumbnail">
-
-        {% if spot.is_certificated %}
-          <img src='{% settings_value_static "SPOT_PROJECT_NAME" %}/certificate_small.png' class="enablence-symbol">
-        {% else %}
-          {% if spot.is_enabled %}
-            <img src='{% settings_value_static "SPOT_PROJECT_NAME" %}/marker-ok.png' class="enablence-symbol">
-          {% elif spot.is_enabled == False %}
-            <img src='{% settings_value_static "SPOT_PROJECT_NAME" %}/marker-bad.png' class="enablence-symbol">
-          {% else %}
-            <img src='{% settings_value_static "SPOT_PROJECT_NAME" %}/marker-undefined.png' class="enablence-symbol">
-          {% endif %}
-        {% endif %}
-
-
-        <a href="{{spot.get_url}}">
-        {% if spot.thumbnail_venue_photo %}
-          <img src="{{spot.thumbnail_venue_photo}}" class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok {% else %} bad{% endif %}{% endif %}" style="width: 350px; height: 150px;">
-        {% else %}
-          <img data-src="holder.js/350x150/text: no photo" alt="..." class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok  {% elif spot.is_enabled == False %} bad {% else %} undefined {% endif %}{% endif %}">
-        {% endif %}
-        </a>
-
-        <div class="caption">
-            <h4>
-              <a href="{{spot.get_url}}" title="{{ spot.name }}">{{ spot.name|upper|truncatechars:27 }}</a>
-            </h4>
-
-            <div>
-              <div class="col1">
-                <p>{{ spot.address_city}}, {{spot.address_street|truncatechars:20}} {{spot.address_number}}<br>
-                {% if spot.phone_number %}
-                {{spot.phone_number}}
-                {% else %}
-                <br>
-                {% endif %}
-                </p>
-                 {% include "www/partials/spot_rating_stars_ui.html" with spot=spot %}
-              </div>
-              <div class="col2">
-                {% include "www/partials/spot_favourites_heart_it_ui.html" with spot=spot user_favourites_spots_pks=user_favourites_spots_pks %}
-              </div>
-            </div>
-
-        </div>
-
-      </div>
+      {% include "www/partials/spot_thumbnail.html" with spot=spot %}
     </div>
   {% endfor %}
 </div>

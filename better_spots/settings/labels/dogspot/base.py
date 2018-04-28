@@ -18,3 +18,5 @@ TAGS = {
     2: 'dedicated menu',
     3: 'snacks',
 }
+
+SPOT_PROJECT_BLOGGER_PHOTO = '/static/{}/blogger_photo.jpg'.format(SPOT_PROJECT_NAME)

@@ -102,7 +102,7 @@
                 <li class="list-group-item" style="height:100%">
                  <div style="width:100%; padding:0px; min-height: 170px; overflow: hidden">
                       <div class="col-md-3">
-                          <img src="{% url 'www:qrcode_vcard' pk=spot.pk size=4 %}"><br>
+                          <img src="{% url 'www:qrcode_vcard' pk=spot.pk size=3 %}"><br>
                           [ <a href="{% url 'www:vcard' pk=spot.pk %}">Download vCard</a> ]
                       </div>
                       <div class="col-md-9">
@@ -128,7 +128,16 @@
             </ul>
         </div>
     </div>
-
+    {% if spot.nearby %}
+        <h1>Nearby spots:</h1>
+    {% endif %}
+    <div class="row">
+      {% for  nearby_spot in spot.nearby %}
+        <div class="col-sm-6 col-md-4">
+          {% include "www/partials/spot_thumbnail.html" with spot=nearby_spot %}
+        </div>
+      {% endfor %}
+    </div>
 {% endblock %}
 
 {% block scripts %}

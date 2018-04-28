@@ -24,14 +24,18 @@
       - libfreetype6-dev
       - python-dev
 
-    home_dir: '/home/ubuntu'
-    web_base_dir: '/home/ubuntu/better_spots'
+    remote_user: 'ubuntu'
+    home_dir: "/home/{{remote_user}}"
+    web_base_dir: "{{home_dir}}/better_spots"
+
     media_dir: '/better_spots/media'
+
     project_dir: '/better_spots'
+
     static_root: '/var/www/static'
     project_instance: 'dogspot'
     celery_worker: 'better_spots'
-    app_user: 'ubuntu'
+
     proxy_env:
       DB_PASSWORD: "{{db_password}}"
       DJANGO_SECRET_KEY: "{{ django_secret_key }}"
@@ -44,10 +48,21 @@
       MAILTRAP_TOKEN: "{{ mailtrap_token }}"
       RECAPTCHA_PUBLIC_KEY: "{{ recaptcha_public_key }}"
       RECAPTCHA_PRIVATE_KEY: "{{ recaptcha_private_key }}"
+      PYTHONIOENCODING: "utf-8"
 
   gather_facts: no
   environment: "{{proxy_env}}"
   tasks:
+
+  - name: copy project to remote location
+    synchronize:
+      src: "./"
+      dest: "/better_spots"
+    tags: deploy
+
+  - name: create web_base_dir
+    file: path={{web_base_dir}} state=directory
+    tags: deploy
 
   - name: Install packages
     sudo: yes
@@ -112,7 +127,7 @@
 
   - name: Craete STATIC_ROOT
     sudo: yes
-    file: path="{{ item }}" owner='ubuntu' group='ubuntu' mode=0775 state=directory
+    file: path="{{ item }}" owner="{{remote_user}}" group="{{remote_user}}" mode=0775 state=directory
     with_items:
       - "{{ static_root }}"
 
@@ -122,8 +137,9 @@
 
   - name: install pip packages
     sudo: yes
-    pip: virtualenv={{ web_base_dir }}/venv
-         requirements=/better_spots/requirements.txt
+    pip:
+      virtualenv: "{{ web_base_dir }}/venv"
+      requirements: "/better_spots/requirements.txt"
     tags: pipka
 
   - name: activate virtualenv, navigate to project dir
@@ -172,24 +188,43 @@
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
+    tags: loaddata
+
+  - name: dump fresh data currently in db
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py dumpdata core.spot --indent 2 > data/initial_spots/spots.json"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+    tags: dumpdata
+
+# TODO make it works
+#  - name: copy images for created spots to initial_img
+#    fetch: src={{ item.src }} dest={{ item.dest }}
+#    with_items:
+#      - { src: "{{ media_dir }}/img", dest: "{{ project_dir }}/data/initial_spots/initial_img/" }
+#    args:
+#      chdir: "/"
+#    tags: dumpdata
 
   - name: copy images for spots and instance from fixtures
     copy: src={{ item.src }} dest={{ item.dest }}
     with_items:
       - { src: "data/initial_spots/initial_img/", dest: "{{ media_dir }}/img" }
+    tags: loaddata
 
   - name: create superuser
     shell: "{{ web_base_dir }}/venv/bin/python manage.py create_andi"
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
+    tags: loaddata
 
   - name: create objects
     shell: "{{ web_base_dir }}/venv/bin/python manage.py create_objects"
     args:
       chdir: "{{ project_dir }}"
       executable: /bin/bash
-
+    tags: loaddata
 
 #  # todo this needs refactor using nohup isn't cool, and different strategies of running celery for develop and production needed
 #  - name: start celery
