@@ -26,6 +26,7 @@ class TestEmailVerification(TestCase):
         )
         _ = UserFactory(email=self.email_address)
         mailbox = self.mailtrap_client.get_mailboxes()[0]
+        self.mailbox_id = mailbox['id']
         self.mails = self.mailtrap_client.get_messages_of_inbox(mailbox['id'])
 
     def test_email_with_token_was_sent_after_user_created(self):
@@ -44,3 +45,6 @@ class TestEmailVerification(TestCase):
         with self.assertRaises(SignatureExpired):
             _ = decrypt_data(token, max_age=2)
 
+    def tearDown(self):
+        self.mailtrap_client.clear_inbox(self.mailbox_id)
+    

@@ -13,6 +13,10 @@ class MailTrapAPIClient(object):
         full_url = "{}{}".format(self.domain, url)
         return requests.get(full_url, params, headers=self.headers())
 
+    def _patch(self, url, params=None):
+        full_url = "{}{}".format(self.domain, url)
+        return requests.patch(full_url, params, headers=self.headers())
+
     def get_mailboxes(self):
         """
         https://mailtrap.docs.apiary.io/#reference/inbox
@@ -29,3 +33,7 @@ class MailTrapAPIClient(object):
         """
         url = "/api/v1/inboxes/{inbox_id}/messages".format(inbox_id=inbox_id)
         return self._get(url).json()
+
+    def clear_inbox(self, inbox_id):
+        url = "/api/v1/inboxes/{inbox_id}/clean".format(inbox_id=inbox_id)
+        return self._patch(url).json()
