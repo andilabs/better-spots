@@ -1,0 +1,242 @@
+---
+- hosts: all
+  pre_tasks:
+    - name: 'install python2 (because ansible needs it, but xenial does not provide it by default)'
+      raw: sudo apt-get update && sudo apt-get -y install python
+  vars_files:
+    - secrets_vars.yml
+  vars:
+    packages:
+      - python
+      - python3
+      - python-pip
+      - python-virtualenv
+      - vim
+      - binutils
+      - tree
+      - language-pack-pl
+      - postgresql-client
+      - redis-tools
+      - redis-server
+      - coffeescript
+      - libz-dev
+      - libjpeg-dev
+      - libfreetype6-dev
+      - python-dev
+
+    remote_user: 'root'
+    home_dir: "/{{remote_user}}"
+    web_base_dir: "{{home_dir}}/better_spots"
+
+    media_dir: '/better_spots/media'
+
+    project_dir: '/better_spots'
+
+    static_root: '/var/www/static'
+    project_instance: 'dogspot'
+    celery_worker: 'better_spots'
+
+    proxy_env:
+      DB_PASSWORD: "{{db_password}}"
+      DJANGO_SECRET_KEY: "{{ django_secret_key }}"
+      EMAIL_HOST_PASSWORD: "{{ email_host_password }}"
+      EMAIL_HOST_USER: "{{email_host_user}}"
+      GOOGLE_MAPS_JS_API_KEY: "{{ google_maps_js_key }}"
+      GOOGLE_MAP_API_KEY: "{{ google_map_api_key }}"
+      MAILTRAP_USER: "{{ mailtrap_user }}"
+      MAILTRAP_PASSWORD: "{{ mailtrap_password }}"
+      MAILTRAP_TOKEN: "{{ mailtrap_token }}"
+      RECAPTCHA_PUBLIC_KEY: "{{ recaptcha_public_key }}"
+      RECAPTCHA_PRIVATE_KEY: "{{ recaptcha_private_key }}"
+      PYTHONIOENCODING: "utf-8"
+
+  gather_facts: no
+  environment: "{{proxy_env}}"
+  tasks:
+
+  - name: copy project to remote location
+    synchronize:
+      src: "../../better-spots/"
+      dest: "/better_spots"
+    tags: deploy
+
+  - name: create web_base_dir
+    file: path={{web_base_dir}} state=directory
+    tags: deploy
+
+  - name: Install packages
+    sudo: yes
+    apt: pkg={{ item }} state=present update_cache=yes
+    with_items: "{{ packages }}"
+
+  # http://trac.osgeo.org/postgis/wiki/UsersWikiPostGIS23UbuntuPGSQL96Apt
+  - name: Add PostgreSQL to the sources list
+    sudo: yes
+    apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main'
+                    update_cache=yes
+                    state=present
+
+  - name: Add the PostgreSQL public GPG key to the apt repo
+    sudo: yes
+    apt_key: url=http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc
+             state=present
+
+  - name: Install PostgreSQL
+    sudo: yes
+    apt: name={{ item }} update_cache=yes state=installed
+    with_items:
+      - postgresql-9.6
+      - postgresql-9.6-postgis-2.3
+      - postgresql-contrib-9.6
+      - postgresql-9.6-postgis-scripts
+      - python-psycopg2
+      - postgis
+      - postgresql-9.6-pgrouting
+    tags: packages
+
+  - name: Ensure the PostgreSQL service is running
+    service: name=postgresql state=started enabled=yes
+
+  - name: Ensure database is created
+    become_user: postgres
+    become: yes
+    postgresql_db: name='better_spots'
+                   encoding='UTF-8'
+                   lc_collate='en_US.UTF-8'
+                   lc_ctype='en_US.UTF-8'
+                   template='template0'
+                   state=present
+
+  - name: Ensure user has access to the database
+    become_user: postgres
+    become: yes
+    postgresql_user:
+      db: 'better_spots'
+      name: 'better_spots'
+      password: '{{db_password}}'
+      priv: ALL
+      role_attr_flags: CREATEDB,SUPERUSER
+      state: present
+      encrypted: yes
+
+  - name: Create media directories
+    sudo: yes
+    file: path="{{ item }}" state=directory
+    with_items:
+      - "{{ media_dir }}/img"
+
+  - name: Craete STATIC_ROOT
+    sudo: yes
+    file: path="{{ item }}" owner="{{remote_user}}" group="{{remote_user}}" mode=0775 state=directory
+    with_items:
+      - "{{ static_root }}"
+
+  - name: create virtualenv for python 3.5
+    sudo: yes
+    command: creates={{ web_base_dir }}/venv virtualenv -p python3.5 {{ web_base_dir }}/venv
+
+  - name: install pip packages
+    sudo: yes
+    pip:
+      virtualenv: "{{ web_base_dir }}/venv"
+      requirements: "/better_spots/requirements.txt"
+    tags: pipka
+
+  - name: create .bashrc
+    file:
+      path: "{{ home_dir }}/.bashrc"
+      state: touch
+
+  - name: create .profile
+    file:
+      path: "{{ home_dir }}/.profile"
+      state: touch
+
+  - name: activate virtualenv, navigate to project dir
+    lineinfile:
+      dest: "{{ home_dir }}/.bashrc"
+      state: present
+      line: "{{ item }}"
+    with_items:
+      - "source {{ web_base_dir }}/venv/bin/activate"
+      - "cd {{ project_dir }}"
+
+  - name: save environment variables into .app_environemnts file
+    lineinfile:
+      dest: "{{ home_dir }}/.app_environemnts"
+      regexp: "^export {{ item.key }}"
+      line: "export {{ item.key }}='{{ item.value }}'"
+      create: yes
+    with_dict: "{{proxy_env}}"
+
+  - name: add sourcing the .app_environemnts file to the .profile file
+    lineinfile:
+      dest: "{{ home_dir }}/.profile"
+      line: "source ~/.app_environemnts"
+
+
+  - name: run database migrations
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py migrate --noinput"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+
+  - name: create project label specific tags
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_tags"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+
+  - name: create or update project label specific instance
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_or_update_instance"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+
+  - name: load spots data fixtures
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py loaddata data/initial_spots/spots.json"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+    tags: loaddata
+
+  - name: dump fresh data currently in db
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py dumpdata core.spot --indent 2 > data/initial_spots/spots.json"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+    tags: dumpdata
+
+  - name: copy images for spots and instance from fixtures
+    copy:
+      src:  ../../better-spots/data/initial_spots/initial_img/
+      dest: "{{ media_dir }}/img"
+    tags: loaddata
+
+  - name: create superuser
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_andi"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+    tags: loaddata
+
+  - name: create objects
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py create_objects"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
+    tags: loaddata
+
+  - name: compile coffescripts
+    sudo: yes
+    shell: "coffee --compile --output js/ coffee/"
+    args:
+      chdir: "{{ project_dir }}/static"
+      executable: /bin/bash
+    tags: coffee
+
+  - name: collect static
+    shell: "{{ web_base_dir }}/venv/bin/python manage.py collectstatic  --noinput"
+    args:
+      chdir: "{{ project_dir }}"
+      executable: /bin/bash
