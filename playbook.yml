@@ -24,8 +24,11 @@
       - libfreetype6-dev
       - python-dev
 
-    remote_user: 'root'
-    home_dir: "/{{remote_user}}"
+#    remote_user: 'root' # TODO remote
+    remote_user: 'ubuntu'
+
+#    home_dir: "/{{remote_user}}" # TODO remote
+    home_dir: "/home/{{remote_user}}"
     web_base_dir: "{{home_dir}}/better_spots"
 
     media_dir: '/better_spots/media'
@@ -142,15 +145,16 @@
       requirements: "/better_spots/requirements.txt"
     tags: pipka
 
-  - name: create .bashrc
-    file:
-      path: "{{ home_dir }}/.bashrc"
-      state: touch
-
-  - name: create .profile
-    file:
-      path: "{{ home_dir }}/.profile"
-      state: touch
+# TODO non-vagrant specific
+#  - name: create .bashrc
+#    file:
+#      path: "{{ home_dir }}/.bashrc"
+#      state: touch
+#
+#  - name: create .profile
+#    file:
+#      path: "{{ home_dir }}/.profile"
+#      state: touch
 
   - name: activate virtualenv, navigate to project dir
     lineinfile:
@@ -209,7 +213,8 @@
 
   - name: copy images for spots and instance from fixtures
     copy:
-      src:  ../../better-spots/data/initial_spots/initial_img/
+#      src:  ../../better-spots/data/initial_spots/initial_img/ # TODO remote
+      src:  data/initial_spots/initial_img/
       dest: "{{ media_dir }}/img"
     tags: loaddata
 

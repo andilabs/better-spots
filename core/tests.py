@@ -310,3 +310,19 @@ class AddressAndSlugUpdateWhenLocationChanges(TestCase):
                 number=74
             )
         )
+
+
+
+from django.db import IntegrityError, transaction
+
+@transaction.atomic
+def viewfunc(request):
+    create_parent()
+
+    try:
+        with transaction.atomic():
+            generate_relationships()
+    except IntegrityError:
+        handle_exception()
+
+    add_children()
