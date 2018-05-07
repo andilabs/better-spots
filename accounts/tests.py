@@ -1,3 +1,5 @@
+import re
+
 from time import sleep
 
 import random
@@ -19,6 +21,14 @@ class TestEmailVerification(TestCase):
 
     """
 
+    @staticmethod
+    def extract_url_from_email(message_string):
+        return re.search("(?P<url>https?://[^\s]+)", message_string).group("url")
+
+    @staticmethod
+    def get_token(url):
+        return url.split('/')[-2]
+
     def setUp(self):
         self.mailtrap_client = MailTrapAPIClient()
         self.email_address = '{}@example.com'.format(
@@ -34,17 +44,18 @@ class TestEmailVerification(TestCase):
 
     def test_sent_verification_token_is_decrypted_correctly(self):
         this_email = [i for i in self.mails if i['to_email'] == self.email_address][0]
-        token = this_email['text_body'][99:175]
+        url_token = self.extract_url_from_email(this_email['text_body'])
+        token = self.get_token(url_token)
         decryption_result = decrypt_data(token)
         self.assertEqual(decryption_result['result'], self.email_address)
 
     def test_sent_verification_token_expires(self):
         this_email = [i for i in self.mails if i['to_email'] == self.email_address][0]
-        token = this_email['text_body'][99:175]
+        url_token = self.extract_url_from_email(this_email['text_body'])
+        token = self.get_token(url_token)
         sleep(3)
         with self.assertRaises(SignatureExpired):
             _ = decrypt_data(token, max_age=2)
 
     def tearDown(self):
         self.mailtrap_client.clear_inbox(self.mailbox_id)
-    

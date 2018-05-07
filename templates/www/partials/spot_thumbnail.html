@@ -14,7 +14,7 @@
     {% endif %}
 
 
-    <a href="{{spot.get_url}}">
+    <a href="{{spot.www_url}}">
     {% if spot.thumbnail_venue_photo %}
       <img src="{{spot.thumbnail_venue_photo}}" class="venue_photo{% if spot.is_certificated %} certificated {% else %}{% if spot.is_enabled %} ok {% else %} bad{% endif %}{% endif %}" style="width: 350px; height: 150px;">
     {% else %}
@@ -24,7 +24,7 @@
 
     <div class="caption">
         <h4>
-          <a href="{{spot.get_url}}" title="{{ spot.name }}">{{ spot.name|upper|truncatechars:27 }}</a>
+          <a href="{{spot.www_url}}" title="{{ spot.name }}">{{ spot.name|upper|truncatechars:27 }}</a>
         </h4>
 
         <div>

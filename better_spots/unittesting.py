@@ -1,5 +1,6 @@
 import os
 from better_spots.settings import *
+from .common_testing import *
 
 
 class DisableMigrations(object):
@@ -11,8 +12,3 @@ class DisableMigrations(object):
 
 
 MIGRATION_MODULES = DisableMigrations()
-
-EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = os.environ['MAILTRAP_USER']
-EMAIL_HOST_PASSWORD = os.environ['MAILTRAP_PASSWORD']
-EMAIL_PORT = '2525'

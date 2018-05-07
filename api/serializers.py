@@ -37,5 +37,7 @@ class GeoPointSerializerField(serializers.Field):
         :return: Point object
         :rtype: django.contrib.gis.geos.point.Point
         """
+        if not isinstance(data, dict):
+            data = eval(data)
         geo = GeoPoint(**data)
         return Point(*[float(i) for i in geo])

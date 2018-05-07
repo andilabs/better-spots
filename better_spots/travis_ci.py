@@ -1,5 +1,5 @@
 from better_spots.settings import *
-
+from .common_testing import *
 
 DATABASES = {
     'default': {
@@ -11,8 +11,3 @@ DATABASES = {
         'PORT':     '',
     }
 }
-
-EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = os.environ['MAILTRAP_USER']
-EMAIL_HOST_PASSWORD = os.environ['MAILTRAP_PASSWORD']
-EMAIL_PORT = '2525'

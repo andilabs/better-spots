@@ -63,7 +63,6 @@ class Spot(TimeStampedModel):
 
     tags = models.ManyToManyField(Tag, related_name='spot_facilities', blank=True)
 
-    @property
     def thumbnail_venue_photo(self):
         if not self.venue_photo:
             return None
@@ -81,11 +80,11 @@ class Spot(TimeStampedModel):
             'box': self.cropping_venue_photo,
             'crop': True,
             'detail': True, }).url
-        return "http://{instance_domain}{img}".format(instance_domain=settings.INSTANCE_DOMAIN, img=thumbnail_url)
+        return thumbnail_url
 
     def admin_thumbnail_venue_photo(self):
         if self.thumbnail_venue_photo:
-            return mark_safe('<img src="{}" width="175" height="75"/>'.format(self.thumbnail_venue_photo))
+            return mark_safe('<img src="{}" width="175" height="75"/>'.format(self.thumbnail_venue_photo()))
         else:
             return '(No photo)'
 
@@ -161,12 +160,7 @@ class Spot(TimeStampedModel):
     def is_in_user_favourites(self, user):
         return self in user.favourites
 
-    @property
     def www_url(self):
-        return reverse('www:spot', args=[self.pk, self.spot_slug])
-
-    @property
-    def get_url(self):
         if self.is_certificated:
             return reverse('www:certificated_detail', args=[self.pk, self.spot_slug])
         else:
