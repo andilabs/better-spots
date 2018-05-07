@@ -14,7 +14,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "v"
-    ansible.playbook = "ansible/playbook.yml"
+    ansible.playbook = "playbook.yml"
     ansible.raw_arguments = ["--vault-password-file=.vault_pass.txt"]
     ansible.skip_tags = [*ENV['SKIP_TAGS'], *['deploy']]
     ansible.tags = ENV['TAGS']
